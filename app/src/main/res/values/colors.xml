@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="alpha_black">#C40C0C0C</color>
+    <color name="gray">#383636</color>
+    <color name="blue">#5474ff</color>
+    <color name="white">#FFFFFF</color>
+    <color name="dark_pink">#D81B60</color>
+    <color name="yellow">#C59301</color>
+    <color name="red">#D5A000</color>
+
     <color name="colorPrimary">#0C0B0B</color>
     <color name="colorPrimaryDark">#0C0B0B</color>
     <color name="colorAccent">#0C0B0B</color>
@@ -9,4 +17,11 @@
     <color name="colorBlackLight">#0AFAFAF7</color>
     <color name="colorGold">#A8C28203</color>
     <color name="Nocolor">#0CC28203</color>
+
+    <color name="alpha_yellow">#80F5A203</color>
+    <color name="alpha_white">#BFFFFFFF</color>
+    <color name="alpha_black2">#80000000</color>
+    <color name="alpha_gray">#80363535</color>
+
+
 </resources>
