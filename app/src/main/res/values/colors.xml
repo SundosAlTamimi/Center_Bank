@@ -19,9 +19,9 @@
     <color name="Nocolor">#0CC28203</color>
 
     <color name="alpha_yellow">#80F5A203</color>
-    <color name="alpha_white">#BFFFFFFF</color>
+    <color name="alpha_white">#79FFFFFF</color>
     <color name="alpha_black2">#80000000</color>
-    <color name="alpha_gray">#80363535</color>
+    <color name="alpha_gray">#AD363535</color>
 
 
 </resources>
