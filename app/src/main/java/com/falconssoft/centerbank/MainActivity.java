@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_bacground);
+        setContentView(R.layout.activity_main);
 
         init();
 
@@ -117,15 +117,15 @@ void init(){
             startActivity(i);
         }
     });
-}
+
 //    imageView = findViewById(R.id.profile_image);
 //    scanBarcode=findViewById(R.id.scanBarcode);
 
-    addAccount = findViewById(R.id.main_addAccount);
+     addAccount = findViewById(R.id.main_addAccount);
     chooseAccount = findViewById(R.id.main_chooseAccount);
     generateCheque = findViewById(R.id.main_send);
     logHistory = findViewById(R.id.main_history);
-Editing= findViewById(R.id.Editing);
+    Editing= findViewById(R.id.Editing);
     }
 
 //TextView itemCodeText, int swBarcode
