@@ -3,10 +3,12 @@ package com.falconssoft.centerbank;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -35,10 +38,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageButton;
 
+import static android.widget.LinearLayout.VERTICAL;
+
 public class MainActivity extends AppCompatActivity {
-    CircleImageView imageView ;
+    CircleImageView imageView;
+    Button notification;
     TextView barCodTextTemp,scanBarcode;
     private TextView addAccount, chooseAccount, generateCheque, logHistory,Editing;
+    @SuppressLint("WrongConstant")
+    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount,recyclerViews;
@@ -132,6 +140,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 void init(){
+    imageView = findViewById(R.id.profile_image);
+    scanBarcode=findViewById(R.id.scanBarcode);
+    notification=findViewById(R.id.button_notification);
+    notification.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent i=new Intent(MainActivity.this,AlertScreen.class);
+            startActivity(i);
+        }
+    });
+
 //    imageView = findViewById(R.id.profile_image);
 //    scanBarcode=findViewById(R.id.scanBarcode);
 //
