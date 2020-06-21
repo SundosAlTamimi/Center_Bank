@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -43,21 +45,21 @@ import static android.widget.LinearLayout.VERTICAL;
 public class MainActivity extends AppCompatActivity {
     CircleImageView imageView;
     Button notification;
-    TextView barCodTextTemp,scanBarcode;
-    private TextView addAccount, chooseAccount, generateCheque, logHistory,Editing;
+    TextView barCodTextTemp, scanBarcode;
+    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing;
     @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog;
     private SearchView searchAccount;
-    private RecyclerView recyclerViewSearchAccount,recyclerViews;
+    private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
-    List <String> picforbar;
+    List<String> picforbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        picforbar=new ArrayList<>();
+        picforbar = new ArrayList<>();
         picforbar.add("01365574861");
         picforbar.add("0136557486");
         picforbar.add("01365574861");
@@ -80,28 +82,28 @@ public class MainActivity extends AppCompatActivity {
         init();
 
 
-
         Editing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(MainActivity.this,EditerCheackActivity.class);
+                Intent intent = new Intent(MainActivity.this, EditerCheackActivity.class);
                 startActivity(intent);
 
             }
         });
 
-//        addAccount.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Dialog dialog = new Dialog(MainActivity.this);
-//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//                dialog.setContentView(R.layout.dialog_add_account);
-//
-//                //TODO add dialog function
-//                dialog.show();
-//
-//            }
-//        });
+        addAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog dialog = new Dialog(MainActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_add_account);
+
+                TextInputEditText inputEditText = dialog.findViewById(R.id.dialog_addAccount_account);
+                //TODO add dialog function
+                dialog.show();
+
+            }
+        });
 
 //        chooseAccount.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -139,29 +141,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-void init(){
-    imageView = findViewById(R.id.profile_image);
-    scanBarcode=findViewById(R.id.scanBarcode);
-    notification=findViewById(R.id.button_notification);
-    notification.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent i=new Intent(MainActivity.this,AlertScreen.class);
-            startActivity(i);
-        }
-    });
+    void init() {
+        imageView = findViewById(R.id.profile_image);
+        scanBarcode = findViewById(R.id.scanBarcode);
+        notification = findViewById(R.id.button_notification);
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, AlertScreen.class);
+                startActivity(i);
+            }
+        });
 
 //    imageView = findViewById(R.id.profile_image);
 //    scanBarcode=findViewById(R.id.scanBarcode);
 //
-//    addAccount = findViewById(R.id.main_addAccount);
+        addAccount = findViewById(R.id.main_addAccount);
 //    chooseAccount = findViewById(R.id.main_chooseAccount);
 //    generateCheque = findViewById(R.id.main_send);
-    logHistory = findViewById(R.id.main_history);
-Editing= findViewById(R.id.Editing);
+        logHistory = findViewById(R.id.main_history);
+        Editing = findViewById(R.id.Editing);
     }
 
-//TextView itemCodeText, int swBarcode
+    //TextView itemCodeText, int swBarcode
     public void readBarCode() {
 
 //        barCodTextTemp = itemCodeText;
@@ -175,9 +177,7 @@ Editing= findViewById(R.id.Editing);
         intentIntegrator.initiateScan();
 
 
-
     }
-
 
 
     @Override
@@ -203,7 +203,7 @@ Editing= findViewById(R.id.Editing);
 
     private void openEditerCheck() {
 
-        Intent intent= new Intent(MainActivity.this,EditerCheackActivity.class);
+        Intent intent = new Intent(MainActivity.this, EditerCheackActivity.class);
         startActivity(intent);
     }
 
