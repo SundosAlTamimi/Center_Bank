@@ -11,13 +11,14 @@
         android:layout_height="match_parent"
         android:background="@drawable/clear_buttons"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="6dp"
             android:fontFamily="sans-serif-light"
-
+android:drawableLeft="@drawable/ic_notifications_black_24dp"
             android:layout_weight="0.3"
             android:gravity="center"
             android:text="Notification "
