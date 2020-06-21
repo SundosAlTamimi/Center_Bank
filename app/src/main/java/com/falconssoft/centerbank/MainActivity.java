@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -40,14 +42,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageButton;
 
+import static android.view.View.VISIBLE;
 import static android.widget.LinearLayout.VERTICAL;
 
 public class MainActivity extends AppCompatActivity {
     CircleImageView imageView;
-    Button notification;
-    TextView barCodTextTemp, scanBarcode;
+    private Button notification, menuButton;
+    TextView barCodTextTemp, scanBarcode, signout;
     private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing;
-    @SuppressLint("WrongConstant")
+    //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog;
     private SearchView searchAccount;
@@ -78,9 +81,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerViews.scrollToPosition(2);
         recyclerViews.requestFocus();
 
-
         init();
-
 
         Editing.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,11 +95,19 @@ public class MainActivity extends AppCompatActivity {
         addAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog = new Dialog(MainActivity.this);
+                final Dialog dialog = new Dialog(MainActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_add_account);
+                dialog.setCancelable(false);
 
                 TextInputEditText inputEditText = dialog.findViewById(R.id.dialog_addAccount_account);
+                TextView close = dialog.findViewById(R.id.dialog_add_close);
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
                 //TODO add dialog function
                 dialog.show();
 
@@ -142,9 +151,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void init() {
+//        signout = findViewById(R.id.main_signout);
         imageView = findViewById(R.id.profile_image);
         scanBarcode = findViewById(R.id.scanBarcode);
         notification = findViewById(R.id.button_notification);
+        menuButton = findViewById(R.id.main_menu);
+
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+//                if (signout.getVisibility() == VISIBLE)
+//                    signout.setVisibility(View.GONE);
+//                else
+//                    signout.setVisibility(View.VISIBLE);
+
+            }
+        });
+
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
