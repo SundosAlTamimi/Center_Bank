@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bank4"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/clear_buttons"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_perm_identity_black_24dp"
+                app:civ_border_color="@color/colorWhiteLight"
+                app:civ_border_width="3dp" />
+
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-light"
+                android:padding="10dp"
+                android:text="Sing Up"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                app:fontFamily="sans-serif-smallcaps" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/IdNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_s"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
+                android:hint="ID NO."
+                android:padding="10dp"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_s"
+                android:drawableLeft="@drawable/ic_https_black_24dp"
+                android:hint="Quadrant name"
+                android:padding="10dp"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_s"
+                android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                android:hint="Date of Birth"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/Sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_s"
+                android:drawableLeft="@drawable/ic_perm_identity_black_24dp"
+                android:hint="Sex"
+                android:padding="10dp"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+            <EditText
+                android:id="@+id/TelNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_s"
+                android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+                android:hint="Telephone number"
+                android:inputType="phone"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/Address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_s"
+                android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                android:hint="Address"
+                android:padding="10dp"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_s"
+                android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:hint="E-Mail"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/LogInPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_s"
+                android:drawableLeft="@drawable/ic_https_black_24dp"
+                android:hint="Password"
+                android:padding="10dp"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="clip_horizontal|center"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/SingUpButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/edit_bac_sinup"
+                android:text="Save"
+                android:textColor="@color/colorWhite" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
