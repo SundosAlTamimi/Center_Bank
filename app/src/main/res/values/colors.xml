@@ -17,4 +17,11 @@
     <color name="colorBlackLight">#0AFAFAF7</color>
     <color name="colorGold">#A8C28203</color>
     <color name="Nocolor">#0CC28203</color>
+
+    <color name="alpha_yellow">#80F5A203</color>
+    <color name="alpha_white">#BFFFFFFF</color>
+    <color name="alpha_black2">#80000000</color>
+    <color name="alpha_gray">#80363535</color>
+
+
 </resources>
