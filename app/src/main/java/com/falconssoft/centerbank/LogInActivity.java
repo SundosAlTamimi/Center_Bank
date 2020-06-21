@@ -24,7 +24,9 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Authintication();
+//                Authintication();
+                Intent MainActivityIntent=new Intent(LogInActivity.this,MainActivity.class);
+                startActivity(MainActivityIntent);
             }
         });
 
