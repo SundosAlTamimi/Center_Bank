@@ -67,9 +67,134 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="10"
+            android:layout_margin="20dp"
             android:gravity="center"
-            android:background="@drawable/edit_bac_s"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/main_chooseAccount"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_marginEnd="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@color/yellow"
+                    >
+
+                    <TextView
+                        android:layout_margin="20dp"
+                        android:background="@drawable/ic_choose"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+
+                    <TextView
+                        android:fontFamily="serif"
+                        android:textSize="15sp"
+                        android:text="Choose Account"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/main_addAccount"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@color/alpha_black_color">
+
+                    <TextView
+                        android:layout_margin="20dp"
+                        android:background="@drawable/ic_add"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+
+                    <TextView
+                        android:fontFamily="serif"
+                        android:textSize="15sp"
+                        android:text="Add Account"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/main_send"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/Editing"
+                    android:layout_marginEnd="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@color/alpha_gray"
+                    >
+
+                    <TextView
+                        android:layout_margin="20dp"
+                        android:background="@drawable/ic_send"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+
+                    <TextView
+                        android:fontFamily="serif"
+                        android:textSize="15sp"
+                        android:text="Send"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/yellow"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/main_history"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/alpha_white">
+
+                    <TextView
+                        android:layout_margin="20dp"
+                        android:background="@drawable/ic_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+
+                    <TextView
+                        android:fontFamily="serif"
+                        android:textSize="15sp"
+                        android:text="Log History"
+                        android:gravity="center"
+                        android:textColor="@color/colorBlack"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+
+
+                </LinearLayout>
+            </LinearLayout>
 
             <!--<de.hdodenhof.circleimageview.CircleImageView-->
                 <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->

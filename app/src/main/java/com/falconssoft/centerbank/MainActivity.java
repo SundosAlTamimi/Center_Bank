@@ -1,16 +1,21 @@
 package com.falconssoft.centerbank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.Dialog;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     Button notification;
     TextView barCodTextTemp,scanBarcode;
     @SuppressLint("WrongConstant")
+    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
+    private TextView closeDialog;
+    private SearchView searchAccount;
+    private RecyclerView recyclerViewSearchAccount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,18 +46,62 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
+
+
+        Editing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(MainActivity.this,EditerCheackActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        addAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog dialog = new Dialog(MainActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_add_account);
+
+                //TODO add dialog function
+                dialog.show();
+
+            }
+        });
+
+        chooseAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog dialog = new Dialog(MainActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.dialog_choose_account);
+
+                closeDialog = findViewById(R.id.dialog_search_close);
+                searchAccount = findViewById(R.id.dialog_search_tool);
+                recyclerViewSearchAccount = findViewById(R.id.dialog_search_recycler);
+
+
+                //TODO add dialog function
+                dialog.show();
+
+            }
+        });
+
+
 //        gib.setImageResource(R.drawable.rscananimation);
 //        final MediaController mc = new MediaController(MainActivity.this);
 //        mc.setMediaPlayer((GifDrawable) gib.getDrawable());
 //        mc.setAnchorView(gib);
 //        mc.show();
 
-        scanBarcode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                readBarCode();
-            }
-        });
+//        scanBarcode.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                readBarCode();
+//            }
+//        });
 
 
     }
@@ -64,6 +118,15 @@ void init(){
         }
     });
 }
+//    imageView = findViewById(R.id.profile_image);
+//    scanBarcode=findViewById(R.id.scanBarcode);
+
+    addAccount = findViewById(R.id.main_addAccount);
+    chooseAccount = findViewById(R.id.main_chooseAccount);
+    generateCheque = findViewById(R.id.main_send);
+    logHistory = findViewById(R.id.main_history);
+Editing= findViewById(R.id.Editing);
+    }
 
 //TextView itemCodeText, int swBarcode
     public void readBarCode() {
