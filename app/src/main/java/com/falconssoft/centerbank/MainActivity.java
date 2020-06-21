@@ -27,7 +27,7 @@ import pl.droidsonroids.gif.GifImageButton;
 public class MainActivity extends AppCompatActivity {
     CircleImageView imageView ;
     TextView barCodTextTemp,scanBarcode;
-    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory;
+    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount;
@@ -38,6 +38,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+
+
+
+        Editing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(MainActivity.this,EditerCheackActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
         addAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,8 +107,8 @@ void init(){
     chooseAccount = findViewById(R.id.main_chooseAccount);
     generateCheque = findViewById(R.id.main_send);
     logHistory = findViewById(R.id.main_history);
-
-}
+Editing= findViewById(R.id.Editing);
+    }
 
 //TextView itemCodeText, int swBarcode
     public void readBarCode() {

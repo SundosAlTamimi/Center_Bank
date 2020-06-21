@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="alpha_black">#C40C0C0C</color>
+    <color name="alpha_black_color">#C40C0C0C</color>
     <color name="gray">#383636</color>
     <color name="blue">#5474ff</color>
     <color name="white">#FFFFFF</color>

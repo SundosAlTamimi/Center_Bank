@@ -5,26 +5,30 @@
     android:layout_height="match_parent"
     android:background="@drawable/bank4"
     android:orientation="vertical">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/clear_buttons"
+    >
     <LinearLayout
+        android:id="@+id/linerEditing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/clear_buttons"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="10dp"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
                 android:layout_width="0dp"
-                android:layout_height="80dp"
+                android:layout_height="60dp"
                 android:layout_weight="2"
                 android:src="@drawable/bank4"
                 app:civ_border_color="@color/colorWhiteLight"
@@ -49,38 +53,48 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
+            android:layout_weight="7"
+            android:background="@drawable/edit_bac_s"
             android:gravity="center"
-            android:background="@drawable/edit_bac_"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:padding="3dp">
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:padding="5dp"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:background="@drawable/edit_bac_"-->
+            <!--&gt;-->
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp">
 
-                <TextView
-                    android:id="@+id/ttView27"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:text="ID No."
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                <!--android:id="@+id/ttView27"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="2dp"-->
+                <!--android:text="ID No."-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="18sp"-->
+                <!--android:textStyle="bold" />-->
 
                 <EditText
                     android:id="@+id/eitTex"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
                     android:background="@drawable/edit_bac_s"
+                    android:drawableLeft="@drawable/ic_person"
                     android:ems="10"
+                    android:hint="National No."
                     android:inputType="textPersonName"
                     android:padding="5dp"
                     android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColorHint="@color/colorWhite"
+                    android:textSize="14sp" />
 
             </TableRow>
 
@@ -89,28 +103,71 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp">
 
-                <TextView
-                    android:id="@+id/textView27"
-                    android:layout_width="wrap_content"
+                <!--<TextView-->
+                <!--android:id="@+id/textVi"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="2dp"-->
+                <!--android:text="Phone No."-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="18sp"-->
+                <!--android:textStyle="bold" />-->
+
+                <EditText
+                    android:id="@+id/ex"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:text="The source of the check"
+                    android:background="@drawable/edit_bac_s"
+                    android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+                    android:ems="10"
+                    android:hint="Phone No."
+                    android:inputType="phone"
+                    android:padding="5dp"
                     android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColorHint="@color/colorWhite"
+                    android:textSize="14sp" />
+
+            </TableRow>
+            <!--</LinearLayout>-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+
+                android:background="@color/colorGold" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <!--<TextView-->
+                <!--android:id="@+id/textView27"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="2dp"-->
+                <!--android:text="The source of the check"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="18sp"-->
+                <!--android:textStyle="bold" />-->
 
                 <EditText
                     android:id="@+id/editTex"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
                     android:background="@drawable/edit_bac_s"
+                    android:drawableLeft="@drawable/ic_person"
                     android:ems="10"
+                    android:hint="check source"
                     android:inputType="textPersonName"
                     android:padding="5dp"
                     android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColorHint="@color/colorWhite"
+                    android:textSize="14sp" />
 
             </TableRow>
 
@@ -119,27 +176,30 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp">
 
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:text="Date"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                <!--android:id="@+id/textView7"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="2dp"-->
+                <!--android:text="Date"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="18sp"-->
+                <!--android:textStyle="bold" />-->
 
                 <EditText
                     android:id="@+id/editText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
                     android:background="@drawable/edit_bac_s"
-
+                    android:drawableLeft="@drawable/ic_date_range_black_24dp"
                     android:ems="10"
+                    android:hint="check source"
+                    android:padding="5dp"
                     android:inputType="textPersonName"
                     android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
+                    android:textColorHint="@color/colorWhite"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
             </TableRow>
@@ -149,132 +209,121 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp">
 
-                <TextView
-                    android:id="@+id/textView37"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:text="To the order"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                <!--android:id="@+id/textView37"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="2dp"-->
+                <!--android:text="To the order"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="18sp"-->
+                <!--android:textStyle="bold" />-->
 
                 <EditText
                     android:id="@+id/editText3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
                     android:background="@drawable/edit_bac_s"
-
+                    android:drawableLeft="@drawable/ic_border_color_black_24dp"
                     android:ems="10"
+                    android:hint="Order To"
+                    android:padding="5dp"
                     android:inputType="textPersonName"
                     android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColorHint="@color/colorWhite"
+                    android:textSize="14sp" />
 
             </TableRow>
 
-
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:background="@drawable/edit_bac_s"
+                android:orientation="vertical"
                 android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/textVie7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:text="amount"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/editTet3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/edit_bac_s"
-                    android:ems="3"
-                    android:inputType="textPersonName"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/editTe4t3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/edit_bac_s"
-                    android:ems="3"
-                    android:inputType="textPersonName"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textVi7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
+                    android:drawableLeft="@drawable/ic_attach_money_black_24dp"
                     android:text="amount"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/editTt3"
-                    android:layout_width="wrap_content"
+                <TableRow
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/edit_bac_s"
-                    android:ems="5"
-                    android:inputType="textPersonName"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:gravity="center"
+                    android:padding="5dp">
 
-            </TableRow>
+                    <EditText
+                        android:id="@+id/editTet3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:ems="5"
+                        android:gravity="center"
+                        android:hint="Dinar"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textSize="14sp" />
 
+                    <EditText
+                        android:id="@+id/editTe4t3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:ems="5"
+                        android:gravity="center"
+                        android:hint="Phils"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textSize="14sp" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+
+                    <EditText
+                        android:id="@+id/editTt3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:ems="5"
+                        android:gravity="center"
+                        android:hint="Amount in word"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textSize="14sp" />
+
+                </TableRow>
+            </LinearLayout>
 
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/textVi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:text="Phone No."
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/ex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_bac_s"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:padding="5dp"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_margin="2dp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:gravity="center">
 
                 <TextView
                     android:id="@+id/yy"
@@ -285,11 +334,10 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/profile_image2"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="60dp"
                     android:layout_weight="2"
                     android:src="@drawable/bank4"
                     app:civ_border_color="@color/colorWhiteLight"
@@ -303,7 +351,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="clip_horizontal|center"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <Button
@@ -311,12 +359,85 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:padding="5dp"
                 android:background="@drawable/edit_bac_sinup"
+                android:padding="5dp"
                 android:text="Send"
                 android:textColor="@color/colorWhite" />
         </LinearLayout>
 
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linerBarcode"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@drawable/edit_bac_s"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:fontFamily="sans-serif-light"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="Please scan the barcode to continue editing the check ..."
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            app:fontFamily="sans-serif-smallcaps" />
+
+        <!--<de.hdodenhof.circleimageview.CircleImageView-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/profile_image"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:src="@drawable/rscananimation"-->
+        <!--app:civ_border_color="@color/colorWhiteLight"-->
+        <!--app:civ_border_width="3dp" >-->
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorWhite"
+            android:elevation="@dimen/cardview_default_elevation"
+            app:cardCornerRadius="100dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <pl.droidsonroids.gif.GifImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Nocolor"
+                    android:src="@drawable/rscananimation"
+                    app:civ_border_color="@color/colorWhiteLight"
+                    app:civ_border_width="3dp"
+                    />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/scanBarcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:fontFamily="sans-serif-light"
+            android:padding="10dp"
+            android:text="     Scan Barcode     "
+            android:background="@drawable/edit_bac_sinup"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            app:fontFamily="sans-serif-smallcaps" />
+
     </LinearLayout>
 
+</RelativeLayout>
 </LinearLayout>
