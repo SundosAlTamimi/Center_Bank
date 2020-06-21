@@ -92,11 +92,12 @@
                 android:padding="10dp"
                 android:text="Please Select Your Account or Add Another Account "
                 android:textColor="@color/colorWhite"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:fontFamily="sans-serif-smallcaps" />
 
 
             <TextView
+                android:id="@+id/main_addAccount"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="6dp"

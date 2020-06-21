@@ -34,8 +34,11 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation 'com.azoft.carousellayoutmanager:carousel:1.2.4'
-    implementation 'com.azoft.carousellayoutmanager:carousel:version'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.github.Vatican-Cameos:CarouselPicker:v1.0'
+
+
+
 
 
 }
