@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     TextView barCodTextTemp,scanBarcode;
     private TextView addAccount, chooseAccount, generateCheque, logHistory,Editing;
     @SuppressLint("WrongConstant")
-    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
+//    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount,recyclerViews;
