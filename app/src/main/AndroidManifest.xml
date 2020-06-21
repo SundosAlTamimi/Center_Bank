@@ -20,6 +20,8 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".SingUpActivity"></activity>
         <activity android:name=".EditerCheackActivity"></activity>
+        <activity android:name=".AlertScreen"></activity>
+
 
     </application>
 

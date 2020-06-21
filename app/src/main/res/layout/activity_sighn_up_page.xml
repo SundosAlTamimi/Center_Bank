@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background_33"
-    tools:context=".SighnUp_page">
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -356,7 +356,7 @@
             android:layout_margin="25dp"
             android:orientation="vertical">
             <Button
-                android:id="@+id/button"
+                android:id="@+id/button_notification"
                 android:layout_width="150dp"
                 android:layout_height="70dp"
              android:layout_gravity="center"

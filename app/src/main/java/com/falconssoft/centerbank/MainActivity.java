@@ -1,11 +1,14 @@
 package com.falconssoft.centerbank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -19,16 +22,19 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageButton;
 
+import static android.widget.LinearLayout.VERTICAL;
+
 public class MainActivity extends AppCompatActivity {
-    CircleImageView imageView ;
+    CircleImageView imageView;
+    Button notification;
     TextView barCodTextTemp,scanBarcode;
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_bacground);
 
         init();
-
 
 //        gib.setImageResource(R.drawable.rscananimation);
 //        final MediaController mc = new MediaController(MainActivity.this);
@@ -49,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
 void init(){
     imageView = findViewById(R.id.profile_image);
     scanBarcode=findViewById(R.id.scanBarcode);
+    notification=findViewById(R.id.button_notification);
+    notification.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent i=new Intent(MainActivity.this,AlertScreen.class);
+            startActivity(i);
+        }
+    });
 }
 
 //TextView itemCodeText, int swBarcode
