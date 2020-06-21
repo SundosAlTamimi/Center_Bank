@@ -80,7 +80,7 @@
                 android:padding="10dp"
                 android:text="Please Select Your Account or Add Another Account "
                 android:textColor="@color/colorWhite"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:fontFamily="sans-serif-smallcaps" />
 
 

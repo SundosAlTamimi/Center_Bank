@@ -132,7 +132,7 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
 
         }
         public void showImageOfCheck() {
-            final Dialog dialog = new Dialog(context);
+            final Dialog dialog = new Dialog(context,R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.show_image);
