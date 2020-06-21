@@ -57,6 +57,7 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
         viewHolder.date_check.setText(notificationList.get(i).getDate());
         viewHolder.amount_check.setText(notificationList.get(i).getAmount_check());
         viewHolder.source_check.setText(notificationList.get(i).getSource());
+//        viewHolder.image_check.setImageDrawable(R.drawable.check);
         viewHolder.image_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,7 +133,7 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
 
         }
         public void showImageOfCheck() {
-            final Dialog dialog = new Dialog(context);
+            final Dialog dialog = new Dialog(context,R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.show_image);
@@ -151,7 +152,20 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
             dialog.setContentView(R.layout.show_check_detail);
             dialog.show();
 
-            final ImageView imageView = (ImageView) dialog.findViewById(R.id.image_check);
+            final Button accept = (Button) dialog.findViewById(R.id.AcceptButton);
+            accept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            final Button reject = (Button) dialog.findViewById(R.id.RejectButton);
+            reject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
 //            imageView.setImageBitmap();
 
 

@@ -11,19 +11,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".LogInActivity"/>
-        <activity android:name=".AddCheque" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".LogInActivity"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AddCheque"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="sensorPortrait"></activity>
 
-        <activity android:name=".SingUpActivity"></activity>
-        <activity android:name=".EditerCheackActivity"></activity>
-        <activity android:name=".AlertScreen"></activity>
+        <activity android:name=".SingUpActivity"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity android:name=".EditerCheackActivity"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity android:name=".AlertScreen"
+            android:screenOrientation="sensorPortrait"></activity>
 
 
     </application>

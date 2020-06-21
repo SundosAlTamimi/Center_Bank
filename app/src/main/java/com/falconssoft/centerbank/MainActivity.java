@@ -42,7 +42,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageButton;
 
-import static android.view.View.VISIBLE;
 import static android.widget.LinearLayout.VERTICAL;
 
 public class MainActivity extends AppCompatActivity {
@@ -82,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerViews.requestFocus();
 
         init();
+
+
 
         Editing.setOnClickListener(new View.OnClickListener() {
             @Override
