@@ -10,13 +10,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/clear_buttons"
     >
+
     <LinearLayout
         android:id="@+id/linerEditing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -195,8 +196,8 @@
                     android:drawableLeft="@drawable/ic_date_range_black_24dp"
                     android:ems="10"
                     android:hint="check source"
-                    android:padding="5dp"
                     android:inputType="textPersonName"
+                    android:padding="5dp"
                     android:textColor="@color/colorWhite"
                     android:textColorHint="@color/colorWhite"
                     android:textSize="14sp"
@@ -228,8 +229,8 @@
                     android:drawableLeft="@drawable/ic_border_color_black_24dp"
                     android:ems="10"
                     android:hint="Order To"
-                    android:padding="5dp"
                     android:inputType="textPersonName"
+                    android:padding="5dp"
                     android:textColor="@color/colorWhite"
                     android:textColorHint="@color/colorWhite"
                     android:textSize="14sp" />
@@ -262,7 +263,7 @@
                     android:padding="5dp">
 
                     <EditText
-                        android:id="@+id/editTet3"
+                        android:id="@+id/denier"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -277,7 +278,7 @@
                         android:textSize="14sp" />
 
                     <EditText
-                        android:id="@+id/editTe4t3"
+                        android:id="@+id/Phils"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -366,26 +367,26 @@
         </LinearLayout>
 
 
-
-
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/linerBarcode"
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:background="@drawable/edit_bac_s"
+        android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="6dp"
+            android:layout_weight="3"
             android:fontFamily="sans-serif-light"
+            android:gravity="bottom|center"
             android:padding="10dp"
-            android:gravity="center"
             android:text="Please scan the barcode to continue editing the check ..."
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
@@ -403,8 +404,10 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:layout_gravity="center"
             android:background="@color/colorWhite"
             android:elevation="@dimen/cardview_default_elevation"
             app:cardCornerRadius="100dp">
@@ -412,31 +415,40 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="vertical">
+
                 <pl.droidsonroids.gif.GifImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@color/Nocolor"
                     android:src="@drawable/rscananimation"
                     app:civ_border_color="@color/colorWhiteLight"
-                    app:civ_border_width="3dp"
-                    />
+                    app:civ_border_width="3dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/scanBarcode"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:fontFamily="sans-serif-light"
-            android:padding="10dp"
-            android:text="     Scan Barcode     "
-            android:background="@drawable/edit_bac_sinup"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            app:fontFamily="sans-serif-smallcaps" />
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="3"
+            android:gravity="center|top"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/scanBarcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:background="@drawable/edit_bac_sinup"
+                android:fontFamily="sans-serif-light"
+                android:padding="10dp"
+                android:text="     Scan Barcode     "
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                app:fontFamily="sans-serif-smallcaps" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

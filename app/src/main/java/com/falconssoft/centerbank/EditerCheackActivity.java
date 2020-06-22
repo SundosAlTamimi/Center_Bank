@@ -2,8 +2,11 @@ package com.falconssoft.centerbank;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     LinearLayout linerEditing,linerBarcode;
     TextView scanBarcode;
+    EditText Danier,phails;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,12 +36,54 @@ public class EditerCheackActivity extends AppCompatActivity {
             }
         });
 
+        phails.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        Danier.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+//                if(!Danier.getText().toString().equals(""))
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        NumberToArabic numberToArabic=new NumberToArabic();
+//        numberToArabic.getArabicString();
+
     }
 
     private void initi() {
         linerEditing=findViewById(R.id.linerEditing);
         linerBarcode=findViewById(R.id.linerBarcode);
         scanBarcode=findViewById(R.id.scanBarcode);
+        Danier=findViewById(R.id.denier);
+        phails=findViewById(R.id.Phils);
+
     }
 
 
