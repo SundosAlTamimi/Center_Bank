@@ -1,14 +1,21 @@
 package com.falconssoft.centerbank;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -17,6 +24,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     LinearLayout linerEditing,linerBarcode;
     TextView scanBarcode;
+    Button SingUpButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +39,20 @@ public class EditerCheackActivity extends AppCompatActivity {
                 readBarCode();
             }
         });
+        SingUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
 
     }
+
 
     private void initi() {
         linerEditing=findViewById(R.id.linerEditing);
         linerBarcode=findViewById(R.id.linerBarcode);
         scanBarcode=findViewById(R.id.scanBarcode);
+        SingUpButton=findViewById(R.id.SingUpButton);
     }
 
 

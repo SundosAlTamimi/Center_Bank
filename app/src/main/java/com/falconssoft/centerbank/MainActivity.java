@@ -2,11 +2,14 @@ package com.falconssoft.centerbank;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -35,6 +38,8 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.droidsonroids.gif.GifDrawable;
@@ -54,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
     List<String> picforbar;
+    Timer timer;
+    NotificationManager notificationManager;
+    static int id=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +146,44 @@ public class MainActivity extends AppCompatActivity {
 //                readBarCode();
 //            }
 //        });
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                notification(" Recive new Check, click to show detail");
+
+            }
+
+        }, 0, 5000);
+        timer.cancel();
+
+
+    }
+    private void notification (String detail){// this to use
+//        final Intent intent = new Intent(this, MainActivity.class);
+//        intent.setData(Uri.parse("data"));
+//        intent.putExtra("key", "clicked");
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+////        final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent), 0);
+//        try {
+//            // Perform the operation associated with our pendingIntent
+//            pendingIntent.send();
+//        } catch (PendingIntent.CanceledException e) {
+//            e.printStackTrace();
+//        }
+        NotificationCompat.Builder nbuilder=new NotificationCompat.Builder(MainActivity.this)
+                .setContentTitle("Check APP Notification ......")
+                .setContentText("New Check... click to show details ")
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(detail)
+                        .setBigContentTitle(" New Check ").setSummaryText(""))
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE);
+
+        notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(id,nbuilder.build());
 
 
     }
