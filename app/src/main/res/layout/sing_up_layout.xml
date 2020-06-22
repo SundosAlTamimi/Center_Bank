@@ -80,6 +80,62 @@
                 android:textColor="@color/colorWhiteLight"
                 android:textColorHint="@color/colorWhiteLight"
                 android:textSize="14sp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            <EditText
+                android:id="@+id/first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+
+                android:hint="first name"
+                android:padding="10dp"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+            <EditText
+                android:id="@+id/second_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+
+                android:hint="second name"
+                android:padding="10dp"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+            <EditText
+                android:id="@+id/thered_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+
+                android:hint="thered name"
+                android:padding="10dp"
+                android:textColor="@color/colorWhiteLight"
+                android:textColorHint="@color/colorWhiteLight"
+                android:textSize="14sp" />
+                <EditText
+                    android:id="@+id/fourth_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:hint="fourth name"
+                    android:padding="10dp"
+                    android:textColor="@color/colorWhiteLight"
+                    android:textColorHint="@color/colorWhiteLight"
+                    android:textSize="14sp" />
+            </LinearLayout>
             <TextView
                 android:id="@+id/Date"
                 android:layout_width="match_parent"
@@ -87,25 +143,25 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/edit_bac_s"
                 android:drawableLeft="@drawable/ic_date_range_black_24dp"
-                android:hint="Date of Birth"
+                android:hint="Date"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/colorWhiteLight"
                 android:textColorHint="@color/colorWhiteLight"
                 android:textSize="14sp" />
 
-            <EditText
-                android:id="@+id/Sex"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_perm_identity_black_24dp"
-                android:hint="Sex"
-                android:padding="10dp"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
+<!--            <EditText-->
+<!--                android:id="@+id/Sex"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:background="@drawable/edit_bac_s"-->
+<!--                android:drawableLeft="@drawable/ic_perm_identity_black_24dp"-->
+<!--                android:hint="Sex"-->
+<!--                android:padding="10dp"-->
+<!--                android:textColor="@color/colorWhiteLight"-->
+<!--                android:textColorHint="@color/colorWhiteLight"-->
+<!--                android:textSize="14sp" />-->
             <EditText
                 android:id="@+id/TelNo"
                 android:layout_width="match_parent"
