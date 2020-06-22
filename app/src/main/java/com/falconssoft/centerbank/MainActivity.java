@@ -153,14 +153,12 @@ public class MainActivity extends AppCompatActivity {
         waitTimer = new CountDownTimer(6000, 30) {
 
             public void onTick(long millisUntilFinished) {
-                //called every 300 milliseconds, which could be used to
-                //send messages or some other action
+
             }
 
             public void onFinish() {
                 notificationShow();
-                //After 60000 milliseconds (60 sec) finish current
-                //if you would like to execute something when time finishes
+
             }
         }.start();
 
