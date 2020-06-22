@@ -16,43 +16,21 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="0.5"-->
+                <!--android:orientation="horizontal">-->
 
-<RelativeLayout
-    android:layout_width="60dp"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    >
+                <Button
+                    android:id="@+id/button_notification"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_notifications_black_24dp" />
 
-
-    <Button
-        android:id="@+id/button_notification"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="@drawable/ic_notifications_black_24dp" />
-
-    <TextView
-        android:id="@+id/no"
-        android:layout_height="wrap_content"
-        android:text="+1"
-        android:textSize="20sp"
-        android:textColor="@color/dark_pink"
-        android:layout_width="wrap_content"/>
-
-                </RelativeLayout>
 
                 <!--<TextView-->
                 <!--android:id="@+id/textView5"-->
@@ -69,7 +47,7 @@
 
                 <TextView
                     android:id="@+id/textView41"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="6dp"
                     android:fontFamily="sans-serif-light"
@@ -88,7 +66,7 @@
 <!--                    android:layout_height="wrap_content"-->
 <!--                    android:layout_weight="1"-->
 <!--                    android:background="@drawable/ic_exit" />-->
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
         </androidx.appcompat.widget.Toolbar>
 

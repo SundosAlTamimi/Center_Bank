@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -301,8 +301,8 @@
                     android:padding="5dp">
 
 
-                    <EditText
-                        android:id="@+id/editTt3"
+                    <TextView
+                        android:id="@+id/AmouWord"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -377,7 +377,7 @@
         android:background="@drawable/edit_bac_s"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -405,9 +405,9 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_margin="10dp"
             android:layout_weight="2"
-            android:layout_gravity="center"
             android:background="@color/colorWhite"
             android:elevation="@dimen/cardview_default_elevation"
             app:cardCornerRadius="100dp">
