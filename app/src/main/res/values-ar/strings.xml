@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cheque editor</string>
+    <string name="cheque_app">Cheque App</string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="password">كلمة المرور</string>
+    <string name="sing_in">دخول</string>
+    <string name="sing_up">مستخدم جديد</string>
+</resources>
