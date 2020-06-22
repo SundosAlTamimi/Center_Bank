@@ -249,7 +249,7 @@
                         android:gravity="center"
                         android:padding="5dp">
 
-                        <EditText
+                        <TextView
                             android:id="@+id/editTet3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -264,7 +264,7 @@
                             android:textColorHint="@color/colorWhite"
                             android:textSize="16sp" />
 
-                        <EditText
+                        <TextView
                             android:id="@+id/editTe4t3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
