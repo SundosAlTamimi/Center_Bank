@@ -1,17 +1,24 @@
 package com.falconssoft.centerbank;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -20,6 +27,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     LinearLayout linerEditing,linerBarcode;
     TextView scanBarcode;
+    Button SingUpButton;
     EditText Danier,phails;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +92,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         Danier=findViewById(R.id.denier);
         phails=findViewById(R.id.Phils);
 
+        SingUpButton=findViewById(R.id.SingUpButton);
     }
 
 

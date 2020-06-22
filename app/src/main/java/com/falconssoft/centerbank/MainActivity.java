@@ -2,29 +2,40 @@ package com.falconssoft.centerbank;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
@@ -35,6 +46,8 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.droidsonroids.gif.GifDrawable;
@@ -44,17 +57,22 @@ import static android.widget.LinearLayout.VERTICAL;
 
 public class MainActivity extends AppCompatActivity {
     CircleImageView imageView;
-    Button notification;
-    TextView barCodTextTemp, scanBarcode;
+    private Button notification, menuButton;
+    TextView barCodTextTemp, scanBarcode, signout;
     private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing;
-    @SuppressLint("WrongConstant")
+    //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
     List<String> picforbar;
-
+    private Toolbar toolbar;
+    Timer timer;
+    NotificationManager notificationManager;
+    static int id=1;
+    public static final String YES_ACTION = "YES";
+    public static final String STOP_ACTION = "STOP";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,14 +113,7 @@ public class MainActivity extends AppCompatActivity {
         addAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog = new Dialog(MainActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_add_account);
-
-                TextInputEditText inputEditText = dialog.findViewById(R.id.dialog_addAccount_account);
-                //TODO add dialog function
-                dialog.show();
-
+                addAccountButton();
             }
         });
 
@@ -138,14 +149,103 @@ public class MainActivity extends AppCompatActivity {
 //                readBarCode();
 //            }
 //        });
+        CountDownTimer waitTimer;
+        waitTimer = new CountDownTimer(6000, 30) {
+
+            public void onTick(long millisUntilFinished) {
+                //called every 300 milliseconds, which could be used to
+                //send messages or some other action
+            }
+
+            public void onFinish() {
+                notificationShow();
+                //After 60000 milliseconds (60 sec) finish current
+                //if you would like to execute something when time finishes
+            }
+        }.start();
+
+    }
+    public void notificationShow() // paste in activity
+    {
+        Notification.Builder notif;
+        NotificationManager nm;
+        notif = new Notification.Builder(getApplicationContext());
+        notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
+        notif.setContentTitle("Recive new Check, click to show detail");
+        Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        notif.setSound(path);
+        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        Intent yesReceive = new Intent( );
+        yesReceive.setAction(YES_ACTION);
+        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
 
 
+        Intent yesReceive2 = new Intent();
+        yesReceive2.setAction(STOP_ACTION);
+        PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
+
+
+
+        nm.notify(10, notif.getNotification());
+    }
+
+    void addAccountButton() {
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_add_account);
+        dialog.setCancelable(false);
+
+        final TextInputEditText inputEditText = dialog.findViewById(R.id.dialog_addAccount_account);
+        TextView close = dialog.findViewById(R.id.dialog_add_close);
+        TextView add = dialog.findViewById(R.id.dialog_addAccount_add);
+        TextView scan = dialog.findViewById(R.id.dialog_addAccount_scan);
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
+                    // TODO add account
+                } else
+                    Toast.makeText(MainActivity.this, "Please add account first or scan cheque barcode!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+                integrator.setPrompt("Scan");
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        //TODO add dialog function
+        dialog.show();
     }
 
     void init() {
+//        signout = findViewById(R.id.main_signout);
         imageView = findViewById(R.id.profile_image);
         scanBarcode = findViewById(R.id.scanBarcode);
         notification = findViewById(R.id.button_notification);
+        toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("");
+
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +262,25 @@ public class MainActivity extends AppCompatActivity {
 //    generateCheque = findViewById(R.id.main_send);
         logHistory = findViewById(R.id.main_history);
         Editing = findViewById(R.id.Editing);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_signout:
+                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 
     //TextView itemCodeText, int swBarcode
@@ -183,6 +302,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
 
         IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (Result != null) {
