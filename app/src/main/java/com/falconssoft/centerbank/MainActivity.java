@@ -1,16 +1,12 @@
 package com.falconssoft.centerbank;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,15 +14,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
@@ -39,10 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import pl.droidsonroids.gif.GifDrawable;
-import pl.droidsonroids.gif.GifImageButton;
-
-import static android.widget.LinearLayout.VERTICAL;
 
 public class MainActivity extends AppCompatActivity {
     CircleImageView imageView;
@@ -56,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
     List<String> picforbar;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         init();
 
 
-
         Editing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,22 +90,7 @@ public class MainActivity extends AppCompatActivity {
         addAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(MainActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_add_account);
-                dialog.setCancelable(false);
-
-                TextInputEditText inputEditText = dialog.findViewById(R.id.dialog_addAccount_account);
-                TextView close = dialog.findViewById(R.id.dialog_add_close);
-                close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                //TODO add dialog function
-                dialog.show();
-
+                addAccountButton();
             }
         });
 
@@ -151,24 +130,59 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    void addAccountButton() {
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_add_account);
+        dialog.setCancelable(false);
+
+        final TextInputEditText inputEditText = dialog.findViewById(R.id.dialog_addAccount_account);
+        TextView close = dialog.findViewById(R.id.dialog_add_close);
+        TextView add = dialog.findViewById(R.id.dialog_addAccount_add);
+        TextView scan = dialog.findViewById(R.id.dialog_addAccount_scan);
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
+                    // TODO add account
+                } else
+                    Toast.makeText(MainActivity.this, "Please add account first or scan cheque barcode!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+                integrator.setPrompt("Scan");
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        //TODO add dialog function
+        dialog.show();
+    }
+
     void init() {
 //        signout = findViewById(R.id.main_signout);
         imageView = findViewById(R.id.profile_image);
         scanBarcode = findViewById(R.id.scanBarcode);
         notification = findViewById(R.id.button_notification);
-        menuButton = findViewById(R.id.main_menu);
-
-        menuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-//                if (signout.getVisibility() == VISIBLE)
-//                    signout.setVisibility(View.GONE);
-//                else
-//                    signout.setVisibility(View.VISIBLE);
-
-            }
-        });
+        toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("");
 
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +200,25 @@ public class MainActivity extends AppCompatActivity {
 //    generateCheque = findViewById(R.id.main_send);
         logHistory = findViewById(R.id.main_history);
         Editing = findViewById(R.id.Editing);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_signout:
+                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 
     //TextView itemCodeText, int swBarcode
@@ -207,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
 
         IntentResult Result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (Result != null) {
