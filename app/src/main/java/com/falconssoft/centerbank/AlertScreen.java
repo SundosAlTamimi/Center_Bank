@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import com.falconssoft.centerbank.Models.notification;
 import java.util.ArrayList;
 
 import static android.widget.LinearLayout.VERTICAL;
+import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
+import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 
 public class AlertScreen extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -47,20 +50,21 @@ public class AlertScreen extends AppCompatActivity {
         mainText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String currentapiVersion = Build.VERSION.RELEASE;
-
-                if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
-                    // Do something for 14 and above versions
-
-//                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
-                    show_Notification("Check  app, Recive new Check 1234");
-
-
-                } else {
-
-                    notification(" Recive new Check, click to show detail");
-
-                }
+//                noto2();
+//                String currentapiVersion = Build.VERSION.RELEASE;
+//
+//                if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
+//                    // Do something for 14 and above versions
+//
+////                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+//                    show_Notification("Check  app, Recive new Check 1234");
+//
+//
+//                } else {
+//
+//                    notification(" Recive new Check, click to show detail");
+//
+//                }
             }
         });
         notificationArrayList=new ArrayList<>();
@@ -77,6 +81,32 @@ public class AlertScreen extends AppCompatActivity {
 
 
         Toast.makeText(AlertScreen.this, "Saved", Toast.LENGTH_SHORT).show();
+    }
+    public void noto2() // paste in activity
+    {
+        Notification.Builder notif;
+        NotificationManager nm;
+        notif = new Notification.Builder(getApplicationContext());
+        notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
+        notif.setContentTitle("Recive new Check, click to show detail");
+        Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        notif.setSound(path);
+        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        Intent yesReceive = new Intent( );
+        yesReceive.setAction(YES_ACTION);
+        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.addAction(R.drawable.second_check, "show Detail", pendingIntentYes);
+
+
+        Intent yesReceive2 = new Intent();
+        yesReceive2.setAction(STOP_ACTION);
+        PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
+
+
+
+        nm.notify(10, notif.getNotification());
     }
 
     private void fillListNotification() {
@@ -125,7 +155,7 @@ public class AlertScreen extends AppCompatActivity {
 //                .addAction(android.R.drawable.sym_action_chat,"Title",pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setChannelId(CHANNEL_ID)
-//                .setSmallIcon(R.drawable.gift)
+                .setSmallIcon(R.drawable.ic_add)
                 .build();
 
 
@@ -164,6 +194,17 @@ public class AlertScreen extends AppCompatActivity {
 
     }
 }
+/*public class NotificationReceiver extends BroadcastReceiver {
+
+    private static final String YES_ACTION = "com.example.packagename.YES";
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        // TODO Auto-generated method stub
+        String action = intent.getAction();
+        if(YES_ACTION.equals(action)) {
+            Toast.makeText(context, "CALLED", Toast.LENGTH_SHORT).show();
+        }
+    }
 /*
 Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 mBuilder.setSound(alarmSound);

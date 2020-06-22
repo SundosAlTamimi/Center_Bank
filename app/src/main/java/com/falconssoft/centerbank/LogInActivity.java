@@ -47,7 +47,7 @@ public class LogInActivity extends AppCompatActivity {
 
     void Authintication(){
         if(!userName.getText().toString().equals("")&&!Password.getText().toString().equals("")){
-            if(userName.getText().toString().equals("1234")&&Password.getText().toString().equals("1234")){
+            if(userName.getText().toString().equals("")&&Password.getText().toString().equals("")){
 
                 Intent MainActivityIntent=new Intent(LogInActivity.this,MainActivity.class);
                 startActivity(MainActivityIntent);

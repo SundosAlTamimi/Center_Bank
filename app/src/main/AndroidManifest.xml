@@ -17,6 +17,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
         <activity
@@ -33,7 +34,13 @@
             android:name=".AlertScreen"
             android:screenOrientation="sensorPortrait" />
 
-
+        <receiver android:name=".notificationReciver">
+            <intent-filter>
+                <action android:name="YES"/>
+                <action android:name="STOP"/>
+            </intent-filter>
+        </receiver>
     </application>
+
 
 </manifest>

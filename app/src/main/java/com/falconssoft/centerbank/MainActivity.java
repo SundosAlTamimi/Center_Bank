@@ -10,10 +10,13 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
     Timer timer;
     NotificationManager notificationManager;
     static int id=1;
-
+    public static final String YES_ACTION = "YES";
+    public static final String STOP_ACTION = "STOP";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,46 +149,47 @@ public class MainActivity extends AppCompatActivity {
 //                readBarCode();
 //            }
 //        });
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                notification(" Recive new Check, click to show detail");
+        CountDownTimer waitTimer;
+        waitTimer = new CountDownTimer(6000, 30) {
 
+            public void onTick(long millisUntilFinished) {
+                //called every 300 milliseconds, which could be used to
+                //send messages or some other action
             }
 
-        }, 0, 5000);
-        timer.cancel();
-
+            public void onFinish() {
+                notificationShow();
+                //After 60000 milliseconds (60 sec) finish current
+                //if you would like to execute something when time finishes
+            }
+        }.start();
 
     }
-    private void notification (String detail){// this to use
-//        final Intent intent = new Intent(this, MainActivity.class);
-//        intent.setData(Uri.parse("data"));
-//        intent.putExtra("key", "clicked");
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-////        final PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent), 0);
-//        try {
-//            // Perform the operation associated with our pendingIntent
-//            pendingIntent.send();
-//        } catch (PendingIntent.CanceledException e) {
-//            e.printStackTrace();
-//        }
-        NotificationCompat.Builder nbuilder=new NotificationCompat.Builder(MainActivity.this)
-                .setContentTitle("Check APP Notification ......")
-                .setContentText("New Check... click to show details ")
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(detail)
-                        .setBigContentTitle(" New Check ").setSummaryText(""))
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE);
+    public void notificationShow() // paste in activity
+    {
+        Notification.Builder notif;
+        NotificationManager nm;
+        notif = new Notification.Builder(getApplicationContext());
+        notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
+        notif.setContentTitle("Recive new Check, click to show detail");
+        Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        notif.setSound(path);
+        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(id,nbuilder.build());
+        Intent yesReceive = new Intent( );
+        yesReceive.setAction(YES_ACTION);
+        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
 
 
+        Intent yesReceive2 = new Intent();
+        yesReceive2.setAction(STOP_ACTION);
+        PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
+
+
+
+        nm.notify(10, notif.getNotification());
     }
 
     void addAccountButton() {
