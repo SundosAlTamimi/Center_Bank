@@ -2,24 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layBar"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:background="@color/white"
-    android:padding="5dp"
+    android:padding="10dp"
+    android:layout_weight="1"
     android:orientation="vertical">
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fontFamily="sans-serif-light"-->
+        <!--android:gravity="center"-->
+        <!--android:text=""-->
+        <!--android:layout_weight="0.5"-->
+        <!--android:textColor="@color/colorGold"-->
+        <!--android:textSize="25sp"-->
+        <!--/>-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text=""
+        android:layout_weight="1"
+        android:textColor="@color/colorGold"
+        android:textSize="25sp"
+        />
 
     <ImageView
         android:id="@+id/imgbar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_weight="2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
         android:background="@drawable/ic_account_circle_black_dp" />
 
     <TextView
         android:id="@+id/textbar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="point"
@@ -28,4 +50,28 @@
         android:textSize="25sp"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text=""
+        android:layout_weight="1"
+        android:textColor="@color/colorGold"
+        android:textSize="25sp"
+        />
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fontFamily="sans-serif-light"-->
+        <!--android:gravity="center"-->
+        <!--android:text=""-->
+        <!--android:layout_weight="0.5"-->
+        <!--android:textColor="@color/colorGold"-->
+        <!--android:textSize="25sp"-->
+        <!--/>-->
+
+
 </LinearLayout>
+

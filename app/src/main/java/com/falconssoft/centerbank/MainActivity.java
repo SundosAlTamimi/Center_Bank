@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         picforbar.add("01365574861");
         picforbar.add("01365574861");
 
-        layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, true);
+        layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, true);
         recyclerViews = (RecyclerView) findViewById(R.id.res);
         recyclerViews.setLayoutManager(layoutManagerd);
         recyclerViews.setHasFixedSize(true);
