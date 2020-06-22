@@ -110,9 +110,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         intentIntegrator.initiateScan();
 
 
-
     }
-
 
 
     @Override
