@@ -13,67 +13,88 @@
         android:background="@drawable/clear_buttons"
         android:orientation="vertical">
 
-
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:orientation="horizontal">
-<RelativeLayout
-    android:layout_height="match_parent"
-    android:layout_weight="5"
-    android:layout_width="wrap_content">
-    <TextView
-        android:id="@+id/no"
-        android:layout_height="wrap_content"
-        android:text="+1"
-        android:textSize="20sp"
-        android:textColor="@color/dark_pink"
-        android:layout_width="wrap_content"/>
-            <Button
-                android:id="@+id/button_notification"
-                android:layout_width="80dp"
-                android:layout_alignBottom="@+id/no"
-                android:layout_height="match_parent"
+            android:layout_height="wrap_content">
 
-                android:background="@drawable/ic_notifications_black_24dp" />
-
-</RelativeLayout>
-            <!--<TextView-->
-            <!--android:id="@+id/textView5"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="6"-->
-            <!--android:fontFamily="sans-serif-light"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="10dp"-->
-            <!--android:textColor="@color/colorWhite"-->
-            <!--android:textSize="18sp"-->
-            <!--tools:text="Welcome Ala'a " />-->
-
-
-            <TextView
-                android:id="@+id/textView41"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:fontFamily="sans-serif-light"
-                android:padding="10dp"
-                android:layout_weight="10"
-                android:gravity="center"
-                android:text="Welcome Ala'a "
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp"
-                app:fontFamily="sans-serif-smallcaps" />
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:layout_width="wrap_content">
+                    <TextView
+                        android:id="@+id/no"
+                        android:layout_height="wrap_content"
+                        android:text="+1"
+                        android:textSize="20sp"
+                        android:textColor="@color/dark_pink"
+                        android:layout_width="wrap_content"/>
+                    <Button
+                        android:id="@+id/button_notification"
+                        android:layout_width="80dp"
+                        android:layout_alignBottom="@+id/no"
+                        android:layout_height="match_parent"
+
+                        android:background="@drawable/ic_notifications_black_24dp" />
+
+                </RelativeLayout>
+
+                <!--<TextView-->
+                <!--android:id="@+id/textView5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="6"-->
+                <!--android:fontFamily="sans-serif-light"-->
+                <!--android:gravity="center"-->
+                <!--android:padding="10dp"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="18sp"-->
+                <!--tools:text="Welcome Ala'a " />-->
 
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/ic_menu_black_24dp" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/textView41"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="10dp"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:text="Welcome Ala'a "
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:fontFamily="sans-serif-smallcaps" />
+
+
+<!--                <Button-->
+<!--                    android:id="@+id/main_menu"-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@drawable/ic_exit" />-->
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+<!--        <TextView-->
+<!--            android:id="@+id/main_signout"-->
+<!--            android:padding="10dp"-->
+<!--            android:background="@color/yellow"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Signout"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="18sp"-->
+<!--            android:fontFamily="serif"-->
+<!--            android:layout_gravity="end|right"/>-->
+
 
         <LinearLayout
             android:layout_width="match_parent"

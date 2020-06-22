@@ -20,6 +20,10 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.log_in);
         init();
 
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+
         singIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
