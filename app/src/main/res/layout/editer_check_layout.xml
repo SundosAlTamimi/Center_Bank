@@ -308,6 +308,7 @@
                         android:layout_margin="2dp"
                         android:background="@drawable/edit_bac_s"
                         android:ems="5"
+                        android:scrollbars="horizontal"
                         android:gravity="center"
                         android:hint="Amount in word"
                         android:inputType="numberDecimal"
