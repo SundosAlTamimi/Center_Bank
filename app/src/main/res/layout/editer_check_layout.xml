@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bank4"
@@ -17,7 +18,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10dp"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,7 +48,11 @@
                 android:padding="10dp"
                 android:text="editing Check"
                 android:textColor="@color/colorWhite"
-                android:textSize="20sp"
+                android:textSize="30sp"
+                app:autoSizeMaxTextSize="30sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
                 app:fontFamily="sans-serif-smallcaps" />
 
         </LinearLayout>
@@ -70,7 +76,11 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp">
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+
+                android:gravity="center">
 
                 <!--<TextView-->
                 <!--android:id="@+id/ttView27"-->
@@ -87,10 +97,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:background="@drawable/edit_bac_s"
+                    android:background="@color/Nocolor"
                     android:drawableLeft="@drawable/ic_person"
                     android:ems="10"
                     android:hint="National No."
+
                     android:inputType="textPersonName"
                     android:padding="5dp"
                     android:textColor="@color/colorWhite"
@@ -102,7 +113,10 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp">
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+                android:gravity="center">
 
                 <!--<TextView-->
                 <!--android:id="@+id/textVi"-->
@@ -119,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:background="@drawable/edit_bac_s"
+                    android:background="@color/Nocolor"
                     android:drawableLeft="@drawable/ic_local_phone_black_24dp"
                     android:ems="10"
                     android:hint="Phone No."
@@ -143,7 +157,11 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp">
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+
+                android:gravity="center">
 
                 <!--<TextView-->
                 <!--android:id="@+id/textView27"-->
@@ -160,7 +178,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:background="@drawable/edit_bac_s"
+                    android:background="@color/Nocolor"
                     android:drawableLeft="@drawable/ic_person"
                     android:ems="10"
                     android:hint="check source"
@@ -175,7 +193,10 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp">
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+                android:gravity="center">
 
                 <!--<TextView-->
                 <!--android:id="@+id/textView7"-->
@@ -192,7 +213,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:background="@drawable/edit_bac_s"
+                    android:background="@color/Nocolor"
                     android:drawableLeft="@drawable/ic_date_range_black_24dp"
                     android:ems="10"
                     android:hint="check source"
@@ -208,7 +229,10 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp">
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+                android:gravity="center">
 
                 <!--<TextView-->
                 <!--android:id="@+id/textView37"-->
@@ -225,7 +249,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:background="@drawable/edit_bac_s"
+                    android:background="@color/Nocolor"
                     android:drawableLeft="@drawable/ic_border_color_black_24dp"
                     android:ems="10"
                     android:hint="Order To"
@@ -240,10 +264,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/edit_bac_s"
-                android:orientation="vertical"
-                android:padding="5dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textVi7"
@@ -308,11 +332,11 @@
                         android:layout_margin="2dp"
                         android:background="@drawable/edit_bac_s"
                         android:ems="5"
-                        android:scrollbars="horizontal"
                         android:gravity="center"
                         android:hint="Amount in word"
                         android:inputType="numberDecimal"
                         android:padding="5dp"
+                        android:scrollbars="horizontal"
                         android:textColor="@color/colorWhite"
                         android:textColorHint="@color/colorWhite"
                         android:textSize="14sp" />
@@ -324,8 +348,9 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="5dp">
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/yy"
@@ -378,7 +403,7 @@
         android:background="@drawable/edit_bac_s"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -388,9 +413,13 @@
             android:fontFamily="sans-serif-light"
             android:gravity="bottom|center"
             android:padding="10dp"
+            android:textSize="30sp"
+            app:autoSizeMaxTextSize="30sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="3sp"
+            app:autoSizeTextType="uniform"
             android:text="Please scan the barcode to continue editing the check ..."
             android:textColor="@color/colorWhite"
-            android:textSize="20sp"
             app:fontFamily="sans-serif-smallcaps" />
 
         <!--<de.hdodenhof.circleimageview.CircleImageView-->
@@ -448,6 +477,10 @@
                 android:text="     Scan Barcode     "
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
                 app:fontFamily="sans-serif-smallcaps" />
         </LinearLayout>
     </LinearLayout>
