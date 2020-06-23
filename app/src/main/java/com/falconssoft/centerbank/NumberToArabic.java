@@ -45,12 +45,39 @@ public class  NumberToArabic {
                     case '3':
                         amountTxt = "ثلاثة ملايين ";
                         break;
+                    case '4':
+                        amountTxt = "أربع ملايين ";
+                        break;
+                    case '5':
+                        amountTxt = "خمس ملايين ";
+                        break;
+                    case '6':
+                        amountTxt = "ست ملايين ";
+                        break;
+                    case '7':
+                        amountTxt = "سبع ملايين ";
+                        break;
+                    case '8':
+                        amountTxt = "ثمان ملايين ";
+                        break;
+                    case '9':
+                        amountTxt = "تسع ملايين ";
+                        break;
                 }
             }
             if (Integer.valueOf(Amount.substring(4)).intValue() > 0) {
-                amountTxt = amountTxt + "و " + get6deg(Amount.substring(1, 3)) + " و " + get3deg(Amount.substring(4));
+                if (Integer.valueOf(Amount.substring(1,4)).intValue() > 0) {
+                    amountTxt = amountTxt + "و " + get6deg(Amount.substring(1, 4)) + " و " + get3deg(Amount.substring(4));
+                }else{
+                    amountTxt = amountTxt   + " و " + get3deg(Amount.substring(4));
+
+                }
             } else {
-                amountTxt = amountTxt + "و " + get6deg(Amount.substring(1, 3)) + get3deg(Amount.substring(4));
+                if (Integer.valueOf(Amount.substring(1,4)).intValue() > 0) {
+                    amountTxt = amountTxt + "و " + get6deg(Amount.substring(1, 4)) + get3deg(Amount.substring(4));
+                }else{
+                    amountTxt = amountTxt  + get3deg(Amount.substring(4));
+                }
             }
         } else if (Amount.length() == 6) {
             if (Integer.valueOf(Amount.substring(3)).intValue() > 0) {
@@ -768,7 +795,7 @@ public class  NumberToArabic {
             }
             return txt;
         }
-    }
+        }
 }
 
 

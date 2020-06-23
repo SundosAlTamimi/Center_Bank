@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.MovementMethod;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,10 +28,11 @@ import com.google.zxing.integration.android.IntentResult;
 
 public class EditerCheackActivity extends AppCompatActivity {
 
-    LinearLayout linerEditing,linerBarcode;
-    TextView scanBarcode,AmouWord;
+    LinearLayout linerEditing, linerBarcode;
+    TextView scanBarcode, AmouWord;
     Button SingUpButton;
-    EditText Danier,phails;
+    EditText Danier, phails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,8 @@ public class EditerCheackActivity extends AppCompatActivity {
             }
         });
 
+        AmouWord.setMovementMethod(new ScrollingMovementMethod());
+
         phails.addTextChangedListener(textWatcher);
 
         Danier.addTextChangedListener(textWatcher);
@@ -52,7 +57,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     }
 
-    TextWatcher textWatcher=new TextWatcher() {
+    TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -60,18 +65,31 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String amount = "";
+            if (!Danier.getText().toString().equals("")) {
 
-            if(!Danier.getText().toString().equals("")&&!phails.getText().toString().equals("")){
-
-                String amount=Danier.getText().toString()+"."+phails.getText().toString();
-
-
-                NumberToArabic numberToArabic=new NumberToArabic();
-                 String amountWord= numberToArabic.getArabicString(amount);
-
-                  Log.e("Ammount","Jd +"+amountWord);
-                AmouWord.setText(amountWord);
+                if (!phails.getText().toString().equals("")) {
+                    amount = Danier.getText().toString() + "." + phails.getText().toString();
+                } else {
+                    amount = Danier.getText().toString() + "." + "00";
+                }
             }
+
+            if (!phails.getText().toString().equals("")) {
+
+                if (!Danier.getText().toString().equals("")) {
+                    amount = Danier.getText().toString() + "." + phails.getText().toString();
+                } else {
+                    amount = "00" + "." + phails.getText().toString();
+                }
+            }
+
+
+            NumberToArabic numberToArabic = new NumberToArabic();
+            String amountWord = numberToArabic.getArabicString(amount);
+
+            Log.e("Ammount", "Jd +" + amountWord);
+            AmouWord.setText(amountWord);
 
 
         }
@@ -84,13 +102,13 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 
     private void initi() {
-        linerEditing=findViewById(R.id.linerEditing);
-        linerBarcode=findViewById(R.id.linerBarcode);
-        scanBarcode=findViewById(R.id.scanBarcode);
-        Danier=findViewById(R.id.denier);
-        phails=findViewById(R.id.Phils);
-        AmouWord=findViewById(R.id.AmouWord);
-        SingUpButton=findViewById(R.id.SingUpButton);
+        linerEditing = findViewById(R.id.linerEditing);
+        linerBarcode = findViewById(R.id.linerBarcode);
+        scanBarcode = findViewById(R.id.scanBarcode);
+        Danier = findViewById(R.id.denier);
+        phails = findViewById(R.id.Phils);
+        AmouWord = findViewById(R.id.AmouWord);
+        SingUpButton = findViewById(R.id.SingUpButton);
     }
 
 
@@ -108,9 +126,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         intentIntegrator.initiateScan();
 
 
-
     }
-
 
 
     @Override
