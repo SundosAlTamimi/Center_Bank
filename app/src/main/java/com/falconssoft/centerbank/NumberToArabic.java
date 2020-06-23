@@ -62,7 +62,7 @@ public class  NumberToArabic {
                         break;
                     case '9':
                         amountTxt = "تسع ملايين ";
-                        break; 
+                        break;
                 }
             }
             if (Integer.valueOf(Amount.substring(4)).intValue() > 0) {

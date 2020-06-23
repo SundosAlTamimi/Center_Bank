@@ -68,18 +68,18 @@
                 android:textColorHint="@color/colorWhiteLight"
                 android:textSize="14sp" />
 
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_https_black_24dp"
-                android:hint="Quadrant name"
-                android:padding="10dp"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
+            <!--<EditText-->
+                <!--android:id="@+id/name"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="5dp"-->
+                <!--android:background="@drawable/edit_bac_s"-->
+                <!--android:drawableLeft="@drawable/ic_https_black_24dp"-->
+                <!--android:hint="Quadrant name"-->
+                <!--android:padding="10dp"-->
+                <!--android:textColor="@color/colorWhiteLight"-->
+                <!--android:textColorHint="@color/colorWhiteLight"-->
+                <!--android:textSize="14sp" />-->
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_height="wrap_content"
