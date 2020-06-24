@@ -93,6 +93,15 @@ public class EditerCheackActivity extends AppCompatActivity {
     static String qrCode = "";
     static  String [] arr ;
 
+    static String  CHECKNO= "";
+    static String  ACCCODE= "";
+    static String  IBANNO= "";
+    static String  CUSTOMERNM= "";
+    static String  QRCODE= "";
+    static String  SERIALNO= "";
+    static String  BANKNO= "";
+    static String  BRANCHNO= "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -518,6 +527,16 @@ public class EditerCheackActivity extends AppCompatActivity {
                     Log.e("tag", "****Success");
                     try {
                         JSONObject jsonObject=new JSONObject(s);
+
+
+                        CHECKNO = jsonObject.get("CHECKNO").toString();
+                        ACCCODE = jsonObject.get("ACCCODE").toString();
+                        IBANNO = jsonObject.get("IBANNO").toString();
+                        CUSTOMERNM =jsonObject.get("CUSTOMERNM").toString();
+                        QRCODE = jsonObject.get("QRCODE").toString();
+                        SERIALNO = jsonObject.get("SERIALNO").toString();
+                        BANKNO = jsonObject.get("BANKNO").toString();
+                        BRANCHNO = jsonObject.get("BRANCHNO").toString();
 
                         showSweetDialog(true,jsonObject.get("CUSTOMERNM").toString(),jsonObject.get("BANKNO").toString(),jsonObject.get("ACCCODE").toString());
                     } catch (JSONException e) {

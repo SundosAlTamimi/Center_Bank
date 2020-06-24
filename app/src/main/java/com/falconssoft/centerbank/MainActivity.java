@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     List<String> picforbar;
     private Toolbar toolbar;
     Timer timer;
+    TextInputEditText inputEditTextTemp;
     NotificationManager notificationManager;
     static int id=1;
     public static final String YES_ACTION = "YES";
@@ -286,14 +287,18 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
                     // TODO add account
+                    Toast.makeText(MainActivity.this, "Save Success", Toast.LENGTH_SHORT).show();
+
+                    dialog.dismiss();
                 } else
-                    Toast.makeText(MainActivity.this, "Please add account first or scan cheque barcode!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Please add account first or scan cheque QR barcode!", Toast.LENGTH_SHORT).show();
             }
         });
 
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                inputEditTextTemp=inputEditText;
                 IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
                 integrator.setPrompt("Scan");
@@ -393,6 +398,16 @@ public class MainActivity extends AppCompatActivity {
 //                TostMesage(getResources().getString(R.string.scan)+Result.getContents());
 //                barCodTextTemp.setText(Result.getContents() + "");
 //                openEditerCheck();
+                String ST=Result.getContents();
+               String []arr =ST.split(";");
+
+//                    String checkNo = arr[0];
+//                    String bankNo = arr[1];
+//                    String branchNo = arr[2];
+                      String accCode = arr[3];
+//                    String ibanNo = arr[4];
+//                    String custName= "";
+                inputEditTextTemp .setText(accCode);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
