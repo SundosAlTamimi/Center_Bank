@@ -92,7 +92,7 @@
                 <!--android:textStyle="bold" />-->
 
                 <EditText
-                    android:id="@+id/eitTex"
+                    android:id="@+id/editorCheque_nationalNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -128,7 +128,7 @@
                 <!--android:textStyle="bold" />-->
 
                 <EditText
-                    android:id="@+id/ex"
+                    android:id="@+id/editorCheque_phoneNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -173,7 +173,7 @@
                 <!--android:textStyle="bold" />-->
 
                 <EditText
-                    android:id="@+id/editTex"
+                    android:id="@+id/editorCheque_sender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -208,7 +208,7 @@
                 <!--android:textStyle="bold" />-->
 
                 <TextView
-                    android:id="@+id/date"
+                    android:id="@+id/editorCheque_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -244,7 +244,7 @@
                 <!--android:textStyle="bold" />-->
 
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/editorCheque_reciever"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
