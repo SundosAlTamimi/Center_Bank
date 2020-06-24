@@ -11,6 +11,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -39,6 +40,7 @@ public class AlertScreen extends AppCompatActivity {
     NotificationManager notificationManager;
     static int id=1;
     TextView mainText;
+    String stateIntent="";
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
     @Override
@@ -50,21 +52,6 @@ public class AlertScreen extends AppCompatActivity {
         mainText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                noto2();
-//                String currentapiVersion = Build.VERSION.RELEASE;
-//
-//                if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
-//                    // Do something for 14 and above versions
-//
-////                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
-//                    show_Notification("Check  app, Recive new Check 1234");
-//
-//
-//                } else {
-//
-//                    notification(" Recive new Check, click to show detail");
-//
-//                }
             }
         });
         notificationArrayList=new ArrayList<>();
@@ -194,17 +181,6 @@ public class AlertScreen extends AppCompatActivity {
 
     }
 }
-/*public class NotificationReceiver extends BroadcastReceiver {
-
-    private static final String YES_ACTION = "com.example.packagename.YES";
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        // TODO Auto-generated method stub
-        String action = intent.getAction();
-        if(YES_ACTION.equals(action)) {
-            Toast.makeText(context, "CALLED", Toast.LENGTH_SHORT).show();
-        }
-    }
 /*
 Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 mBuilder.setSound(alarmSound);
