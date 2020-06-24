@@ -60,7 +60,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     SimpleDateFormat df ;
     String today ;
     Calendar myCalendar;
-    @Override
+    @Override 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editer_check_layout);
