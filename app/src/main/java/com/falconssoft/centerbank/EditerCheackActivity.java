@@ -25,16 +25,21 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -43,24 +48,28 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class EditerCheackActivity extends AppCompatActivity {
 
     LinearLayout linerEditing, linerBarcode;
-    TextView scanBarcode, AmouWord,date;
+    TextView scanBarcode, AmouWord, date;
     Button SingUpButton;
     EditText Danier, phails;
     private ProgressDialog progressDialog;
 
-    int flag=0;
+    int flag = 0;
     CircleImageView CheckPic;
     static final int CAMERA_PIC_REQUEST = 1337;
-    Date currentTimeAndDate ;
-    SimpleDateFormat df ;
-    String today ;
+    Date currentTimeAndDate;
+    SimpleDateFormat df;
+    String today;
     Calendar myCalendar;
-    @Override 
+    static String qrCode = "";
+    static  String [] arr ;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editer_check_layout);
 
         initi();
+//        arr=new String[5];
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
         today = df.format(currentTimeAndDate);
@@ -84,17 +93,12 @@ public class EditerCheackActivity extends AppCompatActivity {
         CheckPic.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v)
-            {
-                flag=0;
+            public void onClick(View v) {
+                flag = 0;
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
             }
         });
-
-
-
-
 
 
     }
@@ -153,8 +157,8 @@ public class EditerCheackActivity extends AppCompatActivity {
         SingUpButton = findViewById(R.id.SingUpButton);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Waiting...");
-        CheckPic=findViewById(R.id.CheckPic);
-        date=findViewById(R.id.date);
+        CheckPic = findViewById(R.id.CheckPic);
+        date = findViewById(R.id.date);
         myCalendar = Calendar.getInstance();
 
         date.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +177,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     //TextView itemCodeText, int swBarcode
     public void readBarCode() {
 
-        flag=1;
+        flag = 1;
 //        barCodTextTemp = itemCodeText;
         Log.e("barcode_099", "in");
         IntentIntegrator intentIntegrator = new IntentIntegrator(EditerCheackActivity.this);
@@ -198,20 +202,49 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                TostMesage(getResources().getString(R.string.cancel));
                 } else {
 
-                    Log.d("MainActivity", "Scanned");
+                    Log.e("MainActivity", "" + Result.getContents());
                     Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 //                TostMesage(getResources().getString(R.string.scan)+Result.getContents());
 //                barCodTextTemp.setText(Result.getContents() + "");
 //                openEditerCheck();
 
-                // TODO send data as json
+                    String ST=Result.getContents();
+                     arr =ST.split(";");
 
-                showSweetDialog(true);
+//                    String checkNo = arr[0];
+//                    String bankNo = arr[1];
+//                    String branchNo = arr[2];
+//                    String accCode = arr[3];
+//                    String ibanNo = arr[4];
+//                    String custName= "";
 
+                     //qrCode = "CHECKNO=" + arr[0] + "&BANKNO=" + arr[1] + "&BTANCHNO=" + arr[2] + "&ACCCODE=" + arr[3] + "&IBANNOo=" + arr[4] + "&CUSTOMERNM=''"  ;
+                     new JSONTask().execute();
+
+
+                   // showSweetDialog(true);
+
+                }
+
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+        } else {//
+            try {
+                if (requestCode == CAMERA_PIC_REQUEST) {
+                    Bitmap image = (Bitmap) data.getExtras().get("data");
+                    if (image != null) {
+                        CheckPic.setImageBitmap(image);
+                    }
+                }
+
+
+            } catch (Exception e) {
+                Log.e("not getCamera", "message " + e.toString());
+            }
+
         }
+
     }
 
     void showSweetDialog(boolean check) {
@@ -249,27 +282,8 @@ public class EditerCheackActivity extends AppCompatActivity {
             })
                     .show();
 
-                    linerEditing.setVisibility(View.VISIBLE);
-                    linerBarcode.setVisibility(View.GONE);
-                }
-
-            } else {
-                super.onActivityResult(requestCode, resultCode, data);
-            }
-        } else {//
-          try{
-            if (requestCode == CAMERA_PIC_REQUEST) {
-                Bitmap image = (Bitmap) data.getExtras().get("data");
-                if (image != null) {
-                    CheckPic.setImageBitmap(image);
-                }
-            }
-
-
-            }catch (Exception e){
-              Log.e("not getCamera","message "+e.toString());
-          }
-
+            linerEditing.setVisibility(View.VISIBLE);
+            linerBarcode.setVisibility(View.GONE);
         }
     }
 
@@ -277,6 +291,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         String newValue = (((((((((((value + "").replaceAll("١", "1")).replaceAll("٢", "2")).replaceAll("٣", "3")).replaceAll("٤", "4")).replaceAll("٥", "5")).replaceAll("٦", "6")).replaceAll("٧", "7")).replaceAll("٨", "8")).replaceAll("٩", "9")).replaceAll("٠", "0").replaceAll("٫", "."));
         return newValue;
     }
+
     public DatePickerDialog.OnDateSetListener openDatePickerDialog(final TextView editText) {
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -292,6 +307,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         };
         return date;
     }
+
     private void updateLabel(TextView editText) {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -301,6 +317,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     }
 
     // ******************************************** CHECK QR VALIDATION *************************************
+   /*
     private class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -379,5 +396,75 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
+*/
 
+    private class JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
+                nameValuePairs.add(new BasicNameValuePair("BANKNO", arr[1]));
+                nameValuePairs.add(new BasicNameValuePair("BTANCHNO", arr[2]));
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", arr[3]));
+                nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
+                nameValuePairs.add(new BasicNameValuePair("CUSTOMERNM", ""));
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tag", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****Success");
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
     }
+
+
+}
