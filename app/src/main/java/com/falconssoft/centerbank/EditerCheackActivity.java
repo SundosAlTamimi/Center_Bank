@@ -40,6 +40,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.core.content.ContextCompat;
 
+import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -88,10 +89,10 @@ public class EditerCheackActivity extends AppCompatActivity {
     SimpleDateFormat df;
     String today;
     Calendar myCalendar;
-
+    private JSONObject jsonObject;
 
     static String qrCode = "";
-    static  String [] arr ;
+    static String[] arr;
 
     static String  CHECKNO= "";
     static String  ACCCODE= "";
@@ -208,19 +209,57 @@ public class EditerCheackActivity extends AppCompatActivity {
         pushCheque.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+// CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
+// ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
+// ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
+// ,"AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKPIC":""}
                 String localNationlNo = nationalNo.getText().toString();
                 String localPhoneNo = phoneNo.getText().toString();
                 String localSender = sender.getText().toString();
                 String localReciever = reciever.getText().toString();
                 String localDinar = Danier.getText().toString();
+                String localFils = "" + phails.getText().toString();
+                String localMoneyInWord = AmouWord.getText().toString();
+                String localDate = date.getText().toString();
 
                 if (!TextUtils.isEmpty(localNationlNo)
                         && !TextUtils.isEmpty(localPhoneNo)
                         && !TextUtils.isEmpty(localSender)
                         && !TextUtils.isEmpty(localReciever)
                         && !TextUtils.isEmpty(localDinar)
-                ){
+                ) {
+
+//                    String checkNo = arr[0];
+//                    String bankNo = arr[1];
+//                    String branchNo = arr[2];
+//                    String accCode = arr[3];
+//                    String ibanNo = arr[4];
+//                    String custName= "";
+                    ChequeInfo chequeInfo = new ChequeInfo();
+                    chequeInfo.setBankNo(arr[1]);
+                    chequeInfo.setBankName("Jordan Bank");
+                    chequeInfo.setBranchNo(arr[2]);
+                    chequeInfo.setChequeNo(arr[0]);
+                    chequeInfo.setAccCode(arr[3]);
+                    chequeInfo.setIbanNo(arr[4]);
+                    chequeInfo.setCustName(localSender);
+                    chequeInfo.setQrCode(qrCode);
+                    chequeInfo.setSerialNo("");
+                    chequeInfo.setChequeData(localDate);
+                    chequeInfo.setToCustomerName(localReciever);
+                    chequeInfo.setMoneyInDinar(localDinar);
+                    chequeInfo.setMoneyInFils(localFils);
+                    chequeInfo.setMoneyInWord(localMoneyInWord);
+                    chequeInfo.setRecieverMobileNo(localPhoneNo);
+                    chequeInfo.setRecieverNationalID(localNationlNo);
+                    chequeInfo.setChequeImage("");
+
+                    jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("", chequeInfo);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                 }
 
@@ -275,8 +314,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                barCodTextTemp.setText(Result.getContents() + "");
 //                openEditerCheck();
 
-                    String ST=Result.getContents();
-                     arr =ST.split(";");
+                    String ST = Result.getContents();
+                    arr = ST.split(";");
 
 //                    String checkNo = arr[0];
 //                    String bankNo = arr[1];
@@ -285,11 +324,11 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                    String ibanNo = arr[4];
 //                    String custName= "";
 
-                     //qrCode = "CHECKNO=" + arr[0] + "&BANKNO=" + arr[1] + "&BTANCHNO=" + arr[2] + "&ACCCODE=" + arr[3] + "&IBANNOo=" + arr[4] + "&CUSTOMERNM=''"  ;
-                     new JSONTask().execute();
+                    //qrCode = "CHECKNO=" + arr[0] + "&BANKNO=" + arr[1] + "&BTANCHNO=" + arr[2] + "&ACCCODE=" + arr[3] + "&IBANNOo=" + arr[4] + "&CUSTOMERNM=''"  ;
+                    new JSONTask().execute();
 
 
-                   //
+                    // showSweetDialog(true);
 
                 }
 
@@ -555,5 +594,71 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
+    // ******************************************** SAVE *************************************
+    private class JSONTask1 extends AsyncTask<String, String, String> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+//http://localhost:8081/SaveTempCheck?
+// CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
+// ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
+// ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
+// ,"AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKPIC":""}
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                request.setURI(new URI("http://10.0.0.16:8081/SaveTempCheck?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("CHECKINFO", jsonObject.toString()));
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tag", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****saved Success");
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
 }
