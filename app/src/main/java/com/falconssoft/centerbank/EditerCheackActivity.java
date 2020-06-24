@@ -63,8 +63,10 @@ import static android.widget.LinearLayout.VERTICAL;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -85,12 +87,17 @@ public class EditerCheackActivity extends AppCompatActivity {
     String today;
     Calendar myCalendar;
 
+
+    static String qrCode = "";
+    static  String [] arr ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editer_check_layout);
 
         initi();
+//        arr=new String[5];
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
         today = df.format(currentTimeAndDate);
@@ -251,21 +258,33 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                TostMesage(getResources().getString(R.string.cancel));
                 } else {
 
-                    Log.d("MainActivity", "Scanned");
+                    Log.e("MainActivity", "" + Result.getContents());
                     Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 //                TostMesage(getResources().getString(R.string.scan)+Result.getContents());
 //                barCodTextTemp.setText(Result.getContents() + "");
 //                openEditerCheck();
 
-                    // TODO send data as json
+                    String ST=Result.getContents();
+                     arr =ST.split(";");
 
-                    showSweetDialog(true);
+//                    String checkNo = arr[0];
+//                    String bankNo = arr[1];
+//                    String branchNo = arr[2];
+//                    String accCode = arr[3];
+//                    String ibanNo = arr[4];
+//                    String custName= "";
+
+                     //qrCode = "CHECKNO=" + arr[0] + "&BANKNO=" + arr[1] + "&BTANCHNO=" + arr[2] + "&ACCCODE=" + arr[3] + "&IBANNOo=" + arr[4] + "&CUSTOMERNM=''"  ;
+                     new JSONTask().execute();
+
+
+                   // showSweetDialog(true);
 
                 }
+
             } else {
                 super.onActivityResult(requestCode, resultCode, data);
             }
-
         } else {//
             try {
                 if (requestCode == CAMERA_PIC_REQUEST) {
@@ -274,11 +293,14 @@ public class EditerCheackActivity extends AppCompatActivity {
                         CheckPic.setImageBitmap(image);
                     }
                 }
+
+
             } catch (Exception e) {
                 Log.e("not getCamera", "message " + e.toString());
             }
 
         }
+
     }
 
     void showSweetDialog(boolean check) {
@@ -319,7 +341,6 @@ public class EditerCheackActivity extends AppCompatActivity {
             linerEditing.setVisibility(View.VISIBLE);
             linerBarcode.setVisibility(View.GONE);
         }
-
     }
 
     public String convertToEnglish(String value) {
@@ -352,6 +373,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     }
 
     // ******************************************** CHECK QR VALIDATION *************************************
+   /*
     private class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -426,6 +448,76 @@ public class EditerCheackActivity extends AppCompatActivity {
             } else {
                 Log.e("tag", "****Failed to export data Please check internet connection");
                 Toast.makeText(EditerCheackActivity.this, "Failed to export data Please check internet connection", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+*/
+
+    private class JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
+                nameValuePairs.add(new BasicNameValuePair("BANKNO", arr[1]));
+                nameValuePairs.add(new BasicNameValuePair("BTANCHNO", arr[2]));
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", arr[3]));
+                nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
+                nameValuePairs.add(new BasicNameValuePair("CUSTOMERNM", ""));
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tag", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****Success");
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+                Log.e("tag", "****Failed to export data Please check internet connection");
             }
         }
     }

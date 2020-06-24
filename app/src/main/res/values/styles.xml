@@ -10,8 +10,8 @@
     </style>
     <style name="Theme_Dialog" parent="android:Theme.Holo.Dialog">
 
-        <item name="android:windowMinWidthMajor">30%</item>
-        <item name="android:windowMinWidthMinor">30%</item>
+        <item name="android:windowMinWidthMajor">50%</item>
+        <item name="android:windowMinWidthMinor">50%</item>
     </style>
 
     <!-- Style to replace actionbar overflow icon. set item 'android:actionOverflowButtonStyle' in AppTheme -->
