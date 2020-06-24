@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
-    private TextView closeDialog;
+    private TextView closeDialog,message;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
@@ -101,8 +102,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerViews.scrollToPosition(2);
         recyclerViews.requestFocus();
 
-
         init();
+//        message.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+
+
 
 
 
@@ -319,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         setTitle("");
-
+        message=findViewById(R.id.messages);
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -389,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 //                TostMesage(getResources().getString(R.string.scan)+Result.getContents());
 //                barCodTextTemp.setText(Result.getContents() + "");
-                openEditerCheck();
+//                openEditerCheck();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

@@ -37,9 +37,13 @@
                 android:layout_margin="6dp"
                 android:layout_weight="0"
                 android:fontFamily="sans-serif-light"
+                android:textSize="30sp"
+                app:autoSizeMaxTextSize="30sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
                 android:text="@string/cheque_app"
                 android:textColor="@color/colorWhite"
-                android:textSize="25sp"
                 app:fontFamily="sans-serif-smallcaps" />
 
             <LinearLayout
