@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Center Bank</string>
+    <string name="app_name">Cheque editor</string>
+    <string name="cheque_app">Cheque App</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="sing_in">Sing In</string>
+    <string name="sing_up">sing Up</string>
 </resources>

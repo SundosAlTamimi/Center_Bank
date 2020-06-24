@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="alpha_black_color">#C40C0C0C</color>
+    <color name="gray_dark">#383636</color>
+    <color name="blue">#5474ff</color>
+    <color name="white">#FFFFFF</color>
+    <color name="dark_pink">#D81B60</color>
+    <color name="yellow">#C59301</color>
+    <color name="red">#D5A000</color>
+
+    <color name="colorPrimary">#0C0B0B</color>
+    <color name="colorPrimaryDark">#0C0B0B</color>
+    <color name="colorAccent">#0C0B0B</color>
+    <color name="colorWhite">#D5F7F5F6</color>
+    <color name="colorWhiteLight">#A3F7F5F6</color>
+    <color name="colorBlack">#0C0B0B</color>
+    <color name="gray_">#60C7C4C4</color>
+    <color name="colorBlackLight">#0AFAFAF7</color>
+    <color name="colorGold">#A8C28203</color>
+    <color name="Nocolor">#0CC28203</color>
+
+    <color name="darkblue_">#DF075F8B</color>
+    <color name="white_dark">#E9FFFFFF</color>
+    <color name="layer4">#742E2E2D</color>
+    <color name="layer1">#4AAFE9E9</color>
+    <color name="layer2">#E8F0F8FF</color>
+    <color name="layer3">#e5e4e2</color>
+
+    <color name="alpha_yellow">#80F5A203</color>
+    <color name="alpha_white">#79FFFFFF</color>
+    <color name="alpha_black2">#80000000</color>
+    <color name="alpha_gray">#AD363535</color>
+
+
 </resources>

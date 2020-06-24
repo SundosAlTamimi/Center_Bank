@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android.support.design="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:src="@drawable/ic_bank"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textColor="@color/yellow"
+            android:fontFamily="serif"
+            android:textSize="18sp"
+            android:padding="5dp"
+            android:text="New Account"
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/dialog_add_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/ic_close"
+            android:layout_gravity="end|right"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:hint="Account No"
+        android:focusableInTouchMode="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dialog_addAccount_account"
+            android:textColor="@color/gray_dark"
+            android:fontFamily="serif"
+            android:textSize="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/dialog_addAccount_add"
+        android:gravity="end"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:textColor="@color/yellow"
+        android:fontFamily="serif"
+        android:textSize="18sp"
+        android:text="Add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:src="@drawable/rscananimation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/dialog_addAccount_scan"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:textColor="@color/gray_dark"
+        android:fontFamily="serif"
+        android:textSize="18sp"
+        android:text="Scan QR code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
