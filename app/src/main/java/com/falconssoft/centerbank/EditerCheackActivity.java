@@ -337,11 +337,12 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     }
 
-    void showSweetDialog(boolean check) {
+    void showSweetDialog(boolean check,String customerName,String BankNo,String accountNo) {
         if (check) {
-            new SweetAlertDialog(EditerCheackActivity.this, R.style.alert_dialog_dark)
+            String message="Cheque is validate \n"+"Customer Name :"+customerName+" \n"+"Bank Name : "+"بنك الاردن "+"\n"+"Account No : "+accountNo+"\n";
+            new SweetAlertDialog(EditerCheackActivity.this,SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("Successful")
-                    .setContentText("Cheque is validate")
+                    .setContentText(message)
                     .setConfirmText("Next")
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @SuppressLint("WrongConstant")
@@ -360,7 +361,7 @@ public class EditerCheackActivity extends AppCompatActivity {
             })
                     .show();
         } else {
-            new SweetAlertDialog(EditerCheackActivity.this, R.style.alert_dialog_dark)
+            new SweetAlertDialog(EditerCheackActivity.this,SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("WARNING")
                     .setContentText("Invalidate cheque!")
                     .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -547,7 +548,18 @@ public class EditerCheackActivity extends AppCompatActivity {
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("tag", "****Success");
+                    try {
+                        JSONObject jsonObject=new JSONObject(s);
+
+                        showSweetDialog(true,jsonObject.get("CUSTOMERNM").toString(),jsonObject.get("BANKNO").toString(),jsonObject.get("ACCCODE").toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 } else {
+
+                    showSweetDialog(true,"","","");
+
                     Log.e("tag", "****Failed to export data");
                 }
             } else {
