@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.MovementMethod;
 import android.text.method.ScrollingMovementMethod;
@@ -76,8 +77,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     LinearLayout linerEditing, linerBarcode;
     TextView scanBarcode, AmouWord, date;
-    Button SingUpButton;
-    EditText Danier, phails;
+    Button pushCheque;
+    EditText Danier, phails, nationalNo, phoneNo, sender, reciever;
     private ProgressDialog progressDialog;
 
     int flag = 0;
@@ -182,12 +183,41 @@ public class EditerCheackActivity extends AppCompatActivity {
         Danier = findViewById(R.id.denier);
         phails = findViewById(R.id.Phils);
         AmouWord = findViewById(R.id.AmouWord);
-        SingUpButton = findViewById(R.id.SingUpButton);
+        pushCheque = findViewById(R.id.SingUpButton);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Waiting...");
         CheckPic = findViewById(R.id.CheckPic);
-        date = findViewById(R.id.date);
+        date = findViewById(R.id.editorCheque_date);
+
+        nationalNo = findViewById(R.id.editorCheque_nationalNo);
+        phoneNo = findViewById(R.id.editorCheque_phoneNo);
+        sender = findViewById(R.id.editorCheque_sender);
+        reciever = findViewById(R.id.editorCheque_reciever);
+
         myCalendar = Calendar.getInstance();
+
+        pushCheque.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String localNationlNo = nationalNo.getText().toString();
+                String localPhoneNo = phoneNo.getText().toString();
+                String localSender = sender.getText().toString();
+                String localReciever = reciever.getText().toString();
+                String localDinar = Danier.getText().toString();
+
+                if (!TextUtils.isEmpty(localNationlNo)
+                        && !TextUtils.isEmpty(localPhoneNo)
+                        && !TextUtils.isEmpty(localSender)
+                        && !TextUtils.isEmpty(localReciever)
+                        && !TextUtils.isEmpty(localDinar)
+                ){
+
+                }
+
+
+            }
+        });
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,6 +230,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         });
 
     }
+
 
     //TextView itemCodeText, int swBarcode
     public void readBarCode() {

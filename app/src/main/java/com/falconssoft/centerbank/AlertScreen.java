@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.falconssoft.centerbank.Models.notification;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.ArrayList;
 
 import static android.widget.LinearLayout.VERTICAL;
@@ -41,6 +50,7 @@ public class AlertScreen extends AppCompatActivity {
     static int id=1;
     TextView mainText;
     String stateIntent="";
+    String Main_URL="";
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
     @Override
@@ -49,12 +59,16 @@ public class AlertScreen extends AppCompatActivity {
         setContentView(R.layout.alert_main_screen);
         recyclerView = findViewById(R.id.recycler);
         mainText=findViewById(R.id.textView);
-        mainText.setOnClickListener(new View.OnClickListener() {
+        Main_URL="http://10.0.0.16:8081/GetCheckTemp?ACCCODE=1014569990011000&IBANNO=&SERIALNO=&BANKNO=004&BRANCHNO=0099&CHECKNO=390144";
+
+                mainText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new JSONTask().execute(Main_URL);
             }
         });
         notificationArrayList=new ArrayList<>();
+//        notificationArrayList=getNotification();
         fillListNotification();
         fillListNotification();
         fillListNotification();
@@ -69,6 +83,90 @@ public class AlertScreen extends AppCompatActivity {
 
         Toast.makeText(AlertScreen.this, "Saved", Toast.LENGTH_SHORT).show();
     }
+
+//    private ArrayList<notification> getNotification() {
+//
+//    }
+    // ******************************************** CHECK QR VALIDATION *************************************
+    private class JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+//            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+               // http://10.0.0.16:8081/GetCheckTemp?ACCCODE=1014569990011000&IBANNO=&SERIALNO=&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
+//                 http://10.0.0.16:8081/VerifyCheck?CHECKNO=390144&BANKNO=004&BTANCHNO=0099&ACCCODE=1014569990011000&IBANNO=""&CUSTOMERNM=""
+//                request.setURI(new URI("http://" + generalSettings.getIpAddress() + "/export.php"));//import 10.0.0.214
+                request.setURI(new URI("http://10.0.0.16:8081/GetCheckTemp?ACCCODE=1014569990011000&IBANNO=&SERIALNO=&BANKNO=004&BRANCHNO=0099&CHECKNO=390144"));
+
+
+//                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+//                Log.e("addToInventory/", "" + jsonArrayBundles.toString());
+//                nameValuePairs.add(new BasicNameValuePair("UPDATE_RAW_INFO", "1"));// list
+
+//                nameValuePairs.add(new BasicNameValuePair("TRUCK", oldTruck));//oldTruck
+//                nameValuePairs.add(new BasicNameValuePair("RAW_INFO_DETAILS", jsonArray.toString().trim()));// list
+//                nameValuePairs.add(new BasicNameValuePair("RAW_INFO_MASTER", masterData.toString().trim())); // json object
+//                Log.e("addNewRow/", "update" + masterData.toString().trim() + " ///oldTruck" + oldTruck);
+
+//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("AlertScreen/", "verify" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("tag of update row info", s);
+//            progressDialog.dismiss();
+            if (s != null) {
+                if (s.contains("UPDATE RAWS SUCCESS")) {
+//                    showSweetDialog(true);
+
+                    Log.e("tag", "update Success");
+                } else {
+//                    showSweetDialog(false);
+                    Log.e("tag", "****Failed to export data");
+//                    Toast.makeText(AddToInventory.this, "Failed to export data Please check internet connection", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Log.e("tag", "****Failed to export data Please check internet connection");
+                Toast.makeText(AlertScreen.this, "Failed to export data Please check internet connection", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
     public void noto2() // paste in activity
     {
         Notification.Builder notif;
