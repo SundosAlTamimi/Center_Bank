@@ -236,15 +236,15 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                    String ibanNo = arr[4];
 //                    String custName= "";
                     ChequeInfo chequeInfo = new ChequeInfo();
-                    chequeInfo.setBankNo(arr[1]);
+                    chequeInfo.setBankNo(BANKNO);
                     chequeInfo.setBankName("Jordan Bank");
-                    chequeInfo.setBranchNo(arr[2]);
-                    chequeInfo.setChequeNo(arr[0]);
-                    chequeInfo.setAccCode(arr[3]);
-                    chequeInfo.setIbanNo(arr[4]);
-                    chequeInfo.setCustName(localSender);
-                    chequeInfo.setQrCode(qrCode);
-                    chequeInfo.setSerialNo("");
+                    chequeInfo.setBranchNo(BRANCHNO);
+                    chequeInfo.setChequeNo(CHECKNO);
+                    chequeInfo.setAccCode(ACCCODE);
+                    chequeInfo.setIbanNo(IBANNO);
+                    chequeInfo.setCustName(CUSTOMERNM);
+                    chequeInfo.setQrCode(QRCODE);
+                    chequeInfo.setSerialNo(SERIALNO);
                     chequeInfo.setChequeData(localDate);
                     chequeInfo.setToCustomerName(localReciever);
                     chequeInfo.setMoneyInDinar(localDinar);
@@ -255,11 +255,9 @@ public class EditerCheackActivity extends AppCompatActivity {
                     chequeInfo.setChequeImage("");
 
                     jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("", chequeInfo);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    jsonObject=chequeInfo.getJSONObject();
+
+                     new JSONTask1().execute();
 
                 }
 
@@ -652,9 +650,34 @@ public class EditerCheackActivity extends AppCompatActivity {
 
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
-                    Log.e("tag", "****saved Success");
+                    Log.e("tag", "****saved Success In Edit");
+//                    linerEditing.setVisibility(View.GONE);
+//                   linerBarcode.setVisibility(View.VISIBLE);
+                    new SweetAlertDialog(EditerCheackActivity.this,SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("Successful")
+                            .setContentText("Save Successful")
+                            .setConfirmText("Ok")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                     finish();
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).show();
                 } else {
                     Log.e("tag", "****Failed to export data");
+                    new SweetAlertDialog(EditerCheackActivity.this,SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("WARNING")
+                            .setContentText("Fail to send!")
+                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+
+                        }
+                    })
+                            .show();
                 }
             } else {
                 Log.e("tag", "****Failed to export data Please check internet connection");
