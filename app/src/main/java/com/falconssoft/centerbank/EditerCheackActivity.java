@@ -219,15 +219,22 @@ public class EditerCheackActivity extends AppCompatActivity {
                         && !TextUtils.isEmpty(localReciever)
                         && !TextUtils.isEmpty(localDinar)
                 ) {
+
+//                    String checkNo = arr[0];
+//                    String bankNo = arr[1];
+//                    String branchNo = arr[2];
+//                    String accCode = arr[3];
+//                    String ibanNo = arr[4];
+//                    String custName= "";
                     ChequeInfo chequeInfo = new ChequeInfo();
-                    chequeInfo.setBankNo("");
+                    chequeInfo.setBankNo(arr[1]);
                     chequeInfo.setBankName("Jordan Bank");
-                    chequeInfo.setBranchNo("");
-                    chequeInfo.setChequeNo("");
-                    chequeInfo.setAccCode("");
-                    chequeInfo.setIbanNo("");
+                    chequeInfo.setBranchNo(arr[2]);
+                    chequeInfo.setChequeNo(arr[0]);
+                    chequeInfo.setAccCode(arr[3]);
+                    chequeInfo.setIbanNo(arr[4]);
                     chequeInfo.setCustName(localSender);
-                    chequeInfo.setQrCode("");
+                    chequeInfo.setQrCode(qrCode);
                     chequeInfo.setSerialNo("");
                     chequeInfo.setChequeData(localDate);
                     chequeInfo.setToCustomerName(localReciever);
