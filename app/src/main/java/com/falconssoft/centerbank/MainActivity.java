@@ -1,6 +1,7 @@
 package com.falconssoft.centerbank;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,16 +10,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,13 +61,14 @@ import pl.droidsonroids.gif.GifImageButton;
 import static android.widget.LinearLayout.VERTICAL;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String CHANNEL_ID ="2" ;
     CircleImageView imageView;
     private Button notification, menuButton;
     TextView barCodTextTemp, scanBarcode, signout;
     private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
-    private TextView closeDialog;
+    private TextView closeDialog,message;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
@@ -96,8 +102,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerViews.scrollToPosition(2);
         recyclerViews.requestFocus();
 
-
         init();
+//        message.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+
+
 
 
 
@@ -156,16 +164,54 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             public void onFinish() {
-                notificationShow();
+                String currentapiVersion = Build.VERSION.RELEASE;
+//
+                if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
+                    // Do something for 14 and above versions
+
+//                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        Log.e("VERSION","show_Notification");
+                        show_Notification("Check  app, Recive new Check");
+//                        Nonit3();
+                    }
+                    else {
+
+                    }
+
+
+                } else {
+                    Log.e("currentapiVersion","show_Notification");
+
+//                    notification(" Recive new Check, click to show detail");
+                    notificationShow();
+                }
+
 
             }
         }.start();
 
     }
-
-    public void notificationShow() // paste in activity
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "ChanelNotification";
+            String description = "channel_description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+    public void notificationShow()
     {
+
         Notification.Builder notif;
         NotificationManager nm;
         notif = new Notification.Builder(getApplicationContext());
@@ -189,6 +235,38 @@ public class MainActivity extends AppCompatActivity {
 
 
         nm.notify(10, notif.getNotification());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void show_Notification(String detail){
+
+        Intent intent=new Intent(MainActivity.this,notificationReciver.class);
+        intent.putExtra("action","YES");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        String CHANNEL_ID="MYCHANNEL";
+
+        NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name", NotificationManager.IMPORTANCE_HIGH);
+        Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
+                .setContentText("show Detail ......")
+                .setContentTitle("Recive new Check, click to show detail")
+                .setStyle(new Notification.BigTextStyle()
+                        .bigText(detail)
+                        .setBigContentTitle(" ")
+                        .setSummaryText(""))
+                .setContentIntent(pendingIntent)
+                .addAction(android.R.drawable.sym_action_chat,"Show detail",pendingIntent)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setChannelId(CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_add)
+                .setOngoing(true)
+                .build();
+
+
+        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(notificationChannel);
+        notificationManager.notify(1,notification);
+
+
     }
 
     void addAccountButton() {
@@ -244,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         setTitle("");
-
+        message=findViewById(R.id.messages);
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -314,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 //                TostMesage(getResources().getString(R.string.scan)+Result.getContents());
 //                barCodTextTemp.setText(Result.getContents() + "");
-                openEditerCheck();
+//                openEditerCheck();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

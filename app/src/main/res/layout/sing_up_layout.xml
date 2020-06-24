@@ -40,8 +40,12 @@
                 android:fontFamily="sans-serif-light"
                 android:padding="10dp"
                 android:text="Sing Up"
-                android:textColor="@color/colorWhite"
                 android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                android:textColor="@color/colorWhite"
                 app:fontFamily="sans-serif-smallcaps" />
 
         </LinearLayout>
@@ -66,7 +70,12 @@
                 android:singleLine="true"
                 android:textColor="@color/colorWhiteLight"
                 android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
+                android:layout_weight="1"
+                android:textSize="12sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <!--<EditText-->
                 <!--android:id="@+id/name"-->
@@ -81,52 +90,68 @@
                 <!--android:textColorHint="@color/colorWhiteLight"-->
                 <!--android:textSize="14sp" />-->
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
-            <EditText
-                android:id="@+id/first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
+                android:orientation="horizontal">
 
-                android:hint="first name"
-                android:padding="10dp"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
-            <EditText
-                android:id="@+id/second_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
+                <EditText
+                    android:id="@+id/first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:hint="first name"
+                    android:padding="10dp"
+                    android:textColor="@color/colorWhiteLight"
+                    android:textColorHint="@color/colorWhiteLight"
+                    android:textSize="14sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform" />
 
-                android:hint="second name"
-                android:padding="10dp"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
-            <EditText
-                android:id="@+id/thered_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
+                <EditText
+                    android:id="@+id/second_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
 
-                android:hint="thered name"
-                android:padding="10dp"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
+                    android:hint="second name"
+                    android:padding="10dp"
+                    android:textColor="@color/colorWhiteLight"
+                    android:textColorHint="@color/colorWhiteLight"
+                    android:textSize="14sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"/>
+
+                <EditText
+                    android:id="@+id/thered_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+
+                    android:hint="thered name"
+                    android:padding="10dp"
+                    android:textColor="@color/colorWhiteLight"
+                    android:textColorHint="@color/colorWhiteLight"
+                    android:textSize="14sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform" />
+
                 <EditText
                     android:id="@+id/fourth_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/edit_bac_s"
@@ -134,13 +159,19 @@
                     android:padding="10dp"
                     android:textColor="@color/colorWhiteLight"
                     android:textColorHint="@color/colorWhiteLight"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/Date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/edit_bac_s"
                 android:drawableLeft="@drawable/ic_date_range_black_24dp"
                 android:hint="Date"
@@ -148,7 +179,11 @@
                 android:singleLine="true"
                 android:textColor="@color/colorWhiteLight"
                 android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
 <!--            <EditText-->
 <!--                android:id="@+id/Sex"-->
@@ -167,6 +202,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/edit_bac_s"
                 android:drawableLeft="@drawable/ic_local_phone_black_24dp"
                 android:hint="Telephone number"
@@ -175,25 +211,36 @@
                 android:singleLine="true"
                 android:textColor="@color/colorWhiteLight"
                 android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"/>
 
             <EditText
                 android:id="@+id/Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/edit_bac_s"
                 android:drawableLeft="@drawable/ic_location_on_black_24dp"
                 android:hint="Address"
                 android:padding="10dp"
                 android:textColor="@color/colorWhiteLight"
                 android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/edit_bac_s"
                 android:drawableLeft="@drawable/ic_email_black_24dp"
                 android:hint="E-Mail"
@@ -202,27 +249,36 @@
                 android:singleLine="true"
                 android:textColor="@color/colorWhiteLight"
                 android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"/>
 
             <EditText
                 android:id="@+id/LogInPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/edit_bac_s"
                 android:drawableLeft="@drawable/ic_https_black_24dp"
                 android:hint="Password"
                 android:padding="10dp"
                 android:textColor="@color/colorWhiteLight"
                 android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="clip_horizontal|center"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <Button
@@ -230,9 +286,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:padding="5dp"
                 android:background="@drawable/edit_bac_sinup"
+                android:padding="5dp"
                 android:text="Save"
+                android:textSize="14sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="14sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
                 android:textColor="@color/colorWhite" />
         </LinearLayout>
 
