@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
         }.start();
 
     }
+
     public void notificationShow() // paste in activity
     {
         Notification.Builder notif;
