@@ -5,4 +5,14 @@
     <string name="password">Password</string>
     <string name="sing_in">Sing In</string>
     <string name="sing_up">sing Up</string>
+    <string name="national_no">National NO.</string>
+    <string name="first_name">First Name</string>
+    <string name="second_name">Second Name</string>
+    <string name="third_name">Third Name</string>
+    <string name="fourth_name">Fourth Name</string>
+    <string name="date">Date</string>
+    <string name="phone_number">Phone number</string>
+    <string name="address">Address</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="save">Save</string>
 </resources>

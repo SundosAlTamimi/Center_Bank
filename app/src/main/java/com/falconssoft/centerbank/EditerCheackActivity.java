@@ -647,7 +647,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+            Log.e("editorChequeActivity/", "saved//" + s);
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("tag", "****saved Success In Edit");
