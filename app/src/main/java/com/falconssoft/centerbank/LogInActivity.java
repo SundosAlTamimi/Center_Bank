@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +32,7 @@ public class LogInActivity extends AppCompatActivity {
     public static String language = "en";
     ImageView SettingImage;
     DatabaseHandler databaseHandler;
+    private Animation animation;
     public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
 
     @Override
@@ -90,6 +93,14 @@ public class LogInActivity extends AppCompatActivity {
                 addSettingButton();
             }
         });
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        userName.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        password.startAnimation(animation);
 
     }
 

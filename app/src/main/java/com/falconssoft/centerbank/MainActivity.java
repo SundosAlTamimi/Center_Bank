@@ -394,6 +394,7 @@ public class MainActivity extends AppCompatActivity {
 //                TostMesage(getResources().getString(R.string.cancel));
             } else {
                 Log.d("MainActivity", "Scanned");
+                Log.e("resultcontent", "" + Result.getContents());
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 //                TostMesage(getResources().getString(R.string.scan)+Result.getContents());
 //                barCodTextTemp.setText(Result.getContents() + "");
