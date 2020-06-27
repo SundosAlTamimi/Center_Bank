@@ -4,8 +4,11 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +29,8 @@ public class SingUpActivity extends AppCompatActivity {
     Calendar myCalendar;
     private EditText natonalNo, phoneNo, address, email, password;
     private String language;
+    private Animation animation;
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class SingUpActivity extends AppCompatActivity {
         address = findViewById(R.id.signUp_address);
         email = findViewById(R.id.signUp_email);
         password = findViewById(R.id.signUp_password);
+        linearLayout = findViewById(R.id.signup_nameLinear);
         date_text=(TextView)findViewById(R.id.Date);
         myCalendar = Calendar.getInstance();
         date_text.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +98,34 @@ public class SingUpActivity extends AppCompatActivity {
             date_text.setGravity(Gravity.LEFT);
 
         }
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        natonalNo.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        linearLayout.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        date_text.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        phoneNo.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        address.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        email.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        password.startAnimation(animation);
     }
 
     public String convertToEnglish(String value) {
