@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,20 +22,37 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.notification;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.falconssoft.centerbank.AlertScreen.checkInfoNotification;
+import static com.falconssoft.centerbank.AlertScreen.textCheckstateChanger;
+
 public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapter.ViewHolder> {
     //    RecyclerView.Adapter<engineer_adapter.ViewHolder>
     Context context;
     List<notification> notificationList;
-//    CompaneyInfo clickedcom;
-//    List<CompaneyInfo> companeyInfos=new ArrayList<>();
     int row_index=-1;
+     String checkState="0";
 
     public NotificatioAdapter(Context context, List<notification> notifications) {
         this.context = context;
@@ -68,6 +86,8 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
         viewHolder.linearCheckInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                row_index=i;
+                Log.e("row_index",""+row_index);
                 viewHolder.showDetails();
             }
         });
@@ -145,17 +165,39 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
 
 
         }
+
         public void showDetails() {
+            Log.e("checkState",""+checkState);
+
             final Dialog dialog = new Dialog(context,R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.show_check_detail);
             dialog.show();
+            TextView textAmouWord,textAmountNo,textToOrder,textSourceCheck,textPhoneNo,texNationalId;
+            texNationalId =  dialog.findViewById(R.id.texNationalId);
+            texNationalId.setText(checkInfoNotification.get(0).getRecieverNationalID());
+
+            textAmouWord =  dialog.findViewById(R.id.textAmouWord);
+            textAmouWord.setText(checkInfoNotification.get(0).getMoneyInWord());
+            textAmountNo =  dialog.findViewById(R.id.textAmountNo);
+            textAmountNo.setText(checkInfoNotification.get(0).getMoneyInDinar());
+
+            textToOrder =  dialog.findViewById(R.id.textToOrder);
+            textToOrder.setText(checkInfoNotification.get(0).getToCustomerName());
+
+            textSourceCheck =  dialog.findViewById(R.id.textSourceCheck);
+            textSourceCheck.setText(checkInfoNotification.get(0).getCustName());
+            textPhoneNo =  dialog.findViewById(R.id.textPhoneNo);
+            textPhoneNo.setText(checkInfoNotification.get(0).getRecieverMobileNo());
 
             final Button accept = (Button) dialog.findViewById(R.id.AcceptButton);
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    checkState="1";
+                    updateCheckState();
+                    Log.e("checkState",""+checkState);
                     dialog.dismiss();
                 }
             });
@@ -163,6 +205,9 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
             reject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    checkState="2";
+                    updateCheckState();
+                    Log.e("checkState",""+checkState);
                     dialog.dismiss();
                 }
             });
@@ -171,5 +216,93 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
 
 
         }
+    }
+
+    private void updateCheckState() {
+        new JSONTask().execute();
+        //http://localhost:8082/UpdateCheckStatus?CHECKNO=390144&BANKNO=004&BRANCHNO=0099&ACCCODE=1014569990011000&IBANNO=""&ROWID=AAAp0DAAuAAAAC2AAA&STATUS=1
+
+    }
+    class JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                request.setURI(new URI("http://10.0.0.16:8081/UpdateCheckStatus?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("CHECKNO", "390144"));
+                nameValuePairs.add(new BasicNameValuePair("BANKNO", "004"));
+                nameValuePairs.add(new BasicNameValuePair("BRANCHNO", "0099"));
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", "1014569990011000"));
+
+                nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
+                nameValuePairs.add(new BasicNameValuePair("ROWID", "AAAp0DAAuAAAAC2AAA"));
+                nameValuePairs.add(new BasicNameValuePair("STATUS", checkState));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+
+
+//                HttpResponse response = client.execute(request);
+//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tagAlertScreen", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("onPostExecute","OK");
+                    refreshScreen();
+
+
+//                    INFO
+                    Log.e("tag", "****Success"+s.toString());
+                } else {
+                    Log.e("tag", "****Failed to Savedata");
+                }
+            } else {
+
+                Log.e("tag", "****Failed  Please check internet connection");
+            }
+        }
+    }
+
+    private void refreshScreen() {
+        textCheckstateChanger.setText("1");
     }
 }

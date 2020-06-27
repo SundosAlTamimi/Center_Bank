@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -26,6 +28,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.notification;
 
 import org.apache.http.HttpResponse;
@@ -55,43 +58,63 @@ public class AlertScreen extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     NotificationManager notificationManager;
     static int id=1;
-    TextView mainText;
+    public  static TextView mainText,textCheckstateChanger;
     String stateIntent="";
     String Main_URL="";
+    public  static ArrayList<ChequeInfo> checkInfoNotification;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_main_screen);
-        recyclerView = findViewById(R.id.recycler);
-        mainText=findViewById(R.id.textView);
-       // Main_URL="http://10.0.0.16:8081/GetCheckTemp?ACCCODE=1014569990011000&IBANNO=&SERIALNO=&BANKNO=004&BRANCHNO=0099&CHECKNO=390144";
+        initialview();
+        new GetAllCheck_JSONTask().execute();
+
+
 
                 mainText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new JSONTask().execute();
+                textCheckstateChanger.setText("1");
+
+            }
+        });
+
+
+
+    }
+
+    private void initialview() {
+        recyclerView = findViewById(R.id.recycler);
+        mainText=findViewById(R.id.textView);
+        textCheckstateChanger=findViewById(R.id.textCheckstateChanger);
+        textCheckstateChanger.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(!charSequence.equals(null)){
+                    new GetAllCheck_JSONTask().execute();
+                    Log.e("charSequence",""+charSequence);
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
         notificationArrayList=new ArrayList<>();
-//        notificationArrayList=getNotification();
-        fillListNotification();
-        fillListNotification();
-        fillListNotification();
-        layoutManager = new LinearLayoutManager(AlertScreen.this);
-        layoutManager.setOrientation(VERTICAL);
-        runAnimation(recyclerView,0);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        final NotificatioAdapter notificationAdapter = new NotificatioAdapter(AlertScreen.this, notificationArrayList);
-        recyclerView.setAdapter(notificationAdapter);
-
-
-        Toast.makeText(AlertScreen.this, "Saved", Toast.LENGTH_SHORT).show();
+        checkInfoNotification=new ArrayList<>();
     }
 
-//    private ArrayList<notification> getNotification() {
+    //    private ArrayList<notification> getNotification() {
 //
 //    }
     // ******************************************** GET NOTIFICATION *************************************
@@ -161,10 +184,35 @@ public class AlertScreen extends AppCompatActivity {
                     JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(s);
-//                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
-//
-//                        JSONObject BANKNO=notificationInfo.getJSONObject(0);
-//                        Log.e("BANKNO",""+BANKNO);
+
+                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
+                        JSONObject infoDetail=notificationInfo.getJSONObject(0);
+
+
+                        Log.e("JSONArrayObject",""+infoDetail.get("CUSTOMERNM"));
+                        notification notifi=new notification();
+                        notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
+                        notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
+                        notifi.setAmount_check( infoDetail.get("AMTJD").toString());
+                        fillListNotification(notifi);
+                        ChequeInfo chequeInfo=new ChequeInfo();
+                        chequeInfo.setRowId(infoDetail.get("ROWID").toString());
+                        chequeInfo.setRecieverNationalID(infoDetail.get("TOCUSTOMERNATID").toString());
+                        chequeInfo.setRecieverMobileNo(infoDetail.get("TOCUSTOMERMOB").toString());
+                        chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
+                        chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
+                        chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
+
+                        chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
+                        chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
+                        chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
+                        chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
+
+
+                        checkInfoNotification.add(chequeInfo);
+
+
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -180,7 +228,117 @@ public class AlertScreen extends AppCompatActivity {
             }
         }
     }
+    private class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+//                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
+                request.setURI(new URI("http://10.0.0.16:8081/GetAllTempCheck?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("CUSTMOBNO", "0798899716"));
+                nameValuePairs.add(new BasicNameValuePair("CUSTIDNO", "123456"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+
+
+//                HttpResponse response = client.execute(request);
+//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tagAlertScreen", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(s);
+
+                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
+                        Log.e("notificationInfoLength",""+notificationInfo.length());
+                        for(int i=0;i<notificationInfo.length();i++)
+                        {
+                            JSONObject infoDetail=notificationInfo.getJSONObject(i);
+
+
+                            Log.e("JSONArrayObject",""+infoDetail.get("CUSTOMERNM"));
+                            notification notifi=new notification();
+                            notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
+                            notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
+                            notifi.setAmount_check( infoDetail.get("AMTJD").toString());
+                            fillListNotification(notifi);
+                            ChequeInfo chequeInfo=new ChequeInfo();
+                            chequeInfo.setRowId(infoDetail.get("ROWID").toString());
+                            chequeInfo.setRecieverNationalID(infoDetail.get("TOCUSTOMERNATID").toString());
+                            chequeInfo.setRecieverMobileNo(infoDetail.get("TOCUSTOMERMOB").toString());
+                            chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
+                            chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
+                            chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
+
+                            chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
+                            chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
+                            chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
+                            chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
+
+
+                            checkInfoNotification.add(chequeInfo);
+
+                        }
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+//                    INFO
+                    Log.e("tag", "****Success"+s.toString());
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
     public void noto2() // paste in activity
     {
         Notification.Builder notif;
@@ -208,15 +366,24 @@ public class AlertScreen extends AppCompatActivity {
         nm.notify(10, notif.getNotification());
     }
 
-    private void fillListNotification() {
+    @SuppressLint("WrongConstant")
+    private void fillListNotification(notification one) {
+        Log.e("fillListNotification",""+one);
+//        one.setAmount_check("1500 JD");
+//        one.setDate("21-6-2020");
+//        one.setSource("Companey Source");
+        notificationArrayList.add(one);
 
-        notification one=new notification();
-        one.setAmount_check("1500 JD");
-        one.setDate("21-6-2020");
-        one.setSource("Companey Source");
-        notificationArrayList.add(one);
-        notificationArrayList.add(one);
-        notificationArrayList.add(one);
+        layoutManager = new LinearLayoutManager(AlertScreen.this);
+        layoutManager.setOrientation(VERTICAL);
+        runAnimation(recyclerView,0);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        final NotificatioAdapter notificationAdapter = new NotificatioAdapter(AlertScreen.this, notificationArrayList);
+        recyclerView.setAdapter(notificationAdapter);
+
+
+        Toast.makeText(AlertScreen.this, "Saved", Toast.LENGTH_SHORT).show();
 
 
     }
@@ -264,7 +431,7 @@ public class AlertScreen extends AppCompatActivity {
 
 
     }
-    private void notification (String detail){// this to use
+    private void notification_show (String detail){// this to use
 //        final Intent intent = new Intent(this, MainActivity.class);
 //        intent.setData(Uri.parse("data"));
 //        intent.putExtra("key", "clicked");
