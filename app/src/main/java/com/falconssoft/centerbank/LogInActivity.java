@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,19 +47,19 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class LogInActivity extends AppCompatActivity {
 
-    EditText userName, password;
-    Button singIn, singUp;
+    private EditText userName, password;
+    private Button singIn, singUp;
     private ImageView arabic, english;
     public static String language = "en";
-    ImageView SettingImage;
-    DatabaseHandler databaseHandler;
+    private ImageView SettingImage, close;
+    private DatabaseHandler databaseHandler;
     private Animation animation;
     public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
     private TextView checkValidation;
     private String[] array;
-    private String checkNo = "",accountCode = "",ibanNo = "", customerName = "",qrCode = "", serialNo = "",bankNo = "", branchNo = "";
+    private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "";
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
-
+    private Dialog barcodeDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,12 +116,44 @@ public class LogInActivity extends AppCompatActivity {
         checkValidation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog = new Dialog(LogInActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.check_validation_layout);
+                barcodeDialog = new Dialog(LogInActivity.this);
+                barcodeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                barcodeDialog.setContentView(R.layout.check_validation_layout);
 
-                TextView check = dialog.findViewById(R.id.checkValidation_scanBarcode);
+                TextView scan = barcodeDialog.findViewById(R.id.checkValidation_scanBarcode);
+                ImageView close = barcodeDialog.findViewById(R.id.checkValidation_close);
+                LinearLayout haveAProblem = barcodeDialog.findViewById(R.id.checkValidation_haveAProblem);
+                final LinearLayout serialLinear = barcodeDialog.findViewById(R.id.checkValidation_serial_linear);
+                final TextInputEditText serial = barcodeDialog.findViewById(R.id.checkValidation_serial);
+                TextView check = barcodeDialog.findViewById(R.id.checkValidation_check);
+                serialLinear.setVisibility(View.GONE);
+
+                haveAProblem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (serialLinear.getVisibility() == View.VISIBLE) {
+                            serialLinear.setVisibility(View.GONE);
+
+                        } else {
+                            serialLinear.setVisibility(View.VISIBLE);
+                            serial.setError(null);
+                        }
+                    }
+                });
+
                 check.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (!TextUtils.isEmpty(serial.getText().toString())) {
+                            serial.setError(null);
+                        } else{
+                            serial.setError("Required");
+                        }
+
+                    }
+                });
+
+                scan.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         IntentIntegrator intentIntegrator = new IntentIntegrator(LogInActivity.this);
@@ -133,7 +166,14 @@ public class LogInActivity extends AppCompatActivity {
                     }
                 });
 
-                dialog.show();
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        barcodeDialog.dismiss();
+                    }
+                });
+
+                barcodeDialog.show();
             }
         });
 
@@ -211,6 +251,7 @@ public class LogInActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
+                    barcodeDialog.dismiss();
                 }
             });
 
