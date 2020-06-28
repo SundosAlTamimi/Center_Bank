@@ -158,41 +158,7 @@ public class MainActivity extends AppCompatActivity {
 //                readBarCode();
 //            }
 //        });
-        CountDownTimer waitTimer;
-        waitTimer = new CountDownTimer(6000, 30) {
 
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            public void onFinish() {
-                String currentapiVersion = Build.VERSION.RELEASE;
-//
-                if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
-                    // Do something for 14 and above versions
-
-//                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        Log.e("VERSION","show_Notification");
-                        show_Notification("Check  app, Recive new Check");
-//                        Nonit3();
-                    }
-                    else {
-
-                    }
-
-
-                } else {
-                    Log.e("currentapiVersion","show_Notification");
-
-//                    notification(" Recive new Check, click to show detail");
-                    notificationShow();
-                }
-
-
-            }
-        }.start();
 
     }
     private void createNotificationChannel() {
@@ -210,33 +176,7 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-    public void notificationShow()
-    {
 
-        Notification.Builder notif;
-        NotificationManager nm;
-        notif = new Notification.Builder(getApplicationContext());
-        notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
-        notif.setContentTitle("Recive new Check, click to show detail");
-        Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        notif.setSound(path);
-        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        Intent yesReceive = new Intent( );
-        yesReceive.setAction(YES_ACTION);
-        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
-        notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
-
-
-        Intent yesReceive2 = new Intent();
-        yesReceive2.setAction(STOP_ACTION);
-        PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
-        notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
-
-
-
-        nm.notify(10, notif.getNotification());
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void show_Notification(String detail){

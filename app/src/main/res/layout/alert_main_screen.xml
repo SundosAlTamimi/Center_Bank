@@ -31,17 +31,22 @@ android:drawableLeft="@drawable/ic_notifications_black_24dp"
             android:visibility="gone"
             android:text="0"
             android:layout_width="wrap_content"/>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:background="@drawable/edit_bac_s"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="15dp"
+
+            android:layout_weight="3" >
         <androidx.recyclerview.widget.RecyclerView
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:id="@+id/recycler"
             android:background="@drawable/edit_bac_s"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="15dp"
-
-            android:layout_weight="3"
-            android:elevation="10dp"
             android:padding="10dp" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 </LinearLayout>

@@ -107,6 +107,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     static String SERIALNO = "";
     static String BANKNO = "";
     static String BRANCHNO = "";
+    public  static  String localNationlNo="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,7 +219,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 // ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
 // ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
 // ,"AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKPIC":""}
-                String localNationlNo = nationalNo.getText().toString();
+                localNationlNo = nationalNo.getText().toString();
                 String localPhoneNo = phoneNo.getText().toString();
                 String localSender = sender.getText().toString();
                 String localReciever = reciever.getText().toString();

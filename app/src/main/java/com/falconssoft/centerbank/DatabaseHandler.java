@@ -9,6 +9,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.NewAccount;
 import com.falconssoft.centerbank.Models.Setting;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int VERSION = 2;
+    private static final int VERSION = 3;
     private static final String BD_NAME = "cheque_editor";
 
     // ********************************************************************
@@ -29,6 +30,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private final String SETTING_TABLE = "SETTING_TABLE";
     private final String SETTING_IP = "SETTING_IP";
+
+
+    // ********************************************************************
+
+    private final String LOGIN_TABLE = "LOGIN_TABLE";
+    private final String USER_NAME = "USER_NAME";
+    private final String PASSWORD = "PASSWORD";
 
 
     // ********************************************************************
@@ -52,6 +60,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + SETTING_IP + " TEXT "
                 + ")";
         db.execSQL(createTableSetting);
+        String createTableLOGIN = "CREATE TABLE " + LOGIN_TABLE
+                + " ("
+                + USER_NAME + " TEXT,"
+                + PASSWORD + " TEXT "
+                + ")";
+        db.execSQL(createTableLOGIN);
 
 
     }
@@ -67,6 +81,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     + ")";
             db.execSQL(createTableSetting);
             Log.e("Setting","found");
+
+            String createTableLOGIN = "CREATE TABLE " + LOGIN_TABLE
+                    + " ("
+                    + USER_NAME + " TEXT,"
+                    + PASSWORD + " TEXT "
+                    + ")";
+            db.execSQL(createTableLOGIN);
         }
 
     }
@@ -81,7 +102,40 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database.close();
 
     }
+    public void addLoginInfo(LoginINFO loginINFO){
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
 
+        contentValues.put(USER_NAME, loginINFO.getUsername());
+        contentValues.put(PASSWORD, loginINFO.getPassword());
+
+
+        database.insert(LOGIN_TABLE, null, contentValues);
+        database.close();
+
+    }
+    public LoginINFO getLoginInfo() {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + LOGIN_TABLE;
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        LoginINFO user = new LoginINFO();
+        if (cursor.moveToFirst()) {
+            do {
+
+                user.setUsername(cursor.getString(0));
+                user.setPassword(cursor.getString(1));
+                Log.e("user",""+cursor.getString(0)+cursor.getString(1));
+
+            } while (cursor.moveToNext());
+        }
+        return user;
+    }
+    public void deleteLoginInfo()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + LOGIN_TABLE);
+        db.close();
+    }
     public void addSetting(Setting setting){
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -117,5 +171,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("delete from " + SETTING_TABLE);
         db.close();
     }
+
 
 }

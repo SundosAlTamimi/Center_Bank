@@ -73,16 +73,16 @@
                     <!--android:textStyle="bold" />-->
 
                     <TextView
-                        android:id="@+id/texNationalId"
+                        android:id="@+id/texDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:drawableLeft="@drawable/ic_person"
+                        android:drawableLeft="@drawable/ic_date_range_black_24dp"
                         android:ems="10"
                         android:gravity="center"
                         android:padding="5dp"
 
-                        android:text="0125002255874"
+                        android:text=""
                         android:textColor="@color/colorWhite"
                         android:textColorHint="@color/colorWhite"
                         android:textSize="18sp"
@@ -142,6 +142,44 @@
                     android:background="@color/colorGold" />
 
                 <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <!--<TextView-->
+                <!--android:id="@+id/textView27"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="2dp"-->
+                <!--android:text="The source of the check"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="18sp"-->
+                <!--android:textStyle="bold" />-->
+
+                <TextView
+                    android:id="@+id/textSourceCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:drawableLeft="@drawable/ic_person"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint=""
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textSize="18sp"
+                    app:autoSizeMaxTextSize="18sp"
+                    app:autoSizeMinTextSize="16sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform" />
+
+            </TableRow>
+                <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -150,22 +188,12 @@
                     android:gravity="center"
                     android:padding="5dp">
 
-                    <!--<TextView-->
-                    <!--android:id="@+id/textView27"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_margin="2dp"-->
-                    <!--android:text="The source of the check"-->
-                    <!--android:textColor="@color/colorWhite"-->
-                    <!--android:textSize="18sp"-->
-                    <!--android:textStyle="bold" />-->
-
                     <TextView
-                        android:id="@+id/textSourceCheck"
+                        android:id="@+id/textCompanyname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:drawableLeft="@drawable/ic_person"
+                        android:drawableLeft="@drawable/ic_account_balance_black_24dp"
                         android:ems="10"
                         android:gravity="center"
                         android:hint="Falcons Company"
@@ -276,7 +304,7 @@
                     <!--android:textStyle="bold" />-->
 
                     <TextView
-                        android:id="@+id/textBankName"
+                        android:id="@+id/textnote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -331,7 +359,7 @@
                             android:background="@drawable/edit_bac_s"
                             android:ems="5"
                             android:gravity="center"
-                            android:hint="1500"
+
                             android:inputType="numberDecimal"
                             android:padding="5dp"
                             android:textColor="@color/colorWhite"
@@ -378,7 +406,6 @@
                             android:background="@drawable/edit_bac_s"
                             android:ems="5"
                             android:gravity="center"
-                            android:hint="ألف وخمسمائة دينار فقط"
                             android:inputType="numberDecimal"
                             android:padding="5dp"
                             android:textColor="@color/colorWhite"
@@ -414,14 +441,27 @@
                         app:autoSizeTextType="uniform"
                         android:textStyle="bold" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+<!--                    <ImageView-->
+<!--                        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--                        android:id="@+id/profile_image2"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="70dp"-->
+<!--                        android:layout_weight="2"-->
+<!--                        android:src="@drawable/second_check"-->
+<!--                       />-->
+<!--                    <ImageView-->
+<!--                        android:id="@+id/profile_image2"-->
+<!--                        android:layout_width="100dp"-->
+<!--                        android:layout_height="100dp"-->
+<!--                        android:layout_weight="2"-->
+<!--                        android:src="@drawable/second_check"-->
+<!--                        />-->
+                    <com.github.chrisbanes.photoview.PhotoView
                         android:id="@+id/profile_image2"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="2"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:src="@drawable/second_check"
-                        app:civ_border_color="@color/colorWhiteLight"
-                        app:civ_border_width="3dp" />
+                        android:layout_weight="2"/>
 
 
                 </TableRow>
