@@ -108,7 +108,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+        logHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent LogHistoryIntent=new Intent(MainActivity.this,LogHistoryActivity.class);
+                startActivity(LogHistoryIntent);
+            }
+        });
 
         Editing.setOnClickListener(new View.OnClickListener() {
             @Override

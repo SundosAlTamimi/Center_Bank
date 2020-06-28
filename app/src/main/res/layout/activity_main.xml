@@ -139,7 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:layout_weight="6"
+                android:layout_weight="7"
                 android:background="@color/Nocolor"
                 android:elevation="@dimen/cardview_default_elevation"
                 app:cardBackgroundColor="@color/Nocolor"
@@ -175,9 +175,10 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="11"
+    android:layout_weight="10"
     android:orientation="vertical">
-            <TextView
+
+    <TextView
                 android:id="@+id/Editing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -219,6 +220,26 @@ android:layout_weight="1"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
                 app:fontFamily="sans-serif-smallcaps" />
+
+    <TextView
+        android:id="@+id/request"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:layout_weight="1"
+        android:background="@drawable/edit_bac_sinup"
+        android:drawableLeft="@drawable/ic_access_time_black_24dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center|start"
+        android:padding="10dp"
+        android:text="     Request     "
+        android:textColor="@color/colorWhite"
+        android:textSize="25sp"
+        app:autoSizeMaxTextSize="25sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        app:fontFamily="sans-serif-smallcaps" />
 
 </LinearLayout>
         </LinearLayout>
