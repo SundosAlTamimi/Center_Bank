@@ -6,4 +6,14 @@
     <string name="password">كلمة المرور</string>
     <string name="sing_in">دخول</string>
     <string name="sing_up">مستخدم جديد</string>
+    <string name="national_no">الرقم الوطني</string>
+    <string name="first_name">الاسم الاول</string>
+    <string name="second_name">الاسم الثاني</string>
+    <string name="third_name">الاسم الثالث</string>
+    <string name="fourth_name">الاسم الرابع</string>
+    <string name="date">التاريخ</string>
+    <string name="phone_number">رقم الهاتف</string>
+    <string name="address">العنوان</string>
+    <string name="e_mail">الايميل</string>
+    <string name="save">حفظ</string>
 </resources>

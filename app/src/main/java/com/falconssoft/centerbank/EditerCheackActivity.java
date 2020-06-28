@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -23,10 +24,12 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.MovementMethod;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Base64;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -55,6 +58,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.ArrayList;
@@ -81,27 +85,28 @@ public class EditerCheackActivity extends AppCompatActivity {
     Button pushCheque;
     EditText Danier, phails, nationalNo, phoneNo, sender, reciever;
     private ProgressDialog progressDialog;
+    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
 
     int flag = 0;
     CircleImageView CheckPic;
     static final int CAMERA_PIC_REQUEST = 1337;
     Date currentTimeAndDate;
     SimpleDateFormat df;
-    String today;
+    private String today, serverPic = "";
     Calendar myCalendar;
     private JSONObject jsonObject;
 
     static String qrCode = "";
     static String[] arr;
 
-    static String  CHECKNO= "";
-    static String  ACCCODE= "";
-    static String  IBANNO= "";
-    static String  CUSTOMERNM= "";
-    static String  QRCODE= "";
-    static String  SERIALNO= "";
-    static String  BANKNO= "";
-    static String  BRANCHNO= "";
+    static String CHECKNO = "";
+    static String ACCCODE = "";
+    static String IBANNO = "";
+    static String CUSTOMERNM = "";
+    static String QRCODE = "";
+    static String SERIALNO = "";
+    static String BANKNO = "";
+    static String BRANCHNO = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,12 +257,13 @@ public class EditerCheackActivity extends AppCompatActivity {
                     chequeInfo.setMoneyInWord(localMoneyInWord);
                     chequeInfo.setRecieverMobileNo(localPhoneNo);
                     chequeInfo.setRecieverNationalID(localNationlNo);
-                    chequeInfo.setChequeImage("");
+                    chequeInfo.setChequeImage(serverPic);
+                    Log.e("showpic", serverPic);
 
                     jsonObject = new JSONObject();
-                    jsonObject=chequeInfo.getJSONObject();
+                    jsonObject = chequeInfo.getJSONObject();
 
-                     new JSONTask1().execute();
+                    new JSONTask1().execute();
 
                 }
 
@@ -339,6 +345,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                     Bitmap image = (Bitmap) data.getExtras().get("data");
                     if (image != null) {
                         CheckPic.setImageBitmap(image);
+                        serverPic = bitMapToString(image);
                     }
                 }
 
@@ -351,10 +358,10 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     }
 
-    void showSweetDialog(boolean check,String customerName,String BankNo,String accountNo) {
+    void showSweetDialog(boolean check, String customerName, String BankNo, String accountNo) {
         if (check) {
-            String message="Cheque is validate \n"+"Customer Name :"+customerName+" \n"+"Bank Name : "+"بنك الاردن "+"\n"+"Account No : "+accountNo+"\n";
-            new SweetAlertDialog(EditerCheackActivity.this,SweetAlertDialog.SUCCESS_TYPE)
+            String message = "Cheque is validate \n" + "Customer Name :" + customerName + " \n" + "Bank Name : " + "بنك الاردن " + "\n" + "Account No : " + accountNo + "\n";
+            new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("Successful")
                     .setContentText(message)
                     .setConfirmText("Next")
@@ -375,7 +382,7 @@ public class EditerCheackActivity extends AppCompatActivity {
             })
                     .show();
         } else {
-            new SweetAlertDialog(EditerCheackActivity.this,SweetAlertDialog.ERROR_TYPE)
+            new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("WARNING")
                     .setContentText("Invalidate cheque!")
                     .setConfirmText("Ok")
@@ -389,6 +396,57 @@ public class EditerCheackActivity extends AppCompatActivity {
                     .show();
 
         }
+    }
+
+    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo) {
+        if (check) {
+            final Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_after_validation);
+            dialog.setCancelable(false);
+
+            bankNameTV = dialog.findViewById(R.id.dialog_validation_bankName);
+            chequeWriterTV = dialog.findViewById(R.id.dialog_validation_chequeWriter);
+            chequeNoTV = dialog.findViewById(R.id.dialog_validation_chequeNo);
+            accountNoTV = dialog.findViewById(R.id.dialog_validation_accountNo);
+            okTV = dialog.findViewById(R.id.dialog_validation_ok);
+            cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
+
+            chequeWriterTV.setText(customerName);
+            accountNoTV.setText(accountNo);
+            okTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    linerEditing.setVisibility(View.VISIBLE);
+                    linerBarcode.setVisibility(View.GONE);
+                    dialog.dismiss();
+                }
+            });
+
+            cancelTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+        } else {
+            new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("WARNING")
+                    .setContentText("Invalidate cheque!")
+                    .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+
+                }
+            }).show();
+
+            linerEditing.setVisibility(View.VISIBLE);
+            linerBarcode.setVisibility(View.GONE);
+        }
+
     }
 
     public String convertToEnglish(String value) {
@@ -419,6 +477,30 @@ public class EditerCheackActivity extends AppCompatActivity {
         editText.setText(sdf.format(myCalendar.getTime()));
 
     }
+
+    public String bitMapToString(Bitmap bitmap) {
+        if (bitmap != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] arr = baos.toByteArray();
+            String result = Base64.encodeToString(arr, Base64.DEFAULT);
+            return result;
+        }
+        return "";
+    }
+
+
+    public Bitmap StringToBitMap(String image) {
+        try {
+            byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
 
     // ******************************************** CHECK QR VALIDATION *************************************
    /*
@@ -562,19 +644,21 @@ public class EditerCheackActivity extends AppCompatActivity {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("tag", "****Success");
                     try {
-                        JSONObject jsonObject=new JSONObject(s);
+                        JSONObject jsonObject = new JSONObject(s);
 
 
                         CHECKNO = jsonObject.get("CHECKNO").toString();
                         ACCCODE = jsonObject.get("ACCCODE").toString();
                         IBANNO = jsonObject.get("IBANNO").toString();
-                        CUSTOMERNM =jsonObject.get("CUSTOMERNM").toString();
+                        CUSTOMERNM = jsonObject.get("CUSTOMERNM").toString();
                         QRCODE = jsonObject.get("QRCODE").toString();
                         SERIALNO = jsonObject.get("SERIALNO").toString();
                         BANKNO = jsonObject.get("BANKNO").toString();
                         BRANCHNO = jsonObject.get("BRANCHNO").toString();
 
-                        showSweetDialog(true,jsonObject.get("CUSTOMERNM").toString(),jsonObject.get("BANKNO").toString(),jsonObject.get("ACCCODE").toString());
+                        showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE);
+
+//                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -648,13 +732,13 @@ public class EditerCheackActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+            Log.e("editorChequeActivity/", "saved//" + s);
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("tag", "****saved Success In Edit");
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
-                    new SweetAlertDialog(EditerCheackActivity.this,SweetAlertDialog.SUCCESS_TYPE)
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("Successful")
                             .setContentText("Save Successful")
                             .setConfirmText("Ok")
@@ -662,13 +746,13 @@ public class EditerCheackActivity extends AppCompatActivity {
                                 @SuppressLint("WrongConstant")
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
-                                     finish();
+                                    finish();
                                     sDialog.dismissWithAnimation();
                                 }
                             }).show();
                 } else {
                     Log.e("tag", "****Failed to export data");
-                    new SweetAlertDialog(EditerCheackActivity.this,SweetAlertDialog.ERROR_TYPE)
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("WARNING")
                             .setContentText("Fail to send!")
                             .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {

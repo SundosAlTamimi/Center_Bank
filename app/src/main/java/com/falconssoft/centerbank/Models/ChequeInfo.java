@@ -25,6 +25,15 @@ public class ChequeInfo {
     private String recieverMobileNo;
     private String recieverNationalID;
     private String chequeImage;
+    private String rowId;
+
+    public String getRowId() {
+        return rowId;
+    }
+
+    public void setRowId(String rowId) {
+        this.rowId = rowId;
+    }
 
     public ChequeInfo() {
     }

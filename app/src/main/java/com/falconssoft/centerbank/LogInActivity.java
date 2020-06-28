@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,9 +29,11 @@ public class LogInActivity extends AppCompatActivity {
     EditText userName, password;
     Button singIn, singUp;
     private ImageView arabic, english;
-    private static String language = "";
+    public static String language = "en";
     ImageView SettingImage;
     DatabaseHandler databaseHandler;
+    private Animation animation;
+    public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +58,9 @@ public class LogInActivity extends AppCompatActivity {
         singUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent MainActivityIntent = new Intent(LogInActivity.this, SingUpActivity.class);
-                startActivity(MainActivityIntent);
+                Intent mainActivityIntent = new Intent(LogInActivity.this, SingUpActivity.class);
+                mainActivityIntent.putExtra(LANGUAGE_FLAG, language);
+                startActivity(mainActivityIntent);
             }
         });
 
@@ -88,6 +93,14 @@ public class LogInActivity extends AppCompatActivity {
                 addSettingButton();
             }
         });
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        userName.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        password.startAnimation(animation);
 
     }
 
