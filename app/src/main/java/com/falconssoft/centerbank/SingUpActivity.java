@@ -1,7 +1,9 @@
 package com.falconssoft.centerbank;
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -37,13 +39,19 @@ public class SingUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sing_up_layout);
 
-        language = getIntent().getStringExtra(LANGUAGE_FLAG);
+//        language = getIntent().getStringExtra(LANGUAGE_FLAG);
         init();
+
+        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
+        language = prefs.getString("language", "en");//"No name defined" is the default value.
+
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
         today = df.format(currentTimeAndDate);
         date_text.setText(convertToEnglish(today));
         checkLanguage();
+
+        Log.e("editing,2 ", language);
     }
 
     private void init() {
@@ -54,6 +62,8 @@ public class SingUpActivity extends AppCompatActivity {
         password = findViewById(R.id.signUp_password);
         linearLayout = findViewById(R.id.signup_nameLinear);
         date_text=(TextView)findViewById(R.id.Date);
+        linearLayout = findViewById(R.id.signup_nameLinear);
+        date_text = (TextView) findViewById(R.id.Date);
         myCalendar = Calendar.getInstance();
         date_text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +76,7 @@ public class SingUpActivity extends AppCompatActivity {
         });
     }
 
-    void checkLanguage(){
+    void checkLanguage() {
         if (language.equals("ar")) {
             natonalNo.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null);
@@ -81,6 +91,7 @@ public class SingUpActivity extends AppCompatActivity {
             date_text.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_date_range_black_24dp), null);
             date_text.setGravity(Gravity.RIGHT);
+            linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         } else {
             natonalNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null
@@ -96,6 +107,7 @@ public class SingUpActivity extends AppCompatActivity {
             date_text.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_date_range_black_24dp), null
                     , null, null);
             date_text.setGravity(Gravity.LEFT);
+            linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
         }
 
@@ -127,7 +139,6 @@ public class SingUpActivity extends AppCompatActivity {
                 R.anim.move_to_right);
         password.startAnimation(animation);
     }
-
     public String convertToEnglish(String value) {
         String newValue = (((((((((((value + "").replaceAll("١", "1")).replaceAll("٢", "2")).replaceAll("٣", "3")).replaceAll("٤", "4")).replaceAll("٥", "5")).replaceAll("٦", "6")).replaceAll("٧", "7")).replaceAll("٨", "8")).replaceAll("٩", "9")).replaceAll("٠", "0").replaceAll("٫", "."));
         return newValue;

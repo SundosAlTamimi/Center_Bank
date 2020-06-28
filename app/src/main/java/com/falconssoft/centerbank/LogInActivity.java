@@ -2,6 +2,7 @@ package com.falconssoft.centerbank;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,12 +61,14 @@ public class LogInActivity extends AppCompatActivity {
     private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "";
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
     private Dialog barcodeDialog;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_in);
         init();
+        Log.e("editing,1 ", language);
 
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
@@ -85,7 +88,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent mainActivityIntent = new Intent(LogInActivity.this, SingUpActivity.class);
-                mainActivityIntent.putExtra(LANGUAGE_FLAG, language);
+//                mainActivityIntent.putExtra(LANGUAGE_FLAG, language);
                 startActivity(mainActivityIntent);
             }
         });
@@ -93,7 +96,11 @@ public class LogInActivity extends AppCompatActivity {
         arabic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                language = "ar";
+//                language = "ar";
+                editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
+                editor.putString("language", "ar");
+                editor.apply();
+
                 LocaleAppUtils.setLocale(new Locale("ar"));
                 LocaleAppUtils.setConfigChange(LogInActivity.this);
                 finish();
@@ -105,7 +112,11 @@ public class LogInActivity extends AppCompatActivity {
         english.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                language = "en";
+//                language = "en";
+                editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
+                editor.putString("language", "en");
+                editor.apply();
+
                 LocaleAppUtils.setLocale(new Locale("en"));
                 LocaleAppUtils.setConfigChange(LogInActivity.this);
                 finish();

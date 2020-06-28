@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,14 +27,18 @@ import android.text.method.MovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +73,7 @@ import java.util.List;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.widget.LinearLayout.VERTICAL;
+import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -84,18 +90,19 @@ public class EditerCheackActivity extends AppCompatActivity {
     LinearLayout linerEditing, linerBarcode;
     TextView scanBarcode, AmouWord, date;
     Button pushCheque;
-    EditText Danier, phails, nationalNo, phoneNo, reciever;
+    EditText Danier, phails, nationalNo, phoneNo, reciever, company, notes;
     private ProgressDialog progressDialog;
-    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check;
+    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
     private LinearLayout haveAProblem, serialLinear;
     private TextInputEditText serial;
-
+    private Animation animation;
+    private TableRow picRow;
     int flag = 0;
     CircleImageView CheckPic;
     static final int CAMERA_PIC_REQUEST = 1337;
     Date currentTimeAndDate;
     SimpleDateFormat df;
-    private String today, serverPic = "";
+    private String today, serverPic = "", language;
     Calendar myCalendar;
     private JSONObject jsonObject;
 
@@ -118,6 +125,12 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         initi();
 //        arr=new String[5];
+        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
+        language = prefs.getString("language", "en");//"No name defined" is the default value.
+        Log.e("editing,3 ", language);
+
+        checkLanguage();
+
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
         today = df.format(currentTimeAndDate);
@@ -201,6 +214,12 @@ public class EditerCheackActivity extends AppCompatActivity {
         phails = findViewById(R.id.Phils);
         AmouWord = findViewById(R.id.AmouWord);
         pushCheque = findViewById(R.id.SingUpButton);
+        company = findViewById(R.id.editorCheque_company);
+        notes = findViewById(R.id.editorCheque_notes);
+        picRow = findViewById(R.id.editorCheque_picLinear);
+        amountTV = findViewById(R.id.editorCheque_amountTV);
+
+        progressDialog = new ProgressDialog(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Waiting...");
         CheckPic = findViewById(R.id.CheckPic);
@@ -328,6 +347,73 @@ public class EditerCheackActivity extends AppCompatActivity {
     });
 
 }
+
+    void checkLanguage(){
+        if (language.equals("ar")) {
+            nationalNo.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_person_black_24dp), null);
+            phoneNo.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_local_phone_black_24dp), null);
+            reciever.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null);
+            date.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null);
+            company.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_https_black_24dp), null);
+            notes.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_date_range_black_24dp), null);
+            amountTV.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_attach_money_black_24dp), null);
+            date.setGravity(Gravity.RIGHT);
+            haveAProblem.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            picRow.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        } else {
+            nationalNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_person_black_24dp), null
+                    , null, null);
+            phoneNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_local_phone_black_24dp), null
+                    , null, null);
+            reciever.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null
+                    , null, null);
+            date.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null
+                    , null, null);
+            company.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_https_black_24dp), null
+                    , null, null);
+            notes.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_date_range_black_24dp), null
+                    , null, null);
+            amountTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_attach_money_black_24dp), null
+                    , null, null);
+            date.setGravity(Gravity.LEFT);
+            haveAProblem.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            picRow.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
+        }
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        nationalNo.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        phoneNo.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        reciever.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        date.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        company.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        notes.startAnimation(animation);
+
+    }
 
     //TextView itemCodeText, int swBarcode
     public void readBarCode() {
