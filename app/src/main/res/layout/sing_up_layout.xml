@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bank4"
@@ -28,7 +29,8 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_perm_identity_black_24dp"
                 app:civ_border_color="@color/colorWhiteLight"
-                app:civ_border_width="3dp" />
+                app:civ_border_width="3dp"
+                tools:ignore="VectorDrawableCompat" />
 
 
             <TextView
@@ -177,7 +179,7 @@
                 android:drawableLeft="@drawable/ic_date_range_black_24dp"
                 android:hint="@string/date"
                 android:padding="10dp"
-                android:gravity="center|start"
+                android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textColor="@color/colorWhiteLight"
                 android:textColorHint="@color/colorWhiteLight"

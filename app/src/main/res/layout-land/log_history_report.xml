@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bank4"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/clear_buttons"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="0.9"
+                android:drawableLeft="@drawable/ic_access_time_black_24dp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center|start"
+                android:padding="5dp"
+                android:text="Log History"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/dateLogHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                    android:gravity="center"
+                    android:hint="@string/date"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:drawableStart="@drawable/ic_live_help_black_24dp"
+                    android:gravity="center"
+                    android:hint="Status"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
+
+                <TextView
+                    android:id="@+id/Translate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:drawableLeft="@drawable/ic_autorenew_black_24dp"
+                    android:gravity="center"
+                    android:hint="Transaction Type"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
+            </TableRow>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/edit_bac_s"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                tools:visibility="gone">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/edit_bac"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical"-->
+                <!--tools:visibility="gone">-->
+
+                <!--</LinearLayout>-->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Trans"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Status"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Name"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Date"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Detail"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+            </TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_margin="5dp"
+                android:background="@color/colorGold" />
+
+            <ListView
+                android:id="@+id/listLogHistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

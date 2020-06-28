@@ -44,6 +44,10 @@
             android:name=".AlertScreen"
             android:screenOrientation="sensorPortrait" />
 
+        <activity
+            android:name=".LogHistoryActivity"
+            android:screenOrientation="sensor" />
+
         <receiver android:name=".notificationReciver">
             <intent-filter>
                 <action android:name="YES"/>

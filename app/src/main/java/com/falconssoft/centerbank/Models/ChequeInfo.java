@@ -27,6 +27,10 @@ public class ChequeInfo {
     private String chequeImage;
     private String rowId;
 
+    private String transType;
+    private String status;
+    private String Date;
+
     public String getRowId() {
         return rowId;
     }
@@ -38,7 +42,10 @@ public class ChequeInfo {
     public ChequeInfo() {
     }
 
-    public ChequeInfo(String chequeNo, String bankNo, String branchNo, String accCode, String ibanNo, String custName, String qrCode, String serialNo) {
+    public ChequeInfo(String chequeNo, String bankNo, String branchNo, String accCode, String ibanNo, String custName,
+                      String qrCode, String serialNo, String bankName, String chequeData, String toCustomerName,
+                      String moneyInDinar, String moneyInFils, String moneyInWord, String recieverMobileNo,
+                      String recieverNationalID, String chequeImage, String rowId, String transType, String status, String date) {
         this.chequeNo = chequeNo;
         this.bankNo = bankNo;
         this.branchNo = branchNo;
@@ -47,6 +54,19 @@ public class ChequeInfo {
         this.custName = custName;
         this.qrCode = qrCode;
         this.serialNo = serialNo;
+        this.bankName = bankName;
+        this.chequeData = chequeData;
+        this.toCustomerName = toCustomerName;
+        this.moneyInDinar = moneyInDinar;
+        this.moneyInFils = moneyInFils;
+        this.moneyInWord = moneyInWord;
+        this.recieverMobileNo = recieverMobileNo;
+        this.recieverNationalID = recieverNationalID;
+        this.chequeImage = chequeImage;
+        this.rowId = rowId;
+        this.transType = transType;
+        this.status = status;
+        Date = date;
     }
 
     public String getBankName() {
@@ -185,6 +205,29 @@ public class ChequeInfo {
         this.serialNo = serialNo;
     }
 
+    public String getTransType() {
+        return transType;
+    }
+
+    public void setTransType(String transType) {
+        this.transType = transType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
 
     // CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
 // ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
