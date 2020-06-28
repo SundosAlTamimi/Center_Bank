@@ -241,7 +241,8 @@ android:layout_weight="1"
         app:autoSizeTextType="uniform"
         app:fontFamily="sans-serif-smallcaps" />
 
-</LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
 
 

@@ -44,6 +44,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.core.content.ContextCompat;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -83,9 +84,11 @@ public class EditerCheackActivity extends AppCompatActivity {
     LinearLayout linerEditing, linerBarcode;
     TextView scanBarcode, AmouWord, date;
     Button pushCheque;
-    EditText Danier, phails, nationalNo, phoneNo, sender, reciever;
+    EditText Danier, phails, nationalNo, phoneNo, reciever;
     private ProgressDialog progressDialog;
-    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
+    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check;
+    private LinearLayout haveAProblem, serialLinear;
+    private TextInputEditText serial;
 
     int flag = 0;
     CircleImageView CheckPic;
@@ -144,7 +147,6 @@ public class EditerCheackActivity extends AppCompatActivity {
                 startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
             }
         });
-
 
     }
 
@@ -206,8 +208,38 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         nationalNo = findViewById(R.id.editorCheque_nationalNo);
         phoneNo = findViewById(R.id.editorCheque_phoneNo);
-        sender = findViewById(R.id.editorCheque_sender);
         reciever = findViewById(R.id.editorCheque_reciever);
+
+        haveAProblem = findViewById(R.id.editorCheque_haveAProblem);
+        serialLinear = findViewById(R.id.editorCheque_serial_linear);
+        serial = findViewById(R.id.editorCheque_serial);
+        check = findViewById(R.id.editorCheque_check);
+        serialLinear.setVisibility(View.GONE);
+
+        haveAProblem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (serialLinear.getVisibility() == View.VISIBLE) {
+                    serialLinear.setVisibility(View.GONE);
+
+                } else {
+                    serialLinear.setVisibility(View.VISIBLE);
+                    serial.setError(null);
+                }
+            }
+        });
+
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(serial.getText().toString())) {
+                    serial.setError(null);
+                } else {
+                    serial.setError("Required");
+                }
+
+            }
+        });
 
         myCalendar = Calendar.getInstance();
 
@@ -220,69 +252,82 @@ public class EditerCheackActivity extends AppCompatActivity {
 // ,"AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKPIC":""}
                 String localNationlNo = nationalNo.getText().toString();
                 String localPhoneNo = phoneNo.getText().toString();
-                String localSender = sender.getText().toString();
+//                String localSender = sender.getText().toString();
                 String localReciever = reciever.getText().toString();
                 String localDinar = Danier.getText().toString();
                 String localFils = "" + phails.getText().toString();
                 String localMoneyInWord = AmouWord.getText().toString();
                 String localDate = date.getText().toString();
 
-                if (!TextUtils.isEmpty(localNationlNo)
-                        && !TextUtils.isEmpty(localPhoneNo)
-                        && !TextUtils.isEmpty(localSender)
-                        && !TextUtils.isEmpty(localReciever)
-                        && !TextUtils.isEmpty(localDinar)
-                ) {
+                if (!TextUtils.isEmpty(localNationlNo) && localNationlNo.length() == 10)
+                    if (!TextUtils.isEmpty(localPhoneNo) && localPhoneNo.length() == 10)
+                        if (!TextUtils.isEmpty(localReciever))
+                            if (!TextUtils.isEmpty(localDate))
+                                if (!TextUtils.isEmpty(localDinar)) {
 
-//                    String checkNo = arr[0];
-//                    String bankNo = arr[1];
-//                    String branchNo = arr[2];
-//                    String accCode = arr[3];
-//                    String ibanNo = arr[4];
-//                    String custName= "";
-                    ChequeInfo chequeInfo = new ChequeInfo();
-                    chequeInfo.setBankNo(BANKNO);
-                    chequeInfo.setBankName("Jordan Bank");
-                    chequeInfo.setBranchNo(BRANCHNO);
-                    chequeInfo.setChequeNo(CHECKNO);
-                    chequeInfo.setAccCode(ACCCODE);
-                    chequeInfo.setIbanNo(IBANNO);
-                    chequeInfo.setCustName(CUSTOMERNM);
-                    chequeInfo.setQrCode(QRCODE);
-                    chequeInfo.setSerialNo(SERIALNO);
-                    chequeInfo.setChequeData(localDate);
-                    chequeInfo.setToCustomerName(localReciever);
-                    chequeInfo.setMoneyInDinar(localDinar);
-                    chequeInfo.setMoneyInFils(localFils);
-                    chequeInfo.setMoneyInWord(localMoneyInWord);
-                    chequeInfo.setRecieverMobileNo(localPhoneNo);
-                    chequeInfo.setRecieverNationalID(localNationlNo);
-                    chequeInfo.setChequeImage(serverPic);
-                    Log.e("showpic", serverPic);
+                                    Danier.setError(null);
+                                    date.setError(null);
+                                    reciever.setError(null);
+                                    phoneNo.setError(null);
+                                    nationalNo.setError(null);
 
-                    jsonObject = new JSONObject();
-                    jsonObject = chequeInfo.getJSONObject();
+                                    ChequeInfo chequeInfo = new ChequeInfo();
+                                    chequeInfo.setBankNo(BANKNO);
+                                    chequeInfo.setBankName("Jordan Bank");
+                                    chequeInfo.setBranchNo(BRANCHNO);
+                                    chequeInfo.setChequeNo(CHECKNO);
+                                    chequeInfo.setAccCode(ACCCODE);
+                                    chequeInfo.setIbanNo(IBANNO);
+                                    chequeInfo.setCustName(CUSTOMERNM);
+                                    chequeInfo.setQrCode(QRCODE);
+                                    chequeInfo.setSerialNo(SERIALNO);
+                                    chequeInfo.setChequeData(localDate);
+                                    chequeInfo.setToCustomerName(localReciever);
+                                    chequeInfo.setMoneyInDinar(localDinar);
+                                    chequeInfo.setMoneyInFils(localFils);
+                                    chequeInfo.setMoneyInWord(localMoneyInWord);
+                                    chequeInfo.setRecieverMobileNo(localPhoneNo);
+                                    chequeInfo.setRecieverNationalID(localNationlNo);
+                                    chequeInfo.setChequeImage(serverPic);
+                                    Log.e("showpic", serverPic);
 
-                    new JSONTask1().execute();
+                                    jsonObject = new JSONObject();
+                                    jsonObject = chequeInfo.getJSONObject();
 
+                                    new JSONTask1().execute();
+
+                                } else {
+                                    Danier.setError("Required!");
+                                }
+                            else {
+                                date.setError("Required!");
+                            }
+                        else {
+                            reciever.setError("Required!");
+                        }
+                    else {
+                        phoneNo.setError("Required!");
+                    }
+                else {
+                    nationalNo.setError("Required!");
                 }
-
-
             }
-        });
 
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(EditerCheackActivity.this, openDatePickerDialog(date), myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+    });
 
+        date.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View v){
+        // TODO Auto-generated method stub
+        new DatePickerDialog(EditerCheackActivity.this, openDatePickerDialog(date), myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
+    });
 
+}
 
     //TextView itemCodeText, int swBarcode
     public void readBarCode() {
@@ -386,12 +431,12 @@ public class EditerCheackActivity extends AppCompatActivity {
                     .setTitleText("WARNING")
                     .setContentText("Invalidate cheque!")
                     .setConfirmText("Ok")
-.setConfirmClickListener( new SweetAlertDialog.OnSweetClickListener() {
-    @Override
-    public void onClick(SweetAlertDialog sweetAlertDialog) {
-        sweetAlertDialog.dismissWithAnimation();
-    }
-})
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    })
 
                     .show();
 
@@ -489,7 +534,6 @@ public class EditerCheackActivity extends AppCompatActivity {
         return "";
     }
 
-
     public Bitmap StringToBitMap(String image) {
         try {
             byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
@@ -501,27 +545,25 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
+/*
+ private class JSONTask extends AsyncTask<String, String, String> {
 
-    // ******************************************** CHECK QR VALIDATION *************************************
-   /*
-    private class JSONTask extends AsyncTask<String, String, String> {
+     @Override
+     protected void onPreExecute() {
+         progressDialog.show();
+         super.onPreExecute();
+     }
 
-        @Override
-        protected void onPreExecute() {
-            progressDialog.show();
-            super.onPreExecute();
-        }
+     @Override
+     protected String doInBackground(String... params) {
+         try {
 
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-
-                String JsonResponse = null;
-                HttpClient client = new DefaultHttpClient();
-                HttpPost request = new HttpPost();
-                // http://10.0.0.16:8081/VerifyCheck?CHECKNO=390144&BANKNO=004&BTANCHNO=0099&ACCCODE=1014569990011000&IBANNO=""&CUSTOMERNM=""
+             String JsonResponse = null;
+             HttpClient client = new DefaultHttpClient();
+             HttpPost request = new HttpPost();
+             // http://10.0.0.16:8081/VerifyCheck?CHECKNO=390144&BANKNO=004&BTANCHNO=0099&ACCCODE=1014569990011000&IBANNO=""&CUSTOMERNM=""
 //                request.setURI(new URI("http://" + generalSettings.getIpAddress() + "/export.php"));//import 10.0.0.214
-                request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?CHECKNO=390144&BANKNO=004&BTANCHNO=0099&ACCCODE=1014569990011000&IBANNO=111111111111&CUSTOMERNM=ahmad"));
+             request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?CHECKNO=390144&BANKNO=004&BTANCHNO=0099&ACCCODE=1014569990011000&IBANNO=111111111111&CUSTOMERNM=ahmad"));
 
 
 //                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -535,238 +577,238 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 //                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-                HttpResponse response = client.execute(request);
+             HttpResponse response = client.execute(request);
 
-                BufferedReader in = new BufferedReader(new
-                        InputStreamReader(response.getEntity().getContent()));
+             BufferedReader in = new BufferedReader(new
+                     InputStreamReader(response.getEntity().getContent()));
 
-                StringBuffer sb = new StringBuffer("");
-                String line = "";
+             StringBuffer sb = new StringBuffer("");
+             String line = "";
 
-                while ((line = in.readLine()) != null) {
-                    sb.append(line);
-                }
+             while ((line = in.readLine()) != null) {
+                 sb.append(line);
+             }
 
-                in.close();
+             in.close();
 
-                JsonResponse = sb.toString();
-                Log.e("editCheckActivity/", "verify" + JsonResponse);
+             JsonResponse = sb.toString();
+             Log.e("editCheckActivity/", "verify" + JsonResponse);
 
-                return JsonResponse;
+             return JsonResponse;
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
+         } catch (Exception e) {
+             e.printStackTrace();
+             return null;
+         }
+     }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.e("tag of update row info", s);
-            progressDialog.dismiss();
-            if (s != null) {
-                if (s.contains("UPDATE RAWS SUCCESS")) {
-                    showSweetDialog(true);
+     @Override
+     protected void onPostExecute(String s) {
+         super.onPostExecute(s);
+         Log.e("tag of update row info", s);
+         progressDialog.dismiss();
+         if (s != null) {
+             if (s.contains("UPDATE RAWS SUCCESS")) {
+                 showSweetDialog(true);
 
-                    Log.e("tag", "update Success");
-                } else {
-                    showSweetDialog(false);
-                    Log.e("tag", "****Failed to export data");
+                 Log.e("tag", "update Success");
+             } else {
+                 showSweetDialog(false);
+                 Log.e("tag", "****Failed to export data");
 //                    Toast.makeText(AddToInventory.this, "Failed to export data Please check internet connection", Toast.LENGTH_LONG).show();
-                }
-            } else {
-                Log.e("tag", "****Failed to export data Please check internet connection");
-                Toast.makeText(EditerCheackActivity.this, "Failed to export data Please check internet connection", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
+             }
+         } else {
+             Log.e("tag", "****Failed to export data Please check internet connection");
+             Toast.makeText(EditerCheackActivity.this, "Failed to export data Please check internet connection", Toast.LENGTH_LONG).show();
+         }
+     }
+ }
 
 */
+// ******************************************** CHECK QR VALIDATION *************************************
+private class JSONTask extends AsyncTask<String, String, String> {
 
-    private class JSONTask extends AsyncTask<String, String, String> {
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+    }
 
-        }
+    @Override
+    protected String doInBackground(String... params) {
+        try {
 
-        @Override
-        protected String doInBackground(String... params) {
-            try {
+            String JsonResponse = null;
+            HttpClient client = new DefaultHttpClient();
+            HttpPost request = new HttpPost();
+            request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?"));
 
-                String JsonResponse = null;
-                HttpClient client = new DefaultHttpClient();
-                HttpPost request = new HttpPost();
-                request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?"));
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
+            nameValuePairs.add(new BasicNameValuePair("BANKNO", arr[1]));
+            nameValuePairs.add(new BasicNameValuePair("BTANCHNO", arr[2]));
+            nameValuePairs.add(new BasicNameValuePair("ACCCODE", arr[3]));
+            nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
+            nameValuePairs.add(new BasicNameValuePair("CUSTOMERNM", ""));
 
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-                nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
-                nameValuePairs.add(new BasicNameValuePair("BANKNO", arr[1]));
-                nameValuePairs.add(new BasicNameValuePair("BTANCHNO", arr[2]));
-                nameValuePairs.add(new BasicNameValuePair("ACCCODE", arr[3]));
-                nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
-                nameValuePairs.add(new BasicNameValuePair("CUSTOMERNM", ""));
+            request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = client.execute(request);
 
-                HttpResponse response = client.execute(request);
+            BufferedReader in = new BufferedReader(new
+                    InputStreamReader(response.getEntity().getContent()));
 
-                BufferedReader in = new BufferedReader(new
-                        InputStreamReader(response.getEntity().getContent()));
+            StringBuffer sb = new StringBuffer("");
+            String line = "";
 
-                StringBuffer sb = new StringBuffer("");
-                String line = "";
-
-                while ((line = in.readLine()) != null) {
-                    sb.append(line);
-                }
-
-                in.close();
-
-                JsonResponse = sb.toString();
-                Log.e("tag", "" + JsonResponse);
-
-                return JsonResponse;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+            while ((line = in.readLine()) != null) {
+                sb.append(line);
             }
-        }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+            in.close();
 
-            if (s != null) {
-                if (s.contains("\"StatusDescreption\":\"OK\"")) {
-                    Log.e("tag", "****Success");
-                    try {
-                        JSONObject jsonObject = new JSONObject(s);
+            JsonResponse = sb.toString();
+            Log.e("tag", "" + JsonResponse);
 
+            return JsonResponse;
 
-                        CHECKNO = jsonObject.get("CHECKNO").toString();
-                        ACCCODE = jsonObject.get("ACCCODE").toString();
-                        IBANNO = jsonObject.get("IBANNO").toString();
-                        CUSTOMERNM = jsonObject.get("CUSTOMERNM").toString();
-                        QRCODE = jsonObject.get("QRCODE").toString();
-                        SERIALNO = jsonObject.get("SERIALNO").toString();
-                        BANKNO = jsonObject.get("BANKNO").toString();
-                        BRANCHNO = jsonObject.get("BRANCHNO").toString();
-
-                        showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE);
-
-//                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                } else {
-
-                    showSweetDialog(false,"","","");
-
-                    Log.e("tag", "****Failed to export data");
-                }
-            } else {
-                showSweetDialog(false,"","","");
-
-                Log.e("tag", "****Failed to export data Please check internet connection");
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    // ******************************************** SAVE *************************************
-    private class JSONTask1 extends AsyncTask<String, String, String> {
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        if (s != null) {
+            if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                Log.e("tag", "****Success");
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
 
+
+                    CHECKNO = jsonObject.get("CHECKNO").toString();
+                    ACCCODE = jsonObject.get("ACCCODE").toString();
+                    IBANNO = jsonObject.get("IBANNO").toString();
+                    CUSTOMERNM = jsonObject.get("CUSTOMERNM").toString();
+                    QRCODE = jsonObject.get("QRCODE").toString();
+                    SERIALNO = jsonObject.get("SERIALNO").toString();
+                    BANKNO = jsonObject.get("BANKNO").toString();
+                    BRANCHNO = jsonObject.get("BRANCHNO").toString();
+
+                    showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE);
+
+//                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+
+                showSweetDialog(false, "", "", "");
+
+                Log.e("tag", "****Failed to export data");
+            }
+        } else {
+            showSweetDialog(false, "", "", "");
+
+            Log.e("tag", "****Failed to export data Please check internet connection");
         }
+    }
+}
 
-        @Override
-        protected String doInBackground(String... params) {
-            try {
+// ******************************************** SAVE *************************************
+private class JSONTask1 extends AsyncTask<String, String, String> {
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+    }
+
+    @Override
+    protected String doInBackground(String... params) {
+        try {
 //http://localhost:8081/SaveTempCheck?
 // CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
 // ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
 // ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
 // ,"AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKPIC":""}
-                String JsonResponse = null;
-                HttpClient client = new DefaultHttpClient();
-                HttpPost request = new HttpPost();
-                request.setURI(new URI("http://10.0.0.16:8081/SaveTempCheck?"));
+            String JsonResponse = null;
+            HttpClient client = new DefaultHttpClient();
+            HttpPost request = new HttpPost();
+            request.setURI(new URI("http://10.0.0.16:8081/SaveTempCheck?"));
 
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-                nameValuePairs.add(new BasicNameValuePair("CHECKINFO", jsonObject.toString()));
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("CHECKINFO", jsonObject.toString()));
 
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-                HttpResponse response = client.execute(request);
+            HttpResponse response = client.execute(request);
 
-                BufferedReader in = new BufferedReader(new
-                        InputStreamReader(response.getEntity().getContent()));
+            BufferedReader in = new BufferedReader(new
+                    InputStreamReader(response.getEntity().getContent()));
 
-                StringBuffer sb = new StringBuffer("");
-                String line = "";
+            StringBuffer sb = new StringBuffer("");
+            String line = "";
 
-                while ((line = in.readLine()) != null) {
-                    sb.append(line);
-                }
-
-                in.close();
-
-                JsonResponse = sb.toString();
-                Log.e("tag", "" + JsonResponse);
-
-                return JsonResponse;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+            while ((line = in.readLine()) != null) {
+                sb.append(line);
             }
-        }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.e("editorChequeActivity/", "saved//" + s);
-            if (s != null) {
-                if (s.contains("\"StatusDescreption\":\"OK\"")) {
-                    Log.e("tag", "****saved Success In Edit");
-//                    linerEditing.setVisibility(View.GONE);
-//                   linerBarcode.setVisibility(View.VISIBLE);
-                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText("Successful")
-                            .setContentText("Save Successful")
-                            .setConfirmText("Ok")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @SuppressLint("WrongConstant")
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    finish();
-                                    sDialog.dismissWithAnimation();
-                                }
-                            }).show();
-                } else {
-                    Log.e("tag", "****Failed to export data");
-                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("WARNING")
-                            .setContentText("Fail to send!")
-                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
+            in.close();
 
-                        }
-                    })
-                            .show();
-                }
-            } else {
-                Log.e("tag", "****Failed to export data Please check internet connection");
-            }
+            JsonResponse = sb.toString();
+            Log.e("tag", "" + JsonResponse);
+
+            return JsonResponse;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        Log.e("editorChequeActivity/", "saved//" + s);
+        if (s != null) {
+            if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                Log.e("tag", "****saved Success In Edit");
+//                    linerEditing.setVisibility(View.GONE);
+//                   linerBarcode.setVisibility(View.VISIBLE);
+                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Successful")
+                        .setContentText("Save Successful")
+                        .setConfirmText("Ok")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @SuppressLint("WrongConstant")
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                finish();
+                                sDialog.dismissWithAnimation();
+                            }
+                        }).show();
+            } else {
+                Log.e("tag", "****Failed to export data");
+                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("WARNING")
+                        .setContentText("Fail to send!")
+                        .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+
+                    }
+                })
+                        .show();
+            }
+        } else {
+            Log.e("tag", "****Failed to export data Please check internet connection");
+        }
+    }
+}
 }
