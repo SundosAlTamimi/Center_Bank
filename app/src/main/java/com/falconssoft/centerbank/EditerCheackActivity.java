@@ -385,17 +385,16 @@ public class EditerCheackActivity extends AppCompatActivity {
             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("WARNING")
                     .setContentText("Invalidate cheque!")
-                    .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    sweetAlertDialog.dismissWithAnimation();
+                    .setConfirmText("Ok")
+.setConfirmClickListener( new SweetAlertDialog.OnSweetClickListener() {
+    @Override
+    public void onClick(SweetAlertDialog sweetAlertDialog) {
+        sweetAlertDialog.dismissWithAnimation();
+    }
+})
 
-                }
-            })
                     .show();
 
-            linerEditing.setVisibility(View.VISIBLE);
-            linerBarcode.setVisibility(View.GONE);
         }
     }
 
@@ -663,11 +662,13 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                 } else {
 
-                    showSweetDialog(true, "", "", "");
+                    showSweetDialog(false,"","","");
 
                     Log.e("tag", "****Failed to export data");
                 }
             } else {
+                showSweetDialog(false,"","","");
+
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
         }

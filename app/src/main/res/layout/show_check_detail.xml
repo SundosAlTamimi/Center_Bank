@@ -73,7 +73,7 @@
                     <!--android:textStyle="bold" />-->
 
                     <TextView
-                        android:id="@+id/eitTex"
+                        android:id="@+id/texNationalId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -113,7 +113,7 @@
                     <!--android:textStyle="bold" />-->
 
                     <TextView
-                        android:id="@+id/ex"
+                        android:id="@+id/textPhoneNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -161,7 +161,7 @@
                     <!--android:textStyle="bold" />-->
 
                     <TextView
-                        android:id="@+id/editTex"
+                        android:id="@+id/textSourceCheck"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -237,7 +237,7 @@
                     <!--android:textStyle="bold" />-->
 
                     <TextView
-                        android:id="@+id/editText3"
+                        android:id="@+id/textToOrder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -246,6 +246,44 @@
                         android:gravity="center"
                         android:hint="Order To Dear Alaa Abu juefl"
                         android:inputType="textPersonName"
+                        android:padding="5dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textSize="18sp"
+                        app:autoSizeMaxTextSize="18sp"
+                        app:autoSizeMinTextSize="16sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:gravity="center"
+                    android:padding="5dp">
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/textView37"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_margin="2dp"-->
+                    <!--android:text="To the order"-->
+                    <!--android:textColor="@color/colorWhite"-->
+                    <!--android:textSize="18sp"-->
+                    <!--android:textStyle="bold" />-->
+
+                    <TextView
+                        android:id="@+id/textBankName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:drawableLeft="@drawable/ic_border_color_black_24dp"
+                        android:ems="10"
+                        android:gravity="center"
+
                         android:padding="5dp"
                         android:textColor="@color/colorWhite"
                         android:textColorHint="@color/colorWhite"
@@ -286,7 +324,7 @@
                         android:padding="5dp">
 
                         <TextView
-                            android:id="@+id/editTet3"
+                            android:id="@+id/textAmountNo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
@@ -333,7 +371,7 @@
 
 
                         <TextView
-                            android:id="@+id/AmouWord"
+                            android:id="@+id/textAmouWord"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
