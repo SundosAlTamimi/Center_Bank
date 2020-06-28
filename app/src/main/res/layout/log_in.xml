@@ -143,6 +143,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/edit_bac_"
                 android:text="@string/sing_in"
+                android:fontFamily="serif"
                 android:textColor="@color/colorWhite" />
 
             <Button
@@ -152,7 +153,17 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/edit_bac_sinup"
                 android:text="@string/sing_up"
+                android:fontFamily="serif"
                 android:textColor="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/login_checkValidation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Check validation!"
+                android:textColor="@color/white"
+                android:fontFamily="serif"
+                android:gravity="center"/>
         </LinearLayout>
 
     </LinearLayout>

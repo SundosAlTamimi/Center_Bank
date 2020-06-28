@@ -490,7 +490,6 @@ public class EditerCheackActivity extends AppCompatActivity {
         return "";
     }
 
-
     public Bitmap StringToBitMap(String image) {
         try {
             byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
@@ -502,8 +501,6 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
-
-    // ******************************************** CHECK QR VALIDATION *************************************
    /*
     private class JSONTask extends AsyncTask<String, String, String> {
 
@@ -584,7 +581,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     }
 
 */
-
+    // ******************************************** CHECK QR VALIDATION *************************************
     private class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
