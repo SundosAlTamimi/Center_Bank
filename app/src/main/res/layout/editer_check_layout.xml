@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                 android:layout_weight="5"
                 android:fontFamily="sans-serif-light"
                 android:padding="10dp"
-                android:text="editing Check"
+                android:text="@string/editing_cheque"
                 android:textColor="@color/colorWhite"
                 android:textSize="30sp"
                 app:autoSizeMaxTextSize="30sp"
@@ -101,7 +101,7 @@
                     android:drawablePadding="10dp"
                     android:ems="10"
                     android:fontFamily="serif"
-                    android:hint="National No."
+                    android:hint="@string/national_no"
                     android:inputType="textPersonName"
                     android:padding="5dp"
                     android:textColor="@color/colorWhite"
@@ -138,7 +138,7 @@
                     android:drawablePadding="10dp"
                     android:ems="10"
                     android:fontFamily="serif"
-                    android:hint="Phone No."
+                    android:hint="@string/phone_number"
                     android:inputType="phone"
                     android:padding="5dp"
                     android:textColor="@color/colorWhite"
@@ -176,7 +176,7 @@
                     android:drawablePadding="10dp"
                     android:ems="10"
                     android:fontFamily="serif"
-                    android:hint="Order To"
+                    android:hint="@string/order_to"
                     android:inputType="textPersonName"
                     android:padding="5dp"
                     android:textColor="@color/colorWhite"
@@ -213,7 +213,7 @@
                     android:drawablePadding="10dp"
                     android:ems="10"
                     android:fontFamily="serif"
-                    android:hint="Date"
+                    android:hint="@string/date"
                     android:inputType="textPersonName"
                     android:padding="5dp"
                     android:textColor="@color/colorWhite"
@@ -257,7 +257,7 @@
                         android:drawablePadding="10dp"
                         android:ems="10"
                         android:fontFamily="serif"
-                        android:hint="Company  (optional)"
+                        android:hint="@string/company_optional"
                         android:inputType="textPersonName"
                         android:padding="5dp"
                         android:textColor="@color/colorWhite"
@@ -284,7 +284,7 @@
                         android:drawablePadding="10dp"
                         android:ems="10"
                         android:fontFamily="serif"
-                        android:hint="Notes  (optional)"
+                        android:hint="@string/notes_optional"
                         android:inputType="textPersonName"
                         android:padding="5dp"
                         android:textColor="@color/colorWhite"
@@ -329,7 +329,7 @@
                         android:ems="5"
                         android:fontFamily="serif"
                         android:gravity="center"
-                        android:hint="Dinar"
+                        android:hint="@string/dinar"
                         android:inputType="numberDecimal"
                         android:padding="10dp"
                         android:textColor="@color/colorWhite"
@@ -345,7 +345,7 @@
                         android:ems="5"
                         android:fontFamily="serif"
                         android:gravity="center"
-                        android:hint="Phils"
+                        android:hint="@string/phils"
                         android:inputType="numberDecimal"
                         android:padding="10dp"
                         android:textColor="@color/colorWhite"
@@ -369,7 +369,7 @@
                         android:ems="5"
                         android:fontFamily="serif"
                         android:gravity="center"
-                        android:hint="Amount in word"
+                        android:hint="@string/amount_in_words"
                         android:inputType="numberDecimal"
                         android:padding="10dp"
                         android:scrollbars="horizontal"
@@ -393,7 +393,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="serif"
-                    android:text="Check Pic"
+                    android:text="@string/check_pic"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -426,7 +426,7 @@
                 android:background="@drawable/edit_bac_sinup"
                 android:fontFamily="serif"
                 android:padding="5dp"
-                android:text="Send"
+                android:text="@string/send"
                 android:textSize="18sp"
                 android:textColor="@color/colorWhite" />
         </LinearLayout>
@@ -441,7 +441,7 @@
         android:background="@drawable/edit_bac_s"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -449,7 +449,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-light"
             android:gravity="bottom|center"
-            android:text="Please scan the barcode to continue editing the check ..."
+            android:text="@string/main_sentence"
             android:textColor="@color/colorWhite"
             android:textSize="25sp"
             app:autoSizeMaxTextSize="30sp"
@@ -493,7 +493,7 @@
             android:paddingVertical="10dp"
             android:background="@drawable/edit_bac_sinup"
             android:fontFamily="sans-serif-light"
-            android:text="Scan Barcode"
+            android:text="@string/scan_barcode"
             android:gravity="center"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
@@ -525,7 +525,7 @@
                 android:layout_marginHorizontal="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="have a problem !"/>
+                android:text="@string/have_a_problem"/>
 
         </LinearLayout>
 
@@ -541,7 +541,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
-                android:hint="Serial No"
+                android:hint="@string/serial_no"
                 android:textColorHint="@color/white"
                 app:hintTextColor="@color/red"
                 android:focusableInTouchMode="true">
@@ -563,7 +563,7 @@
                 android:textColor="@color/red"
                 android:fontFamily="serif"
                 android:textSize="18sp"
-                android:text="Check"
+                android:text="@string/enter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

@@ -117,6 +117,10 @@ public class EditerCheackActivity extends AppCompatActivity {
     static String SERIALNO = "";
     static String BANKNO = "";
     static String BRANCHNO = "";
+    Bitmap image;
+    ByteArrayOutputStream baos;
+    String imageEncoded;
+    byte[] b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -473,10 +477,17 @@ public class EditerCheackActivity extends AppCompatActivity {
         } else {//
             try {
                 if (requestCode == CAMERA_PIC_REQUEST) {
-                    Bitmap image = (Bitmap) data.getExtras().get("data");
+                     image = (Bitmap) data.getExtras().get("data");
                     if (image != null) {
                         CheckPic.setImageBitmap(image);
-                        serverPic = bitMapToString(image);
+//                        serverPic = bitMapToString(image);
+
+                         baos = new ByteArrayOutputStream();
+                        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                         b = baos.toByteArray();
+                         imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+                        new JSONTask2().execute();
                     }
                 }
 
@@ -897,4 +908,97 @@ private class JSONTask1 extends AsyncTask<String, String, String> {
         }
     }
 }
+
+    // ******************************************** SAVE *************************************
+    private class JSONTask2 extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+//http://localhost:8081/SaveTempCheck?
+// CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
+// ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
+// ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
+// ,"AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKPIC":""}
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                request.setURI(new URI("10.0.0.16/images/"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("pic", "" + b));
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tag", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("saveimage/", "saved//" + s);
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****saved Success In Edit");
+//                    linerEditing.setVisibility(View.GONE);
+//                   linerBarcode.setVisibility(View.VISIBLE);
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("Successful")
+                            .setContentText("Save Successful")
+                            .setConfirmText("Ok")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    finish();
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).show();
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("WARNING")
+                            .setContentText("Fail to send!")
+                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+
+                        }
+                    })
+                            .show();
+                }
+            } else {
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
 }

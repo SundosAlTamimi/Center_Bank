@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -15,6 +16,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -24,12 +26,14 @@ import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,6 +63,7 @@ import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageButton;
 
 import static android.widget.LinearLayout.VERTICAL;
+import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID ="2" ;
@@ -80,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
     static int id=1;
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
+    private String language;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
         init();
 //        message.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
 
-
+        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
+        language = prefs.getString("language", "en");
 
         logHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
         }.start();
 
     }
+
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -216,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
     public void notificationShow()
     {
 
@@ -387,6 +397,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+//    void checkLanguage() {
+//        if (language.equals("ar")) {
+//            .setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null);
+//            phoneNo.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_local_phone_black_24dp), null);
+//            address.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_location_on_black_24dp), null);
+//
+//
+//        } else {
+//            natonalNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null
+//                    , null, null);
+//            phoneNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_local_phone_black_24dp), null
+//                    , null, null);
+//            address.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_location_on_black_24dp), null
+//                    , null, null);
+//
+//        }
+//
+//        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+//                R.anim.move_to_right);
+//        natonalNo.startAnimation(animation);
+//
+//        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+//                R.anim.move_to_right);
+//        linearLayout.startAnimation(animation);
+//
+//        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+//                R.anim.move_to_right);
+//        date_text.startAnimation(animation);
+//
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

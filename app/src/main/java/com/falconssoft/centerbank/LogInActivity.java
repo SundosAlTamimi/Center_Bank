@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -96,7 +97,7 @@ public class LogInActivity extends AppCompatActivity {
         arabic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                language = "ar";
+                language = "ar";
                 editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
                 editor.putString("language", "ar");
                 editor.apply();
@@ -112,7 +113,7 @@ public class LogInActivity extends AppCompatActivity {
         english.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                language = "en";
+                language = "en";
                 editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
                 editor.putString("language", "en");
                 editor.apply();
@@ -133,7 +134,10 @@ public class LogInActivity extends AppCompatActivity {
 
                 TextView scan = barcodeDialog.findViewById(R.id.checkValidation_scanBarcode);
                 ImageView close = barcodeDialog.findViewById(R.id.checkValidation_close);
-                LinearLayout haveAProblem = barcodeDialog.findViewById(R.id.checkValidation_haveAProblem);
+                LinearLayout headerLinear = barcodeDialog.findViewById(R.id.checkValidation_headerLinear);
+                TextView haveAProblem = barcodeDialog.findViewById(R.id.checkValidation_help);
+                TextView scanTV = barcodeDialog.findViewById(R.id.checkValidation_scanLinear);
+
                 final LinearLayout serialLinear = barcodeDialog.findViewById(R.id.checkValidation_serial_linear);
                 final TextInputEditText serial = barcodeDialog.findViewById(R.id.checkValidation_serial);
                 TextView check = barcodeDialog.findViewById(R.id.checkValidation_check);
@@ -183,6 +187,27 @@ public class LogInActivity extends AppCompatActivity {
                         barcodeDialog.dismiss();
                     }
                 });
+
+                Log.e("checkLang", language);
+                if (language.equals("ar")) {
+                    headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                    check.setGravity(Gravity.RIGHT);
+
+                    haveAProblem.setCompoundDrawablesWithIntrinsicBounds(null, null
+                            , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_help), null);
+                    scanTV.setCompoundDrawablesWithIntrinsicBounds(null, null
+                            , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_phone), null);
+
+                } else {
+                    headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+                    check.setGravity(Gravity.LEFT);
+
+                    haveAProblem.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_help), null
+                            , null, null);
+                    scanTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_phone), null
+                            , null, null);
+
+                }
 
                 barcodeDialog.show();
             }

@@ -10,26 +10,24 @@
         android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/checkValidation_headerLinear"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            app:srcCompat="@drawable/ic_phone"/>
-
         <TextView
+            android:id="@+id/checkValidation_scanLinear"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="serif"
             android:gravity=""
+            android:drawableLeft="@drawable/ic_phone"
             android:padding="10dp"
-            android:text="Scan Barcode"
+            android:drawablePadding="5dp"
+            android:text="@string/scan_barcode"
             android:textColor="@color/red"
             android:textSize="20sp"
             app:fontFamily="serif" />
@@ -84,8 +82,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit_bac_sinup"
             android:fontFamily="sans-serif-light"
-            android:padding="10dp"
-            android:text="     Scan Barcode     "
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="50dp"
+            android:text="@string/scan_barcode"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
             app:autoSizeMaxTextSize="20sp"
@@ -95,29 +94,18 @@
             app:fontFamily="sans-serif-smallcaps" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/checkValidation_haveAProblem"
+    <TextView
+        android:id="@+id/checkValidation_help"
+        android:textSize="16sp"
+        android:fontFamily="serif"
+        android:drawableLeft="@drawable/ic_help"
+        android:drawablePadding="5dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_help"/>
-
-        <TextView
-            android:textSize="16sp"
-            android:fontFamily="serif"
-            android:layout_marginHorizontal="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="have a problem !"/>
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:text="@string/have_a_problem"/>
 
     <LinearLayout
         android:id="@+id/checkValidation_serial_linear"
@@ -132,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="serif"
-            android:hint="Serial No"
+            android:hint="@string/serial_no"
             android:focusableInTouchMode="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -152,7 +140,7 @@
             android:textColor="@color/yellow"
             android:fontFamily="serif"
             android:textSize="18sp"
-            android:text="Check"
+            android:text="@string/enter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
