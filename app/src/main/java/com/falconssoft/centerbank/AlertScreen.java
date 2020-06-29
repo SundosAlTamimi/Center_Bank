@@ -678,7 +678,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
             nameValuePairs.add(new BasicNameValuePair("BRANCHNO", "0099"));
             nameValuePairs.add(new BasicNameValuePair("CHECKNO", "390144"));
             request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
- 
+
 
 //                HttpResponse response = client.execute(request);
 //                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
