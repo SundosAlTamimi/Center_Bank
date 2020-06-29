@@ -175,7 +175,8 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
             dialog.setContentView(R.layout.show_check_detail);
             dialog.show();
             TextView textAmouWord,textAmountNo,textToOrder,textSourceCheck,textPhoneNo,texDate,textCompanyname,note;
-           ImageView mImageView;PhotoViewAttacher mAttacher;
+           ImageView mImageView;
+           PhotoViewAttacher mAttacher;
             texDate =  dialog.findViewById(R.id.texDate);
             texDate.setText(checkInfoNotification.get(row_index).getChequeData());
 
