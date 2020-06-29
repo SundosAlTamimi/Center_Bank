@@ -45,12 +45,15 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.falconssoft.centerbank.AlertScreen.checkInfoNotification;
+import static com.falconssoft.centerbank.AlertScreen.editor;
 import static com.falconssoft.centerbank.AlertScreen.language;
+import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.AlertScreen.textCheckstateChanger;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
@@ -81,13 +84,20 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-        
+
         if(language.equals("ar"))
         {
             viewHolder.mainLinearAdapter.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            viewHolder.date_check.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            viewHolder.amount_check.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            viewHolder.source_check.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
         else {
             viewHolder.mainLinearAdapter.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
+            viewHolder.date_check.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            viewHolder.amount_check.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            viewHolder.source_check.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
         }
         viewHolder.date_check.setText(notificationList.get(i).getDate());
@@ -190,14 +200,15 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.show_check_detail);
             dialog.show();
-//            if (languagelocalApp.equals("ar")) {
-//                mainlayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-//            } else {
-//                if (languagelocalApp.equals("en")) {
-//                    mainlayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-//                }
-//
-//            }
+            LinearLayout linearLayout=dialog.findViewById(R.id.mainLinearDetail);
+            if (language.equals("ar")) {
+                linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            } else {
+                if (languagelocalApp.equals("en")) {
+                    linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+                }
+
+            }
             TextView textAmouWord,textAmountNo,textToOrder,textSourceCheck,textPhoneNo,texDate,textCompanyname,note;
            ImageView mImageView;
            PhotoViewAttacher mAttacher;
@@ -224,16 +235,16 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
 
             textPhoneNo =  dialog.findViewById(R.id.textPhoneNo);
             textPhoneNo.setText(checkInfoNotification.get(row_index).getRecieverMobileNo());
-            // Any implementation of ImageView can be used!
+//             Any implementation of ImageView can be used!
 //            mImageView = (ImageView)dialog.findViewById(R.id.profile_image2);
-////
-////            // Set the Drawable displayed
-////            Drawable bitmap = dialog.getContext().getResources().getDrawable(R.drawable.check);
-////            mImageView.setImageDrawable(bitmap);
-////
-////            // Attach a PhotoViewAttacher, which takes care of all of the zooming functionality.
-////            mAttacher = new PhotoViewAttacher(mImageView);
-////            mAttacher.update();
+//
+//            // Set the Drawable displayed
+//            Drawable bitmap = dialog.getContext().getResources().getDrawable(R.drawable.check);
+//            mImageView.setImageDrawable(bitmap);
+//
+//            // Attach a PhotoViewAttacher, which takes care of all of the zooming functionality.
+//            mAttacher = new PhotoViewAttacher(mImageView);
+//            mAttacher.update();
             PhotoView photoView = (PhotoView)dialog.findViewById(R.id.profile_image2);
             photoView.setImageResource(R.drawable.check);
 
@@ -343,6 +354,15 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
             }
         }
     }
+
+//    private void refreshScreen() {
+//       String id= checkInfoNotification.get(row_index).getRowId();
+////        Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+////        editor = sharedPreferences.edit();
+////        editor.clear();
+////
+////        arrayListRowFirst.addAll(set);
+//    }
 
     private void refreshScreen() {
         textCheckstateChanger.setText("1");
