@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.Setting;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -78,7 +79,11 @@ public class LogInActivity extends AppCompatActivity {
         singIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                LoginINFO user=new LoginINFO();
+                user.setUsername(userName.getText().toString());
+                user.setPassword(password.getText().toString());
+                databaseHandler.deleteLoginInfo();
+                databaseHandler.addLoginInfo(user);
 //                Authintication();
                 Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
                 startActivity(MainActivityIntent);
