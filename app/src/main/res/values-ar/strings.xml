@@ -37,4 +37,7 @@
     <string name="transaction_type">نوع الحركه</string>
     <string name="name">الاسم</string>
     <string name="Notification">الاشعارات </string>
+    <string name="Accept">موافق</string>
+    <string name="Reject">الغاء</string>
+    <string name="CheckDetail">تفاصيل الشيك </string>
 </resources>

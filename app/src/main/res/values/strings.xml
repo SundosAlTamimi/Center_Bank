@@ -36,4 +36,7 @@
     <string name="transaction_type">Transaction Type</string>
     <string name="name">Name</string>
     <string name="Notification">Notification</string>
+    <string name="Accept">Accept</string>
+    <string name="Reject">Reject</string>
+    <string name="CheckDetail">Check Detail</string>
 </resources>

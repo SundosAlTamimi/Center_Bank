@@ -69,6 +69,7 @@ public class AlertScreen extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     NotificationManager notificationManager;
     SwipeRefreshLayout swipeRefresh;
+
     static int id=1;
     public  static TextView mainText,textCheckstateChanger;
     public  String userNmae="",Passowrd="";
@@ -78,11 +79,14 @@ public class AlertScreen extends AppCompatActivity {
     ArrayList<String> arrayListRow=new ArrayList<>();
     ArrayList<String> arrayListRowFirst=new ArrayList<>();
     DatabaseHandler databaseHandler;
+    ArrayList<notification> notifiList1;
     public  static  String ROW_ID_PREFERENCE="ROW_ID_PREFERENCE";
     LoginINFO user;
     LinearLayout layout;
+    int first=0;
     Timer timer;
     public  static ArrayList<ChequeInfo> checkInfoNotification;
+    public ArrayList<notification> notifiList;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
     @Override
@@ -90,6 +94,7 @@ public class AlertScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_main_screen);
         layout = (LinearLayout)findViewById(R.id.mainlayout);
+        first=1;
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");//"No name defined" is the default value.
         Log.e("editing,3 ", language);
@@ -103,25 +108,22 @@ public class AlertScreen extends AppCompatActivity {
         }
 
         initialview();
-        notification on=new notification();
-        on.setAmount_check("100");
-        on.setDate("10/05/321");
-        on.setSource("ahmed");
-        fillListNotification(on);
+      //  dataForTest();
 
-//
-//        new GetAllCheck_JSONTask().execute();
-//        CountDownTimer waitTimer;
-//        timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                new GetAllCheck_JSONTask().execute();
-//
-//
-//            }
-//
-//        }, 0, 5000);
+        editor = sharedPreferences.edit();
+        editor.clear();// just for test
+        new GetAllCheck_JSONTask().execute();
+        CountDownTimer waitTimer;
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new GetAllCheck_JSONTask().execute();
+
+
+            }
+
+        }, 0, 5000);
 
 
 
@@ -181,6 +183,15 @@ public class AlertScreen extends AppCompatActivity {
 
 
     }
+
+    private void dataForTest() {
+        notification on=new notification();
+        on.setAmount_check("100");
+        on.setDate("10/05/321");
+        on.setSource("ahmed");
+//        fillListNotification(on);
+    }
+
     public void notificationShow()
     {
 
@@ -215,7 +226,7 @@ public class AlertScreen extends AppCompatActivity {
         mainText=findViewById(R.id.textView);
         user=new LoginINFO();
         sharedPreferences = getSharedPreferences(ROW_ID_PREFERENCE, Context.MODE_PRIVATE);
-
+        notifiList1=new ArrayList<>();
         user=databaseHandler.getLoginInfo();
         userNmae=user.getUsername();
         Passowrd=user.getPassword();
@@ -244,6 +255,7 @@ public class AlertScreen extends AppCompatActivity {
         });
         notificationArrayList=new ArrayList<>();
         checkInfoNotification=new ArrayList<>();
+        notifiList=new ArrayList<>();
     }
     // ******************************************** GET NOTIFICATION *************************************
 
@@ -269,7 +281,7 @@ public class AlertScreen extends AppCompatActivity {
                 nameValuePairs.add(new BasicNameValuePair("CUSTMOBNO", userNmae));
 //                nameValuePairs.add(new BasicNameValuePair("CUSTIDNO", localNationlNo));
                 nameValuePairs.add(new BasicNameValuePair("CUSTIDNO", "0123456789"));// test
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
 
 
 //                HttpResponse response = client.execute(request);
@@ -312,6 +324,7 @@ public class AlertScreen extends AppCompatActivity {
                         notificationArrayList.clear();
                         arrayListRow.clear();
                         arrayListRowFirst.clear();
+                        notifiList.clear();
                         jsonObject = new JSONObject(s);
 
                         JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
@@ -323,7 +336,6 @@ public class AlertScreen extends AppCompatActivity {
                             notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
                             notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
                             notifi.setAmount_check( infoDetail.get("AMTJD").toString());
-                            fillListNotification(notifi);
                             ChequeInfo chequeInfo=new ChequeInfo();
                             chequeInfo.setRowId(infoDetail.get("ROWID").toString());
                             chequeInfo.setRecieverNationalID(infoDetail.get("TOCUSTOMERNATID").toString());
@@ -344,36 +356,79 @@ public class AlertScreen extends AppCompatActivity {
                             arrayListRow.add(chequeInfo.getRowId());
 
                             checkInfoNotification.add(chequeInfo);
+                            notificationArrayList.add(notifi);
+
+                        }
+                        if(first==1)
+                        {
+                            fillListNotification(notificationArrayList);
 
                         }
 
+
                         Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
                         if(set !=null)
-                        {   Log.e("arrayListRowYES",""+set.toString());
+                        {
+                            editor = sharedPreferences.edit();
+                            editor.clear();
                             set = sharedPreferences.getStringSet("DATE_LIST", null);
                             arrayListRowFirst.addAll(set);
 
                             int countFirst=arrayListRowFirst.size();
                             Log.e("countFirst",""+countFirst);
-                            int j=0;
+                            Log.e("countFirst",""+arrayListRow.size());
+                            int size=(arrayListRowFirst.size()>arrayListRow.size()?arrayListRowFirst.size():arrayListRow.size());
 
-                            for(int k=0;k<arrayListRowFirst.size();k++)
-                            {
-                                       int index= arrayListRowFirst.indexOf(arrayListRow.get(k));
-                                       Log.e("index",""+index);
-                                       if(index==-1)
-                                       {
-                                           arrayListRowFirst.add(arrayListRow.get(k));
-                                           Log.e("arrayListRowYES",""+arrayListRow.get(k));
-
-                                       }
-
+//boolean found =false;
+//                            int h=0;
+//                            for(int k=0;k<arrayListRowFirst.size();k++)
+//                            {
+//                                found =false;
+//                                for( h=0;h<arrayListRow.size();h++)
+//                                {
 //
+////                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+////                                    Log.e("index",""+index);
+////                                    if(index==-1)
+////                                    {
+////                                        arrayListRowFirst.add(arrayListRow.get(h));
+////                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+////
+////                                    }
+//                                    if(arrayListRowFirst.get(k).equals(arrayListRow.get(h)))
+//                                    {
+//                                        found=true;
+//                                        break;
+////                                        arrayListRowFirst.add(arrayListRow.get(h));
+////                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+//                                    }
+//
+//                                }
+//
+//                                if(!found){
+//                                    arrayListRowFirst.add(arrayListRow.get(h));
+//                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+//                                }
+//
+//
+////
+//
+//                                }
 
-                                }
+                            for( int h=0;h<arrayListRow.size();h++){
+                                int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                if(index==-1)
+                                    {
+                                        arrayListRowFirst.add(arrayListRow.get(h));
+                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+
+                                    }
+
+                            }
+
                             Log.e("countFirstAfter",""+arrayListRowFirst.size());
 
-                            if(countFirst!=arrayListRowFirst.size())
+                            if(countFirst<arrayListRowFirst.size())
                             {
                                 Log.e("arrayListRowFirstSize",""+arrayListRowFirst.size());
                                         Set<String> set_tow = new HashSet<String>();
@@ -382,7 +437,16 @@ public class AlertScreen extends AppCompatActivity {
                                         editor.clear();
                                         editor.putStringSet("DATE_LIST", set_tow);
                                         editor.commit();
+                                        fillListNotification(notificationArrayList);
                                          ShowNotifi();
+                            }
+                            else {
+                                if(countFirst>arrayListRowFirst.size())
+                                {
+                                    fillListNotification(notificationArrayList);
+
+                                }
+
                             }
 
 
@@ -397,9 +461,11 @@ public class AlertScreen extends AppCompatActivity {
                             editor = sharedPreferences.edit();
                             editor.putStringSet("DATE_LIST", set_tow);
                             editor.commit();
+                            fillListNotification(notificationArrayList);
                             ShowNotifi();
 
                         }
+                        first=2;
 
 
 
@@ -481,13 +547,15 @@ public class AlertScreen extends AppCompatActivity {
         nm.notify(10, notif.getNotification());
     }
 
+
     @SuppressLint("WrongConstant")
-    private void fillListNotification(notification one)
+    private void fillListNotification(ArrayList<notification> notifications)
     {
-        Log.e("fillListNotification",""+one.getSource());
-        notificationArrayList.add(one);
-        notificationArrayList.add(one);
-        notificationArrayList.add(one);
+        notifiList1.clear();
+        notifiList1=notifications;
+//        Log.e("fillListNotification",""+one.getSource());
+
+
 
         layoutManager = new LinearLayoutManager(AlertScreen.this);
         layoutManager.setOrientation(VERTICAL);
@@ -503,13 +571,14 @@ public class AlertScreen extends AppCompatActivity {
 
 
     }
+
     private void runAnimation(RecyclerView recyclerView, int type) {
         Context context=recyclerView.getContext();
         LayoutAnimationController controller=null;
         if(type==0)
         {
             controller= AnimationUtils.loadLayoutAnimation(context,R.anim.layout_filldown);
-            NotificatioAdapter notificationAdapter = new NotificatioAdapter(AlertScreen.this, notificationArrayList);
+            NotificatioAdapter notificationAdapter = new NotificatioAdapter(AlertScreen.this, notifiList1);
             recyclerView.setAdapter(notificationAdapter);
             recyclerView.setLayoutAnimation(controller);
             recyclerView.getAdapter().notifyDataSetChanged();
@@ -656,7 +725,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
                     notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
                     notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
                     notifi.setAmount_check( infoDetail.get("AMTJD").toString());
-                    fillListNotification(notifi);
+//                    fillListNotification(notifi);
                     ChequeInfo chequeInfo=new ChequeInfo();
                     chequeInfo.setRowId(infoDetail.get("ROWID").toString());
                     chequeInfo.setRecieverNationalID(infoDetail.get("TOCUSTOMERNATID").toString());
