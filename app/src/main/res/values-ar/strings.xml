@@ -39,9 +39,17 @@
     <string name="have_a_problem">يوجد مشكله!</string>
     <string name="check">اختيار</string>
     <string name="serial_no">الرقم التسلسلي </string>
-    <string name="log_history">حركات </string>
+    <string name="log_history">تقرير </string>
     <string name="status">الحاله</string>
     <string name="transaction_type">نوع الحركه</string>
     <string name="name">الاسم</string>
     <string name="Notification">الاشعارات </string>
+    <string name="new_account">حساب جديد</string>
+    <string name="account_no">رقم الحساب</string>
+    <string name="add">اضافة</string>
+    <string name="bank_name">اسم البنك :</string>
+    <string name="cheque_writer">كاتب الشيك :</string>
+    <string name="cheque_no">رقم الشيك :</string>
+    <string name="account_no_">رقم الحساب :</string>
+    <string name="the_cheque_has_been_validated">تم التحقق من صحة الشيك</string>
 </resources>
