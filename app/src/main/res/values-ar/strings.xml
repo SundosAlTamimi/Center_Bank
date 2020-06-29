@@ -16,6 +16,13 @@
     <string name="address">العنوان</string>
     <string name="e_mail">الايميل</string>
     <string name="save">حفظ</string>
+    <string name="editing_cheque">تحرير الشيك</string>
+    <string name="amount_in_words">المبلغ بالكلمات</string>
+    <string name="main_sentence">قم بمسح الباركود لتحرير شيك جديد</string>
+    <string name="enter">ادخال</string>
+    <string name="check_validation">تاكد من صلاحية الشيك!</string>
+    <string name="mainpage_sentence">اختر حسابك او قم بادخال حساب جديد</string>
+    <string name="request">طلب شيك</string>
     <string name="editing_check">تحرير شيك</string>
     <string name="phone_no">رقم الهاتف</string>
     <string name="order_to">لامر</string>

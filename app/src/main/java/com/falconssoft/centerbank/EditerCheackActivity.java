@@ -1,5 +1,6 @@
 package com.falconssoft.centerbank;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -10,6 +11,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
+import android.graphics.PixelFormat;
+import android.hardware.Camera;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +44,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -62,6 +73,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -75,6 +87,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.pedant.SweetAlert.Constants;
@@ -89,6 +102,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -165,6 +179,57 @@ public class EditerCheackActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+//                Calendar cal = Calendar.getInstance();
+//                File file = new File(Environment.getExternalStorageDirectory(),  "/DCIM/Camera/IMG_20200629_112400" +".jpg");//+(cal.getTimeInMillis()
+//                if (ContextCompat.checkSelfPermission(EditerCheackActivity.this,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+//                    // Permission is not granted
+//                    if (ActivityCompat.shouldShowRequestPermissionRationale(EditerCheackActivity.this,
+//                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//
+//
+//                    } else {
+//                        // No explanation needed; request the permission
+//                        ActivityCompat.requestPermissions(EditerCheackActivity.this,
+//                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                                1);
+//                    }
+//                }
+//
+//                if(!file.exists()){
+//                    try {
+//                        file.createNewFile();
+//                    } catch (IOException e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                }else{
+//                    file.delete();
+//                    try {
+//                        file.createNewFile();
+//                    } catch (IOException e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                if (file.exists()){
+//                    capturedImageUri = Uri.fromFile(file) ;
+//                    Log.e("uri", capturedImageUri.getPath());
+//                }
+//                flag = 0;
+//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+////                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+//
+////                file = Uri.fromFile(getFile());
+////
+////                //Setting the file Uri to my photo
+//                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,file);
+//
+//                if(cameraIntent.resolveActivity(getPackageManager())!=null)
+//                {
+//                    startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+//                }
                 flag = 0;
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
@@ -346,7 +411,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                 }
             }
 
-    });
+        });
 
         date.setOnClickListener(new View.OnClickListener()
 
@@ -661,86 +726,6 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
-/*
- private class JSONTask extends AsyncTask<String, String, String> {
-
-     @Override
-     protected void onPreExecute() {
-         progressDialog.show();
-         super.onPreExecute();
-     }
-
-     @Override
-     protected String doInBackground(String... params) {
-         try {
-
-             String JsonResponse = null;
-             HttpClient client = new DefaultHttpClient();
-             HttpPost request = new HttpPost();
-             // http://10.0.0.16:8081/VerifyCheck?CHECKNO=390144&BANKNO=004&BTANCHNO=0099&ACCCODE=1014569990011000&IBANNO=""&CUSTOMERNM=""
-//                request.setURI(new URI("http://" + generalSettings.getIpAddress() + "/export.php"));//import 10.0.0.214
-             request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?CHECKNO=390144&BANKNO=004&BTANCHNO=0099&ACCCODE=1014569990011000&IBANNO=111111111111&CUSTOMERNM=ahmad"));
-
-
-//                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-//                Log.e("addToInventory/", "" + jsonArrayBundles.toString());
-//                nameValuePairs.add(new BasicNameValuePair("UPDATE_RAW_INFO", "1"));// list
-
-//                nameValuePairs.add(new BasicNameValuePair("TRUCK", oldTruck));//oldTruck
-//                nameValuePairs.add(new BasicNameValuePair("RAW_INFO_DETAILS", jsonArray.toString().trim()));// list
-//                nameValuePairs.add(new BasicNameValuePair("RAW_INFO_MASTER", masterData.toString().trim())); // json object
-//                Log.e("addNewRow/", "update" + masterData.toString().trim() + " ///oldTruck" + oldTruck);
-
-//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-             HttpResponse response = client.execute(request);
-
-             BufferedReader in = new BufferedReader(new
-                     InputStreamReader(response.getEntity().getContent()));
-
-             StringBuffer sb = new StringBuffer("");
-             String line = "";
-
-             while ((line = in.readLine()) != null) {
-                 sb.append(line);
-             }
-
-             in.close();
-
-             JsonResponse = sb.toString();
-             Log.e("editCheckActivity/", "verify" + JsonResponse);
-
-             return JsonResponse;
-
-         } catch (Exception e) {
-             e.printStackTrace();
-             return null;
-         }
-     }
-
-     @Override
-     protected void onPostExecute(String s) {
-         super.onPostExecute(s);
-         Log.e("tag of update row info", s);
-         progressDialog.dismiss();
-         if (s != null) {
-             if (s.contains("UPDATE RAWS SUCCESS")) {
-                 showSweetDialog(true);
-
-                 Log.e("tag", "update Success");
-             } else {
-                 showSweetDialog(false);
-                 Log.e("tag", "****Failed to export data");
-//                    Toast.makeText(AddToInventory.this, "Failed to export data Please check internet connection", Toast.LENGTH_LONG).show();
-             }
-         } else {
-             Log.e("tag", "****Failed to export data Please check internet connection");
-             Toast.makeText(EditerCheackActivity.this, "Failed to export data Please check internet connection", Toast.LENGTH_LONG).show();
-         }
-     }
- }
-
-*/
 // ******************************************** CHECK QR VALIDATION *************************************
 private class JSONTask extends AsyncTask<String, String, String> {
 
@@ -754,45 +739,45 @@ private class JSONTask extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
         try {
 
-            String JsonResponse = null;
-            HttpClient client = new DefaultHttpClient();
-            HttpPost request = new HttpPost();
-            request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?"));
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?"));
 
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-            nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
-            nameValuePairs.add(new BasicNameValuePair("BANKNO", arr[1]));
-            nameValuePairs.add(new BasicNameValuePair("BTANCHNO", arr[2]));
-            nameValuePairs.add(new BasicNameValuePair("ACCCODE", arr[3]));
-            nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
-            nameValuePairs.add(new BasicNameValuePair("CUSTOMERNM", ""));
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
+                nameValuePairs.add(new BasicNameValuePair("BANKNO", arr[1]));
+                nameValuePairs.add(new BasicNameValuePair("BTANCHNO", arr[2]));
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", arr[3]));
+                nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
+                nameValuePairs.add(new BasicNameValuePair("CUSTOMERNM", ""));
 
-            request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            HttpResponse response = client.execute(request);
+                HttpResponse response = client.execute(request);
 
-            BufferedReader in = new BufferedReader(new
-                    InputStreamReader(response.getEntity().getContent()));
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
 
-            StringBuffer sb = new StringBuffer("");
-            String line = "";
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
 
-            while ((line = in.readLine()) != null) {
-                sb.append(line);
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tag", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
             }
-
-            in.close();
-
-            JsonResponse = sb.toString();
-            Log.e("tag", "" + JsonResponse);
-
-            return JsonResponse;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
-    }
 
     @Override
     protected void onPostExecute(String s) {
@@ -1316,7 +1301,7 @@ private class JSONTask1 extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-    }
+        }
 
     @Override
     protected String doInBackground(String... params) {
@@ -1341,25 +1326,25 @@ private class JSONTask1 extends AsyncTask<String, String, String> {
             BufferedReader in = new BufferedReader(new
                     InputStreamReader(response.getEntity().getContent()));
 
-            StringBuffer sb = new StringBuffer("");
-            String line = "";
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
 
-            while ((line = in.readLine()) != null) {
-                sb.append(line);
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tag", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
             }
-
-            in.close();
-
-            JsonResponse = sb.toString();
-            Log.e("tag", "" + JsonResponse);
-
-            return JsonResponse;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
-    }
 
     @Override
     protected void onPostExecute(String s) {

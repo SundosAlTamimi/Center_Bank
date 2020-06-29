@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.Base64;
@@ -20,6 +21,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -31,12 +33,14 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -66,13 +70,14 @@ import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageButton;
 
 import static android.widget.LinearLayout.VERTICAL;
+import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID ="2" ;
     CircleImageView imageView;
     private Button notification, menuButton;
     TextView barCodTextTemp, scanBarcode, signout;
-    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing;
+    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog,message;
@@ -87,10 +92,17 @@ public class MainActivity extends AppCompatActivity {
     static int id=1;
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
+    private String language;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
+        language = prefs.getString("language", "en");
+        Log.e("editing,main ", language);
+
         picforbar = new ArrayList<>();
         picforbar.add("01365574861");
         picforbar.add("0136557486");
@@ -112,8 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 //        message.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
-
-
+        checkLanguage();
 
         logHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -191,7 +203,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void notificationShow() {
 
+        Notification.Builder notif;
+        NotificationManager nm;
+        notif = new Notification.Builder(getApplicationContext());
+        notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
+        notif.setContentTitle("Recive new Check, click to show detail");
+        Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        notif.setSound(path);
+        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        Intent yesReceive = new Intent();
+        yesReceive.setAction(YES_ACTION);
+        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
+
+
+        Intent yesReceive2 = new Intent();
+        yesReceive2.setAction(STOP_ACTION);
+        PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
+
+    }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void show_Notification(String detail){
 
@@ -279,6 +313,8 @@ public class MainActivity extends AppCompatActivity {
         scanBarcode = findViewById(R.id.scanBarcode);
         notification = findViewById(R.id.button_notification);
         toolbar = findViewById(R.id.main_toolbar);
+        request = findViewById(R.id.main_request);
+
         setSupportActionBar(toolbar);
         setTitle("");
         message=findViewById(R.id.messages);
@@ -298,6 +334,25 @@ public class MainActivity extends AppCompatActivity {
 //    generateCheque = findViewById(R.id.main_send);
         logHistory = findViewById(R.id.main_history);
         Editing = findViewById(R.id.Editing);
+    }
+
+    void checkLanguage() {
+        if (language.equals("ar")) {
+            Editing.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_send_black_24dp), null);
+            logHistory.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_access_time_black_24dp), null);
+            request.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_grain), null);
+
+        } else {
+            Editing.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_send_black_24dp), null
+                    , null, null);
+            logHistory.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_access_time_black_24dp), null
+                    , null, null);
+            request.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_grain), null
+                    , null, null);
+        }
     }
 
     @Override
@@ -335,6 +390,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+//    void checkLanguage() {
+//        if (language.equals("ar")) {
+//            .setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null);
+//            phoneNo.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_local_phone_black_24dp), null);
+//            address.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_location_on_black_24dp), null);
+//
+//
+//        } else {
+//            natonalNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null
+//                    , null, null);
+//            phoneNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_local_phone_black_24dp), null
+//                    , null, null);
+//            address.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_location_on_black_24dp), null
+//                    , null, null);
+//
+//        }
+//
+//        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+//                R.anim.move_to_right);
+//        natonalNo.startAnimation(animation);
+//
+//        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+//                R.anim.move_to_right);
+//        linearLayout.startAnimation(animation);
+//
+//        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+//                R.anim.move_to_right);
+//        date_text.startAnimation(animation);
+//
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

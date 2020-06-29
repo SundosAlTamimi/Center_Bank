@@ -43,7 +43,7 @@ public class SingUpActivity extends AppCompatActivity {
         init();
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
-        language = prefs.getString("language", "en");//"No name defined" is the default value.
+        language = prefs.getString("language", "en");
 
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
@@ -51,7 +51,7 @@ public class SingUpActivity extends AppCompatActivity {
         date_text.setText(convertToEnglish(today));
         checkLanguage();
 
-        Log.e("editing,2 ", language);
+        Log.e("editing,signup ", language);
     }
 
     private void init() {
@@ -139,6 +139,7 @@ public class SingUpActivity extends AppCompatActivity {
                 R.anim.move_to_right);
         password.startAnimation(animation);
     }
+
     public String convertToEnglish(String value) {
         String newValue = (((((((((((value + "").replaceAll("١", "1")).replaceAll("٢", "2")).replaceAll("٣", "3")).replaceAll("٤", "4")).replaceAll("٥", "5")).replaceAll("٦", "6")).replaceAll("٧", "7")).replaceAll("٨", "8")).replaceAll("٩", "9")).replaceAll("٠", "0").replaceAll("٫", "."));
         return newValue;
