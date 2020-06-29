@@ -67,7 +67,7 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.log_in);
+        setContentView(R.layout.log_in); 
         init();
         Log.e("editing,1 ", language);
 
