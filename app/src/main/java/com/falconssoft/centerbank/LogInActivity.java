@@ -62,7 +62,7 @@ public class LogInActivity extends AppCompatActivity {
     private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "";
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
     private Dialog barcodeDialog;
-    private SharedPreferences.Editor editor; 
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
