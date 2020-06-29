@@ -1,41 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="400dp"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:background="@color/white">
 
 
     <ImageView
         android:id="@+id/imageView"
+        android:layout_gravity="center"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
-        android:tint="@color/alpha_yellow"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_done" />
+        android:tint="@color/red"
+        />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="100dp"
+        android:fontFamily="serif"
+        android:text="@string/the_cheque_has_been_validated"
+        android:textSize="20sp"
+        />
 
     <LinearLayout
         android:id="@+id/linear1"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minWidth="400dp"
         android:layout_marginTop="24dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6">
+       >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            >
 
             <TextView
                 android:layout_width="0dp"
@@ -43,7 +50,7 @@
                 android:layout_weight="1"
                 android:fontFamily="serif"
                 android:gravity="center"
-                android:text="Bank Name :"
+                android:text="@string/bank_name"
                 android:textSize="20sp" />
 
             <TextView
@@ -72,8 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            >
 
             <TextView
                 android:layout_width="0dp"
@@ -81,7 +87,7 @@
                 android:layout_weight="1"
                 android:fontFamily="serif"
                 android:gravity="center"
-                android:text="Cheque writer :"
+                android:text="@string/cheque_writer"
                 android:textSize="20sp" />
 
             <TextView
@@ -102,8 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+           >
 
             <TextView
                 android:layout_width="0dp"
@@ -111,7 +116,7 @@
                 android:layout_weight="1"
                 android:fontFamily="serif"
                 android:gravity="center"
-                android:text="Cheque No :"
+                android:text="@string/cheque_no"
                 android:textSize="20sp" />
 
             <TextView
@@ -132,8 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            >
 
             <TextView
                 android:layout_width="0dp"
@@ -141,7 +145,7 @@
                 android:layout_weight="1"
                 android:fontFamily="serif"
                 android:gravity="center"
-                android:text="Account No :"
+                android:text="@string/account_no_"
                 android:textSize="20sp" />
 
             <TextView
@@ -165,10 +169,7 @@
         android:layout_marginBottom="50dp"
         android:gravity="right"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear1">
+       >
 
         <TextView
             android:id="@+id/dialog_validation_ok"
@@ -178,7 +179,7 @@
             android:layout_weight="1"
             android:fontFamily="serif"
             android:gravity="right"
-            android:text="Ok"
+            android:text="@string/dialog_ok"
             android:textColor="@color/red"
             android:textSize="20sp" />
 
@@ -188,22 +189,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="serif"
-            android:text="Cancel"
+            android:text="@string/dialog_cancel"
             android:textSize="20sp" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingHorizontal="100dp"
-        android:fontFamily="serif"
-        android:text="The cheque has been validated"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
