@@ -69,7 +69,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_in);
         init();
-        Log.e("editing,1 ", language);
+//        Log.e("editing,1 ", language);
 
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
