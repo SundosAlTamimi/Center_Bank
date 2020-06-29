@@ -87,6 +87,7 @@ public class AlertScreen extends AppCompatActivity {
         setContentView(R.layout.alert_main_screen);
 
         initialview();
+
         new GetAllCheck_JSONTask().execute();
         CountDownTimer waitTimer;
         timer = new Timer();
@@ -95,14 +96,52 @@ public class AlertScreen extends AppCompatActivity {
             public void run() {
                 new GetAllCheck_JSONTask().execute();
 
+
             }
 
         }, 0, 5000);
 
 
+
+
+
+
+
                 mainText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              //  SharedPreferences prefs = getSharedPreferences(ROW_ID_PREFERENCE, MODE_PRIVATE);
+//                String id=prefs.getString("RowId",null);
+//                Log.e("onClick",""+id);
+                Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+                if(set!=null)
+                {
+                    Log.e("set",""+set);
+                    arrayListRow.addAll(set);
+
+                    for(int i=0;i<arrayListRow.size();i++)
+                    {
+                        if(arrayListRow.get(i).equals("AAAp0DAAuAAAAC0AAR"))
+                        {
+                            Log.e("arrayListRowYES",""+arrayListRow.get(i));
+                        }
+                        else {
+
+                        }
+                    }
+//                    Log.e("retrivesharedPrefe",""+set);
+//                textCheckstateChanger.setText("1");
+
+                }
+                else {
+                    Set<String> set_tow = new HashSet<String>();
+                    arrayListRow.add("first");
+                    arrayListRow.add("ssss");
+                    set_tow.addAll(arrayListRow);
+                    editor = sharedPreferences.edit();
+                    editor.putStringSet("DATE_LIST", set_tow);
+                    editor.commit();
+                    Log.e("retrivesharedPrefe",""+set);}
 
             }
         });
@@ -154,6 +193,7 @@ public class AlertScreen extends AppCompatActivity {
         mainText=findViewById(R.id.textView);
         user=new LoginINFO();
         sharedPreferences = getSharedPreferences(ROW_ID_PREFERENCE, Context.MODE_PRIVATE);
+
         user=databaseHandler.getLoginInfo();
         userNmae=user.getUsername();
         Passowrd=user.getPassword();
@@ -248,6 +288,8 @@ public class AlertScreen extends AppCompatActivity {
                     try {
                         checkInfoNotification.clear();
                         notificationArrayList.clear();
+                        arrayListRow.clear();
+                        arrayListRowFirst.clear();
                         jsonObject = new JSONObject(s);
 
                         JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
@@ -278,37 +320,64 @@ public class AlertScreen extends AppCompatActivity {
                             chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
                             chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
                             arrayListRow.add(chequeInfo.getRowId());
+
                             checkInfoNotification.add(chequeInfo);
 
                         }
-                        SharedPreferences prefs = getSharedPreferences(ROW_ID_PREFERENCE, MODE_PRIVATE);
+
                         Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
-                        arrayListRowFirst.addAll(set);
+                        if(set !=null)
+                        {   Log.e("arrayListRowYES",""+set.toString());
+                            set = sharedPreferences.getStringSet("DATE_LIST", null);
+                            arrayListRowFirst.addAll(set);
 
+                            int countFirst=arrayListRowFirst.size();
+                            int j=0;
 
-
-                        Log.e("storesharedPreferences",""+set);
-
-                        for(int i=0;i<arrayListRowFirst.size();i++)
-                        {
-                            for (int j=0;j<arrayListRow.size();j++)
+                            for(int k=0;k<arrayListRowFirst.size();k++)
                             {
-                                if(!arrayListRowFirst.get(i).equals(arrayListRow.get(j)))
-                                {
-                                    Log.e("arrayListRowYES",""+arrayListRow.get(i));
-                                    Set<String> set_tow = new HashSet<String>();
-                                    set_tow.addAll(arrayListRow);
-                                    editor.putStringSet("DATE_LIST", set_tow);
-                                    editor.apply();
-                                    ShowNotifi();
-                                }
-                                else {
-                                    Log.e("arrayListRowFirst",""+arrayListRowFirst.size()+arrayListRow.size());
+                                       int index= arrayListRowFirst.indexOf(arrayListRow.get(k));
+                                       Log.e("index",""+index);
+                                       if(index==-1)
+                                       {
+                                           arrayListRowFirst.add(arrayListRow.get(k));
+                                           Log.e("arrayListRowYES",""+arrayListRow.get(k));
+
+                                       }
+
+//
 
                                 }
+                            if(countFirst!=arrayListRowFirst.size())
+                            {
+                                Log.e("arrayListRowFirstSize",""+arrayListRowFirst.size());
+                                        Set<String> set_tow = new HashSet<String>();
+                                        set_tow.addAll(arrayListRowFirst);
+                                        editor = sharedPreferences.edit();
+                                        editor.clear();
+                                        editor.putStringSet("DATE_LIST", set_tow);
+                                        editor.commit();
+                                         ShowNotifi();
                             }
 
+
+
+
                         }
+                        else {//empty shared preference
+                            Log.e("arrayListRowFirst","Empty");
+
+                            Set<String> set_tow = new HashSet<String>();
+                            set_tow.addAll(arrayListRow);
+                            editor = sharedPreferences.edit();
+                            editor.putStringSet("DATE_LIST", set_tow);
+                            editor.commit();
+                            ShowNotifi();
+
+                        }
+
+
+
 
 //                        editor = sharedPreferences.edit();
 //                        editor.putString("RowId", String.valueOf(arrayListRow));

@@ -5,57 +5,60 @@
 
     <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
     <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".LogInActivity"
-            android:screenOrientation="sensorPortrait"
-            android:windowSoftInputMode="stateAlwaysHidden">
+        <activity android:name=".testUpload">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".LogInActivity"
+            android:screenOrientation="sensorPortrait"
+            android:windowSoftInputMode="stateAlwaysHidden">
+
         </activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="sensorPortrait" />
-
         <activity
             android:name=".SingUpActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="sensorPortrait" />
+            android:screenOrientation="sensorPortrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".EditerCheackActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".AlertScreen"
             android:screenOrientation="sensorPortrait" />
-
         <activity
             android:name=".LogHistoryActivity"
             android:screenOrientation="sensor" />
 
         <receiver android:name=".notificationReciver">
             <intent-filter>
-                <action android:name="YES"/>
-                <action android:name="STOP"/>
+                <action android:name="YES" />
+                <action android:name="STOP" />
             </intent-filter>
         </receiver>
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-    </application>
 
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+    </application>
 
 </manifest>
