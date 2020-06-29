@@ -16,4 +16,5 @@
     <string name="address">العنوان</string>
     <string name="e_mail">الايميل</string>
     <string name="save">حفظ</string>
+    <string name="Notification">الاشعارات </string>
 </resources>
