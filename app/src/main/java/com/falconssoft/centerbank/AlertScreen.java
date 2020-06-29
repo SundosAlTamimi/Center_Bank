@@ -7,11 +7,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,8 +29,10 @@ import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
+import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.notification;
 
 import org.apache.http.HttpResponse;
@@ -46,9 +50,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.widget.LinearLayout.VERTICAL;
+import static com.falconssoft.centerbank.EditerCheackActivity.localNationlNo;
 import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
 import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 
@@ -57,10 +66,18 @@ public class AlertScreen extends AppCompatActivity {
     ArrayList <notification> notificationArrayList;
     LinearLayoutManager layoutManager;
     NotificationManager notificationManager;
+    SwipeRefreshLayout swipeRefresh;
     static int id=1;
     public  static TextView mainText,textCheckstateChanger;
-    String stateIntent="";
-    String Main_URL="";
+    public  String userNmae="",Passowrd="";
+    public static SharedPreferences sharedPreferences;
+    public static SharedPreferences.Editor editor;
+    ArrayList<String> arrayListRow=new ArrayList<>();
+    ArrayList<String> arrayListRowFirst=new ArrayList<>();
+    DatabaseHandler databaseHandler;
+    public  static  String ROW_ID_PREFERENCE="ROW_ID_PREFERENCE";
+    LoginINFO user;
+    Timer timer;
     public  static ArrayList<ChequeInfo> checkInfoNotification;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
@@ -68,26 +85,119 @@ public class AlertScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_main_screen);
+
         initialview();
+
         new GetAllCheck_JSONTask().execute();
+        CountDownTimer waitTimer;
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new GetAllCheck_JSONTask().execute();
+
+
+            }
+
+        }, 0, 5000);
+
+
+
+
 
 
 
                 mainText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                textCheckstateChanger.setText("1");
+              //  SharedPreferences prefs = getSharedPreferences(ROW_ID_PREFERENCE, MODE_PRIVATE);
+//                String id=prefs.getString("RowId",null);
+//                Log.e("onClick",""+id);
+                Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+                if(set!=null)
+                {
+                    Log.e("set",""+set);
+                    arrayListRow.addAll(set);
 
+                    for(int i=0;i<arrayListRow.size();i++)
+                    {
+                        if(arrayListRow.get(i).equals("AAAp0DAAuAAAAC0AAR"))
+                        {
+                            Log.e("arrayListRowYES",""+arrayListRow.get(i));
+                        }
+                        else {
+
+                        }
+                    }
+//                    Log.e("retrivesharedPrefe",""+set);
+//                textCheckstateChanger.setText("1");
+
+                }
+                else {
+                    Set<String> set_tow = new HashSet<String>();
+                    arrayListRow.add("first");
+                    arrayListRow.add("ssss");
+                    set_tow.addAll(arrayListRow);
+                    editor = sharedPreferences.edit();
+                    editor.putStringSet("DATE_LIST", set_tow);
+                    editor.commit();
+                    Log.e("retrivesharedPrefe",""+set);}
+
+            }
+        });
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                Toast.makeText(AlertScreen.this, "refresh ..", Toast.LENGTH_SHORT).show();
+                swipeRefresh.setRefreshing(false);
+                new GetAllCheck_JSONTask().execute();
             }
         });
 
 
 
     }
+    public void notificationShow()
+    {
+
+        Notification.Builder notif;
+        NotificationManager nm;
+        notif = new Notification.Builder(getApplicationContext());
+        notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
+        notif.setContentTitle("Recive new Check, click to show detail");
+        Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        notif.setSound(path);
+        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        Intent yesReceive = new Intent( );
+        yesReceive.setAction(YES_ACTION);
+        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
+
+
+        Intent yesReceive2 = new Intent();
+        yesReceive2.setAction(STOP_ACTION);
+        PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
+
+
+
+        nm.notify(10, notif.getNotification());
+    }
 
     private void initialview() {
+        databaseHandler=new DatabaseHandler(AlertScreen.this);
         recyclerView = findViewById(R.id.recycler);
         mainText=findViewById(R.id.textView);
+        user=new LoginINFO();
+        sharedPreferences = getSharedPreferences(ROW_ID_PREFERENCE, Context.MODE_PRIVATE);
+
+        user=databaseHandler.getLoginInfo();
+        userNmae=user.getUsername();
+        Passowrd=user.getPassword();
+
         textCheckstateChanger=findViewById(R.id.textCheckstateChanger);
         textCheckstateChanger.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,8 +208,8 @@ public class AlertScreen extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(!charSequence.equals(null)){
+
                     new GetAllCheck_JSONTask().execute();
-                    Log.e("charSequence",""+charSequence);
 
                 }
 
@@ -113,121 +223,8 @@ public class AlertScreen extends AppCompatActivity {
         notificationArrayList=new ArrayList<>();
         checkInfoNotification=new ArrayList<>();
     }
-
-    //    private ArrayList<notification> getNotification() {
-//
-//    }
     // ******************************************** GET NOTIFICATION *************************************
-    private class JSONTask extends AsyncTask<String, String, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-
-                String JsonResponse = null;
-                HttpClient client = new DefaultHttpClient();
-                HttpPost request = new HttpPost();
-              //  http://10.0.0.16:8081/GetCheckTemp?ACCCODE=1014569990011000&IBANNO=&SERIALNO=&BANKNO=004&BRANCHNO=0099&CHECKNO=390144"
-                request.setURI(new URI("http://10.0.0.16:8081/GetCheckTemp?"));
-
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-                nameValuePairs.add(new BasicNameValuePair("ACCCODE", "1014569990011000"));
-                nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
-                nameValuePairs.add(new BasicNameValuePair("SERIALNO", "720817C32F164968"));
-                nameValuePairs.add(new BasicNameValuePair("BANKNO", "004"));
-
-                nameValuePairs.add(new BasicNameValuePair("BRANCHNO", "0099"));
-                nameValuePairs.add(new BasicNameValuePair("CHECKNO", "390144"));
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
-
-
-//                HttpResponse response = client.execute(request);
-//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                HttpResponse response = client.execute(request);
-
-                BufferedReader in = new BufferedReader(new
-                        InputStreamReader(response.getEntity().getContent()));
-
-                StringBuffer sb = new StringBuffer("");
-                String line = "";
-
-                while ((line = in.readLine()) != null) {
-                    sb.append(line);
-                }
-
-                in.close();
-
-                JsonResponse = sb.toString();
-                Log.e("tagAlertScreen", "" + JsonResponse);
-
-                return JsonResponse;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            if (s != null) {
-                if (s.contains("\"StatusDescreption\":\"OK\"")) {
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(s);
-
-                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
-                        JSONObject infoDetail=notificationInfo.getJSONObject(0);
-
-
-                        Log.e("JSONArrayObject",""+infoDetail.get("CUSTOMERNM"));
-                        notification notifi=new notification();
-                        notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
-                        notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
-                        notifi.setAmount_check( infoDetail.get("AMTJD").toString());
-                        fillListNotification(notifi);
-                        ChequeInfo chequeInfo=new ChequeInfo();
-                        chequeInfo.setRowId(infoDetail.get("ROWID").toString());
-                        chequeInfo.setRecieverNationalID(infoDetail.get("TOCUSTOMERNATID").toString());
-                        chequeInfo.setRecieverMobileNo(infoDetail.get("TOCUSTOMERMOB").toString());
-                        chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
-                        chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
-                        chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
-
-                        chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
-                        chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
-                        chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
-                        chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
-
-
-                        checkInfoNotification.add(chequeInfo);
-
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-//                    INFO
-                    Log.e("tag", "****Success"+s.toString());
-                } else {
-                    Log.e("tag", "****Failed to export data");
-                }
-            } else {
-
-                Log.e("tag", "****Failed to export data Please check internet connection");
-            }
-        }
-    }
     private class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -247,9 +244,10 @@ public class AlertScreen extends AppCompatActivity {
                 request.setURI(new URI("http://10.0.0.16:8081/GetAllTempCheck?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-                nameValuePairs.add(new BasicNameValuePair("CUSTMOBNO", "0798899716"));
-                nameValuePairs.add(new BasicNameValuePair("CUSTIDNO", "123456"));
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+                nameValuePairs.add(new BasicNameValuePair("CUSTMOBNO", userNmae));
+//                nameValuePairs.add(new BasicNameValuePair("CUSTIDNO", localNationlNo));
+                nameValuePairs.add(new BasicNameValuePair("CUSTIDNO", "0123456789"));// test
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 
 //                HttpResponse response = client.execute(request);
@@ -288,16 +286,17 @@ public class AlertScreen extends AppCompatActivity {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     JSONObject jsonObject = null;
                     try {
+                        checkInfoNotification.clear();
+                        notificationArrayList.clear();
+                        arrayListRow.clear();
+                        arrayListRowFirst.clear();
                         jsonObject = new JSONObject(s);
 
                         JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
-                        Log.e("notificationInfoLength",""+notificationInfo.length());
                         for(int i=0;i<notificationInfo.length();i++)
                         {
                             JSONObject infoDetail=notificationInfo.getJSONObject(i);
 
-
-                            Log.e("JSONArrayObject",""+infoDetail.get("CUSTOMERNM"));
                             notification notifi=new notification();
                             notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
                             notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
@@ -309,17 +308,83 @@ public class AlertScreen extends AppCompatActivity {
                             chequeInfo.setRecieverMobileNo(infoDetail.get("TOCUSTOMERMOB").toString());
                             chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
                             chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
-                            chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
+                            chequeInfo.setToCustomerName(infoDetail.get("CUSTOMERNM").toString());
 
                             chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
                             chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
                             chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
                             chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
 
+                            chequeInfo.setBranchNo(infoDetail.get("BRANCHNO").toString());
+                            chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
+                            chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
+                            chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
+                            arrayListRow.add(chequeInfo.getRowId());
 
                             checkInfoNotification.add(chequeInfo);
 
                         }
+
+                        Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+                        if(set !=null)
+                        {   Log.e("arrayListRowYES",""+set.toString());
+                            set = sharedPreferences.getStringSet("DATE_LIST", null);
+                            arrayListRowFirst.addAll(set);
+
+                            int countFirst=arrayListRowFirst.size();
+                            int j=0;
+
+                            for(int k=0;k<arrayListRowFirst.size();k++)
+                            {
+                                       int index= arrayListRowFirst.indexOf(arrayListRow.get(k));
+                                       Log.e("index",""+index);
+                                       if(index==-1)
+                                       {
+                                           arrayListRowFirst.add(arrayListRow.get(k));
+                                           Log.e("arrayListRowYES",""+arrayListRow.get(k));
+
+                                       }
+
+//
+
+                                }
+                            if(countFirst!=arrayListRowFirst.size())
+                            {
+                                Log.e("arrayListRowFirstSize",""+arrayListRowFirst.size());
+                                        Set<String> set_tow = new HashSet<String>();
+                                        set_tow.addAll(arrayListRowFirst);
+                                        editor = sharedPreferences.edit();
+                                        editor.clear();
+                                        editor.putStringSet("DATE_LIST", set_tow);
+                                        editor.commit();
+                                         ShowNotifi();
+                            }
+
+
+
+
+                        }
+                        else {//empty shared preference
+                            Log.e("arrayListRowFirst","Empty");
+
+                            Set<String> set_tow = new HashSet<String>();
+                            set_tow.addAll(arrayListRow);
+                            editor = sharedPreferences.edit();
+                            editor.putStringSet("DATE_LIST", set_tow);
+                            editor.commit();
+                            ShowNotifi();
+
+                        }
+
+
+
+
+//                        editor = sharedPreferences.edit();
+//                        editor.putString("RowId", String.valueOf(arrayListRow));
+
+
+
+
 
 
 
@@ -339,6 +404,31 @@ public class AlertScreen extends AppCompatActivity {
             }
         }
     }
+
+    private void ShowNotifi() {
+        String currentapiVersion = Build.VERSION.RELEASE;
+//
+        if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
+            // Do something for 14 and above versions
+
+//                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+
+                show_Notification("Check  app, Recive new Check");
+
+            }
+            else {
+
+            }
+
+
+        } else {
+
+            notificationShow();
+        }
+    }
+
     public void noto2() // paste in activity
     {
         Notification.Builder notif;
@@ -367,11 +457,9 @@ public class AlertScreen extends AppCompatActivity {
     }
 
     @SuppressLint("WrongConstant")
-    private void fillListNotification(notification one) {
-        Log.e("fillListNotification",""+one);
-//        one.setAmount_check("1500 JD");
-//        one.setDate("21-6-2020");
-//        one.setSource("Companey Source");
+    private void fillListNotification(notification one)
+    {
+        Log.e("fillListNotification",""+one.getSource());
         notificationArrayList.add(one);
 
         layoutManager = new LinearLayoutManager(AlertScreen.this);
@@ -379,8 +467,9 @@ public class AlertScreen extends AppCompatActivity {
         runAnimation(recyclerView,0);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        final NotificatioAdapter notificationAdapter = new NotificatioAdapter(AlertScreen.this, notificationArrayList);
-        recyclerView.setAdapter(notificationAdapter);
+//        final NotificatioAdapter notificationAdapter = new NotificatioAdapter(AlertScreen.this, notificationArrayList);
+//        recyclerView.setAdapter(notificationAdapter);
+//        notificationAdapter.notifyDataSetChanged();
 
 
         Toast.makeText(AlertScreen.this, "Saved", Toast.LENGTH_SHORT).show();
@@ -405,23 +494,25 @@ public class AlertScreen extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void show_Notification(String detail){
 
-        Intent intent=new Intent(getApplicationContext(),AlertScreen.class);
+        Intent intent=new Intent(AlertScreen.this,notificationReciver.class);
+        intent.putExtra("action","YES");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(AlertScreen.this,1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         String CHANNEL_ID="MYCHANNEL";
 
         NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name", NotificationManager.IMPORTANCE_HIGH);
-        PendingIntent pendingIntent=PendingIntent.getActivity(getApplicationContext(),1,intent,0);
         Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
-                .setContentText("POINT APP Notification ......")
-                .setContentTitle("Point Gift From Point App")
+                .setContentText("show Detail ......")
+                .setContentTitle("Recive new Check, click to show detail")
                 .setStyle(new Notification.BigTextStyle()
                         .bigText(detail)
                         .setBigContentTitle(" ")
                         .setSummaryText(""))
-//                .setContentIntent(pendingIntent)
-//                .addAction(android.R.drawable.sym_action_chat,"Title",pendingIntent)
+                .setContentIntent(pendingIntent)
+                .addAction(android.R.drawable.sym_action_chat,"Show detail",pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setChannelId(CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_add)
+                .setOngoing(true)
                 .build();
 
 
@@ -459,8 +550,117 @@ public class AlertScreen extends AppCompatActivity {
 
 
     }
-}
+
 /*
 Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 mBuilder.setSound(alarmSound);
 */
+private class JSONTask extends AsyncTask<String, String, String> {
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+    }
+
+    @Override
+    protected String doInBackground(String... params) {
+        try {
+
+            String JsonResponse = null;
+            HttpClient client = new DefaultHttpClient();
+            HttpPost request = new HttpPost();
+            //  http://10.0.0.16:8081/GetCheckTemp?ACCCODE=1014569990011000&IBANNO=&SERIALNO=&BANKNO=004&BRANCHNO=0099&CHECKNO=390144"
+            request.setURI(new URI("http://10.0.0.16:8081/GetCheckTemp?"));
+
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("ACCCODE", "1014569990011000"));
+            nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
+            nameValuePairs.add(new BasicNameValuePair("SERIALNO", "720817C32F164968"));
+            nameValuePairs.add(new BasicNameValuePair("BANKNO", "004"));
+
+            nameValuePairs.add(new BasicNameValuePair("BRANCHNO", "0099"));
+            nameValuePairs.add(new BasicNameValuePair("CHECKNO", "390144"));
+            request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+
+
+//                HttpResponse response = client.execute(request);
+//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            HttpResponse response = client.execute(request);
+
+            BufferedReader in = new BufferedReader(new
+                    InputStreamReader(response.getEntity().getContent()));
+
+            StringBuffer sb = new StringBuffer("");
+            String line = "";
+
+            while ((line = in.readLine()) != null) {
+                sb.append(line);
+            }
+
+            in.close();
+
+            JsonResponse = sb.toString();
+            Log.e("tagAlertScreen", "" + JsonResponse);
+
+            return JsonResponse;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+
+        if (s != null) {
+            if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(s);
+
+                    JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
+                    JSONObject infoDetail=notificationInfo.getJSONObject(0);
+
+                    notification notifi=new notification();
+                    notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
+                    notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
+                    notifi.setAmount_check( infoDetail.get("AMTJD").toString());
+                    fillListNotification(notifi);
+                    ChequeInfo chequeInfo=new ChequeInfo();
+                    chequeInfo.setRowId(infoDetail.get("ROWID").toString());
+                    chequeInfo.setRecieverNationalID(infoDetail.get("TOCUSTOMERNATID").toString());
+                    chequeInfo.setRecieverMobileNo(infoDetail.get("TOCUSTOMERMOB").toString());
+                    chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
+                    chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
+                    chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
+
+                    chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
+                    chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
+                    chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
+                    chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
+
+
+                    checkInfoNotification.add(chequeInfo);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+//                    INFO
+                Log.e("tag", "****Success"+s.toString());
+            } else {
+                Log.e("tag", "****Failed to export data");
+            }
+        } else {
+
+            Log.e("tag", "****Failed to export data Please check internet connection");
+        }
+    }
+}
+}
