@@ -53,7 +53,7 @@ public class LogInActivity extends AppCompatActivity {
     private EditText userName, password;
     private Button singIn, singUp;
     private ImageView arabic, english;
-    public static String language = "en";
+    public String language = "";
     private ImageView SettingImage, close;
     private DatabaseHandler databaseHandler;
     private Animation animation;
@@ -68,9 +68,22 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
+        language = prefs.getString("language", "en");
+        if (language.equals("ar")) {
+            LocaleAppUtils.setLocale(new Locale("ar"));
+            LocaleAppUtils.setConfigChange(LogInActivity.this);
+        } else {
+            LocaleAppUtils.setLocale(new Locale("en"));
+            LocaleAppUtils.setConfigChange(LogInActivity.this);
+        }
         setContentView(R.layout.log_in);
+
+
         init();
-        Log.e("editing,1 ", language);
+        checkLanguage();
+        Log.e("editing,login ", language);
 
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
@@ -79,7 +92,7 @@ public class LogInActivity extends AppCompatActivity {
         singIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginINFO user=new LoginINFO();
+                LoginINFO user = new LoginINFO();
                 user.setUsername(userName.getText().toString());
                 user.setPassword(password.getText().toString());
                 databaseHandler.deleteLoginInfo();
@@ -94,7 +107,6 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent mainActivityIntent = new Intent(LogInActivity.this, SingUpActivity.class);
-//                mainActivityIntent.putExtra(LANGUAGE_FLAG, language);
                 startActivity(mainActivityIntent);
             }
         });
@@ -166,7 +178,7 @@ public class LogInActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         if (!TextUtils.isEmpty(serial.getText().toString())) {
                             serial.setError(null);
-                        } else{
+                        } else {
                             serial.setError("Required");
                         }
 
@@ -330,7 +342,6 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
-
     void addSettingButton() {
         final Dialog dialog = new Dialog(LogInActivity.this, R.style.Theme_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -381,8 +392,10 @@ public class LogInActivity extends AppCompatActivity {
         arabic = findViewById(R.id.login_arabic);
         english = findViewById(R.id.login_english);
         checkValidation = findViewById(R.id.login_checkValidation);
-
         SettingImage = findViewById(R.id.Setting);
+    }
+
+    void checkLanguage() {
         if (language.equals("ar")) {
             userName.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_person_black_24dp), null);
@@ -394,6 +407,7 @@ public class LogInActivity extends AppCompatActivity {
             password.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_https_black_24dp), null
                     , null, null);
         }
+
     }
 
     // ******************************************** CHECK QR VALIDATION *************************************
@@ -483,6 +497,7 @@ public class LogInActivity extends AppCompatActivity {
                     Log.e("tag", "****Failed to export data");
                 }
             } else {
+                Toast.makeText(LogInActivity.this, "Please check internet connection!", Toast.LENGTH_SHORT).show();
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
         }

@@ -224,13 +224,13 @@
                 app:fontFamily="sans-serif-smallcaps" />
 
     <TextView
-        android:id="@+id/request"
+        android:id="@+id/main_request"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:layout_weight="1"
         android:background="@drawable/edit_bac_sinup"
-        android:drawableLeft="@drawable/ic_access_time_black_24dp"
+        android:drawableLeft="@drawable/ic_grain"
         android:fontFamily="sans-serif-light"
         android:gravity="center|start"
         android:padding="10dp"

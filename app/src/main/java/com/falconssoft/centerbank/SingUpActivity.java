@@ -51,7 +51,7 @@ public class SingUpActivity extends AppCompatActivity {
         date_text.setText(convertToEnglish(today));
         checkLanguage();
 
-        Log.e("editing,2 ", language);
+        Log.e("editing,signup ", language);
     }
 
     private void init() {

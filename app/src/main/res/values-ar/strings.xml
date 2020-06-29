@@ -25,7 +25,7 @@
     <string name="amount_in_words">المبلغ بالكلمات</string>
     <string name="check_pic">صورة الشيك</string>
     <string name="send">ارسال</string>
-    <string name="main_sentence">يرجى مسح الباركود اولا </string>
+    <string name="main_sentence">قم بمسح الباركود لتحرير شيك جديد</string>
     <string name="scan_barcode">مسح الباركود</string>
     <string name="have_a_problem">مساعدة !</string>
     <string name="serial_no">الرقم التسلسلي</string>

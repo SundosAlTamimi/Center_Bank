@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     CircleImageView imageView;
     private Button notification, menuButton;
     TextView barCodTextTemp, scanBarcode, signout;
-    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing;
+    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog,message;
@@ -91,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
+        language = prefs.getString("language", "en");
+        Log.e("editing,main ", language);
+
         picforbar = new ArrayList<>();
         picforbar.add("01365574861");
         picforbar.add("0136557486");
@@ -112,9 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 //        message.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
-
-        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
-        language = prefs.getString("language", "en");
+        checkLanguage();
 
         logHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -302,6 +305,8 @@ public class MainActivity extends AppCompatActivity {
         scanBarcode = findViewById(R.id.scanBarcode);
         notification = findViewById(R.id.button_notification);
         toolbar = findViewById(R.id.main_toolbar);
+        request = findViewById(R.id.main_request);
+
         setSupportActionBar(toolbar);
         setTitle("");
         message=findViewById(R.id.messages);
@@ -321,6 +326,25 @@ public class MainActivity extends AppCompatActivity {
 //    generateCheque = findViewById(R.id.main_send);
         logHistory = findViewById(R.id.main_history);
         Editing = findViewById(R.id.Editing);
+    }
+
+    void checkLanguage() {
+        if (language.equals("ar")) {
+            Editing.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_send_black_24dp), null);
+            logHistory.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_access_time_black_24dp), null);
+            request.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_grain), null);
+
+        } else {
+            Editing.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_send_black_24dp), null
+                    , null, null);
+            logHistory.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_access_time_black_24dp), null
+                    , null, null);
+            request.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_grain), null
+                    , null, null);
+        }
     }
 
     @Override
