@@ -268,6 +268,13 @@ public class MainActivity extends AppCompatActivity {
         TextView close = dialog.findViewById(R.id.dialog_add_close);
         TextView add = dialog.findViewById(R.id.dialog_addAccount_add);
         TextView scan = dialog.findViewById(R.id.dialog_addAccount_scan);
+        LinearLayout linearLayout = dialog.findViewById(R.id.dialog_addAccount_linear);
+
+        if (language.equals("ar")){
+            linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        }else {
+            linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
