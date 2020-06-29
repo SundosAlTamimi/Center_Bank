@@ -43,7 +43,8 @@ dependencies {
 
     implementation 'com.github.f0ris.sweetalert:library:1.5.6'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
+    implementation  'com.loopj.android:android-async-http:1.4.9'
+    implementation 'net.gotev:uploadservice:2.1'
 
 
 

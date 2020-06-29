@@ -3,31 +3,21 @@ package com.falconssoft.centerbank;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PixelFormat;
-import android.hardware.Camera;
-import android.net.Uri;
+import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.MovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -37,16 +27,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.core.content.ContextCompat;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.UploadNotificationConfig;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -60,23 +53,31 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.Constants;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static android.widget.LinearLayout.VERTICAL;
-
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
+import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditerCheackActivity extends AppCompatActivity {
@@ -96,6 +97,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     Date currentTimeAndDate;
     SimpleDateFormat df;
     private String today, serverPic = "";
+    Bitmap serverPicBitmap;
     Calendar myCalendar;
     private JSONObject jsonObject;
 
@@ -244,6 +246,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         myCalendar = Calendar.getInstance();
 
         pushCheque.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View view) {
 // CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
@@ -294,7 +297,10 @@ public class EditerCheackActivity extends AppCompatActivity {
                                     jsonObject = new JSONObject();
                                     jsonObject = chequeInfo.getJSONObject();
 
-                                    new JSONTask1().execute();
+//                                    imageSend();
+//                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
+//                new Image().execute();
+                                    new GetAllTransaction().execute();
 
                                 } else {
                                     Danier.setError("Required!");
@@ -390,6 +396,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                     Bitmap image = (Bitmap) data.getExtras().get("data");
                     if (image != null) {
                         CheckPic.setImageBitmap(image);
+                        serverPicBitmap=image;
                         serverPic = bitMapToString(image);
                     }
                 }
@@ -445,7 +452,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo) {
         if (check) {
-            final Dialog dialog = new Dialog(this);
+            final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_after_validation);
             dialog.setCancelable(false);
@@ -526,13 +533,28 @@ public class EditerCheackActivity extends AppCompatActivity {
     public String bitMapToString(Bitmap bitmap) {
         if (bitmap != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] arr = baos.toByteArray();
             String result = Base64.encodeToString(arr, Base64.DEFAULT);
             return result;
         }
         return "";
     }
+
+    public String getBase64Image(Bitmap bitmap) {
+        try {
+            ByteBuffer buffer =
+                    ByteBuffer.allocate(bitmap.getRowBytes() *
+                            bitmap.getHeight());
+            bitmap.copyPixelsToBuffer(buffer);
+            byte[] data = buffer.array();
+            return Base64.encodeToString(data, Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public Bitmap StringToBitMap(String image) {
         try {
@@ -720,6 +742,480 @@ private class JSONTask extends AsyncTask<String, String, String> {
 }
 
 // ******************************************** SAVE *************************************
+
+
+
+    private class GetAllTransaction extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+                String link = "http://10.0.0.16:8081/SaveTempCheck";
+
+
+                String data = "CHECKINFO=" + URLEncoder.encode(jsonObject.toString(), "UTF-8");
+//
+                URL url = new URL(link);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("editorChequeActivity/", "saved//" + s);
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****saved Success In Edit");
+//                    linerEditing.setVisibility(View.GONE);
+//                   linerBarcode.setVisibility(View.VISIBLE);
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("Successful")
+                            .setContentText("Save Successful")
+                            .setConfirmText("Ok")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    finish();
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).show();
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("WARNING")
+                            .setContentText("Fail to send!")
+                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+
+                        }
+                    })
+                            .show();
+                }
+            } else {
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
+
+    void imageSend() {
+
+        Bitmap bitmap =serverPicBitmap;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); //compress to which format you want.
+        byte [] byte_arr = stream.toByteArray();
+        String result = Base64.encodeToString(byte_arr, Base64.DEFAULT);
+        ArrayList<BasicNameValuePair> nameValuePairs = new ArrayList<>();
+
+        nameValuePairs.add(new BasicNameValuePair("image",result));
+
+        try{
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://10.0.0.16/images/");
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = httpclient.execute(httppost);
+            String the_string_response = convertResponseToString(response);
+            Toast.makeText(EditerCheackActivity.this, "Response " + the_string_response, Toast.LENGTH_LONG).show();
+        }catch(Exception e){
+            Toast.makeText(EditerCheackActivity.this, "ERROR " + e.getMessage(), Toast.LENGTH_LONG).show();
+            System.out.println("Error in http connection "+e.toString());
+        }
+
+    }
+
+    public String convertResponseToString(HttpResponse response) throws IllegalStateException, IOException{
+
+        String res = "";
+        StringBuffer buffer = new StringBuffer();
+       InputStream inputStream = response.getEntity().getContent();
+        int contentLength = (int) response.getEntity().getContentLength(); //getting content length…..
+        Toast.makeText(EditerCheackActivity.this, "contentLength : " + contentLength, Toast.LENGTH_LONG).show();
+        if (contentLength < 0){
+        }
+        else{
+            byte[] data = new byte[512];
+            int len = 0;
+            try
+            {
+                while (-1 != (len = inputStream.read(data)) )
+                {
+                    buffer.append(new String(data, 0, len)); //converting to string and appending  to stringbuffer…..
+                }
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            try
+            {
+                inputStream.close(); // closing the stream…..
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            res = buffer.toString();     // converting stringbuffer to string…..
+
+            Toast.makeText(EditerCheackActivity.this, "Result : " + res, Toast.LENGTH_LONG).show();
+            //System.out.println("Response => " +  EntityUtils.toString(response.getEntity()));
+        }
+        return res;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    File creatFile(Bitmap finalBitmap) {
+
+        File pdfFolder = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS), "pngdemo");
+        if (!pdfFolder.exists()) {
+            pdfFolder.mkdirs();
+            Log.i("Created", "Pdf Directory created");
+        }
+
+        //Create time stamp
+//        Date date = new Date() ;
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(date);
+
+        File myFile = new File(pdfFolder + "kk" + ".png");
+        try {
+            FileOutputStream out = new FileOutputStream(myFile);
+            finalBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        MediaScannerConnection.scanFile(EditerCheackActivity.this, new String[]{myFile.getPath()}, new String[]{"image/png"}, null);
+
+
+        return myFile;
+    }
+
+
+void im(File myFile){
+//    File myFile = new File(path);
+    RequestParams params = new RequestParams();
+    try {
+        params.put("images", myFile);
+    } catch(FileNotFoundException e) {}
+
+// send request
+    try {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post("//10.0.0.16/", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
+                // handle success response
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+                // handle failure response
+            }
+        });
+
+    }catch (Exception e){
+        Log.e("Esss",""+e.toString());
+    }
+}
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public String addPicToGallery(Bitmap finalBitmap) {
+        File root = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS), "pdfdemo");
+        File myDir = new File(String.valueOf(root));
+        myDir.mkdirs();
+        String fname = "Image_" + "jjjj" + ".png";
+        File file = new File(myDir, fname);
+        System.out.println(file.getAbsolutePath());
+        if (file.exists()) file.delete();
+        Log.i("LOAD", root + fname);
+        try {
+            FileOutputStream out = new FileOutputStream(root);
+            finalBitmap.compress(Bitmap.CompressFormat.PNG, 600, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        MediaScannerConnection.scanFile(EditerCheackActivity.this, new String[]{file.getPath()}, new String[]{"image/jpeg"}, null);
+        return file.getPath();
+    }
+
+    public void uploadMultipart(String filePath) {
+        //getting name for the image
+        String name = "imagess";
+
+        //getting the actual path of the image
+        String path = filePath;
+
+        //Uploading code
+        try {
+            String uploadId = UUID.randomUUID().toString();
+
+            //Creating a multi part request
+            new MultipartUploadRequest(this, uploadId, "file://10.0.0.16/images")
+                    .addFileToUpload(path, "image") //Adding file
+                    .addParameter("name", name) //Adding text parameter to the request
+                    .setNotificationConfig(new UploadNotificationConfig())
+                    .setMaxRetries(2)
+                    .startUpload(); //Starting the upload
+
+        } catch (Exception exc) {
+            Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class Image extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+                String link = "http://10.0.0.16/images/";
+
+
+//                String data = "CHECKINFO=" + URLEncoder.encode(jsonObject.toString(), "UTF-8");
+//
+                URL url = new URL(link);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+//                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+//                wr.writeBytes(data);
+//                wr.flush();
+//                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("editorChequeActivity/", "saved//" + s);
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****saved Success In Edit");
+//                    linerEditing.setVisibility(View.GONE);
+//                   linerBarcode.setVisibility(View.VISIBLE);
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("Successful")
+                            .setContentText("Save Successful")
+                            .setConfirmText("Ok")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    finish();
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).show();
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("WARNING")
+                            .setContentText("Fail to send!")
+                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+
+                        }
+                    })
+                            .show();
+                }
+            } else {
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
+
+
+
+//    public void uploadProfileImage(final String fileName){
+//        byte[] imageBytes = getBytesImage(bitmap);
+//       HttpClient httpclient = new DefaultHttpClient();
+//        httpPost = new HttpPost(“URL to upload image to...“);
+//        String boundary = "-------------" + System.currentTimeMillis();
+//        httpPost.setHeader("Content-type", "multipart/form-data;
+//                boundary="+boundary);
+//                ByteArrayBody bab = new ByteArrayBody(imageBytes,fileName);
+//        StringBody userId = new StringBody(mPrefs.getUser().getId(),
+//                ContentType.TEXT_PLAIN);
+//        StringBody type = new StringBody("baby",ContentType.TEXT_PLAIN);
+//        HttpEntity entity = MultipartEntityBuilder.create()
+//                .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
+//                .setBoundary(boundary)
+//                .addPart("imageUpload",bab)
+//                .addPart("userid",userId)
+//                .addPart("type",type)
+//                .build();
+//        httpPost.setEntity(entity);
+//        class UploadImage extends AsyncTask<Void,Void,String> {
+//            ProgressDialog loading;
+//            @Override
+//            protected void onPreExecute() {
+//                super.onPreExecute();
+//                loading = ProgressDialog.show(getActivity(),"Please
+//                        wait...","uploading picture",false,false);
+//            }
+//            @Override
+//            protected void onPostExecute(String s){
+//                super.onPostExecute(s);
+//                loading.dismiss();
+//                Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            protected String doInBackground(Void...param){
+//                String res = "";
+//                HttpResponse response;
+//                try{
+//                    response = httpclient.execute(httpPost);
+//                    res = response.getStatusLine().toString();
+//                    User user = mPrefs.getUser();
+//                    user.setProfileImageUrl(PICTURE_URL+fileName);
+//                    mPrefs.saveUser(user);
+//                }catch(IOException e){
+//                    e.printStackTrace();
+//                }
+//                return "Profile image upload successful"
+//            }
+//        }
+//        UploadImage u = new UploadImage();
+//        u.execute();
+//    }
+
 private class JSONTask1 extends AsyncTask<String, String, String> {
 
     @Override

@@ -1,5 +1,6 @@
 package com.falconssoft.centerbank.Models;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -30,6 +31,9 @@ public class ChequeInfo {
     private String transType;
     private String status;
     private String Date;
+
+
+    private String ISOpen;
 
     public String getRowId() {
         return rowId;
@@ -227,6 +231,14 @@ public class ChequeInfo {
 
     public void setDate(String date) {
         Date = date;
+    }
+
+    public String getISOpen() {
+        return ISOpen;
+    }
+
+    public void setISOpen(String ISOpen) {
+        this.ISOpen = ISOpen;
     }
 
     // CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
