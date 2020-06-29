@@ -44,12 +44,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -556,7 +551,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                     if (image != null) {
                         CheckPic.setImageBitmap(image);
                         serverPicBitmap=image;
-                        serverPic = bitMapToString(image);
+                        serverPic = getBase64Image(image);
                     }
                 }
 
