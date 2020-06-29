@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ import java.util.TimerTask;
 
 import static android.widget.LinearLayout.VERTICAL;
 import static com.falconssoft.centerbank.EditerCheackActivity.localNationlNo;
+import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
 import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 
@@ -72,11 +74,13 @@ public class AlertScreen extends AppCompatActivity {
     public  String userNmae="",Passowrd="";
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor editor;
+    public  static   String language="";
     ArrayList<String> arrayListRow=new ArrayList<>();
     ArrayList<String> arrayListRowFirst=new ArrayList<>();
     DatabaseHandler databaseHandler;
     public  static  String ROW_ID_PREFERENCE="ROW_ID_PREFERENCE";
     LoginINFO user;
+    LinearLayout layout;
     Timer timer;
     public  static ArrayList<ChequeInfo> checkInfoNotification;
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -85,21 +89,39 @@ public class AlertScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_main_screen);
+        layout = (LinearLayout)findViewById(R.id.mainlayout);
+        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
+        language = prefs.getString("language", "en");//"No name defined" is the default value.
+        Log.e("editing,3 ", language);
+        if(language.equals("ar"))
+        {
+            layout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        }
+        else {
+            layout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
+        }
 
         initialview();
+        notification on=new notification();
+        on.setAmount_check("100");
+        on.setDate("10/05/321");
+        on.setSource("ahmed");
+        fillListNotification(on);
 
-        new GetAllCheck_JSONTask().execute();
-        CountDownTimer waitTimer;
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                new GetAllCheck_JSONTask().execute();
-
-
-            }
-
-        }, 0, 5000);
+//
+//        new GetAllCheck_JSONTask().execute();
+//        CountDownTimer waitTimer;
+//        timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                new GetAllCheck_JSONTask().execute();
+//
+//
+//            }
+//
+//        }, 0, 5000);
 
 
 
@@ -332,6 +354,7 @@ public class AlertScreen extends AppCompatActivity {
                             arrayListRowFirst.addAll(set);
 
                             int countFirst=arrayListRowFirst.size();
+                            Log.e("countFirst",""+countFirst);
                             int j=0;
 
                             for(int k=0;k<arrayListRowFirst.size();k++)
@@ -348,6 +371,8 @@ public class AlertScreen extends AppCompatActivity {
 //
 
                                 }
+                            Log.e("countFirstAfter",""+arrayListRowFirst.size());
+
                             if(countFirst!=arrayListRowFirst.size())
                             {
                                 Log.e("arrayListRowFirstSize",""+arrayListRowFirst.size());
@@ -460,6 +485,8 @@ public class AlertScreen extends AppCompatActivity {
     private void fillListNotification(notification one)
     {
         Log.e("fillListNotification",""+one.getSource());
+        notificationArrayList.add(one);
+        notificationArrayList.add(one);
         notificationArrayList.add(one);
 
         layoutManager = new LinearLayoutManager(AlertScreen.this);

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -47,8 +48,11 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.falconssoft.centerbank.AlertScreen.checkInfoNotification;
+import static com.falconssoft.centerbank.AlertScreen.language;
 import static com.falconssoft.centerbank.AlertScreen.textCheckstateChanger;
+import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
 public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapter.ViewHolder> {
     //    RecyclerView.Adapter<engineer_adapter.ViewHolder>
@@ -56,6 +60,8 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
     List<notification> notificationList;
     int row_index=-1;
      String checkState="0";
+    public static String languagelocalApp="";
+
 
     public NotificatioAdapter(Context context, List<notification> notifications) {
         this.context = context;
@@ -68,13 +74,22 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_for_notification, viewGroup, false);
+
         return new NotificatioAdapter.ViewHolder(view);
     }
 
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
+        
+        if(language.equals("ar"))
+        {
+            viewHolder.mainLinearAdapter.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        }
+        else {
+            viewHolder.mainLinearAdapter.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
+        }
         viewHolder.date_check.setText(notificationList.get(i).getDate());
         viewHolder.amount_check.setText(notificationList.get(i).getAmount_check());
         viewHolder.source_check.setText(notificationList.get(i).getSource());
@@ -139,7 +154,7 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView source_check, amount_check,date_check;
         CircleImageView image_check;
-        LinearLayout linearCheckInfo;
+        LinearLayout linearCheckInfo,mainLinearAdapter;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -148,6 +163,7 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
             date_check=itemView.findViewById(R.id.date_check);
             image_check=itemView.findViewById(R.id.image_check);
             linearCheckInfo=itemView.findViewById(R.id.linearCheckInfo);
+            mainLinearAdapter=itemView.findViewById(R.id.mainLinearAdapter);
 //
 
 
@@ -174,6 +190,14 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.show_check_detail);
             dialog.show();
+//            if (languagelocalApp.equals("ar")) {
+//                mainlayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//            } else {
+//                if (languagelocalApp.equals("en")) {
+//                    mainlayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+//                }
+//
+//            }
             TextView textAmouWord,textAmountNo,textToOrder,textSourceCheck,textPhoneNo,texDate,textCompanyname,note;
            ImageView mImageView;
            PhotoViewAttacher mAttacher;
