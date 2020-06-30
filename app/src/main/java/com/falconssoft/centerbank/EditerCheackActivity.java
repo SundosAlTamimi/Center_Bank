@@ -43,23 +43,13 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import net.gotev.uploadservice.MultipartUploadRequest;
-import net.gotev.uploadservice.UploadNotificationConfig;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -131,7 +121,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     static String qrCode = "";
     static String[] arr;
-
+//
     static String CHECKNO = "";
     static String ACCCODE = "";
     static String IBANNO = "";
@@ -556,7 +546,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                     if (image != null) {
                         CheckPic.setImageBitmap(image);
                         serverPicBitmap=image;
-                        serverPic = bitMapToString(image);
+                        serverPic = getBase64Image(image);
                     }
                 }
 
@@ -1041,32 +1031,32 @@ private class JSONTask extends AsyncTask<String, String, String> {
     }
 
 
-void im(File myFile){
-//    File myFile = new File(path);
-    RequestParams params = new RequestParams();
-    try {
-        params.put("images", myFile);
-    } catch(FileNotFoundException e) {}
-
-// send request
-    try {
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.post("//10.0.0.16/", params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
-                // handle success response
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
-                // handle failure response
-            }
-        });
-
-    }catch (Exception e){
-        Log.e("Esss",""+e.toString());
-    }
-}
+//void im(File myFile){
+////    File myFile = new File(path);
+//    RequestParams params = new RequestParams();
+//    try {
+//        params.put("images", myFile);
+//    } catch(FileNotFoundException e) {}
+//
+//// send request
+//    try {
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        client.post("//10.0.0.16/", params, new AsyncHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
+//                // handle success response
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+//                // handle failure response
+//            }
+//        });
+//
+//    }catch (Exception e){
+//        Log.e("Esss",""+e.toString());
+//    }
+//}
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -1105,12 +1095,12 @@ void im(File myFile){
             String uploadId = UUID.randomUUID().toString();
 
             //Creating a multi part request
-            new MultipartUploadRequest(this, uploadId, "file://10.0.0.16/images")
-                    .addFileToUpload(path, "image") //Adding file
-                    .addParameter("name", name) //Adding text parameter to the request
-                    .setNotificationConfig(new UploadNotificationConfig())
-                    .setMaxRetries(2)
-                    .startUpload(); //Starting the upload
+//            new MultipartUploadRequest(this, uploadId, "file://10.0.0.16/images")
+//                    .addFileToUpload(path, "image") //Adding file
+//                    .addParameter("name", name) //Adding text parameter to the request
+//                    .setNotificationConfig(new UploadNotificationConfig())
+//                    .setMaxRetries(2)
+//                    .startUpload(); //Starting the upload
 
         } catch (Exception exc) {
             Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();

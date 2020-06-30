@@ -52,4 +52,7 @@
     <string name="cheque_no">رقم الشيك :</string>
     <string name="account_no_">رقم الحساب :</string>
     <string name="the_cheque_has_been_validated">تم التحقق من صحة الشيك</string>
+    <string name="Accept">موافق</string>
+    <string name="Reject">الغاء</string>
+    <string name="CheckDetail">تفاصيل الشيك </string>
 </resources>

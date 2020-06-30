@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="400dp"
+    android:layout_width="350dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/white"> 
@@ -14,6 +13,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/ic_done"
         android:tint="@color/red"
         />
 
@@ -22,10 +22,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingHorizontal="100dp"
         android:fontFamily="serif"
         android:text="@string/the_cheque_has_been_validated"
         android:textSize="20sp"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
         />
 
     <LinearLayout
@@ -47,11 +50,15 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:fontFamily="serif"
-                android:gravity="center"
+                android:gravity="center|start"
                 android:text="@string/bank_name"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <TextView
                 android:id="@+id/dialog_validation_bankName"
@@ -61,7 +68,11 @@
                 android:fontFamily="serif"
                 android:gravity="center_vertical|left"
                 android:text="Bank Of Jordan"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <ImageView
                 android:src="@drawable/jordan_bank"
@@ -84,11 +95,15 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:fontFamily="serif"
-                android:gravity="center"
+                android:gravity="center|start"
                 android:text="@string/cheque_writer"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <TextView
                 android:id="@+id/dialog_validation_chequeWriter"
@@ -99,7 +114,11 @@
                 android:gravity="center_vertical|left"
                 android:text="mr ahmad ali"
                 android:textAllCaps="true"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
         </LinearLayout>
 
@@ -113,11 +132,15 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:fontFamily="serif"
-                android:gravity="center"
+                android:gravity="center|start"
                 android:text="@string/cheque_no"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <TextView
                 android:id="@+id/dialog_validation_chequeNo"
@@ -128,7 +151,11 @@
                 android:text="125565485"
                 android:gravity="center_vertical|left"
                 android:textAllCaps="true"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
         </LinearLayout>
 
@@ -142,11 +169,15 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:fontFamily="serif"
-                android:gravity="center"
+                android:gravity="center|start"
                 android:text="@string/account_no_"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <TextView
                 android:id="@+id/dialog_validation_accountNo"
@@ -157,7 +188,11 @@
                 android:text="54654654546545"
                 android:gravity="center_vertical|left"
                 android:textAllCaps="true"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
         </LinearLayout>
     </LinearLayout>
@@ -181,7 +216,11 @@
             android:gravity="right"
             android:text="@string/dialog_ok"
             android:textColor="@color/red"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <TextView
             android:id="@+id/dialog_validation_cancel"
@@ -190,7 +229,11 @@
             android:layout_weight="1"
             android:fontFamily="serif"
             android:text="@string/dialog_cancel"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
     </LinearLayout>
 
