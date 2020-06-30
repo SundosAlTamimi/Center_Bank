@@ -282,6 +282,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
                     // TODO add account
+
+
+
                     Toast.makeText(MainActivity.this, "Save Success", Toast.LENGTH_SHORT).show();
 
                     dialog.dismiss();
@@ -457,7 +460,7 @@ public class MainActivity extends AppCompatActivity {
                       String accCode = arr[3];
 //                    String ibanNo = arr[4];
 //                    String custName= "";
-                inputEditTextTemp .setText(accCode);
+                inputEditTextTemp .setText(accCode.substring(1));
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -517,37 +520,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
 
-//                    switch (Integer.parseInt(v.getTag().toString())) {
-////                        case 0:
-////                            Intent intents = new Intent(CategoryActivity.this, RewardActivity.class);
-////                            startActivity(intents);
-////                            break;
-//                        case 0:
-//                            Intent intents = new Intent(CategoryActivity.this, ProfileActivity.class);
-//                            startActivity(intents);
-//                            break;
-//                        case 1:
-//                            Intent intentN = new Intent(CategoryActivity.this, NotificationActivity.class);
-//                            startActivity(intentN);
-//                            break;
-//                        case 2:
-//                            Intent intent = new Intent(CategoryActivity.this, PointViewActivity.class);
-//                            startActivity(intent);
-//                            break;
-//                        case 3:
-//                            BarcodeDialog();
-//                            break;
-//                        case 4:
-//                            BranchesDialog();
-////                            sendSMS("0786812709","point app 12234");
-//                            break;
-//
-//                        case 5:
-//                            Intent addNewIntent = new Intent(CategoryActivity.this, AddNewActivity.class);
-//                            startActivity(addNewIntent);
-//                            finish();
-//                            break;
-//                    }
+                    
 
                 }
             });

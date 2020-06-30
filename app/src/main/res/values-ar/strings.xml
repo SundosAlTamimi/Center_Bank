@@ -56,4 +56,5 @@
     <string name="Reject">الغاء</string>
     <string name="CheckDetail">تفاصيل الشيك </string>
     <string name="customer_name">Customer Name</string>
+    <string name="cashier_check">cashier Check</string>
 </resources>
