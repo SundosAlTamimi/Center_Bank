@@ -2,7 +2,7 @@
 <resources>
     <color name="alpha_black_color">#C40C0C0C</color>
     <color name="gray_dark">#383636</color>
-    <color name="blue">#5474ff</color>
+    <color name="blue">#0DC0F7</color>
     <color name="white">#FFFFFF</color>
     <color name="dark_pink">#D81B60</color>
     <color name="yellow">#C59301</color>
@@ -31,5 +31,7 @@
     <color name="alpha_black2">#80000000</color>
     <color name="alpha_gray">#AD363535</color>
 
+    <color name="RealRed">#FA0404</color>
+    <color name="RealGreen">#38AF04</color>
 
 </resources>
