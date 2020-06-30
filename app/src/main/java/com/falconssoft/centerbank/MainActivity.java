@@ -520,7 +520,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
 
-                    
+
 
                 }
             });
