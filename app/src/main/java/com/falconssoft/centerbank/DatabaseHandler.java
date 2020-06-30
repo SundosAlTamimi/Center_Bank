@@ -14,10 +14,11 @@ import com.falconssoft.centerbank.Models.NewAccount;
 import com.falconssoft.centerbank.Models.Setting;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int VERSION = 4;
+    private static final int VERSION = 6;
     private static final String BD_NAME = "cheque_editor";
 
     // ********************************************************************
@@ -102,7 +103,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         try {
         } catch (Exception e) {
 
-            String createTableaccount = "ALTER TABLE ACCOUNT_TABLE ADD COLUMN ACCOUNT_STATUS TEXT";
+            String createTableaccount = "ALTER TABLE ACCOUNT_TABLE ADD  ACCOUNT_STATUS TEXT";
             db.execSQL(createTableaccount);
 
             String createTableSignup = "CREATE TABLE IF NOT EXISTS " + SIGNUP_TABLE
@@ -143,6 +144,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ACCOUNT_BANK_NO, newAccount.getAccountNo());
         contentValues.put(ACCOUNT_BANK, newAccount.getBank());
+        contentValues.put(ACCOUNT_STATUS, newAccount.getStatus());
 
         database.insert(ACCOUNT_TABLE, null, contentValues);
         database.close();
@@ -228,6 +230,33 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return item;
     }
 
+
+
+
+
+
+    public List<NewAccount> getAllAcCount() {
+        ArrayList<NewAccount> newAccounts = new ArrayList<>();
+        SQLiteDatabase database = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + ACCOUNT_TABLE;
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+
+        if (cursor.moveToFirst()) {
+            do {
+                NewAccount item = new NewAccount();
+
+                item.setBank(cursor.getString(1));
+                item.setAccountNo(cursor.getString(2));
+                item.setStatus(cursor.getString(3));
+
+                newAccounts.add(item);
+
+            } while (cursor.moveToNext());
+        }
+        return newAccounts;
+    }
+
     // ************************************** DELETE ************************************
     public void deleteLoginInfo() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -242,5 +271,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteAccount(String AccountNo) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ACCOUNT_TABLE+" where ACCOUNT_BANK_NO = '"+AccountNo +"'"); //delete item code rows in a table
+        db.close();
+
+    }
+
+
+
+    public void updateStatus(String Status) {
+        SQLiteDatabase Idb = this.getWritableDatabase();
+
+        Idb = this.getWritableDatabase();
+
+        ContentValues args = new ContentValues();
+        args.put(ACCOUNT_STATUS, Status);
+
+        Idb.update(ACCOUNT_TABLE, args, null, null);
+
+
+    }
 
 }

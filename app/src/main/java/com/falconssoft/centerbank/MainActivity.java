@@ -56,6 +56,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
+import com.falconssoft.centerbank.Models.NewAccount;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
-    List<String> picforbar;
+    List<NewAccount> picforbar;
     private Toolbar toolbar;
     Timer timer;
     TextInputEditText inputEditTextTemp;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
     private String language;
+    DatabaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,27 +104,30 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
         Log.e("editing,main ", language);
-
-        picforbar = new ArrayList<>();
-        picforbar.add("01365574861");
-        picforbar.add("0136557486");
-        picforbar.add("01365574861");
-        picforbar.add("01365574861");
-        picforbar.add("01365574861");
-        picforbar.add("01365574861");
-
-        layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, true);
-        recyclerViews = (RecyclerView) findViewById(R.id.res);
-        recyclerViews.setLayoutManager(layoutManagerd);
-        recyclerViews.setHasFixedSize(true);
-        recyclerViews.addOnScrollListener(new CenterScrollListener());
-        layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
-        recyclerViews.setAdapter(new TestAdapterForbar(this, picforbar));
-        recyclerViews.requestFocus();
-        recyclerViews.scrollToPosition(2);
-        recyclerViews.requestFocus();
-
         init();
+        picforbar = new ArrayList<>();
+//        picforbar.add("01365574861","");
+//        picforbar.add("0136557486");
+//        picforbar.add("01365574861");
+//        picforbar.add("01365574861");
+//        picforbar.add("01365574861");
+//        picforbar.add("01365574861");
+
+        picforbar=dbHandler.getAllAcCount();
+
+//        layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, true);
+//        recyclerViews = (RecyclerView) findViewById(R.id.res);
+//        recyclerViews.setLayoutManager(layoutManagerd);
+//        recyclerViews.setHasFixedSize(true);
+//        recyclerViews.addOnScrollListener(new CenterScrollListener());
+//        layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+//        recyclerViews.setAdapter(new TestAdapterForbar(this, picforbar));
+//        recyclerViews.requestFocus();
+//        recyclerViews.scrollToPosition(2);
+//        recyclerViews.requestFocus();
+
+        showAllDataAccount();
+
 //        message.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
         checkLanguage();
 
@@ -183,6 +188,21 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+
+
+    }
+
+    void showAllDataAccount(){
+        layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, true);
+
+        recyclerViews.setLayoutManager(layoutManagerd);
+        recyclerViews.setHasFixedSize(true);
+        recyclerViews.addOnScrollListener(new CenterScrollListener());
+        layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+        recyclerViews.setAdapter(new TestAdapterForbar(this, picforbar));
+        recyclerViews.requestFocus();
+        recyclerViews.scrollToPosition(2);
+        recyclerViews.requestFocus();
 
 
     }
@@ -283,9 +303,12 @@ public class MainActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
                     // TODO add account
 
-
+                    dbHandler.addNewAccount(new NewAccount(inputEditText.getText().toString(),"Jordan Bank","0"));//0 -->not active  1-->active
 
                     Toast.makeText(MainActivity.this, "Save Success", Toast.LENGTH_SHORT).show();
+                    picforbar=dbHandler.getAllAcCount();
+
+                    showAllDataAccount();
 
                     dialog.dismiss();
                 } else
@@ -324,7 +347,8 @@ public class MainActivity extends AppCompatActivity {
         notification = findViewById(R.id.button_notification);
         toolbar = findViewById(R.id.main_toolbar);
         request = findViewById(R.id.main_request);
-
+        dbHandler=new DatabaseHandler(MainActivity.this);
+        recyclerViews = (RecyclerView) findViewById(R.id.res);
         setSupportActionBar(toolbar);
         setTitle("");
         message=findViewById(R.id.messages);
@@ -491,10 +515,10 @@ public class MainActivity extends AppCompatActivity {
 
     class TestAdapterForbar extends RecyclerView.Adapter<MainActivity.CViewHolderForbar> {
         Context context;
-        List<String> list;
+        List<NewAccount> list;
 //DatabaseHandler db;
 
-        public TestAdapterForbar(Context context, List<String> list) {
+        public TestAdapterForbar(Context context, List<NewAccount> list) {
             this.context = context;
             this.list = list;
 //        db=new DatabaseHandler(this.context);
@@ -510,7 +534,7 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull final MainActivity.CViewHolderForbar cViewHolder, final int i) {
-            cViewHolder.ItemName.setText(list.get(i));
+            cViewHolder.ItemName.setText(list.get(i).getAccountNo());
 //            cViewHolder.itemImage.setBackgroundResource(getImage(pic2.get(i)));
             cViewHolder.layBar.setTag("" + i);
 
@@ -519,13 +543,24 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                     Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
-
+                    Intent LogHistoryIntent = new Intent(MainActivity.this, LogHistoryActivity.class);
+                    startActivity(LogHistoryIntent);
 
 
                 }
             });
 
             //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+            cViewHolder.layBar.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    dbHandler.deleteAccount(list.get(i).getAccountNo());
+
+                    return false;
+                }
+            });
 
         }
 
