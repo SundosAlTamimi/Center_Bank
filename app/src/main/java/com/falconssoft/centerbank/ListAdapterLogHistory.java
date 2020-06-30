@@ -12,6 +12,8 @@ import com.falconssoft.centerbank.Models.ChequeInfo;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ListAdapterLogHistory extends BaseAdapter {
     CheckBox checkPriceed;
     private Context context;
@@ -49,7 +51,11 @@ public class ListAdapterLogHistory extends BaseAdapter {
 
     private class ViewHolder {
        LinearLayout detailRow;
-        TextView state,name,transType,date,detail,from,to,TranseType ;//, price
+        TextView name,transType,date,detail,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo ;//, price
+CircleImageView status;
+
+
+
 
     }
 
@@ -59,9 +65,9 @@ public class ListAdapterLogHistory extends BaseAdapter {
         final ViewHolder holder = new ViewHolder();
         view = View.inflate(context, R.layout.report_row_log_history, null);
 
-        itemsList.get(i).setISOpen("0");
+
         holder.detailRow =  view.findViewById(R.id.detailRow);
-        holder.state =  view.findViewById(R.id.statuts);
+        holder.status =  view.findViewById(R.id.statuts);
         holder.name=  view.findViewById(R.id.name);
 //        holder.transType=  view.findViewById(R.id.trans);
         holder.date=  view.findViewById(R.id.date);
@@ -70,15 +76,42 @@ public class ListAdapterLogHistory extends BaseAdapter {
         holder.to =  view.findViewById(R.id.to);
         holder.TranseType =  view.findViewById(R.id.status);
 
+        holder.bankName =  view.findViewById(R.id.bankName);
+        holder.AmountJd =  view.findViewById(R.id.AmountJd);
+        holder.AmountWord =  view.findViewById(R.id.AmountWord);
+        holder.branchNo =  view.findViewById(R.id.branchNo);
+
+
         holder.detailRow.setVisibility(View.GONE);
-        holder.state.setText("" + itemsList.get(i).getStatus());
+//        holder.state.setText("" + itemsList.get(i).getStatus());
         holder.name.setText("" + itemsList.get(i).getCustName());
 //        holder.transType.setText("" + itemsList.get(i).getTransType());
-        holder.date.setText("" + itemsList.get(i).getDate());
-        holder.from.setText(""+ itemsList.get(i).getToCustomerName());
-        holder.to.setText("Amount is : "+ itemsList.get(i).getMoneyInDinar()+itemsList.get(i).getMoneyInFils()+"\n"+itemsList.get(i).getMoneyInWord());
-        holder.TranseType.setText("This Tran From bank Name  : "+ itemsList.get(i).getBankName());
+        holder.date.setText( itemsList.get(i).getCheckDueDate());
+        holder.from.setText("This Cheque from "+ itemsList.get(i).getCustName());
+        holder.to.setText("This Cheque to "+itemsList.get(i).getToCustomerName());
+        holder.TranseType.setText("This Tran From bank Name  : "+ itemsList.get(i).getTransType());
+        holder.bankName .setText("This Tran From bank Name  : "+ itemsList.get(i).getBankName());
+        holder.AmountJd .setText("Amount is : "+ itemsList.get(i).getMoneyInDinar()+"."+itemsList.get(i).getMoneyInFils());
+        holder.AmountWord .setText(""+itemsList.get(i).getMoneyInWord());
+        holder.branchNo .setText("This Tran From bank Name  : "+ itemsList.get(i).getBranchNo());
 
+
+
+
+        if(i==1){
+            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
+        }else if(i==2){
+            holder.status.setBorderColor(context.getResources().getColor(R.color.RealGreen));
+        }else{
+            holder.status.setBorderColor(context.getResources().getColor(R.color.blue));
+
+        }
+
+        if(i==1){
+            holder.status.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+        }else {
+            holder.status.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
+        }
 
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +123,9 @@ public class ListAdapterLogHistory extends BaseAdapter {
                     holder.detailRow.setVisibility(View.GONE);
                     itemsList.get(i).setISOpen("0");
                 }
+
+
+
             }
         });
 
