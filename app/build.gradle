@@ -53,6 +53,7 @@ dependencies {
     implementation  'com.loopj.android:android-async-http:1.4.9'
     implementation 'net.gotev:uploadservice:2.1'
 
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
 
 

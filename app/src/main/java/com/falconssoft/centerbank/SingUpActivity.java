@@ -1,41 +1,57 @@
 package com.falconssoft.centerbank;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.falconssoft.centerbank.Models.LoginINFO;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
 public class SingUpActivity extends AppCompatActivity {
-    TextView date_text;
-    Date currentTimeAndDate ;
-    SimpleDateFormat df ;
-    String today ;
-    Calendar myCalendar;
-    private EditText natonalNo, phoneNo, address, email, password;
-    private String language;
+    private TextView date_text;
+    private Date currentTimeAndDate;
+    private SimpleDateFormat df;
+    private Calendar myCalendar;
+    private EditText natonalNo, phoneNo, address, email, password, firstName, secondName, thirdName, fourthName;
+    private String language, today, selectedAccount = "Individual", selectedGender = "Male";
     private Animation animation;
     private LinearLayout linearLayout;
+    private Button save;
+    private Spinner spinnerAccountType, spinnerGender;
+    private List<String> accountTypeList = new ArrayList<>();
+    private List<String> genderList = new ArrayList<>();
+    private ArrayAdapter arrayAdapter, genderArrayAdapter;
+    private DatabaseHandler databaseHandler;
+    private ProgressDialog progressDialog;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sing_up_layout);
 
@@ -51,19 +67,138 @@ public class SingUpActivity extends AppCompatActivity {
         date_text.setText(convertToEnglish(today));
         checkLanguage();
 
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveMethod();
+            }
+        });
+
         Log.e("editing,signup ", language);
     }
 
+    private void saveMethod() {
+        String localNationalID = natonalNo.getText().toString();
+//        long localIntNationalID = Long.parseLong(localNationalID);
+//        Log.e("showId" , "" + localIntNationalID);
+        String localFirstName = firstName.getText().toString();
+        String localSecondName = secondName.getText().toString();
+        String localThirdName = thirdName.getText().toString();
+        String localFourthName = fourthName.getText().toString();
+        String localPhone = phoneNo.getText().toString();
+        String localAddress = address.getText().toString();
+        String localEmail = email.getText().toString();
+        String localPassword = password.getText().toString();
+        String localBirthDate = date_text.getText().toString();
+
+        if (!TextUtils.isEmpty(localNationalID) && localNationalID.length() == 10)
+            if (!TextUtils.isEmpty(localFirstName))
+                if (!TextUtils.isEmpty(localSecondName))
+                    if (!TextUtils.isEmpty(localThirdName))
+                        if (!TextUtils.isEmpty(localFourthName))
+                            if (!TextUtils.isEmpty("" + localPhone) && localPhone.length() == 10)
+                                if (!TextUtils.isEmpty(localAddress))
+                                    if (!TextUtils.isEmpty(localEmail))
+                                        if (!TextUtils.isEmpty(localPassword)) {
+
+                                            LoginINFO loginINFO = new LoginINFO();
+                                            loginINFO.setNationalID(Long.parseLong(localNationalID));
+                                            loginINFO.setFirstName(localFirstName);
+                                            loginINFO.setSecondName(localSecondName);
+                                            loginINFO.setThirdName(localThirdName);
+                                            loginINFO.setFourthName(localFourthName);
+                                            loginINFO.setUsername(localPhone);
+                                            loginINFO.setAddress(localAddress);
+                                            loginINFO.setEmail(localEmail);
+                                            loginINFO.setPassword(localPassword);
+                                            loginINFO.setBirthDate(localBirthDate);
+                                            loginINFO.setGender(selectedGender);
+
+                                            showDialog();
+                                            databaseHandler.addSignupInfo(loginINFO);
+                                            new Presenter(SingUpActivity.this).saveSignUpInfo(loginINFO);
+
+                                        } else
+                                            password.setError("Required!");
+                                    else
+                                        email.setError("Required!");
+                                else
+                                    address.setError("Required!");
+                            else
+                                phoneNo.setError("Required!");
+                        else
+                            fourthName.setError("Required!");
+                    else
+                        thirdName.setError("Required!");
+                else
+                    secondName.setError("Required!");
+            else
+                firstName.setError("Required!");
+        else
+            natonalNo.setError("Required!");
+
+    }
+
     private void init() {
+
+        databaseHandler = new DatabaseHandler(this);
+        save = findViewById(R.id.signUp_save);
+        firstName = findViewById(R.id.signUp_first_name);
+        secondName = findViewById(R.id.signUp_second_name);
+        thirdName = findViewById(R.id.signUp_third_name);
+        fourthName = findViewById(R.id.signUp_fourth_name);
         natonalNo = findViewById(R.id.signUp_IdNo);
         phoneNo = findViewById(R.id.signUp_phone);
         address = findViewById(R.id.signUp_address);
         email = findViewById(R.id.signUp_email);
         password = findViewById(R.id.signUp_password);
         linearLayout = findViewById(R.id.signup_nameLinear);
-        date_text=(TextView)findViewById(R.id.Date);
+        date_text = (TextView) findViewById(R.id.Date);
         linearLayout = findViewById(R.id.signup_nameLinear);
         date_text = (TextView) findViewById(R.id.Date);
+        spinnerAccountType = findViewById(R.id.signUp_accountType);
+        spinnerGender = findViewById(R.id.signUp_gender);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Waiting...");
+
+        accountTypeList.clear();
+        accountTypeList.add("Individual");
+        accountTypeList.add("Corporate");
+        accountTypeList.add("Join Account");
+        arrayAdapter = new ArrayAdapter(this, R.layout.spinner_layout, accountTypeList);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
+        spinnerAccountType.setAdapter(arrayAdapter);
+        spinnerAccountType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                selectedAccount = adapterView.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        genderList.clear();
+        genderList.add("Male");
+        genderList.add("Female");
+        genderArrayAdapter = new ArrayAdapter(this, R.layout.spinner_layout, genderList);
+        genderArrayAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
+        spinnerGender.setAdapter(genderArrayAdapter);
+        spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                selectedGender = adapterView.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         myCalendar = Calendar.getInstance();
         date_text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +273,14 @@ public class SingUpActivity extends AppCompatActivity {
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
         password.startAnimation(animation);
+    }
+
+    void showDialog(){
+        progressDialog.show();
+    }
+
+    public void hideDialog(){
+        progressDialog.dismiss();
     }
 
     public String convertToEnglish(String value) {
