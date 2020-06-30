@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -355,16 +357,24 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
         }
     }
 
-//    private void refreshScreen() {
-//       String id= checkInfoNotification.get(row_index).getRowId();
-////        Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
-////        editor = sharedPreferences.edit();
-////        editor.clear();
-////
-////        arrayListRowFirst.addAll(set);
-//    }
-
     private void refreshScreen() {
-        textCheckstateChanger.setText("1");
+//       String id= checkInfoNotification.get(row_index).getRowId();
+//        Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+//        ArrayList<String> name1=  new ArrayList<>();
+//        name1.addAll(set);
+//        name1.remove(row_index);
+//
+//        Set<String> set_tow = new HashSet<String>();
+//        set_tow.addAll(name1);
+//        editor = sharedPreferences.edit();
+//        editor.clear();
+//        editor.putStringSet("DATE_LIST", set_tow);
+//        editor.commit();
+        textCheckstateChanger.setText("2");
+
+//        arrayListRowFirst.addAll(set);
     }
+
+
+
 }

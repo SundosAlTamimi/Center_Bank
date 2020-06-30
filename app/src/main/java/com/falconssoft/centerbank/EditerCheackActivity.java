@@ -121,7 +121,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     static String qrCode = "";
     static String[] arr;
-
+//
     static String CHECKNO = "";
     static String ACCCODE = "";
     static String IBANNO = "";

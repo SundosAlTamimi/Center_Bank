@@ -240,11 +240,17 @@ public class AlertScreen extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!charSequence.equals(null)){
+                if(charSequence.toString().equals("2")){
 
-                    new GetAllCheck_JSONTask().execute();
+//                    new GetAllCheck_JSONTask().execute();
+finish();
+Intent n=new Intent(AlertScreen.this,AlertScreen.class);
+startActivity(n);
+//                    setContentView(R.layout.alert_main_screen);
 
                 }
+
+
 
             }
 
