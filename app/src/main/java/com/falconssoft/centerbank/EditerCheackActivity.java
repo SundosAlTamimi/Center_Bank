@@ -102,7 +102,8 @@ public class EditerCheackActivity extends AppCompatActivity {
     LinearLayout linerEditing, linerBarcode;
     TextView scanBarcode, AmouWord, date;
     Button pushCheque;
-    EditText Danier, phails, nationalNo, phoneNo, reciever, company, notes;
+    TableRow reciever;
+    EditText Danier, phails, nationalNo, phoneNo,  company, notes,fName,sName,tName,fourthName;
     private ProgressDialog progressDialog;
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
     private LinearLayout haveAProblem, serialLinear;
@@ -293,6 +294,10 @@ public class EditerCheackActivity extends AppCompatActivity {
         nationalNo = findViewById(R.id.editorCheque_nationalNo);
         phoneNo = findViewById(R.id.editorCheque_phoneNo);
         reciever = findViewById(R.id.editorCheque_reciever);
+        fName     = findViewById(R.id.first_name);
+        sName     = findViewById(R.id.second_name);
+        tName     = findViewById(R.id.thered_name);
+        fourthName= findViewById(R.id.fourth_name);
 
         haveAProblem = findViewById(R.id.editorCheque_haveAProblem);
         serialLinear = findViewById(R.id.editorCheque_serial_linear);
@@ -338,7 +343,10 @@ public class EditerCheackActivity extends AppCompatActivity {
                 localNationlNo = nationalNo.getText().toString();
                 String localPhoneNo = phoneNo.getText().toString();
 //                String localSender = sender.getText().toString();
-                String localReciever = reciever.getText().toString();
+
+
+
+                String localReciever = fName.getText().toString()+""+sName.getText().toString()+""+tName.getText().toString()+""+fourthName.getText().toString();
                 String localDinar = Danier.getText().toString();
                 String localFils = "" + phails.getText().toString();
                 String localMoneyInWord = AmouWord.getText().toString();
@@ -352,7 +360,10 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                                     Danier.setError(null);
                                     date.setError(null);
-                                    reciever.setError(null);
+                                    fName.setError(null);
+                                    sName.setError(null);
+                                    tName.setError(null);
+                                    fourthName.setError(null);
                                     phoneNo.setError(null);
                                     nationalNo.setError(null);
 
@@ -391,7 +402,10 @@ public class EditerCheackActivity extends AppCompatActivity {
                                 date.setError("Required!");
                             }
                         else {
-                            reciever.setError("Required!");
+                            fName.setError("Required!");
+                           sName.setError("Required!");
+                            tName.setError("Required!");
+                            fourthName.setError("Required!");
                         }
                     else {
                         phoneNo.setError("Required!");
@@ -423,8 +437,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                     , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_person_black_24dp), null);
             phoneNo.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_local_phone_black_24dp), null);
-            reciever.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null);
+//            reciever.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null);
             date.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null);
             company.setCompoundDrawablesWithIntrinsicBounds(null, null
@@ -442,8 +456,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                     , null, null);
             phoneNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_local_phone_black_24dp), null
                     , null, null);
-            reciever.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null
-                    , null, null);
+//            reciever.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null
+//                    , null, null);
             date.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null
                     , null, null);
             company.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_https_black_24dp), null

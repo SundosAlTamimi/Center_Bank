@@ -6,10 +6,10 @@
     <string name="sing_in">Sing In</string>
     <string name="sing_up">sing Up</string>
     <string name="national_no">National NO.</string>
-    <string name="first_name">First Name</string>
-    <string name="second_name">Second Name</string>
-    <string name="third_name">Third Name</string>
-    <string name="fourth_name">Fourth Name</string>
+    <string name="first_name">1st Name</string>
+    <string name="second_name">nd Name</string>
+    <string name="third_name">rd Name</string>
+    <string name="fourth_name">th Name</string>
     <string name="date">Date</string>
     <string name="phone_number">Phone number</string>
     <string name="address">Address</string>
@@ -22,7 +22,7 @@
     <string name="check_validation">Check validation!</string>
     <string name="mainpage_sentence">Please Select Your Account or Add Another Account</string>
     <string name="request">Request</string>
-    <string name="editing_check">editing Check</string>
+    <string name="editing_check">Write Check</string>
     <string name="phone_no">Phone No.</string>
     <string name="order_to">Order To</string>
     <string name="company_optional">Company (optional)</string>
@@ -54,4 +54,5 @@
     <string name="Accept">Accept</string>
     <string name="Reject">Reject</string>
     <string name="CheckDetail">Check Detail</string>
+    <string name="firstbeneficiary">first beneficiary</string>
 </resources>

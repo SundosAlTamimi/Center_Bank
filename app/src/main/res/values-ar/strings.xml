@@ -55,4 +55,5 @@
     <string name="Accept">موافق</string>
     <string name="Reject">الغاء</string>
     <string name="CheckDetail">تفاصيل الشيك </string>
+    <string name="firstbeneficiary">المستفيد الاول</string>
 </resources>
