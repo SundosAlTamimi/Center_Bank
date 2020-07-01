@@ -126,10 +126,10 @@ String AccountNo,phoneNo;
         Log.e("parametser","acc = "+AccountNo+"  "+ parametwrForGetLog.get(0) +"    phone = "+ parametwrForGetLog.get(1)+"      "+phoneNo+"  watch "+watch+"  "+  parametwrForGetLog.get(2));
 
         if(watch.equals("0")){
-            AccAccount.setText("Log History For This Account"+AccountNo +")");
+            AccAccount.setText(" This Account"+AccountNo +")");
 
         }else {
-            AccAccount.setText("Log History For ALL Account");
+            AccAccount.setText(" For ALL Account");
         }
 
         new GetAllTransaction().execute();
