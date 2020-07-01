@@ -129,7 +129,7 @@ String AccountNo,phoneNo, serverLink;
         Log.e("parametser","acc = "+AccountNo+"  "+ parametwrForGetLog.get(0) +"    phone = "+ parametwrForGetLog.get(1)+"      "+phoneNo+"  watch "+watch+"  "+  parametwrForGetLog.get(2));
 
         if(watch.equals("0")){
-            AccAccount.setText(" This Account"+AccountNo +")");
+            AccAccount.setText(" This Account ("+AccountNo +")");
 
         }else {
             AccAccount.setText(" For ALL Account");
@@ -310,6 +310,12 @@ String AccountNo,phoneNo, serverLink;
 
 //                        obj.setCheqPIc(finalObject.getString("CHECKPICPATH"));
                         obj.setTransType(finalObject.getString("TRANSSTATUS"));
+                        obj.setStatus(finalObject.getString("STATUS"));
+                        obj.setUserName(finalObject.getString("USERNO"));
+
+                        obj.setISBF(finalObject.getString("ISFB"));
+                        obj.setISCO(finalObject.getString("ISCO"));
+
                         obj.setISOpen("0");
                         ChequeInfoLogHistoryMain.add(obj);
                     }
