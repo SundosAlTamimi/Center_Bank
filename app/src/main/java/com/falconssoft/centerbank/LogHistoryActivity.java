@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.widgets.Helper;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.github.mikephil.charting.charts.PieChart;
@@ -34,8 +35,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -262,7 +267,7 @@ String AccountNo,phoneNo;
 
                         //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
 
-                        obj.setRowId(finalObject.getString("ROWID"));
+                        obj.setRowId(finalObject.getString("ROWID1"));
                         obj.setBankNo(finalObject.getString("BANKNO"));
 
 
@@ -329,6 +334,24 @@ String AccountNo,phoneNo;
 //            progressDialog.dismiss();
 
         }
+    }
+
+    void sortAlpha(){
+        Locale arabic = new Locale("en");
+        final Collator arabicCollator = Collator.getInstance(arabic);
+
+
+        Collections.sort(ChequeInfoLogHistoryMain, new Comparator<ChequeInfo>() {
+
+
+            @Override
+            public int compare(ChequeInfo one, ChequeInfo two) {
+                // TODO Auto-generated method stub
+
+                return arabicCollator.compare(one.getCustName(), two.getCustName());
+            }
+
+        });
     }
 
 }
