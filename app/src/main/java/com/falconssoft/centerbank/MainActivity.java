@@ -3,12 +3,8 @@ package com.falconssoft.centerbank;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import java.util.Base64;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -16,33 +12,21 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,10 +34,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
@@ -66,14 +47,10 @@ import com.google.zxing.integration.android.IntentResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
-import pl.droidsonroids.gif.GifDrawable;
-import pl.droidsonroids.gif.GifImageButton;
 
-import static android.widget.LinearLayout.VERTICAL;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
@@ -99,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String STOP_ACTION = "STOP";
     DatabaseHandler dbHandler;
     static  String watch;
-    private String language, username;
+    private String language, userNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         language = prefs.getString("language", "en");
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-        username = loginPrefs.getString("mobile", "");
+        userNo = loginPrefs.getString("mobile", "");
         Log.e("editing,main ", language);
         init();
         picforbar = new ArrayList<>();
@@ -364,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
         request = findViewById(R.id.main_request);
         dbHandler = new DatabaseHandler(MainActivity.this);
         usernameTv = findViewById(R.id.main_username);
-        usernameTv.setText(username);
+        usernameTv.setText("Welcome "+ userNo);
 
         dbHandler=new DatabaseHandler(MainActivity.this);
         recyclerViews = (RecyclerView) findViewById(R.id.res);

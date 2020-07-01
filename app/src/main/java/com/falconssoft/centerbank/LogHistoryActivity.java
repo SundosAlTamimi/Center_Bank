@@ -1,5 +1,6 @@
 package com.falconssoft.centerbank;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 import static com.falconssoft.centerbank.MainActivity.watch;
 
 public class LogHistoryActivity extends AppCompatActivity {
@@ -108,14 +110,14 @@ String AccountNo,phoneNo;
 
 //        ACCCODE=4014569990011000&MOBNO=&WHICH=0
 
-
+        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         AccountNo = getIntent().getStringExtra("AccountNo");
-
+        phoneNo = loginPrefs.getString("mobile", "");
 
         parametwrForGetLog.add(AccountNo);
+        parametwrForGetLog.add(phoneNo);
         parametwrForGetLog.add(watch);
-        parametwrForGetLog.add(watch);
-        Log.e("parametser","acc = "+AccountNo+"  "+ parametwrForGetLog.get(0) +"    phone = "+ parametwrForGetLog.get(1)+"  watch "+watch+"  "+  parametwrForGetLog.get(2));
+        Log.e("parametser","acc = "+AccountNo+"  "+ parametwrForGetLog.get(0) +"    phone = "+ parametwrForGetLog.get(1)+"      "+phoneNo+"  watch "+watch+"  "+  parametwrForGetLog.get(2));
 
         new GetAllTransaction().execute();
 

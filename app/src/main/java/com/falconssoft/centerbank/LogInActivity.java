@@ -97,9 +97,10 @@ public class LogInActivity extends AppCompatActivity {
                 LoginINFO user = new LoginINFO();
                 user.setUsername(userName.getText().toString());
                 user.setPassword(password.getText().toString());
+                goToTheMainPage(user);
 
-                showDialog();
-                new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
+//                showDialog();
+//                new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
 //                Authintication();
 
             }
@@ -359,6 +360,7 @@ public class LogInActivity extends AppCompatActivity {
         editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
         editor.putString("mobile", user.getUsername());
         editor.putString("password", user.getPassword());
+        editor.apply();
 
         Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
         startActivity(MainActivityIntent);
