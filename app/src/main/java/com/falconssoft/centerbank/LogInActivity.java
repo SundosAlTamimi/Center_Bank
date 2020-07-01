@@ -356,6 +356,7 @@ public class LogInActivity extends AppCompatActivity {
         editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
         editor.putString("mobile", user.getUsername());
         editor.putString("password", user.getPassword());
+        editor.putString("name", user.getFirstName());
         editor.apply();
 
         Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
