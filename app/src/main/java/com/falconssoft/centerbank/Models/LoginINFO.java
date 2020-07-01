@@ -4,7 +4,7 @@ public class LoginINFO {
 
     private  String username;
     private  String password;
-    private  long nationalID;
+    private  String nationalID;
     private  String firstName;
     private  String secondName;
     private  String thirdName;
@@ -41,11 +41,11 @@ public class LoginINFO {
         this.birthDate = birthDate;
     }
 
-    public long getNationalID() {
+    public String getNationalID() {
         return nationalID;
     }
 
-    public void setNationalID(long nationalID) {
+    public void setNationalID(String nationalID) {
         this.nationalID = nationalID;
     }
 

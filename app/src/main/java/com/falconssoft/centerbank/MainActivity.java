@@ -71,6 +71,7 @@ import pl.droidsonroids.gif.GifImageButton;
 
 import static android.widget.LinearLayout.VERTICAL;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
+import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID ="2" ;
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
-    private TextView closeDialog,message;
+    private TextView closeDialog,message, usernameTv;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     static int id=1;
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
-    private String language;
+    private String language, username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
+
+        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        username = loginPrefs.getString("mobile", "");
         Log.e("editing,main ", language);
 
         picforbar = new ArrayList<>();
@@ -226,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
         notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void show_Notification(String detail){
 
@@ -321,6 +326,8 @@ public class MainActivity extends AppCompatActivity {
         notification = findViewById(R.id.button_notification);
         toolbar = findViewById(R.id.main_toolbar);
         request = findViewById(R.id.main_request);
+        usernameTv = findViewById(R.id.main_username);
+        usernameTv.setText(username);
 
         setSupportActionBar(toolbar);
         setTitle("");
