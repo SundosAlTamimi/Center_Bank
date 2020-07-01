@@ -374,6 +374,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                                     chequeInfo.setRecieverMobileNo(localPhoneNo);
                                     chequeInfo.setRecieverNationalID(localNationlNo);
                                     chequeInfo.setChequeImage(serverPic);
+//                                    chequeInfo.setUserName(serverPic);
                                     Log.e("showpic", serverPic);
 
                                     jsonObject = new JSONObject();

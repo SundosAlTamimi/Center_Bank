@@ -38,6 +38,8 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.falconssoft.centerbank.MainActivity.watch;
+
 public class LogHistoryActivity extends AppCompatActivity {
 //    PieChart pieChart, piechart2;
     List<ChequeInfo> LogHistoryList;
@@ -50,7 +52,7 @@ public class LogHistoryActivity extends AppCompatActivity {
     List<String> parametwrForGetLog;
     TextView help;
     LinearLayout helpDialog;
-
+String AccountNo,phoneNo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,9 +107,15 @@ public class LogHistoryActivity extends AppCompatActivity {
 //        spinnerTranse.setAdapter(arrayAdapterTrans);
 
 //        ACCCODE=4014569990011000&MOBNO=&WHICH=0
-        parametwrForGetLog.add("4014569990011000");
-        parametwrForGetLog.add("0790790791");
-        parametwrForGetLog.add("0");
+
+
+        AccountNo = getIntent().getStringExtra("AccountNo");
+
+
+        parametwrForGetLog.add(AccountNo);
+        parametwrForGetLog.add(watch);
+        parametwrForGetLog.add(watch);
+        Log.e("parametser","acc = "+AccountNo+"  "+ parametwrForGetLog.get(0) +"    phone = "+ parametwrForGetLog.get(1)+"  watch "+watch+"  "+  parametwrForGetLog.get(2));
 
         new GetAllTransaction().execute();
 
