@@ -59,19 +59,19 @@ import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.AlertScreen.textCheckstateChanger;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
-public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapter.ViewHolder> {
+public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.ViewHolder> {
     //    RecyclerView.Adapter<engineer_adapter.ViewHolder>
     Context context;
     List<notification> notificationList;
-    int row_index=-1;
-     String checkState="0";
-    public static String languagelocalApp="";
+    int row_index = -1;
+    String checkState = "0";
+    public static String languagelocalApp = "";
 
 
     public NotificatioAdapter(Context context, List<notification> notifications) {
         this.context = context;
         this.notificationList = notifications;
-        Log.e("notificationList",""+notificationList.size());
+        Log.e("notificationList", "" + notificationList.size());
 
     }
 
@@ -87,14 +87,12 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 
-        if(language.equals("ar"))
-        {
+        if (language.equals("ar")) {
             viewHolder.mainLinearAdapter.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             viewHolder.date_check.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             viewHolder.amount_check.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             viewHolder.source_check.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        }
-        else {
+        } else {
             viewHolder.mainLinearAdapter.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
             viewHolder.date_check.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
@@ -116,8 +114,8 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
         viewHolder.linearCheckInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                row_index=i;
-                Log.e("row_index",""+row_index);
+                row_index = i;
+                Log.e("row_index", "" + row_index);
                 viewHolder.showDetails();
             }
         });
@@ -162,26 +160,26 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
     }
 
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView source_check, amount_check,date_check;
+        TextView source_check, amount_check, date_check;
         CircleImageView image_check;
-        LinearLayout linearCheckInfo,mainLinearAdapter;
+        LinearLayout linearCheckInfo, mainLinearAdapter;
 
         public ViewHolder(View itemView) {
             super(itemView);
             source_check = itemView.findViewById(R.id.source_check);
-            amount_check=itemView.findViewById(R.id.amount_check);
-            date_check=itemView.findViewById(R.id.date_check);
-            image_check=itemView.findViewById(R.id.image_check);
-            linearCheckInfo=itemView.findViewById(R.id.linearCheckInfo);
-            mainLinearAdapter=itemView.findViewById(R.id.mainLinearAdapter);
+            amount_check = itemView.findViewById(R.id.amount_check);
+            date_check = itemView.findViewById(R.id.date_check);
+            image_check = itemView.findViewById(R.id.image_check);
+            linearCheckInfo = itemView.findViewById(R.id.linearCheckInfo);
+            mainLinearAdapter = itemView.findViewById(R.id.mainLinearAdapter);
 //
 
 
         }
+
         public void showImageOfCheck() {
-            final Dialog dialog = new Dialog(context,R.style.Theme_Dialog);
+            final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.show_image);
@@ -191,18 +189,17 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
 //            imageView.setImageBitmap();
 
 
-
         }
 
         public void showDetails() {
-            Log.e("checkState",""+checkState);
+            Log.e("checkState", "" + checkState);
 
-            final Dialog dialog = new Dialog(context,R.style.Theme_Dialog);
+            final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.show_check_detail);
             dialog.show();
-            LinearLayout linearLayout=dialog.findViewById(R.id.mainLinearDetail);
+            LinearLayout linearLayout = dialog.findViewById(R.id.mainLinearDetail);
             if (language.equals("ar")) {
                 linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             } else {
@@ -211,31 +208,31 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
                 }
 
             }
-            TextView textAmouWord,textAmountNo,textToOrder,textSourceCheck,textPhoneNo,texDate,textCompanyname,note;
-           ImageView mImageView;
-           PhotoViewAttacher mAttacher;
-            texDate =  dialog.findViewById(R.id.texDate);
+            TextView textAmouWord, textAmountNo, textToOrder, textSourceCheck, textPhoneNo, texDate, textCompanyname, note;
+            ImageView mImageView;
+            PhotoViewAttacher mAttacher;
+            texDate = dialog.findViewById(R.id.texDate);
             texDate.setText(checkInfoNotification.get(row_index).getChequeData());
 
-            textAmouWord =  dialog.findViewById(R.id.textAmouWord);
+            textAmouWord = dialog.findViewById(R.id.textAmouWord);
             textAmouWord.setText(checkInfoNotification.get(row_index).getMoneyInWord());
-            textAmountNo =  dialog.findViewById(R.id.textAmountNo);
+            textAmountNo = dialog.findViewById(R.id.textAmountNo);
             textAmountNo.setText(checkInfoNotification.get(row_index).getMoneyInDinar());
-            Log.e("Dinar",""+checkInfoNotification.get(row_index).getMoneyInDinar());
-            note =  dialog.findViewById(R.id.textnote);
+            Log.e("Dinar", "" + checkInfoNotification.get(row_index).getMoneyInDinar());
+            note = dialog.findViewById(R.id.textnote);
             note.setText("Note");
 
-            textToOrder =  dialog.findViewById(R.id.textToOrder);
+            textToOrder = dialog.findViewById(R.id.textToOrder);
             textToOrder.setText(checkInfoNotification.get(row_index).getToCustomerName());
 
-            textSourceCheck =  dialog.findViewById(R.id.textSourceCheck);
+            textSourceCheck = dialog.findViewById(R.id.textSourceCheck);
             textSourceCheck.setText(checkInfoNotification.get(row_index).getCustName());
-            textCompanyname=dialog.findViewById(R.id.textSourceCheck);
+            textCompanyname = dialog.findViewById(R.id.textSourceCheck);
             textCompanyname.setText("company Name");
 //            textCompanyname.setText(checkInfoNotification.get(row_index).getCustName());
 
 
-            textPhoneNo =  dialog.findViewById(R.id.textPhoneNo);
+            textPhoneNo = dialog.findViewById(R.id.textPhoneNo);
             textPhoneNo.setText(checkInfoNotification.get(row_index).getRecieverMobileNo());
 //             Any implementation of ImageView can be used!
 //            mImageView = (ImageView)dialog.findViewById(R.id.profile_image2);
@@ -247,7 +244,7 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
 //            // Attach a PhotoViewAttacher, which takes care of all of the zooming functionality.
 //            mAttacher = new PhotoViewAttacher(mImageView);
 //            mAttacher.update();
-            PhotoView photoView = (PhotoView)dialog.findViewById(R.id.profile_image2);
+            PhotoView photoView = (PhotoView) dialog.findViewById(R.id.profile_image2);
             photoView.setImageResource(R.drawable.check);
 
 
@@ -255,7 +252,7 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    checkState="1";
+                    checkState = "1";
                     updateCheckState();
                     dialog.dismiss();
                 }
@@ -264,13 +261,12 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
             reject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    checkState="2";
+                    checkState = "2";
                     updateCheckState();
                     dialog.dismiss();
                 }
             });
 //            imageView.setImageBitmap();
-
 
 
         }
@@ -281,6 +277,7 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
         //http://localhost:8082/UpdateCheckStatus?CHECKNO=390144&BANKNO=004&BRANCHNO=0099&ACCCODE=1014569990011000&IBANNO=""&ROWID=AAAp0DAAuAAAAC2AAA&STATUS=1
 
     }
+
     class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -300,14 +297,14 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("CHECKNO", checkInfoNotification.get(row_index).getChequeNo()));
-                nameValuePairs.add(new BasicNameValuePair("BANKNO",  checkInfoNotification.get(row_index).getBankNo()));
-                nameValuePairs.add(new BasicNameValuePair("BRANCHNO",  checkInfoNotification.get(row_index).getBranchNo()));
-                nameValuePairs.add(new BasicNameValuePair("ACCCODE",  checkInfoNotification.get(row_index).getAccCode()));
+                nameValuePairs.add(new BasicNameValuePair("BANKNO", checkInfoNotification.get(row_index).getBankNo()));
+                nameValuePairs.add(new BasicNameValuePair("BRANCHNO", checkInfoNotification.get(row_index).getBranchNo()));
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", checkInfoNotification.get(row_index).getAccCode()));
 
-                nameValuePairs.add(new BasicNameValuePair("IBANNO",  checkInfoNotification.get(row_index).getIbanNo()));
+                nameValuePairs.add(new BasicNameValuePair("IBANNO", checkInfoNotification.get(row_index).getIbanNo()));
                 nameValuePairs.add(new BasicNameValuePair("ROWID", checkInfoNotification.get(row_index).getRowId()));
                 nameValuePairs.add(new BasicNameValuePair("STATUS", checkState));
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 
 //                HttpResponse response = client.execute(request);
@@ -344,37 +341,24 @@ public class NotificatioAdapter  extends  RecyclerView.Adapter<NotificatioAdapte
 
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
-                    Log.e("onPostExecute","OK");
+                    Log.e("AdapteronPostExecute", "OK");
                     refreshScreen();
-                    Log.e("tag", "****Success"+s.toString());
+                    Log.e("tagAdapter", "****Success" + s.toString());
                 } else {
-                    Log.e("tag", "****Failed to Savedata");
+                    Log.e("tagAdapter", "****Failed to Savedata");
                 }
             } else {
 
-                Log.e("tag", "****Failed  Please check internet connection");
+                Log.e("tagAdapter", "****Failed  Please check internet connection");
             }
         }
     }
 
     private void refreshScreen() {
-//       String id= checkInfoNotification.get(row_index).getRowId();
-//        Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
-//        ArrayList<String> name1=  new ArrayList<>();
-//        name1.addAll(set);
-//        name1.remove(row_index);
-//
-//        Set<String> set_tow = new HashSet<String>();
-//        set_tow.addAll(name1);
-//        editor = sharedPreferences.edit();
-//        editor.clear();
-//        editor.putStringSet("DATE_LIST", set_tow);
-//        editor.commit();
+
         textCheckstateChanger.setText("2");
 
-//        arrayListRowFirst.addAll(set);
     }
-
 
 
 }

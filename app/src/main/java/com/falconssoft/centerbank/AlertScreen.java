@@ -66,6 +66,7 @@ import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 public class AlertScreen extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList <notification> notificationArrayList;
+    ArrayList <notification> notificationArrayListTest;
     LinearLayoutManager layoutManager;
     NotificationManager notificationManager;
     SwipeRefreshLayout swipeRefresh;
@@ -123,7 +124,7 @@ public class AlertScreen extends AppCompatActivity {
 
             }
 
-        }, 0, 5000);
+        }, 0, 10000);
 
 
 
@@ -137,35 +138,34 @@ public class AlertScreen extends AppCompatActivity {
               //  SharedPreferences prefs = getSharedPreferences(ROW_ID_PREFERENCE, MODE_PRIVATE);
 //                String id=prefs.getString("RowId",null);
 //                Log.e("onClick",""+id);
-                Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
-                if(set!=null)
-                {
-                    Log.e("set",""+set);
-                    arrayListRow.addAll(set);
-
-                    for(int i=0;i<arrayListRow.size();i++)
-                    {
-                        if(arrayListRow.get(i).equals("AAAp0DAAuAAAAC0AAR"))
-                        {
-                            Log.e("arrayListRowYES",""+arrayListRow.get(i));
-                        }
-                        else {
-
-                        }
-                    }
-//                    Log.e("retrivesharedPrefe",""+set);
-//                textCheckstateChanger.setText("1");
-
-                }
-                else {
-                    Set<String> set_tow = new HashSet<String>();
-                    arrayListRow.add("first");
-                    arrayListRow.add("ssss");
-                    set_tow.addAll(arrayListRow);
-                    editor = sharedPreferences.edit();
-                    editor.putStringSet("DATE_LIST", set_tow);
-                    editor.commit();
-                    Log.e("retrivesharedPrefe",""+set);}
+//                Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+//                if(set!=null)
+//                {
+//                    Log.e("set",""+set);
+//                    arrayListRow.addAll(set);
+//
+//                    for(int i=0;i<arrayListRow.size();i++)
+//                    {
+//                        if(arrayListRow.get(i).equals("AAAp0DAAuAAAAC0AAR"))
+//                        {
+//                            Log.e("arrayListRowYES",""+arrayListRow.get(i));
+//                        }
+//                        else {
+//
+//                        }
+//                    }
+////                    Log.e("retrivesharedPrefe",""+set);
+////                textCheckstateChanger.setText("1");
+//
+//                }
+//                else {
+//                    Set<String> set_tow = new HashSet<String>();
+//
+//                    set_tow.addAll(arrayListRow);
+//                    editor = sharedPreferences.edit();
+//                    editor.putStringSet("DATE_LIST", set_tow);
+//                    editor.commit();
+//                    Log.e("retrivesharedPrefe",""+set);}
 
             }
         });
@@ -176,7 +176,7 @@ public class AlertScreen extends AppCompatActivity {
 
                 Toast.makeText(AlertScreen.this, "refresh ..", Toast.LENGTH_SHORT).show();
                 swipeRefresh.setRefreshing(false);
-                new GetAllCheck_JSONTask().execute();
+//                new GetAllCheck_JSONTask().execute();
             }
         });
 
@@ -240,13 +240,13 @@ public class AlertScreen extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.toString().equals("2")){
+                if (charSequence.toString().equals("2")) {
 
-//                    new GetAllCheck_JSONTask().execute();
-finish();
-Intent n=new Intent(AlertScreen.this,AlertScreen.class);
-startActivity(n);
-//                    setContentView(R.layout.alert_main_screen);
+                    new GetAllCheck_JSONTask().execute();
+                    finish();
+                    Intent n = new Intent(AlertScreen.this, AlertScreen.class);
+                    startActivity(n);
+//
 
                 }
 
@@ -260,11 +260,11 @@ startActivity(n);
             }
         });
         notificationArrayList=new ArrayList<>();
+        notificationArrayListTest=new ArrayList<>();
         checkInfoNotification=new ArrayList<>();
         notifiList=new ArrayList<>();
     }
     // ******************************************** GET NOTIFICATION *************************************
-
     private class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -326,8 +326,15 @@ startActivity(n);
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     JSONObject jsonObject = null;
                     try {
+
                         checkInfoNotification.clear();
-                        notificationArrayList.clear();
+
+                        if(first==1){
+                            notificationArrayList.clear();
+                        }
+                        notificationArrayListTest.clear();
+
+
                         arrayListRow.clear();
                         arrayListRowFirst.clear();
                         notifiList.clear();
@@ -359,12 +366,22 @@ startActivity(n);
                             chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
                             chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
                             chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
+
+//                            http://localhost:8081/GetCheckPic?ACCCODE=1014569990011000&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
+//                           String pic= getPicture(chequeInfo.getAccCode(),chequeInfo.getBankName(),chequeInfo.getBranchNo(),chequeInfo.getChequeNo());
+//                            chequeInfo.setChequeImage(pic);
                             arrayListRow.add(chequeInfo.getRowId());
 
                             checkInfoNotification.add(chequeInfo);
-                            notificationArrayList.add(notifi);
+                            if(first==1){
+                                notificationArrayList.add(notifi);
+                            }
+
+                            notificationArrayListTest.add(notifi);
+
 
                         }
+                        
                         if(first==1)
                         {
                             fillListNotification(notificationArrayList);
@@ -372,118 +389,111 @@ startActivity(n);
                         }
 
 
+
                         Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+
                         if(set !=null)
                         {
-                            editor = sharedPreferences.edit();
-                            editor.clear();
+//
                             set = sharedPreferences.getStringSet("DATE_LIST", null);
                             arrayListRowFirst.addAll(set);
 
                             int countFirst=arrayListRowFirst.size();
-                            Log.e("countFirst",""+countFirst);
-                            Log.e("countFirst",""+arrayListRow.size());
-                            int size=(arrayListRowFirst.size()>arrayListRow.size()?arrayListRowFirst.size():arrayListRow.size());
+                                if(arrayListRow.size()<countFirst)//there are update new data is less than old data
+                                {Log.e("olddataGreater","countFirst"+countFirst);
 
-//boolean found =false;
-//                            int h=0;
-//                            for(int k=0;k<arrayListRowFirst.size();k++)
-//                            {
-//                                found =false;
-//                                for( h=0;h<arrayListRow.size();h++)
-//                                {
-//
-////                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-////                                    Log.e("index",""+index);
-////                                    if(index==-1)
-////                                    {
-////                                        arrayListRowFirst.add(arrayListRow.get(h));
-////                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
-////
-////                                    }
-//                                    if(arrayListRowFirst.get(k).equals(arrayListRow.get(h)))
-//                                    {
-//                                        found=true;
-//                                        break;
-////                                        arrayListRowFirst.add(arrayListRow.get(h));
-////                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
-//                                    }
-//
-//                                }
-//
-//                                if(!found){
-//                                    arrayListRowFirst.add(arrayListRow.get(h));
-//                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
-//                                }
-//
-//
-////
-//
-//                                }
+                                    for( int h=0;h<arrayListRow.size();h++){
+                                        int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                        if(index==-1)
+                                        {
+                                            arrayListRowFirst.add(arrayListRow.get(h));
+                                            Log.e("arrayListRowYES",""+arrayListRow.get(h));
 
-                            for( int h=0;h<arrayListRow.size();h++){
-                                int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                if(index==-1)
-                                    {
-                                        arrayListRowFirst.add(arrayListRow.get(h));
-                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+                                        }
 
                                     }
 
-                            }
+                                    if (countFirst < arrayListRowFirst.size())// new data
+                                    {
+                                        ShowNotifi();
 
-                            Log.e("countFirstAfter",""+arrayListRowFirst.size());
-
-                            if(countFirst<arrayListRowFirst.size())
-                            {
-                                Log.e("arrayListRowFirstSize",""+arrayListRowFirst.size());
-                                        Set<String> set_tow = new HashSet<String>();
-                                        set_tow.addAll(arrayListRowFirst);
-                                        editor = sharedPreferences.edit();
-                                        editor.clear();
-                                        editor.putStringSet("DATE_LIST", set_tow);
-                                        editor.commit();
-                                        fillListNotification(notificationArrayList);
-                                         ShowNotifi();
-                            }
-                            else {
-                                if(countFirst>arrayListRowFirst.size())
-                                {
-                                    fillListNotification(notificationArrayList);
-
-                                }
-
-                            }
+                                        fillListNotification(notificationArrayListTest);
 
 
+                                    }
+                                    else {
 
+                                        fillListNotification(notificationArrayListTest);
+                                    }
+
+                                }//********************************************
+                                else {
+                                    if(arrayListRow.size()>countFirst)// new data
+                                    {
+                                        Log.e("NewGreater","countFirst");
+                                        fillListNotification(notificationArrayListTest);
+                                        ShowNotifi();
+
+                                    }
+                                    else{
+                                        if(arrayListRow.size()==countFirst)// equal size
+                                        {
+                                            Log.e("arrayListRow","== hereeee");
+
+                                            for( int h=0;h<arrayListRow.size();h++){
+                                                int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                                if(index==-1)
+                                                {
+                                                    arrayListRowFirst.add(arrayListRow.get(h));
+
+
+                                                }
+
+                                            }
+
+                                            if (countFirst < arrayListRowFirst.size())// new data
+                                            {
+                                                ShowNotifi();
+
+                                                fillListNotification(notificationArrayListTest);
+
+                                            }
+                                            else {
+
+//                                                fillListNotification(notificationArrayListTest);
+                                            }
+                                        }
+
+                                    }
+
+                                   }
+
+
+//                            }
 
                         }
                         else {//empty shared preference
-                            Log.e("arrayListRowFirst","Empty");
+                            if(first!=1)
+                            {
+                                fillListNotification(notificationArrayList);
+                                ShowNotifi();
+                                Log.e("Notfirst",""+first);
+                            }
 
-                            Set<String> set_tow = new HashSet<String>();
-                            set_tow.addAll(arrayListRow);
-                            editor = sharedPreferences.edit();
-                            editor.putStringSet("DATE_LIST", set_tow);
-                            editor.commit();
-                            fillListNotification(notificationArrayList);
-                            ShowNotifi();
+
 
                         }
+
+
+                        Set<String> set_tow = new HashSet<String>();
+                        set_tow.addAll(arrayListRow);
+                        Log.e("Empty",""+arrayListRow.size());
+                        editor = sharedPreferences.edit();
+                        editor.putStringSet("DATE_LIST", set_tow);
+                        editor.apply();
+
                         first=2;
-
-
-
-
-//                        editor = sharedPreferences.edit();
-//                        editor.putString("RowId", String.valueOf(arrayListRow));
-
-
-
-
-
-
+//                        fillListNotification(notificationArrayList);
 
 
                     } catch (JSONException e) {
@@ -501,6 +511,11 @@ startActivity(n);
             }
         }
     }
+
+    private String getPicture(String accCode, String bankName, String branchNo, String chequeNo) {
+        return "";
+    }
+
 
     private void ShowNotifi() {
         String currentapiVersion = Build.VERSION.RELEASE;
@@ -555,17 +570,14 @@ startActivity(n);
 
 
     @SuppressLint("WrongConstant")
-    private void fillListNotification(ArrayList<notification> notifications)
-    {
+    private void fillListNotification(ArrayList<notification> notifications) {
         notifiList1.clear();
-        notifiList1=notifications;
-//        Log.e("fillListNotification",""+one.getSource());
-
-
+        notifiList1 = notifications;
+        Log.e("notifiList1",""+notifiList1.size());
 
         layoutManager = new LinearLayoutManager(AlertScreen.this);
         layoutManager.setOrientation(VERTICAL);
-        runAnimation(recyclerView,0);
+        runAnimation(recyclerView, 0);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 //        final NotificatioAdapter notificationAdapter = new NotificatioAdapter(AlertScreen.this, notificationArrayList);

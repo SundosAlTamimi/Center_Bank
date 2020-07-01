@@ -40,7 +40,7 @@ public class ChequeInfo {
     private String transType;
     private String status;
     private String Date;
-
+    private String userName;
 
     private String ISOpen;
 
@@ -302,6 +302,14 @@ public class ChequeInfo {
         this.checkIsSueDate = checkIsSueDate;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     // CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
 // ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
 // ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
@@ -332,6 +340,7 @@ public class ChequeInfo {
             obj.put("TOCUSTOMERMOB", recieverMobileNo );
             obj.put("TOCUSTOMERNATID", recieverNationalID );
             obj.put("CHECKPIC", chequeImage );
+            obj.put("USERNO",  userName);
 
 
         } catch (JSONException e) {

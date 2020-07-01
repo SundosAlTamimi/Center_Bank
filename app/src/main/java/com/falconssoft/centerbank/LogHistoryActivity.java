@@ -1,5 +1,6 @@
 package com.falconssoft.centerbank;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.widgets.Helper;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.github.mikephil.charting.charts.PieChart;
@@ -33,10 +35,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
+import static com.falconssoft.centerbank.MainActivity.watch;
 
 public class LogHistoryActivity extends AppCompatActivity {
 //    PieChart pieChart, piechart2;
@@ -50,7 +59,7 @@ public class LogHistoryActivity extends AppCompatActivity {
     List<String> parametwrForGetLog;
     TextView help;
     LinearLayout helpDialog;
-
+String AccountNo,phoneNo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,9 +114,15 @@ public class LogHistoryActivity extends AppCompatActivity {
 //        spinnerTranse.setAdapter(arrayAdapterTrans);
 
 //        ACCCODE=4014569990011000&MOBNO=&WHICH=0
-        parametwrForGetLog.add("4014569990011000");
-        parametwrForGetLog.add("0790790791");
-        parametwrForGetLog.add("0");
+
+        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        AccountNo = getIntent().getStringExtra("AccountNo");
+        phoneNo = loginPrefs.getString("mobile", "");
+
+        parametwrForGetLog.add(AccountNo);
+        parametwrForGetLog.add(phoneNo);
+        parametwrForGetLog.add(watch);
+        Log.e("parametser","acc = "+AccountNo+"  "+ parametwrForGetLog.get(0) +"    phone = "+ parametwrForGetLog.get(1)+"      "+phoneNo+"  watch "+watch+"  "+  parametwrForGetLog.get(2));
 
         new GetAllTransaction().execute();
 
@@ -252,7 +267,7 @@ public class LogHistoryActivity extends AppCompatActivity {
 
                         //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
 
-                        obj.setRowId(finalObject.getString("ROWID"));
+                        obj.setRowId(finalObject.getString("ROWID1"));
                         obj.setBankNo(finalObject.getString("BANKNO"));
 
 
@@ -319,6 +334,24 @@ public class LogHistoryActivity extends AppCompatActivity {
 //            progressDialog.dismiss();
 
         }
+    }
+
+    void sortAlpha(){
+        Locale arabic = new Locale("en");
+        final Collator arabicCollator = Collator.getInstance(arabic);
+
+
+        Collections.sort(ChequeInfoLogHistoryMain, new Comparator<ChequeInfo>() {
+
+
+            @Override
+            public int compare(ChequeInfo one, ChequeInfo two) {
+                // TODO Auto-generated method stub
+
+                return arabicCollator.compare(one.getCustName(), two.getCustName());
+            }
+
+        });
     }
 
 }

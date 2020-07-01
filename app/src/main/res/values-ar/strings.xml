@@ -57,4 +57,5 @@
     <string name="CheckDetail">تفاصيل الشيك </string>
     <string name="customer_name">Customer Name</string>
     <string name="cashier_check">cashier Check</string>
+    <string name="firstbeneficiary">المستفيد الاول</string>
 </resources>
