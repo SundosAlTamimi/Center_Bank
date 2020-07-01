@@ -75,6 +75,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import static android.widget.LinearLayout.VERTICAL;
 import static com.falconssoft.centerbank.EditerCheackActivity.localNationlNo;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
+import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
 import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 
@@ -91,7 +92,7 @@ public class AlertScreen extends AppCompatActivity {
     public  String userNmae="",Passowrd="";
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor editor;
-    public  static   String language="";
+    public  static   String language="", serverLink;
     ArrayList<String> arrayListRow=new ArrayList<>();
     ArrayList<String> arrayListRowFirst=new ArrayList<>();
     DatabaseHandler databaseHandler;
@@ -110,6 +111,10 @@ public class AlertScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_main_screen);
+
+        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        serverLink = loginPrefs.getString("link", "");
+
         layout = (LinearLayout)findViewById(R.id.mainlayout);
         first=1;
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
@@ -267,7 +272,7 @@ public class AlertScreen extends AppCompatActivity {
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
 //                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
-                request.setURI(new URI("http://10.0.0.16:8081/GetAllTempCheck?"));
+                request.setURI(new URI(serverLink + "GetAllTempCheck?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("CUSTMOBNO", userNmae));
@@ -511,7 +516,6 @@ public class AlertScreen extends AppCompatActivity {
 
     }
 
-
     private void ShowNotifi() {
         String currentapiVersion = Build.VERSION.RELEASE;
 //
@@ -563,7 +567,6 @@ public class AlertScreen extends AppCompatActivity {
         nm.notify(10, notif.getNotification());
     }
 
-
     @SuppressLint("WrongConstant")
     private void fillListNotification(ArrayList<notification> notifications) {
         notifiList1.clear();
@@ -600,6 +603,7 @@ public class AlertScreen extends AppCompatActivity {
 
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void show_Notification(String detail){
 
@@ -631,6 +635,7 @@ public class AlertScreen extends AppCompatActivity {
 
 
     }
+
     private void notification_show (String detail){// this to use
 //        final Intent intent = new Intent(this, MainActivity.class);
 //        intent.setData(Uri.parse("data"));
@@ -691,6 +696,8 @@ protected class Image extends AsyncTask<String, String, String> {
             String JsonResponse = null;
             HttpClient client = new DefaultHttpClient();
             HttpPost request = new HttpPost();
+            //  http://10.0.0.16:8081/GetCheckTemp?ACCCODE=1014569990011000&IBANNO=&SERIALNO=&BANKNO=004&BRANCHNO=0099&CHECKNO=390144"
+            request.setURI(new URI(serverLink + "GetCheckTemp?"));
 //            ACCCODE=1014569990011000&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
             try {
                 request.setURI(new URI("http://10.0.0.16:8081/GetCheckPic?"));

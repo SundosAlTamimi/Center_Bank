@@ -57,9 +57,9 @@ public class LogHistoryActivity extends AppCompatActivity {
     List<ChequeInfo> ChequeInfoLogHistoryMain;
     DatabaseHandler dbHandler;
     List<String> parametwrForGetLog;
-    TextView help;
+    TextView help,AccAccount;
     LinearLayout helpDialog;
-String AccountNo,phoneNo;
+String AccountNo,phoneNo, serverLink;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +69,11 @@ String AccountNo,phoneNo;
 //        piechart2 = findViewById(R.id.piechart2);
 //        spinnerState = findViewById(R.id.spinnerState);
 //        spinnerTranse = findViewById(R.id.spinnerTranse);
+        SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        serverLink = loginPrefs1.getString("link", "");
+
         listLogHistory = findViewById(R.id.listLogHistory);
+         AccAccount=findViewById(R.id.AccAccount);
         help=findViewById(R.id.help);
         ChequeInfoLogHistoryMain = new ArrayList<>();
         parametwrForGetLog = new ArrayList<>();
@@ -123,6 +127,13 @@ String AccountNo,phoneNo;
         parametwrForGetLog.add(phoneNo);
         parametwrForGetLog.add(watch);
         Log.e("parametser","acc = "+AccountNo+"  "+ parametwrForGetLog.get(0) +"    phone = "+ parametwrForGetLog.get(1)+"      "+phoneNo+"  watch "+watch+"  "+  parametwrForGetLog.get(2));
+
+        if(watch.equals("0")){
+            AccAccount.setText(" This Account ("+AccountNo +")");
+
+        }else {
+            AccAccount.setText(" For ALL Account");
+        }
 
         new GetAllTransaction().execute();
 
@@ -191,7 +202,7 @@ String AccountNo,phoneNo;
 //                    ip=mainSettings.get(0).getIP();
 //                }
 
-                String link = "http://10.0.0.16:8081/GetLog";
+                String link = serverLink + "GetLog";
 
                 //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
                 String data = "ACCCODE=" + URLEncoder.encode(parametwrForGetLog.get(0), "UTF-8") + "&" +
@@ -299,6 +310,12 @@ String AccountNo,phoneNo;
 
 //                        obj.setCheqPIc(finalObject.getString("CHECKPICPATH"));
                         obj.setTransType(finalObject.getString("TRANSSTATUS"));
+                        obj.setStatus(finalObject.getString("STATUS"));
+                        obj.setUserName(finalObject.getString("USERNO"));
+
+                        obj.setISBF(finalObject.getString("ISFB"));
+                        obj.setISCO(finalObject.getString("ISCO"));
+
                         obj.setISOpen("0");
                         ChequeInfoLogHistoryMain.add(obj);
                     }

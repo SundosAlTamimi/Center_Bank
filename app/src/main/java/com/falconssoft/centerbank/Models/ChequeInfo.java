@@ -41,6 +41,8 @@ public class ChequeInfo {
     private String status;
     private String Date;
     private String userName;
+    private String ISCO;
+    private String ISBF;
 
     private String ISOpen;
 
@@ -310,6 +312,23 @@ public class ChequeInfo {
         this.userName = userName;
     }
 
+    public void setISCO(String ISCO) {
+        this.ISCO = ISCO;
+    }
+
+
+    public String getISCO() {
+        return ISCO;
+    }
+
+    public String getISBF() {
+        return ISBF;
+    }
+
+    public void setISBF(String ISBF) {
+        this.ISBF = ISBF;
+    }
+
     // CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
 // ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
 // ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
@@ -341,6 +360,8 @@ public class ChequeInfo {
             obj.put("TOCUSTOMERNATID", recieverNationalID );
             obj.put("CHECKPIC", chequeImage );
             obj.put("USERNO",  userName);
+            obj.put("ISCO",  ISCO);
+            obj.put("ISFB",  ISBF);
 
 
         } catch (JSONException e) {
@@ -348,4 +369,22 @@ public class ChequeInfo {
         }
         return obj;
     }
+
+    public JSONObject getJSONIsPinding() {
+        JSONObject obj = new JSONObject();
+//ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
+        try {
+            obj.put("ACCCODE", accCode );
+            obj.put("IBANNO", ibanNo );
+            obj.put("SERIALNO", serialNo );
+            obj.put("BANKNO", bankName );
+            obj.put("BRANCHNO", branchNo );
+            obj.put("CHECKNO", chequeNo );
+
+        } catch (JSONException e) {
+            Log.e("Tag" , "JSONException");
+        }
+        return obj;
+    }
+
 }

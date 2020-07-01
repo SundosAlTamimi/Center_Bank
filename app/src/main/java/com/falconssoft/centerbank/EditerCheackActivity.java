@@ -34,6 +34,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -121,12 +122,13 @@ public class EditerCheackActivity extends AppCompatActivity {
     Date currentTimeAndDate;
     SimpleDateFormat df;
     Bitmap serverPicBitmap;
-    private String today, serverPic = "", language;
+    private String today, serverPic = "", language, serverLink;
     Calendar myCalendar;
     private JSONObject jsonObject;
 
     static String qrCode = "";
     static String[] arr;
+    CheckBox checkBox_CO,checkBox_firstpinifit;
 //
     static String CHECKNO = "";
     static String ACCCODE = "";
@@ -148,6 +150,9 @@ public class EditerCheackActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");//"No name defined" is the default value.
         Log.e("editing,3 ", language);
+
+        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        serverLink = loginPrefs.getString("link", "");
 
         checkLanguage();
 
@@ -303,12 +308,14 @@ public class EditerCheackActivity extends AppCompatActivity {
         sName     = findViewById(R.id.second_name);
         tName     = findViewById(R.id.thered_name);
         fourthName= findViewById(R.id.fourth_name);
-
+        checkBox_CO= findViewById(R.id.checkBox_CO);
+        checkBox_firstpinifit= findViewById(R.id.checkBox_firstpinifit);
         haveAProblem = findViewById(R.id.editorCheque_haveAProblem);
         serialLinear = findViewById(R.id.editorCheque_serial_linear);
         serial = findViewById(R.id.editorCheque_serial);
         check = findViewById(R.id.editorCheque_check);
         serialLinear.setVisibility(View.GONE);
+
 //        new Image().execute();
 
         haveAProblem.setOnClickListener(new View.OnClickListener() {
@@ -350,8 +357,6 @@ public class EditerCheackActivity extends AppCompatActivity {
                 String localPhoneNo = phoneNo.getText().toString();
 //                String localSender = sender.getText().toString();
 
-
-
                 String localReciever = fName.getText().toString()+""+sName.getText().toString()+""+tName.getText().toString()+""+fourthName.getText().toString();
                 String localDinar = Danier.getText().toString();
                 String localFils = "" + phails.getText().toString();
@@ -376,6 +381,20 @@ public class EditerCheackActivity extends AppCompatActivity {
                                     phoneNo.setError(null);
                                     nationalNo.setError(null);
 
+                                    String checkBox_C="",checkBox_Fb="";
+
+                                    if(checkBox_CO.isChecked()){
+                                        checkBox_C="1";
+                                    }else{
+                                        checkBox_C="0";
+                                    }
+
+                                    if(checkBox_firstpinifit.isChecked()){
+                                        checkBox_Fb="1";
+                                    }else{
+                                        checkBox_Fb="0";
+                                    }
+
                                     ChequeInfo chequeInfo = new ChequeInfo();
                                     chequeInfo.setBankNo(BANKNO);
                                     chequeInfo.setBankName("Jordan Bank");
@@ -395,6 +414,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                                     chequeInfo.setRecieverNationalID(localNationlNo);
                                     chequeInfo.setChequeImage(serverPic);
                                     chequeInfo.setUserName(phoneNo1);
+                                    chequeInfo.setISCO(checkBox_C);
+                                    chequeInfo.setISBF(checkBox_Fb);
 
                                     Log.e("showpic", serverPic);
 
@@ -404,7 +425,9 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                                    imageSend();
 //                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
 //                new Image().execute();
-                                    new GetAllTransaction().execute();
+                                   new  IsCheckPinding().execute();
+
+//                                    new GetAllTransaction().execute();
 
                                 } else {
                                     Danier.setError("Required!");
@@ -624,7 +647,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
-    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo) {
+    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
             final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -640,6 +663,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
             chequeWriterTV.setText(customerName);
             accountNoTV.setText(accountNo);
+            chequeNoTV.setText(chequeNo);
             okTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -734,6 +758,9 @@ public class EditerCheackActivity extends AppCompatActivity {
 //
 //}
 
+    void close(){
+        finish();
+    }
     public String getBase64Image(Bitmap bitmap) {
         try {
             ByteBuffer buffer =
@@ -780,7 +807,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
-                request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?"));
+                request.setURI(new URI(serverLink + "VerifyCheck?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
@@ -837,7 +864,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
                     BANKNO = jsonObject.get("BANKNO").toString();
                     BRANCHNO = jsonObject.get("BRANCHNO").toString();
 
-                    showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE);
+                    showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
 
 //                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
                 } catch (JSONException e) {
@@ -859,9 +886,6 @@ private class JSONTask extends AsyncTask<String, String, String> {
 }
 
 // ******************************************** SAVE *************************************
-
-
-
     private class GetAllTransaction extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
@@ -892,7 +916,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
-                String link = "http://10.0.0.16:8081/SaveTempCheck";
+                String link = serverLink + "SaveTempCheck";
 
 
                 String data = "CHECKINFO=" + URLEncoder.encode(jsonObject.toString(), "UTF-8");
@@ -984,6 +1008,152 @@ private class JSONTask extends AsyncTask<String, String, String> {
             }
         }
     }
+
+    private class IsCheckPinding extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+                String link = "http://10.0.0.16:8081/IsCheckPinding";
+
+//ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
+                String data = "ACCCODE=" + URLEncoder.encode(jsonObject.getString("ACCCODE"), "UTF-8") + "&"
+                        +"IBANNO=" + URLEncoder.encode(jsonObject.getString("IBANNO"), "UTF-8") + "&"
+                        +"SERIALNO=" + URLEncoder.encode(jsonObject.getString("SERIALNO"), "UTF-8") + "&"
+                        +"BANKNO=" + URLEncoder.encode(jsonObject.getString("BANKNO"), "UTF-8") + "&"
+                        +"BRANCHNO=" + URLEncoder.encode(jsonObject.getString("BRANCHNO"), "UTF-8") + "&"
+                        +"CHECKNO=" + URLEncoder.encode(jsonObject.getString("CHECKNO"), "UTF-8");
+//
+                URL url = new URL(link);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+                Log.e("tag", "dataSave  -->" +data);
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("editorChequeActivity/", "saved//" + s);
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+//                    linerEditing.setVisibility(View.GONE);
+//                   linerBarcode.setVisibility(View.VISIBLE);
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("WARNING")
+                        .setContentText("Check  pindding can't Sending!")
+                            .setConfirmText("Ok")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    finish();
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).show();
+                } } else if (s.contains("\"StatusDescreption\":\"Check not pindding.\"")) {
+//                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+//                        .setTitleText("WARNING")
+//                        .setContentText("Check not pinding!")
+//                        .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//
+//
+//                    @Override
+//                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                        sweetAlertDialog.dismissWithAnimation();
+//
+//                    }
+//                })
+//                        .show();
+
+                new GetAllTransaction().execute();
+
+
+            }else {
+                    Log.e("tag", "****Failed to export data");
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("WARNING")
+                            .setContentText("Fail to send!")
+                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+
+                        }
+                    })
+                            .show();
+                }
+
+        }
+    }
+
 
     void imageSend() {
 
@@ -1094,7 +1264,6 @@ private class JSONTask extends AsyncTask<String, String, String> {
         return myFile;
     }
 
-
 //void im(File myFile){
 ////    File myFile = new File(path);
 //    RequestParams params = new RequestParams();
@@ -1121,7 +1290,6 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //        Log.e("Esss",""+e.toString());
 //    }
 //}
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public String addPicToGallery(Bitmap finalBitmap) {
@@ -1201,7 +1369,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
-                String link = "http://10.0.0.16:8081/GetCheckPic?ACCCODE=4014569990011000&BANKNO=004&BRANCHNO=0099&CHECKNO=390092";
+                String link = serverLink + "GetCheckPic?ACCCODE=4014569990011000&BANKNO=004&BRANCHNO=0099&CHECKNO=390092";
 
 
 //                String data = "CHECKINFO=" + URLEncoder.encode(jsonObject.toString(), "UTF-8");
@@ -1323,8 +1491,6 @@ Log.e("CHECKPIC1",""+jsonObject.getString("CHECKPIC"));
         }
     }
 
-
-
 //    public void uploadProfileImage(final String fileName){
 //        byte[] imageBytes = getBytesImage(bitmap);
 //       HttpClient httpclient = new DefaultHttpClient();
@@ -1425,7 +1591,7 @@ private class JSONTask1 extends AsyncTask<String, String, String> {
             String JsonResponse = null;
             HttpClient client = new DefaultHttpClient();
             HttpPost request = new HttpPost();
-            request.setURI(new URI("http://10.0.0.16:8081/SaveTempCheck?"));
+            request.setURI(new URI(serverLink + "SaveTempCheck?"));
 
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("CHECKINFO", jsonObject.toString()));
@@ -1497,4 +1663,9 @@ private class JSONTask1 extends AsyncTask<String, String, String> {
         }
     }
 }
+
+
+
+
+
 }

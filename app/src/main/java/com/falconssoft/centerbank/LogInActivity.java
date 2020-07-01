@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +27,7 @@ import androidx.core.content.ContextCompat;
 
 import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.Setting;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -74,6 +76,11 @@ public class LogInActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
+
+        editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
+        editor.putString("link", "http://10.0.0.16:8081/");
+        editor.apply();
+
         if (language.equals("ar")) {
             LocaleAppUtils.setLocale(new Locale("ar"));
             LocaleAppUtils.setConfigChange(LogInActivity.this);
@@ -94,14 +101,26 @@ public class LogInActivity extends AppCompatActivity {
         singIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginINFO user = new LoginINFO();
-                user.setUsername(userName.getText().toString());
-                user.setPassword(password.getText().toString());
-                goToTheMainPage(user);
 
-//                showDialog();
-//                new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
-//                Authintication();
+                if (!TextUtils.isEmpty(userName.getText().toString()))
+                    if (userName.length() == 10)
+                        if (!TextUtils.isEmpty(password.getText().toString())){
+                            userName.setError(null);
+                            password.setError(null);
+
+                            LoginINFO user = new LoginINFO();
+                            user.setUsername(userName.getText().toString());
+                            user.setPassword(password.getText().toString());
+
+                            showDialog();
+                            new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
+                        }else {
+                            password.setError("Required!");
+                        }else {
+                            userName.setError("Phone number not correct!");
+                    }else {
+                    userName.setError("Required!");
+                }
 
             }
         });
@@ -327,24 +346,6 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
-    void Authintication() {
-        if (!userName.getText().toString().equals("") && !password.getText().toString().equals("")) {
-            if (userName.getText().toString().equals("1234") && password.getText().toString().equals("1234")) {
-
-                Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
-                startActivity(MainActivityIntent);
-
-            } else {
-                Toast.makeText(this, " UserName Or Password Not Correct", Toast.LENGTH_SHORT).show();
-            }
-
-        } else {
-            Toast.makeText(this, "Please Add UserName Or Password", Toast.LENGTH_SHORT).show();
-        }
-
-
-    }
-
     void showDialog() {
         progressDialog.show();
     }
@@ -360,11 +361,12 @@ public class LogInActivity extends AppCompatActivity {
         editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
         editor.putString("mobile", user.getUsername());
         editor.putString("password", user.getPassword());
+        editor.putString("name", user.getFirstName());
+//        editor.putString("link", "http://10.0.0.16:8081/");
         editor.apply();
 
         Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
         startActivity(MainActivityIntent);
-        finish();
     }
 
     void addSettingButton() {
@@ -420,6 +422,7 @@ public class LogInActivity extends AppCompatActivity {
         english = findViewById(R.id.login_english);
         checkValidation = findViewById(R.id.login_checkValidation);
         SettingImage = findViewById(R.id.Setting);
+
     }
 
     void checkLanguage() {
