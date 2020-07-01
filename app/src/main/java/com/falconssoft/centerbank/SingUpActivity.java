@@ -120,7 +120,6 @@ public class SingUpActivity extends AppCompatActivity {
                                                 loginINFO.setGender("1");
 
                                             showDialog();
-                                            databaseHandler.addSignupInfo(loginINFO);
                                             new Presenter(SingUpActivity.this).saveSignUpInfo(this, loginINFO);
 
                                         } else
