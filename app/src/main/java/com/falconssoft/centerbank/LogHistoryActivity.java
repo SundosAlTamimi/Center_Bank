@@ -59,7 +59,7 @@ public class LogHistoryActivity extends AppCompatActivity {
     List<String> parametwrForGetLog;
     TextView help;
     LinearLayout helpDialog;
-String AccountNo,phoneNo;
+String AccountNo,phoneNo, serverLink;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +69,9 @@ String AccountNo,phoneNo;
 //        piechart2 = findViewById(R.id.piechart2);
 //        spinnerState = findViewById(R.id.spinnerState);
 //        spinnerTranse = findViewById(R.id.spinnerTranse);
+        SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        serverLink = loginPrefs1.getString("link", "");
+
         listLogHistory = findViewById(R.id.listLogHistory);
         help=findViewById(R.id.help);
         ChequeInfoLogHistoryMain = new ArrayList<>();
@@ -191,7 +194,7 @@ String AccountNo,phoneNo;
 //                    ip=mainSettings.get(0).getIP();
 //                }
 
-                String link = "http://10.0.0.16:8081/GetLog";
+                String link = serverLink + "GetLog";
 
                 //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
                 String data = "ACCCODE=" + URLEncoder.encode(parametwrForGetLog.get(0), "UTF-8") + "&" +

@@ -76,6 +76,11 @@ public class LogInActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
+
+        editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
+        editor.putString("link", "http://10.0.0.16:8081/");
+        editor.apply();
+
         if (language.equals("ar")) {
             LocaleAppUtils.setLocale(new Locale("ar"));
             LocaleAppUtils.setConfigChange(LogInActivity.this);
@@ -357,11 +362,11 @@ public class LogInActivity extends AppCompatActivity {
         editor.putString("mobile", user.getUsername());
         editor.putString("password", user.getPassword());
         editor.putString("name", user.getFirstName());
+//        editor.putString("link", "http://10.0.0.16:8081/");
         editor.apply();
 
         Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
         startActivity(MainActivityIntent);
-        finish();
     }
 
     void addSettingButton() {

@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String STOP_ACTION = "STOP";
     DatabaseHandler dbHandler;
     static String watch;
-    private String language, userNo, username;
+    private String language, userNo, username, link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
