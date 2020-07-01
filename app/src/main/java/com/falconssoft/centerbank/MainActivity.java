@@ -75,6 +75,7 @@ import pl.droidsonroids.gif.GifImageButton;
 
 import static android.widget.LinearLayout.VERTICAL;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
+import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "2";
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
-    private TextView closeDialog, message;
+    private TextView closeDialog,message, usernameTv;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
@@ -96,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
     static int id = 1;
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
-    private String language;
     DatabaseHandler dbHandler;
     static  String watch;
+    private String language, username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
+
+        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        username = loginPrefs.getString("mobile", "");
         Log.e("editing,main ", language);
         init();
         picforbar = new ArrayList<>();
@@ -359,6 +363,10 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.main_toolbar);
         request = findViewById(R.id.main_request);
         dbHandler = new DatabaseHandler(MainActivity.this);
+        usernameTv = findViewById(R.id.main_username);
+        usernameTv.setText(username);
+
+        dbHandler=new DatabaseHandler(MainActivity.this);
         recyclerViews = (RecyclerView) findViewById(R.id.res);
         setSupportActionBar(toolbar);
         setTitle("");

@@ -1,5 +1,6 @@
 package com.falconssoft.centerbank;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,21 +21,30 @@ import java.util.Map;
 class Presenter {
 
     private SingUpActivity singUpActivity;
-
+    private LogInActivity logInActivity;
+    private Context context;
     private RequestQueue requestQueue;
-    private JsonObjectRequest signUpRequest;
-    private String urlSignUp = "http://10.0.0.16:8081/RegisterUser?INFO={\"NATID\":\"220022\",\"FIRSTNM\":\"ALAA\",\"FATHERNM\":\"Salem\"\n" +
-            ",\"GRANDNM\":\"M.\",\"FAMILYNM\":\"JF\",\"DOB\":\"19/05/1978\",\"GENDER\":\"0\"\n" +
-            ",\"MOBILENO\":\"0798899716\",\"ADDRESS\":\"ADDRESSS\",\"EMIAL\":\"mail@Yahoo.com\",\"PASSWORD\":\"123\"}";
+    private LoginINFO user;// for login
 
-    public Presenter(SingUpActivity singUpActivity) {
-        this.singUpActivity = singUpActivity;
-        this.requestQueue = Volley.newRequestQueue(singUpActivity.getBaseContext());
+    private JsonObjectRequest signUpRequest;
+    private String urlSignUp = "http://10.0.0.16:8081/RegisterUser?INFO=";
+
+    private JsonObjectRequest loginRequest;
+    private String urlLogin = "http://10.0.0.16:8081/CheckUser?USERMOB=";
+
+//    private String getUranUp = "http://10.0.0.16:8081/RegisterUser?INFO={\"NATID\":\"2233333333\",\"FIRSTNM\":\"j\",\"FATHERNM\":\"j\"" +
+//            ",\"GRANDNM\":\"n\",\"FAMILYNM\":\"n\",\"DOB\":\"19\\/05\\/1978\",\"GENDER\":\"Male\"" +
+//            ",\"MOBILENO\":\"0772095887\",\"ADDRESS\":\"vj\",\"EMIAL\":\"bjgj\",\"PASSWORD\":\"h\"}";
+
+    public Presenter(Context context) {
+        this.context = context;
+        this.requestQueue = Volley.newRequestQueue(context);
     }
 
     // ******************************************************************************
-    public void saveSignUpInfo(final LoginINFO loginINFO) {
+    public void saveSignUpInfo(SingUpActivity singUpActivity, final LoginINFO loginINFO) {
 
+        this.singUpActivity = singUpActivity;
         final JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("NATID", loginINFO.getNationalID());
@@ -42,7 +52,7 @@ class Presenter {
             jsonObject.put("FATHERNM", loginINFO.getSecondName());
             jsonObject.put("GRANDNM", loginINFO.getThirdName());
             jsonObject.put("FAMILYNM", loginINFO.getFourthName());
-            jsonObject.put("DOB", loginINFO.getBirthDate());
+            jsonObject.put("DOB", "19/05/1978");
             jsonObject.put("GENDER", loginINFO.getGender());
             jsonObject.put("MOBILENO", loginINFO.getUsername());
             jsonObject.put("ADDRESS", loginINFO.getAddress());
@@ -52,8 +62,8 @@ class Presenter {
             e.printStackTrace();
         }
 
-        Log.e("url", urlSignUp + jsonObject);
-        signUpRequest = new JsonObjectRequest(Request.Method.GET, urlSignUp
+        Log.e("url", "http://10.0.0.16:8081/RegisterUser?INFO=" + jsonObject);
+        signUpRequest = new JsonObjectRequest(Request.Method.GET, urlSignUp + jsonObject
                 , null, new SignUpRequestClass(), new SignUpRequestClass())
 //        {
 //            @Override
@@ -101,6 +111,42 @@ class Presenter {
                 Toast.makeText(singUpActivity, "PLease check sent Info first!", Toast.LENGTH_SHORT).show();
 
             singUpActivity.hideDialog();
+        }
+    }
+
+    // ******************************************************************************
+    public void loginInfoCheck(LogInActivity logInActivity, LoginINFO loginINFO) {
+        user = loginINFO;
+        this.logInActivity = logInActivity;
+
+        loginRequest = new JsonObjectRequest(Request.Method.GET, urlLogin + Long.parseLong(loginINFO.getUsername()) + "&PASS=" + loginINFO.getPassword()
+                , null, new LoginRequestClass(), new LoginRequestClass());
+        requestQueue.add(loginRequest);
+    }
+
+    class LoginRequestClass implements Response.Listener<JSONObject>, Response.ErrorListener {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.e("presenter/", "signup/error/" + error.toString());
+            logInActivity.hideDialog();
+
+        }
+
+        @Override
+        public void onResponse(JSONObject response) {
+
+//            response = new String(response.getBytes("ISO-8859-1"), "UTF-8");
+            Log.e("presenter/", "signup/" + response.toString());
+            if (response.toString().contains("{\"StatusCode\":0,\"StatusDescreption\":\"OK\"}")){
+                logInActivity.goToTheMainPage(user);
+                Toast.makeText(logInActivity, "Saved Successfully", Toast.LENGTH_SHORT).show();
+            }
+            else if (response.toString().contains("{\"StatusCode\" : 4,\"StatusDescreption\":\"Error in Saving Check Temp.\" }"))
+                Toast.makeText(logInActivity, "Not Saved !", Toast.LENGTH_SHORT).show();
+            else if (response.toString().contains("{\"StatusCode\" : 9,\"StatusDescreption\":\"Error in saving User.\" }"))
+                Toast.makeText(logInActivity, "PLease check sent Info first!", Toast.LENGTH_SHORT).show();
+
+            logInActivity.hideDialog();
         }
     }
 }

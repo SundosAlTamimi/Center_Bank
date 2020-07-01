@@ -2,6 +2,7 @@ package com.falconssoft.centerbank;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -79,8 +80,6 @@ public class SingUpActivity extends AppCompatActivity {
 
     private void saveMethod() {
         String localNationalID = natonalNo.getText().toString();
-//        long localIntNationalID = Long.parseLong(localNationalID);
-//        Log.e("showId" , "" + localIntNationalID);
         String localFirstName = firstName.getText().toString();
         String localSecondName = secondName.getText().toString();
         String localThirdName = thirdName.getText().toString();
@@ -102,7 +101,7 @@ public class SingUpActivity extends AppCompatActivity {
                                         if (!TextUtils.isEmpty(localPassword)) {
 
                                             LoginINFO loginINFO = new LoginINFO();
-                                            loginINFO.setNationalID(Long.parseLong(localNationalID));
+                                            loginINFO.setNationalID(localNationalID);
                                             loginINFO.setFirstName(localFirstName);
                                             loginINFO.setSecondName(localSecondName);
                                             loginINFO.setThirdName(localThirdName);
@@ -112,11 +111,14 @@ public class SingUpActivity extends AppCompatActivity {
                                             loginINFO.setEmail(localEmail);
                                             loginINFO.setPassword(localPassword);
                                             loginINFO.setBirthDate(localBirthDate);
-                                            loginINFO.setGender(selectedGender);
+                                            if (selectedGender.equals("Male"))
+                                                loginINFO.setGender("0");
+                                            else
+                                                loginINFO.setGender("1");
 
                                             showDialog();
                                             databaseHandler.addSignupInfo(loginINFO);
-                                            new Presenter(SingUpActivity.this).saveSignUpInfo(loginINFO);
+                                            new Presenter(SingUpActivity.this).saveSignUpInfo(this, loginINFO);
 
                                         } else
                                             password.setError("Required!");
@@ -275,11 +277,18 @@ public class SingUpActivity extends AppCompatActivity {
         password.startAnimation(animation);
     }
 
-    void showDialog(){
+    public void goToLoginPage(){
+        Intent intent = new Intent(SingUpActivity.this, LogInActivity.class);
+        startActivity(intent);
+        finish();
+
+    }
+
+    void showDialog() {
         progressDialog.show();
     }
 
-    public void hideDialog(){
+    public void hideDialog() {
         progressDialog.dismiss();
     }
 
