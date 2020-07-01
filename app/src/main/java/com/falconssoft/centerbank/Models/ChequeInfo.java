@@ -28,10 +28,19 @@ public class ChequeInfo {
     private String chequeImage;
     private String rowId;
 
+    private String ToCustomerMobel;
+    private String ToCustomerNationalId;
+    private String CheqPIc;
+
+
+    private String customerWriteDate;
+    private String checkDueDate;
+    private String checkIsSueDate;
+
     private String transType;
     private String status;
     private String Date;
-
+    private String userName;
 
     private String ISOpen;
 
@@ -46,10 +55,7 @@ public class ChequeInfo {
     public ChequeInfo() {
     }
 
-    public ChequeInfo(String chequeNo, String bankNo, String branchNo, String accCode, String ibanNo, String custName,
-                      String qrCode, String serialNo, String bankName, String chequeData, String toCustomerName,
-                      String moneyInDinar, String moneyInFils, String moneyInWord, String recieverMobileNo,
-                      String recieverNationalID, String chequeImage, String rowId, String transType, String status, String date) {
+    public ChequeInfo(String chequeNo, String bankNo, String branchNo, String accCode, String ibanNo, String custName, String qrCode, String serialNo, String bankName, String chequeData, String toCustomerName, String moneyInDinar, String moneyInFils, String moneyInWord, String recieverMobileNo, String recieverNationalID, String chequeImage, String rowId, String toCustomerMobel, String toCustomerNationalId, String cheqPIc, String customerWriteDate, String checkDueDate, String checkIsSueDate, String transType, String status, String date, String ISOpen) {
         this.chequeNo = chequeNo;
         this.bankNo = bankNo;
         this.branchNo = branchNo;
@@ -68,9 +74,16 @@ public class ChequeInfo {
         this.recieverNationalID = recieverNationalID;
         this.chequeImage = chequeImage;
         this.rowId = rowId;
+        this. ToCustomerMobel = toCustomerMobel;
+        this. ToCustomerNationalId = toCustomerNationalId;
+        this.CheqPIc = cheqPIc;
+        this.customerWriteDate = customerWriteDate;
+        this.checkDueDate = checkDueDate;
+        this.checkIsSueDate = checkIsSueDate;
         this.transType = transType;
         this.status = status;
-        Date = date;
+        this.Date = date;
+        this.ISOpen = ISOpen;
     }
 
     public String getBankName() {
@@ -241,6 +254,62 @@ public class ChequeInfo {
         this.ISOpen = ISOpen;
     }
 
+    public String getToCustomerMobel() {
+        return ToCustomerMobel;
+    }
+
+    public void setToCustomerMobel(String toCustomerMobel) {
+        ToCustomerMobel = toCustomerMobel;
+    }
+
+    public String getToCustomerNationalId() {
+        return ToCustomerNationalId;
+    }
+
+    public void setToCustomerNationalId(String toCustomerNationalId) {
+        ToCustomerNationalId = toCustomerNationalId;
+    }
+
+    public String getCheqPIc() {
+        return CheqPIc;
+    }
+
+    public void setCheqPIc(String cheqPIc) {
+        CheqPIc = cheqPIc;
+    }
+
+    public String getCustomerWriteDate() {
+        return customerWriteDate;
+    }
+
+    public void setCustomerWriteDate(String customerWriteDate) {
+        this.customerWriteDate = customerWriteDate;
+    }
+
+    public String getCheckDueDate() {
+        return checkDueDate;
+    }
+
+    public void setCheckDueDate(String checkDueDate) {
+        this.checkDueDate = checkDueDate;
+    }
+
+    public String getCheckIsSueDate() {
+        return checkIsSueDate;
+    }
+
+    public void setCheckIsSueDate(String checkIsSueDate) {
+        this.checkIsSueDate = checkIsSueDate;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     // CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
 // ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
 // ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
@@ -271,6 +340,7 @@ public class ChequeInfo {
             obj.put("TOCUSTOMERMOB", recieverMobileNo );
             obj.put("TOCUSTOMERNATID", recieverNationalID );
             obj.put("CHECKPIC", chequeImage );
+            obj.put("USERNO",  userName);
 
 
         } catch (JSONException e) {

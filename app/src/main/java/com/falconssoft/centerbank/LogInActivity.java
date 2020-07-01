@@ -1,6 +1,7 @@
 package com.falconssoft.centerbank;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -58,12 +59,14 @@ public class LogInActivity extends AppCompatActivity {
     private DatabaseHandler databaseHandler;
     private Animation animation;
     public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
+    public static final String LOGIN_INFO = "LOGIN_INFO";
     private TextView checkValidation;
     private String[] array;
     private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "";
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
     private Dialog barcodeDialog;
     private SharedPreferences.Editor editor;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,6 @@ public class LogInActivity extends AppCompatActivity {
         }
         setContentView(R.layout.log_in);
 
-
         init();
         checkLanguage();
         Log.e("editing,login ", language);
@@ -95,11 +97,12 @@ public class LogInActivity extends AppCompatActivity {
                 LoginINFO user = new LoginINFO();
                 user.setUsername(userName.getText().toString());
                 user.setPassword(password.getText().toString());
-                databaseHandler.deleteLoginInfo();
-                databaseHandler.addLoginInfo(user);
+                goToTheMainPage(user);
+
+//                showDialog();
+//                new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
 //                Authintication();
-                Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
-                startActivity(MainActivityIntent);
+
             }
         });
 
@@ -342,6 +345,28 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
+    void showDialog() {
+        progressDialog.show();
+    }
+
+    public void hideDialog() {
+        progressDialog.dismiss();
+    }
+
+    public void goToTheMainPage(LoginINFO user){
+        DatabaseHandler databaseHandler = new DatabaseHandler(this);
+        databaseHandler.deleteLoginInfo();
+        databaseHandler.addLoginInfo(user);
+        editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
+        editor.putString("mobile", user.getUsername());
+        editor.putString("password", user.getPassword());
+        editor.apply();
+
+        Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
+        startActivity(MainActivityIntent);
+        finish();
+    }
+
     void addSettingButton() {
         final Dialog dialog = new Dialog(LogInActivity.this, R.style.Theme_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -385,6 +410,8 @@ public class LogInActivity extends AppCompatActivity {
     void init() {
 
         databaseHandler = new DatabaseHandler(LogInActivity.this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Waiting...");
         userName = findViewById(R.id.LogInUserName);
         password = findViewById(R.id.LogInPassword);
         singIn = findViewById(R.id.LogInSingIn);

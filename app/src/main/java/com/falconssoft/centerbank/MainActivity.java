@@ -3,44 +3,30 @@ package com.falconssoft.centerbank;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import java.util.Base64;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,14 +34,12 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
+import com.falconssoft.centerbank.Models.NewAccount;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -63,36 +47,36 @@ import com.google.zxing.integration.android.IntentResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
-import pl.droidsonroids.gif.GifDrawable;
-import pl.droidsonroids.gif.GifImageButton;
 
-import static android.widget.LinearLayout.VERTICAL;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
+import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String CHANNEL_ID ="2" ;
+    private static final String CHANNEL_ID = "2";
     CircleImageView imageView;
     private Button notification, menuButton;
     TextView barCodTextTemp, scanBarcode, signout;
     private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
-    private TextView closeDialog,message;
+    private TextView closeDialog,message, usernameTv;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
-    List<String> picforbar;
+    List<NewAccount> picforbar;
     private Toolbar toolbar;
     Timer timer;
     TextInputEditText inputEditTextTemp;
     NotificationManager notificationManager;
-    static int id=1;
+    static int id = 1;
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
-    private String language;
+    DatabaseHandler dbHandler;
+    static  String watch;
+    private String language, userNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,35 +85,43 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
+
+        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        userNo = loginPrefs.getString("mobile", "");
         Log.e("editing,main ", language);
-
-        picforbar = new ArrayList<>();
-        picforbar.add("01365574861");
-        picforbar.add("0136557486");
-        picforbar.add("01365574861");
-        picforbar.add("01365574861");
-        picforbar.add("01365574861");
-        picforbar.add("01365574861");
-
-        layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, true);
-        recyclerViews = (RecyclerView) findViewById(R.id.res);
-        recyclerViews.setLayoutManager(layoutManagerd);
-        recyclerViews.setHasFixedSize(true);
-        recyclerViews.addOnScrollListener(new CenterScrollListener());
-        layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
-        recyclerViews.setAdapter(new TestAdapterForbar(this, picforbar));
-        recyclerViews.requestFocus();
-        recyclerViews.scrollToPosition(2);
-        recyclerViews.requestFocus();
-
         init();
+        picforbar = new ArrayList<>();
+//        picforbar.add("01365574861","");
+//        picforbar.add("0136557486");
+//        picforbar.add("01365574861");
+//        picforbar.add("01365574861");
+//        picforbar.add("01365574861");
+//        picforbar.add("01365574861");
+
+//        picforbar=dbHandler.getAllAcCount();
+
+//        layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, true);
+//        recyclerViews = (RecyclerView) findViewById(R.id.res);
+//        recyclerViews.setLayoutManager(layoutManagerd);
+//        recyclerViews.setHasFixedSize(true);
+//        recyclerViews.addOnScrollListener(new CenterScrollListener());
+//        layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+//        recyclerViews.setAdapter(new TestAdapterForbar(this, picforbar));
+//        recyclerViews.requestFocus();
+//        recyclerViews.scrollToPosition(2);
+//        recyclerViews.requestFocus();
+
+        showAllDataAccount();
+
 //        message.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
         checkLanguage();
 
         logHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent LogHistoryIntent=new Intent(MainActivity.this,LogHistoryActivity.class);
+                Intent LogHistoryIntent = new Intent(MainActivity.this, LogHistoryActivity.class);
+                LogHistoryIntent.putExtra("AccountNo","00000" );
+                watch="1";
                 startActivity(LogHistoryIntent);
             }
         });
@@ -184,6 +176,21 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
+    }
+
+    void showAllDataAccount() {
+        picforbar = dbHandler.getAllAcCount();
+        layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, true);
+
+        recyclerViews.setLayoutManager(layoutManagerd);
+        recyclerViews.setHasFixedSize(true);
+        recyclerViews.addOnScrollListener(new CenterScrollListener());
+        layoutManagerd.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+        recyclerViews.setAdapter(new TestAdapterForbar(this, picforbar));
+        recyclerViews.requestFocus();
+        recyclerViews.scrollToPosition(2);
+        recyclerViews.requestFocus();
+
 
     }
 
@@ -226,16 +233,17 @@ public class MainActivity extends AppCompatActivity {
         notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void show_Notification(String detail){
+    public void show_Notification(String detail) {
 
-        Intent intent=new Intent(MainActivity.this,notificationReciver.class);
-        intent.putExtra("action","YES");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        String CHANNEL_ID="MYCHANNEL";
+        Intent intent = new Intent(MainActivity.this, notificationReciver.class);
+        intent.putExtra("action", "YES");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        String CHANNEL_ID = "MYCHANNEL";
 
-        NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name", NotificationManager.IMPORTANCE_HIGH);
-        Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
+        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "name", NotificationManager.IMPORTANCE_HIGH);
+        Notification notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID)
                 .setContentText("show Detail ......")
                 .setContentTitle("Recive new Check, click to show detail")
                 .setStyle(new Notification.BigTextStyle()
@@ -243,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
                         .setBigContentTitle(" ")
                         .setSummaryText(""))
                 .setContentIntent(pendingIntent)
-                .addAction(android.R.drawable.sym_action_chat,"Show detail",pendingIntent)
+                .addAction(android.R.drawable.sym_action_chat, "Show detail", pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setChannelId(CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_add)
@@ -251,9 +259,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
 
-        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(notificationChannel);
-        notificationManager.notify(1,notification);
+        notificationManager.notify(1, notification);
 
 
     }
@@ -270,9 +278,9 @@ public class MainActivity extends AppCompatActivity {
         TextView scan = dialog.findViewById(R.id.dialog_addAccount_scan);
         LinearLayout linearLayout = dialog.findViewById(R.id.dialog_addAccount_linear);
 
-        if (language.equals("ar")){
+        if (language.equals("ar")) {
             linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        }else {
+        } else {
             linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         }
 
@@ -282,9 +290,19 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
                     // TODO add account
+                    if (!dbHandler.IfAccountFound(inputEditText.getText().toString())){
+                        dbHandler.addNewAccount(new NewAccount(inputEditText.getText().toString(), "Jordan Bank", "0"));//0 -->not active  1-->active
+
                     Toast.makeText(MainActivity.this, "Save Success", Toast.LENGTH_SHORT).show();
+                    picforbar = dbHandler.getAllAcCount();
+
+                    showAllDataAccount();
 
                     dialog.dismiss();
+                }else {
+                        Toast.makeText(MainActivity.this, "This Account Add Before !", Toast.LENGTH_SHORT).show();
+
+                    }
                 } else
                     Toast.makeText(MainActivity.this, "Please add account first or scan cheque QR barcode!", Toast.LENGTH_SHORT).show();
             }
@@ -293,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputEditTextTemp=inputEditText;
+                inputEditTextTemp = inputEditText;
                 IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
                 integrator.setPrompt("Scan");
@@ -321,10 +339,15 @@ public class MainActivity extends AppCompatActivity {
         notification = findViewById(R.id.button_notification);
         toolbar = findViewById(R.id.main_toolbar);
         request = findViewById(R.id.main_request);
+        dbHandler = new DatabaseHandler(MainActivity.this);
+        usernameTv = findViewById(R.id.main_username);
+        usernameTv.setText("Welcome "+ userNo);
 
+        dbHandler=new DatabaseHandler(MainActivity.this);
+        recyclerViews = (RecyclerView) findViewById(R.id.res);
         setSupportActionBar(toolbar);
         setTitle("");
-        message=findViewById(R.id.messages);
+        message = findViewById(R.id.messages);
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -448,16 +471,16 @@ public class MainActivity extends AppCompatActivity {
 //                TostMesage(getResources().getString(R.string.scan)+Result.getContents());
 //                barCodTextTemp.setText(Result.getContents() + "");
 //                openEditerCheck();
-                String ST=Result.getContents();
-               String []arr =ST.split(";");
+                String ST = Result.getContents();
+                String[] arr = ST.split(";");
 
 //                    String checkNo = arr[0];
 //                    String bankNo = arr[1];
 //                    String branchNo = arr[2];
-                      String accCode = arr[3];
+                String accCode = arr[3];
 //                    String ibanNo = arr[4];
 //                    String custName= "";
-                inputEditTextTemp .setText(accCode);
+                inputEditTextTemp.setText(accCode.substring(1));
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -488,10 +511,10 @@ public class MainActivity extends AppCompatActivity {
 
     class TestAdapterForbar extends RecyclerView.Adapter<MainActivity.CViewHolderForbar> {
         Context context;
-        List<String> list;
+        List<NewAccount> list;
 //DatabaseHandler db;
 
-        public TestAdapterForbar(Context context, List<String> list) {
+        public TestAdapterForbar(Context context, List<NewAccount> list) {
             this.context = context;
             this.list = list;
 //        db=new DatabaseHandler(this.context);
@@ -507,52 +530,57 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull final MainActivity.CViewHolderForbar cViewHolder, final int i) {
-            cViewHolder.ItemName.setText(list.get(i));
+            cViewHolder.ItemName.setText(list.get(i).getAccountNo());
 //            cViewHolder.itemImage.setBackgroundResource(getImage(pic2.get(i)));
             cViewHolder.layBar.setTag("" + i);
 
+            final boolean[] longIsOpen = {false};
             cViewHolder.layBar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
-
-//                    switch (Integer.parseInt(v.getTag().toString())) {
-////                        case 0:
-////                            Intent intents = new Intent(CategoryActivity.this, RewardActivity.class);
-////                            startActivity(intents);
-////                            break;
-//                        case 0:
-//                            Intent intents = new Intent(CategoryActivity.this, ProfileActivity.class);
-//                            startActivity(intents);
-//                            break;
-//                        case 1:
-//                            Intent intentN = new Intent(CategoryActivity.this, NotificationActivity.class);
-//                            startActivity(intentN);
-//                            break;
-//                        case 2:
-//                            Intent intent = new Intent(CategoryActivity.this, PointViewActivity.class);
-//                            startActivity(intent);
-//                            break;
-//                        case 3:
-//                            BarcodeDialog();
-//                            break;
-//                        case 4:
-//                            BranchesDialog();
-////                            sendSMS("0786812709","point app 12234");
-//                            break;
-//
-//                        case 5:
-//                            Intent addNewIntent = new Intent(CategoryActivity.this, AddNewActivity.class);
-//                            startActivity(addNewIntent);
-//                            finish();
-//                            break;
-//                    }
+                    if (!longIsOpen[0]) {
+                        Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
+                        Intent LogHistoryIntent = new Intent(MainActivity.this, LogHistoryActivity.class);
+                        LogHistoryIntent.putExtra("AccountNo",list.get(i).getAccountNo() );
+                        watch="0";
+                        startActivity(LogHistoryIntent);
+                        longIsOpen[0] = false;
+                    }
 
                 }
             });
 
             //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+            cViewHolder.layBar.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    longIsOpen[0] = true;
+                    new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("WARNING")
+                            .setContentText("You want to Delete This Account No =   ( " + list.get(i).getAccountNo() + " ) !")
+                            .setConfirmText("Ok")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    dbHandler.deleteAccount(list.get(i).getAccountNo());
+                                    showAllDataAccount();
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            })
+                            .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            })
+
+                            .show();
+
+
+                    return false;
+                }
+            });
 
         }
 

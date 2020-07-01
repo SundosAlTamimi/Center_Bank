@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bank4"
-    android:orientation="vertical">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,125 +17,171 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.2"
+            android:layout_weight="3"
             android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_access_time_black_24dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center|start"
+                    android:padding="5dp"
+                    android:text="@string/log_history"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/help"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:drawableEnd="@drawable/ic_help"
+                    android:drawableTint="@color/white"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center|start"
+                    android:padding="5dp"
+                    android:text="0"
+                    android:textColor="@color/Nocolor" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:layout_weight="0.9"
-                android:drawableLeft="@drawable/ic_access_time_black_24dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+                android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+                android:drawableTint="@color/RealGreen"
                 android:fontFamily="sans-serif-light"
-                android:gravity="center|start"
+                android:gravity="center"
                 android:padding="5dp"
-                android:text="Log History"
+                android:text="Account Activate is "
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+            <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--tools:visibility="gone">-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-                    android:drawableLeft="@drawable/ic_date_range_black_24dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal">-->
 
-                    <TextView
-                        android:id="@+id/dateLogHistory"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:drawableLeft="@drawable/ic_date_range_black_24dp"
-                        android:gravity="center"
-                        android:hint="@string/date"
-                        android:padding="5dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white" />
+            <!--<TextView-->
+            <!--android:id="@+id/dateLogHistory"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:hint="@string/date"-->
+            <!--android:padding="5dp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textColorHint="@color/white" />-->
 
-                </LinearLayout>
+            <!--</LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-                    android:drawableLeft="@drawable/ic_date_range_black_24dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:drawableStart="@drawable/ic_live_help_black_24dp"
-                        android:gravity="center"
-                        android:hint="Status"
-                        android:padding="5dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white" />
-
-                    <Spinner
-                        android:id="@+id/spinnerState"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal">-->
 
 
-                </LinearLayout>
+            <!--<TextView-->
+            <!--android:id="@+id/textView9"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableStart="@drawable/ic_live_help_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:hint="@string/status"-->
+            <!--android:padding="5dp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textColorHint="@color/white" />-->
+
+            <!--<Spinner-->
+            <!--android:id="@+id/spinnerState"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1" />-->
 
 
+            <!--</LinearLayout>-->
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-                    android:drawableLeft="@drawable/ic_date_range_black_24dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+            <!--</TableRow>-->
+
+            <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--tools:visibility="gone">-->
 
 
-                    <TextView
-                        android:id="@+id/Translate"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:drawableLeft="@drawable/ic_autorenew_black_24dp"
-                        android:gravity="center"
-                        android:hint="Transaction Type"
-                        android:padding="5dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white" />
-
-                    <Spinner
-                        android:id="@+id/spinnerTranse"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal">-->
 
 
-                </LinearLayout>
+            <!--<TextView-->
+            <!--android:id="@+id/Translate"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableLeft="@drawable/ic_autorenew_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:hint="@string/transaction_type"-->
+            <!--android:padding="5dp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textColorHint="@color/white" />-->
 
-            </TableRow>
+            <!--<Spinner-->
+            <!--android:id="@+id/spinnerTranse"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1" />-->
+
+
+            <!--</LinearLayout>-->
+
+            <!--</TableRow>-->
 
 
         </LinearLayout>
@@ -143,37 +190,38 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:background="@drawable/edit_bac_s"
             android:orientation="vertical"
             android:padding="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                tools:visibility="gone">
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="2"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:padding="5dp"-->
+            <!--tools:visibility="gone">-->
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/piechart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+            <!--<com.github.mikephil.charting.charts.PieChart-->
+            <!--android:id="@+id/piechart"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1" />-->
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/piechart2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+            <!--<com.github.mikephil.charting.charts.PieChart-->
+            <!--android:id="@+id/piechart2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:gravity="center"
+                android:padding="5dp">
 
                 <!--<LinearLayout-->
                 <!--android:layout_width="wrap_content"-->
@@ -189,26 +237,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.9"
+                    android:fontFamily="sans-serif-light"
                     android:gravity="center"
-                    android:text="T/S"
+
+                    android:text="@string/status"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.7"
+                    android:fontFamily="sans-serif-light"
                     android:gravity="center"
-                    android:text="Name"
+                    android:text="@string/customer_name"
                     android:textColor="@color/white"
+
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.7"
+                    android:fontFamily="sans-serif-light"
                     android:gravity="center"
-                    android:text="Date"
+                    android:text="@string/date"
+
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 
@@ -216,7 +270,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/ic_details_black_24dp"
+                    android:background="@drawable/ic_expand_more_black_24dp"
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
@@ -232,9 +286,212 @@
             <ListView
                 android:id="@+id/listLogHistory"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
     </LinearLayout>
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/helpDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/clear_buttons_a"
+        android:orientation="vertical"
+        tools:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_bac_s"
+            android:drawableStart="@drawable/ic_arrow_downward_black_24dp"
+            android:drawableEnd="@drawable/ic_help"
+            android:drawableTint="@color/white"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Recive"
+            android:textColor="@color/white_dark"
+            android:textSize="15sp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/ic_arrow_downward_black_24dp"
+                android:textColor="@color/white"
+                app:civ_border_color="@color/RealGreen"
+                app:civ_border_width="2dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Accept"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/ic_arrow_downward_black_24dp"
+                android:textColor="@color/white"
+                app:civ_border_color="@color/RealRed"
+                app:civ_border_width="2dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Reject"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/ic_arrow_downward_black_24dp"
+                android:textColor="@color/white"
+                app:civ_border_color="@color/blue"
+                app:civ_border_width="2dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Append"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </TableRow>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_bac_s"
+            android:drawableStart="@drawable/ic_arrow_upward_black_24dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Send"
+            android:textColor="@color/white_dark"
+            android:textSize="15sp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/ic_arrow_upward_black_24dp"
+                android:textColor="@color/white"
+                app:civ_border_color="@color/RealGreen"
+                app:civ_border_width="2dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Accept"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/ic_arrow_upward_black_24dp"
+                android:textColor="@color/white"
+                app:civ_border_color="@color/RealRed"
+                app:civ_border_width="2dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Reject"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/ic_arrow_upward_black_24dp"
+                android:textColor="@color/white"
+                app:civ_border_color="@color/blue"
+                app:civ_border_width="2dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Append"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </TableRow>
+
+
+    </LinearLayout>
+</RelativeLayout>

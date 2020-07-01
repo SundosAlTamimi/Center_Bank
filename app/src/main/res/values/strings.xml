@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Cheque editor</string>
     <string name="cheque_app">Cheque App</string>
-    <string name="user_name">User Name</string>
+    <string name="user_name">Username (Mobile No)</string>
     <string name="password">Password</string>
     <string name="sing_in">Sing In</string>
     <string name="sing_up">sing Up</string>
@@ -54,5 +54,7 @@
     <string name="Accept">Accept</string>
     <string name="Reject">Reject</string>
     <string name="CheckDetail">Check Detail</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="cashier_check">cashier Check</string>
     <string name="firstbeneficiary">first beneficiary</string>
 </resources>

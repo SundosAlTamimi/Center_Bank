@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Cheque editor</string>
     <string name="cheque_app">Cheque App</string>
-    <string name="user_name">اسم المستخدم</string>
+    <string name="user_name">اسم المستخدم (رقم الهاتف)</string>
     <string name="password">كلمة المرور</string>
     <string name="sing_in">دخول</string>
     <string name="sing_up">مستخدم جديد</string>
@@ -55,5 +55,7 @@
     <string name="Accept">موافق</string>
     <string name="Reject">الغاء</string>
     <string name="CheckDetail">تفاصيل الشيك </string>
+    <string name="customer_name">Customer Name</string>
+    <string name="cashier_check">cashier Check</string>
     <string name="firstbeneficiary">المستفيد الاول</string>
 </resources>
