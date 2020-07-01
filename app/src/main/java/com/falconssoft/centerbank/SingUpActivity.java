@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -24,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.falconssoft.centerbank.Models.LoginINFO;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class SingUpActivity extends AppCompatActivity {
     private EditText natonalNo, phoneNo, address, email, password, firstName, secondName, thirdName, fourthName;
     private String language, today, selectedAccount = "Individual", selectedGender = "Male";
     private Animation animation;
-    private LinearLayout linearLayout;
+    private LinearLayout linearLayout, coordinatorLayout;
     private Button save;
     private Spinner spinnerAccountType, spinnerGender;
     private List<String> accountTypeList = new ArrayList<>();
@@ -50,6 +52,7 @@ public class SingUpActivity extends AppCompatActivity {
     private ArrayAdapter arrayAdapter, genderArrayAdapter;
     private DatabaseHandler databaseHandler;
     private ProgressDialog progressDialog;
+    private Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +120,6 @@ public class SingUpActivity extends AppCompatActivity {
                                                 loginINFO.setGender("1");
 
                                             showDialog();
-                                            databaseHandler.addSignupInfo(loginINFO);
                                             new Presenter(SingUpActivity.this).saveSignUpInfo(this, loginINFO);
 
                                         } else
@@ -144,6 +146,7 @@ public class SingUpActivity extends AppCompatActivity {
     private void init() {
 
         databaseHandler = new DatabaseHandler(this);
+        coordinatorLayout = findViewById(R.id.signup_coordinatorLayout);
         save = findViewById(R.id.signUp_save);
         firstName = findViewById(R.id.signUp_first_name);
         secondName = findViewById(R.id.signUp_second_name);
@@ -250,6 +253,14 @@ public class SingUpActivity extends AppCompatActivity {
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
+        spinnerAccountType.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        spinnerGender.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
         natonalNo.startAnimation(animation);
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -278,10 +289,20 @@ public class SingUpActivity extends AppCompatActivity {
     }
 
     public void goToLoginPage(){
+        showSnackbar("Saved Successfully", true);
         Intent intent = new Intent(SingUpActivity.this, LogInActivity.class);
         startActivity(intent);
         finish();
 
+    }
+
+    void showSnackbar(String text, boolean showImage) {
+        snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#3167F0\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
+        View snackbarLayout = snackbar.getView();
+        TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
+        if (showImage)
+            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0);
+        snackbar.show();
     }
 
     void showDialog() {

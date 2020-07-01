@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
-    private TextView closeDialog,message, usernameTv;
+    private TextView closeDialog, message, usernameTv;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
     DatabaseHandler dbHandler;
-    static  String watch;
-    private String language, userNo;
+    static String watch;
+    private String language, userNo, username, link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         userNo = loginPrefs.getString("mobile", "");
+        username = loginPrefs.getString("name", "");
+
         Log.e("editing,main ", language);
         init();
         picforbar = new ArrayList<>();
@@ -120,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent LogHistoryIntent = new Intent(MainActivity.this, LogHistoryActivity.class);
-                LogHistoryIntent.putExtra("AccountNo","00000" );
-                watch="1";
+                LogHistoryIntent.putExtra("AccountNo", "00000");
+                watch = "1";
                 startActivity(LogHistoryIntent);
             }
         });
@@ -290,16 +292,16 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
                     // TODO add account
-                    if (!dbHandler.IfAccountFound(inputEditText.getText().toString())){
+                    if (!dbHandler.IfAccountFound(inputEditText.getText().toString())) {
                         dbHandler.addNewAccount(new NewAccount(inputEditText.getText().toString(), "Jordan Bank", "0"));//0 -->not active  1-->active
 
-                    Toast.makeText(MainActivity.this, "Save Success", Toast.LENGTH_SHORT).show();
-                    picforbar = dbHandler.getAllAcCount();
+                        Toast.makeText(MainActivity.this, "Save Success", Toast.LENGTH_SHORT).show();
+                        picforbar = dbHandler.getAllAcCount();
 
-                    showAllDataAccount();
+                        showAllDataAccount();
 
-                    dialog.dismiss();
-                }else {
+                        dialog.dismiss();
+                    } else {
                         Toast.makeText(MainActivity.this, "This Account Add Before !", Toast.LENGTH_SHORT).show();
 
                     }
@@ -341,9 +343,9 @@ public class MainActivity extends AppCompatActivity {
         request = findViewById(R.id.main_request);
         dbHandler = new DatabaseHandler(MainActivity.this);
         usernameTv = findViewById(R.id.main_username);
-        usernameTv.setText("Welcome "+ userNo);
+        usernameTv.setText("Welcome " + username);
 
-        dbHandler=new DatabaseHandler(MainActivity.this);
+        dbHandler = new DatabaseHandler(MainActivity.this);
         recyclerViews = (RecyclerView) findViewById(R.id.res);
         setSupportActionBar(toolbar);
         setTitle("");
@@ -541,8 +543,8 @@ public class MainActivity extends AppCompatActivity {
                     if (!longIsOpen[0]) {
                         Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
                         Intent LogHistoryIntent = new Intent(MainActivity.this, LogHistoryActivity.class);
-                        LogHistoryIntent.putExtra("AccountNo",list.get(i).getAccountNo() );
-                        watch="0";
+                        LogHistoryIntent.putExtra("AccountNo", list.get(i).getAccountNo());
+                        watch = "0";
                         startActivity(LogHistoryIntent);
                         longIsOpen[0] = false;
                     }

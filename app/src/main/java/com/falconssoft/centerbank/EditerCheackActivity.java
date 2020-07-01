@@ -122,7 +122,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     Date currentTimeAndDate;
     SimpleDateFormat df;
     Bitmap serverPicBitmap;
-    private String today, serverPic = "", language;
+    private String today, serverPic = "", language, serverLink;
     Calendar myCalendar;
     private JSONObject jsonObject;
 
@@ -150,6 +150,9 @@ public class EditerCheackActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");//"No name defined" is the default value.
         Log.e("editing,3 ", language);
+
+        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        serverLink = loginPrefs.getString("link", "");
 
         checkLanguage();
 
@@ -644,7 +647,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
-    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo) {
+    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
             final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -660,6 +663,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
             chequeWriterTV.setText(customerName);
             accountNoTV.setText(accountNo);
+            chequeNoTV.setText(chequeNo);
             okTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -803,7 +807,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
-                request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?"));
+                request.setURI(new URI(serverLink + "VerifyCheck?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
@@ -860,7 +864,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
                     BANKNO = jsonObject.get("BANKNO").toString();
                     BRANCHNO = jsonObject.get("BRANCHNO").toString();
 
-                    showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE);
+                    showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
 
 //                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
                 } catch (JSONException e) {
@@ -882,9 +886,6 @@ private class JSONTask extends AsyncTask<String, String, String> {
 }
 
 // ******************************************** SAVE *************************************
-
-
-
     private class GetAllTransaction extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
@@ -915,7 +916,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
-                String link = "http://10.0.0.16:8081/SaveTempCheck";
+                String link = serverLink + "SaveTempCheck";
 
 
                 String data = "CHECKINFO=" + URLEncoder.encode(jsonObject.toString(), "UTF-8");
@@ -1263,7 +1264,6 @@ private class JSONTask extends AsyncTask<String, String, String> {
         return myFile;
     }
 
-
 //void im(File myFile){
 ////    File myFile = new File(path);
 //    RequestParams params = new RequestParams();
@@ -1290,7 +1290,6 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //        Log.e("Esss",""+e.toString());
 //    }
 //}
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public String addPicToGallery(Bitmap finalBitmap) {
@@ -1370,7 +1369,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
-                String link = "http://10.0.0.16:8081/GetCheckPic?ACCCODE=4014569990011000&BANKNO=004&BRANCHNO=0099&CHECKNO=390092";
+                String link = serverLink + "GetCheckPic?ACCCODE=4014569990011000&BANKNO=004&BRANCHNO=0099&CHECKNO=390092";
 
 
 //                String data = "CHECKINFO=" + URLEncoder.encode(jsonObject.toString(), "UTF-8");
@@ -1492,8 +1491,6 @@ Log.e("CHECKPIC1",""+jsonObject.getString("CHECKPIC"));
         }
     }
 
-
-
 //    public void uploadProfileImage(final String fileName){
 //        byte[] imageBytes = getBytesImage(bitmap);
 //       HttpClient httpclient = new DefaultHttpClient();
@@ -1594,7 +1591,7 @@ private class JSONTask1 extends AsyncTask<String, String, String> {
             String JsonResponse = null;
             HttpClient client = new DefaultHttpClient();
             HttpPost request = new HttpPost();
-            request.setURI(new URI("http://10.0.0.16:8081/SaveTempCheck?"));
+            request.setURI(new URI(serverLink + "SaveTempCheck?"));
 
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("CHECKINFO", jsonObject.toString()));

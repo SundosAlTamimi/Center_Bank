@@ -18,7 +18,7 @@ import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int VERSION = 6;
+    private static final int VERSION = 12;
     private static final String BD_NAME = "cheque_editor";
 
     // ********************************************************************
@@ -36,20 +36,31 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private final String LOGIN_TABLE = "LOGIN_TABLE";
     private final String USER_NAME = "USER_NAME";
     private final String PASSWORD = "PASSWORD";
+    private final String LOGIN_NATIONAL_ID = "LOGIN_NATIONAL_ID";
+    private final String LOGIN_FIRST_NAME = "LOGIN_FIRST_NAME";
+    private final String LOGIN_SECOND_NAME = "LOGIN_SECOND_NAME";
+    private final String LOGIN_THIRD_NAME = "LOGIN_THIRD_NAME";
+    private final String LOGIN_FOURTH_NAME = "LOGIN_FOURTH_NAME";
+    private final String LOGIN_DOB = "LOGIN_DOB";
+    private final String LOGIN_GENDER = "LOGIN_GENDER";
+    private final String LOGIN_ADDRESS = "LOGIN_ADDRESS";
+    private final String LOGIN_EMAIL = "LOGIN_EMAIL";
+    private final String LOGIN_INACTIVE = "LOGIN_INACTIVE";
+    private final String LOGIN_INDATE = "LOGIN_INDATE";
 
     // ********************************************************************
-    private final String SIGNUP_TABLE = "SIGNUP_TABLE";
-    private final String SIGNUP_NATIONAL_ID = "SIGNUP_NATIONAL_ID";
-    private final String SIGNUP_FIRST_NAME = "SIGNUP_FIRST_NAME";
-    private final String SIGNUP_SECOND_NAME = "SIGNUP_SECOND_NAME";
-    private final String SIGNUP_THIRD_NAME = "SIGNUP_THIRD_NAME";
-    private final String SIGNUP_FOURTH_NAME = "SIGNUP_FOURTH_NAME";
-    private final String SIGNUP_DOB = "SIGNUP_DOB";
-    private final String SIGNUP_GENDER = "SIGNUP_GENDER";
-    private final String SIGNUP_MOBILE = "SIGNUP_MOBILE";
-    private final String SIGNUP_ADDRESS = "SIGNUP_ADDRESS";
-    private final String SIGNUP_EMAIL = "SIGNUP_EMAIL";
-    private final String SIGNUP_PASSWORD = "SIGNUP_PASSWORD";
+//    private final String SIGNUP_TABLE = "SIGNUP_TABLE";
+//    private final String SIGNUP_NATIONAL_ID = "SIGNUP_NATIONAL_ID";
+//    private final String SIGNUP_FIRST_NAME = "SIGNUP_FIRST_NAME";
+//    private final String SIGNUP_SECOND_NAME = "SIGNUP_SECOND_NAME";
+//    private final String SIGNUP_THIRD_NAME = "SIGNUP_THIRD_NAME";
+//    private final String SIGNUP_FOURTH_NAME = "SIGNUP_FOURTH_NAME";
+//    private final String SIGNUP_DOB = "SIGNUP_DOB";
+//    private final String SIGNUP_GENDER = "SIGNUP_GENDER";
+//    private final String SIGNUP_MOBILE = "SIGNUP_MOBILE";
+//    private final String SIGNUP_ADDRESS = "SIGNUP_ADDRESS";
+//    private final String SIGNUP_EMAIL = "SIGNUP_EMAIL";
+//    private final String SIGNUP_PASSWORD = "SIGNUP_PASSWORD";
 
     public DatabaseHandler(@Nullable Context context) {
         super(context, BD_NAME, null, VERSION);
@@ -57,21 +68,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableSignup = "CREATE TABLE " + SIGNUP_TABLE
-                + " ("
-                + SIGNUP_NATIONAL_ID + " INTEGER, "
-                + SIGNUP_FIRST_NAME + " TEXT, "
-                + SIGNUP_SECOND_NAME + " TEXT, "
-                + SIGNUP_THIRD_NAME + " TEXT, "
-                + SIGNUP_FOURTH_NAME + " TEXT, "
-                + SIGNUP_DOB + " TEXT, "
-                + SIGNUP_GENDER + " TEXT, "
-                + SIGNUP_MOBILE + " INTEGER, "
-                + SIGNUP_ADDRESS + " TEXT, "
-                + SIGNUP_EMAIL + " TEXT, "
-                + SIGNUP_PASSWORD + " TEXT "
-                + ")";
-        db.execSQL(createTableSignup);
+//        String createTableSignup = "CREATE TABLE " + SIGNUP_TABLE
+//                + " ("
+//                + SIGNUP_NATIONAL_ID + " INTEGER, "
+//                + SIGNUP_FIRST_NAME + " TEXT, "
+//                + SIGNUP_SECOND_NAME + " TEXT, "
+//                + SIGNUP_THIRD_NAME + " TEXT, "
+//                + SIGNUP_FOURTH_NAME + " TEXT, "
+//                + SIGNUP_DOB + " TEXT, "
+//                + SIGNUP_GENDER + " TEXT, "
+//                + SIGNUP_MOBILE + " INTEGER, "
+//                + SIGNUP_ADDRESS + " TEXT, "
+//                + SIGNUP_EMAIL + " TEXT, "
+//                + SIGNUP_PASSWORD + " TEXT "
+//                + ")";
+//        db.execSQL(createTableSignup);
 
         String createTableAccounts = "CREATE TABLE " + ACCOUNT_TABLE
                 + " ("
@@ -90,7 +101,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String createTableLOGIN = "CREATE TABLE " + LOGIN_TABLE
                 + " ("
                 + USER_NAME + " TEXT,"
-                + PASSWORD + " TEXT "
+                + PASSWORD + " TEXT, "
+                + LOGIN_NATIONAL_ID + " TEXT, "
+                + LOGIN_FIRST_NAME + " TEXT, "
+                + LOGIN_SECOND_NAME + " TEXT, "
+                + LOGIN_THIRD_NAME + " TEXT, "
+                + LOGIN_FOURTH_NAME + " TEXT, "
+                + LOGIN_DOB + " TEXT, "
+                + LOGIN_GENDER + " TEXT, "
+                + LOGIN_ADDRESS + " TEXT, "
+                + LOGIN_EMAIL + " TEXT, "
+                + LOGIN_INACTIVE + " TEXT, "
+                + LOGIN_INDATE + " TEXT "
                 + ")";
         db.execSQL(createTableLOGIN);
 
@@ -101,26 +123,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         try {
-        } catch (Exception e) {
 
-            String createTableaccount = "ALTER TABLE ACCOUNT_TABLE ADD  ACCOUNT_STATUS TEXT";
-            db.execSQL(createTableaccount);
+//            String createTableaccount = "ALTER TABLE ACCOUNT_TABLE ADD  ACCOUNT_STATUS TEXT";
+//            db.execSQL(createTableaccount);
 
-            String createTableSignup = "CREATE TABLE IF NOT EXISTS " + SIGNUP_TABLE
-                    + " ("
-                    + SIGNUP_NATIONAL_ID + " INTEGER, "
-                    + SIGNUP_FIRST_NAME + " TEXT, "
-                    + SIGNUP_SECOND_NAME + " TEXT, "
-                    + SIGNUP_THIRD_NAME + " TEXT, "
-                    + SIGNUP_FOURTH_NAME + " TEXT, "
-                    + SIGNUP_DOB + " TEXT, "
-                    + SIGNUP_GENDER + " TEXT, "
-                    + SIGNUP_MOBILE + " INTEGER, "
-                    + SIGNUP_ADDRESS + " TEXT, "
-                    + SIGNUP_EMAIL + " TEXT, "
-                    + SIGNUP_PASSWORD + " TEXT "
-                    + ")";
-            db.execSQL(createTableSignup);
+
+
+//            String createTableSignup = "CREATE TABLE IF NOT EXISTS " + SIGNUP_TABLE
+//                    + " ("
+//                    + SIGNUP_NATIONAL_ID + " INTEGER, "
+//                    + SIGNUP_FIRST_NAME + " TEXT, "
+//                    + SIGNUP_SECOND_NAME + " TEXT, "
+//                    + SIGNUP_THIRD_NAME + " TEXT, "
+//                    + SIGNUP_FOURTH_NAME + " TEXT, "
+//                    + SIGNUP_DOB + " TEXT, "
+//                    + SIGNUP_GENDER + " TEXT, "
+//                    + SIGNUP_MOBILE + " INTEGER, "
+//                    + SIGNUP_ADDRESS + " TEXT, "
+//                    + SIGNUP_EMAIL + " TEXT, "
+//                    + SIGNUP_PASSWORD + " TEXT "
+//                    + ")";
+//            db.execSQL(createTableSignup);
 
 //            String createTableSetting = "CREATE TABLE " + SETTING_TABLE
 //                    + " ("
@@ -135,6 +158,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //                    + PASSWORD + " TEXT "
 //                    + ")";
 //            db.execSQL(createTableLOGIN);
+
+            String createTableSignup = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_NATIONAL_ID + " TEXT ";
+            db.execSQL(createTableSignup);
+            String createTableSignup1 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_FIRST_NAME + " TEXT ";
+            db.execSQL(createTableSignup1);
+            String createTableSignup2 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_SECOND_NAME + " TEXT ";
+            db.execSQL(createTableSignup2);
+            String createTableSignup3 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_THIRD_NAME + " TEXT ";
+            db.execSQL(createTableSignup3);
+            String createTableSignup4 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_FOURTH_NAME + " TEXT ";
+            db.execSQL(createTableSignup4);
+            String createTableSignup5 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_DOB + " TEXT ";
+            db.execSQL(createTableSignup5);
+            String createTableSignup6 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_GENDER + " TEXT ";
+            db.execSQL(createTableSignup6);
+            String createTableSignup7 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_ADDRESS + " TEXT ";
+            db.execSQL(createTableSignup7);
+            String createTableSignup8 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_EMAIL + " TEXT ";
+            db.execSQL(createTableSignup8);
+            String createTableSignup9 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_INACTIVE + " TEXT ";
+            db.execSQL(createTableSignup9);
+            String createTableSignup10 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_INDATE + " TEXT ";
+            db.execSQL(createTableSignup10);
+
+            String dropTable = "DROP TABLE IF EXISTS SIGNUP_TABLE";
+            db.execSQL(dropTable);
+        } catch (Exception e) {
+
         }
 
     }
@@ -152,26 +203,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // ************************************** ADD ************************************
-    public void addSignupInfo(LoginINFO loginINFO) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put(SIGNUP_ADDRESS, loginINFO.getAddress());
-        contentValues.put(SIGNUP_DOB, loginINFO.getBirthDate());
-        contentValues.put(SIGNUP_EMAIL, loginINFO.getEmail());
-        contentValues.put(SIGNUP_FIRST_NAME, loginINFO.getFirstName());
-        contentValues.put(SIGNUP_SECOND_NAME, loginINFO.getSecondName());
-        contentValues.put(SIGNUP_THIRD_NAME, loginINFO.getThirdName());
-        contentValues.put(SIGNUP_FOURTH_NAME, loginINFO.getFourthName());
-        contentValues.put(SIGNUP_GENDER, loginINFO.getGender());
-        contentValues.put(SIGNUP_MOBILE, loginINFO.getUsername());
-        contentValues.put(SIGNUP_NATIONAL_ID, loginINFO.getNationalID());
-        contentValues.put(SIGNUP_PASSWORD, loginINFO.getPassword());
-
-        database.insert(SIGNUP_TABLE, null, contentValues);
-        database.close();
-
-    }
+//    public void addSignupInfo(LoginINFO loginINFO) {
+//        SQLiteDatabase database = this.getWritableDatabase();
+//        ContentValues contentValues = new ContentValues();
+//
+//        contentValues.put(SIGNUP_ADDRESS, loginINFO.getAddress());
+//        contentValues.put(SIGNUP_DOB, loginINFO.getBirthDate());
+//        contentValues.put(SIGNUP_EMAIL, loginINFO.getEmail());
+//        contentValues.put(SIGNUP_FIRST_NAME, loginINFO.getFirstName());
+//        contentValues.put(SIGNUP_SECOND_NAME, loginINFO.getSecondName());
+//        contentValues.put(SIGNUP_THIRD_NAME, loginINFO.getThirdName());
+//        contentValues.put(SIGNUP_FOURTH_NAME, loginINFO.getFourthName());
+//        contentValues.put(SIGNUP_GENDER, loginINFO.getGender());
+//        contentValues.put(SIGNUP_MOBILE, loginINFO.getUsername());
+//        contentValues.put(SIGNUP_NATIONAL_ID, loginINFO.getNationalID());
+//        contentValues.put(SIGNUP_PASSWORD, loginINFO.getPassword());
+//
+//        database.insert(SIGNUP_TABLE, null, contentValues);
+//        database.close();
+//
+//    }
 
     public void addLoginInfo(LoginINFO loginINFO) {
         SQLiteDatabase database = this.getWritableDatabase();
@@ -179,7 +230,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         contentValues.put(USER_NAME, loginINFO.getUsername());
         contentValues.put(PASSWORD, loginINFO.getPassword());
-
+        contentValues.put(LOGIN_NATIONAL_ID, loginINFO.getNationalID());
+        contentValues.put(LOGIN_FIRST_NAME, loginINFO.getFirstName());
+        contentValues.put(LOGIN_SECOND_NAME, loginINFO.getSecondName());
+        contentValues.put(LOGIN_THIRD_NAME, loginINFO.getThirdName());
+        contentValues.put(LOGIN_FOURTH_NAME, loginINFO.getFourthName());
+        contentValues.put(LOGIN_DOB, loginINFO.getBirthDate());
+        contentValues.put(LOGIN_GENDER, loginINFO.getGender());
+        contentValues.put(LOGIN_ADDRESS, loginINFO.getAddress());
+        contentValues.put(LOGIN_EMAIL, loginINFO.getEmail());
+        contentValues.put(LOGIN_INACTIVE, loginINFO.getInactive());
+        contentValues.put(LOGIN_INDATE, loginINFO.getIndate());
 
         database.insert(LOGIN_TABLE, null, contentValues);
         database.close();
@@ -230,16 +291,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return item;
     }
 
-
-
     public boolean IfAccountFound(String AccountNo) {
         SQLiteDatabase database = this.getWritableDatabase();
-        String selectQuery = "SELECT ACCOUNT_BANK_NO FROM " + ACCOUNT_TABLE +" where ACCOUNT_BANK_NO = '"+AccountNo +"'";
+        String selectQuery = "SELECT ACCOUNT_BANK_NO FROM " + ACCOUNT_TABLE + " where ACCOUNT_BANK_NO = '" + AccountNo + "'";
         Cursor cursor = database.rawQuery(selectQuery, null);
         boolean item = false;
         if (cursor.moveToFirst()) {
             do {
-                item= true;
+                item = true;
 
 //                if(cursor.getString(0) !=null){
 //                    item= true;
@@ -251,7 +310,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return item;
     }
-
 
     public List<NewAccount> getAllAcCount() {
         ArrayList<NewAccount> newAccounts = new ArrayList<>();
@@ -291,11 +349,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void deleteAccount(String AccountNo) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM "+ACCOUNT_TABLE+" where ACCOUNT_BANK_NO = '"+AccountNo +"'"); //delete item code rows in a table
+        db.execSQL("DELETE FROM " + ACCOUNT_TABLE + " where ACCOUNT_BANK_NO = '" + AccountNo + "'"); //delete item code rows in a table
         db.close();
 
     }
-
 
 
     public void updateStatus(String Status) {

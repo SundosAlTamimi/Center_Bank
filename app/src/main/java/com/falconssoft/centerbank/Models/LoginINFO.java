@@ -13,8 +13,27 @@ public class LoginINFO {
     private  String address;
     private  String email;
     private  String birthDate;
+    private  String inactive;
+    private  String indate;
+
 
     public LoginINFO() {
+    }
+
+    public String getInactive() {
+        return inactive;
+    }
+
+    public void setInactive(String inactive) {
+        this.inactive = inactive;
+    }
+
+    public String getIndate() {
+        return indate;
+    }
+
+    public void setIndate(String indate) {
+        this.indate = indate;
     }
 
     public String getUsername() {
