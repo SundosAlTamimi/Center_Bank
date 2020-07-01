@@ -115,16 +115,16 @@ public class AlertScreen extends AppCompatActivity {
         editor.clear();// just for test
         new GetAllCheck_JSONTask().execute();
         CountDownTimer waitTimer;
-//        timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                new GetAllCheck_JSONTask().execute();
-//
-//
-//            }
-//
-//        }, 0, 10000);
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new GetAllCheck_JSONTask().execute();
+
+
+            }
+
+        }, 0, 10000);
 
 
 
@@ -176,7 +176,7 @@ public class AlertScreen extends AppCompatActivity {
 
                 Toast.makeText(AlertScreen.this, "refresh ..", Toast.LENGTH_SHORT).show();
                 swipeRefresh.setRefreshing(false);
-                new GetAllCheck_JSONTask().execute();
+//                new GetAllCheck_JSONTask().execute();
             }
         });
 
@@ -328,9 +328,11 @@ public class AlertScreen extends AppCompatActivity {
                     try {
 
                         checkInfoNotification.clear();
+
                         if(first==1){
                             notificationArrayList.clear();
                         }
+                        notificationArrayListTest.clear();
 
 
                         arrayListRow.clear();
@@ -379,9 +381,11 @@ public class AlertScreen extends AppCompatActivity {
 
 
                         }
+                        
                         if(first==1)
                         {
                             fillListNotification(notificationArrayList);
+
                         }
 
 
@@ -393,12 +397,10 @@ public class AlertScreen extends AppCompatActivity {
 //
                             set = sharedPreferences.getStringSet("DATE_LIST", null);
                             arrayListRowFirst.addAll(set);
-                            Log.e( "sharedPreferences","getAll"+sharedPreferences.getAll());
+
                             int countFirst=arrayListRowFirst.size();
-                            Log.e("countFirst",""+countFirst);
-                            Log.e("arrayListRow",""+arrayListRow.size());
                                 if(arrayListRow.size()<countFirst)//there are update new data is less than old data
-                                {
+                                {Log.e("olddataGreater","countFirst"+countFirst);
 
                                     for( int h=0;h<arrayListRow.size();h++){
                                         int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
@@ -417,8 +419,10 @@ public class AlertScreen extends AppCompatActivity {
 
                                         fillListNotification(notificationArrayListTest);
 
+
                                     }
                                     else {
+
                                         fillListNotification(notificationArrayListTest);
                                     }
 
@@ -426,6 +430,7 @@ public class AlertScreen extends AppCompatActivity {
                                 else {
                                     if(arrayListRow.size()>countFirst)// new data
                                     {
+                                        Log.e("NewGreater","countFirst");
                                         fillListNotification(notificationArrayListTest);
                                         ShowNotifi();
 
@@ -440,7 +445,7 @@ public class AlertScreen extends AppCompatActivity {
                                                 if(index==-1)
                                                 {
                                                     arrayListRowFirst.add(arrayListRow.get(h));
-                                                    Log.e("arrayListRowYES",""+arrayListRow.get(h));
+
 
                                                 }
 
@@ -454,7 +459,8 @@ public class AlertScreen extends AppCompatActivity {
 
                                             }
                                             else {
-//                                                fillListNotification(notificationArrayList);
+
+//                                                fillListNotification(notificationArrayListTest);
                                             }
                                         }
 
@@ -471,6 +477,7 @@ public class AlertScreen extends AppCompatActivity {
                             {
                                 fillListNotification(notificationArrayList);
                                 ShowNotifi();
+                                Log.e("Notfirst",""+first);
                             }
 
 

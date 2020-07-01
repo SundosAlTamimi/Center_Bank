@@ -341,15 +341,15 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
-                    Log.e("onPostExecute", "OK");
+                    Log.e("AdapteronPostExecute", "OK");
                     refreshScreen();
-                    Log.e("tag", "****Success" + s.toString());
+                    Log.e("tagAdapter", "****Success" + s.toString());
                 } else {
-                    Log.e("tag", "****Failed to Savedata");
+                    Log.e("tagAdapter", "****Failed to Savedata");
                 }
             } else {
 
-                Log.e("tag", "****Failed  Please check internet connection");
+                Log.e("tagAdapter", "****Failed  Please check internet connection");
             }
         }
     }
