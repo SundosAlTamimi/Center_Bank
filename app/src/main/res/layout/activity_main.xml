@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
-                android:layout_weight="12"
+                android:layout_weight="13"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:padding="10dp"
@@ -143,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:layout_weight="7"
+                android:layout_weight="8"
                 android:background="@color/Nocolor"
                 android:elevation="@dimen/cardview_default_elevation"
                 app:cardBackgroundColor="@color/Nocolor"
@@ -179,7 +179,7 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="10"
+    android:layout_weight="9"
     android:orientation="vertical">
 
     <TextView
@@ -240,6 +240,29 @@
         android:padding="10dp"
         android:drawablePadding="10dp"
         android:text="@string/request"
+        android:textColor="@color/colorWhite"
+        android:textSize="25sp"
+        app:autoSizeMaxTextSize="25sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        app:fontFamily="sans-serif-smallcaps" />
+
+
+
+    <TextView
+        android:id="@+id/main_cashier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:layout_weight="1"
+        android:background="@drawable/edit_bac_sinup"
+        android:drawableLeft="@drawable/ic_grain"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center|start"
+        android:padding="10dp"
+        android:drawablePadding="10dp"
+        android:text="@string/cashier_check"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"
         app:autoSizeMaxTextSize="25sp"
