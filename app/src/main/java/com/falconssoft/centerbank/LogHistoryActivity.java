@@ -57,7 +57,7 @@ public class LogHistoryActivity extends AppCompatActivity {
     List<ChequeInfo> ChequeInfoLogHistoryMain;
     DatabaseHandler dbHandler;
     List<String> parametwrForGetLog;
-    TextView help;
+    TextView help,AccAccount;
     LinearLayout helpDialog;
 String AccountNo,phoneNo;
     @Override
@@ -70,6 +70,7 @@ String AccountNo,phoneNo;
 //        spinnerState = findViewById(R.id.spinnerState);
 //        spinnerTranse = findViewById(R.id.spinnerTranse);
         listLogHistory = findViewById(R.id.listLogHistory);
+         AccAccount=findViewById(R.id.AccAccount);
         help=findViewById(R.id.help);
         ChequeInfoLogHistoryMain = new ArrayList<>();
         parametwrForGetLog = new ArrayList<>();
@@ -123,6 +124,13 @@ String AccountNo,phoneNo;
         parametwrForGetLog.add(phoneNo);
         parametwrForGetLog.add(watch);
         Log.e("parametser","acc = "+AccountNo+"  "+ parametwrForGetLog.get(0) +"    phone = "+ parametwrForGetLog.get(1)+"      "+phoneNo+"  watch "+watch+"  "+  parametwrForGetLog.get(2));
+
+        if(watch.equals("0")){
+            AccAccount.setText("Log History For This Account"+AccountNo +")");
+
+        }else {
+            AccAccount.setText("Log History For ALL Account");
+        }
 
         new GetAllTransaction().execute();
 

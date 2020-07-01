@@ -1,6 +1,7 @@
 package com.falconssoft.centerbank;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,14 +15,21 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
+
 public class ListAdapterLogHistory extends BaseAdapter {
     CheckBox checkPriceed;
     private Context context;
     List<ChequeInfo> itemsList;
+ String phoneNo;
 
     public ListAdapterLogHistory(Context context, List<ChequeInfo> itemsList) {
         this.context = context;
         this.itemsList = itemsList;
+
+        SharedPreferences loginPrefs =this.context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        phoneNo = loginPrefs.getString("mobile", "");
 
     }
 
@@ -98,18 +106,18 @@ CircleImageView status;
 
 
 
-        if(i==1){
+        if(itemsList.get(i).getStatus().equals("2")){
             holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
-        }else if(i==2){
+        }else if(itemsList.get(i).getStatus().equals("1")){
             holder.status.setBorderColor(context.getResources().getColor(R.color.RealGreen));
-        }else{
+        }else if(itemsList.get(i).getStatus().equals("0")){
             holder.status.setBorderColor(context.getResources().getColor(R.color.blue));
 
         }
 
-        if(i==1){
+        if(phoneNo.equals(itemsList.get(i).getUserName())){
             holder.status.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
-        }else {
+        }else if(phoneNo.equals(itemsList.get(i).getToCustomerMobel())){
             holder.status.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
         }
 
