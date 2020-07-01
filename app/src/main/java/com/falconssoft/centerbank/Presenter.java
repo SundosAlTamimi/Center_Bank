@@ -104,7 +104,7 @@ class Presenter {
 //            response = new String(response.getBytes("ISO-8859-1"), "UTF-8");
             Log.e("presenter/", "signup/" + response.toString());
             if (response.toString().contains("{\"StatusCode\":0,\"StatusDescreption\":\"OK\"}"))
-                Toast.makeText(singUpActivity, "Saved Successfully", Toast.LENGTH_SHORT).show();
+                singUpActivity.goToLoginPage();
             else if (response.toString().contains("{\"StatusCode\" : 4,\"StatusDescreption\":\"Error in Saving Check Temp.\" }"))
                 Toast.makeText(singUpActivity, "Not Saved !", Toast.LENGTH_SHORT).show();
             else if (response.toString().contains("{\"StatusCode\" : 9,\"StatusDescreption\":\"Error in saving User.\" }"))
@@ -119,7 +119,7 @@ class Presenter {
         user = loginINFO;
         this.logInActivity = logInActivity;
 
-        loginRequest = new JsonObjectRequest(Request.Method.GET, urlLogin + Long.parseLong(loginINFO.getUsername()) + "&PASS=" + loginINFO.getPassword()
+        loginRequest = new JsonObjectRequest(Request.Method.GET, urlLogin + loginINFO.getUsername() + "&PASS=" + loginINFO.getPassword()
                 , null, new LoginRequestClass(), new LoginRequestClass());
         requestQueue.add(loginRequest);
     }
@@ -127,7 +127,7 @@ class Presenter {
     class LoginRequestClass implements Response.Listener<JSONObject>, Response.ErrorListener {
         @Override
         public void onErrorResponse(VolleyError error) {
-            Log.e("presenter/", "signup/error/" + error.toString());
+            Log.e("presenter/", "login/error/" + error.toString());
             logInActivity.hideDialog();
 
         }
@@ -136,15 +136,10 @@ class Presenter {
         public void onResponse(JSONObject response) {
 
 //            response = new String(response.getBytes("ISO-8859-1"), "UTF-8");
-            Log.e("presenter/", "signup/" + response.toString());
+            Log.e("presenter/", "login/" + response.toString());
             if (response.toString().contains("{\"StatusCode\":0,\"StatusDescreption\":\"OK\"}")){
                 logInActivity.goToTheMainPage(user);
-                Toast.makeText(logInActivity, "Saved Successfully", Toast.LENGTH_SHORT).show();
             }
-            else if (response.toString().contains("{\"StatusCode\" : 4,\"StatusDescreption\":\"Error in Saving Check Temp.\" }"))
-                Toast.makeText(logInActivity, "Not Saved !", Toast.LENGTH_SHORT).show();
-            else if (response.toString().contains("{\"StatusCode\" : 9,\"StatusDescreption\":\"Error in saving User.\" }"))
-                Toast.makeText(logInActivity, "PLease check sent Info first!", Toast.LENGTH_SHORT).show();
 
             logInActivity.hideDialog();
         }

@@ -599,7 +599,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
-    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo) {
+    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
             final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -615,6 +615,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
             chequeWriterTV.setText(customerName);
             accountNoTV.setText(accountNo);
+            chequeNoTV.setText(chequeNo);
             okTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -789,7 +790,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
                     BANKNO = jsonObject.get("BANKNO").toString();
                     BRANCHNO = jsonObject.get("BRANCHNO").toString();
 
-                    showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE);
+                    showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
 
 //                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
                 } catch (JSONException e) {
