@@ -58,6 +58,7 @@ import static com.falconssoft.centerbank.AlertScreen.language;
 import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.AlertScreen.textCheckstateChanger;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
+import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
 public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.ViewHolder> {
     //    RecyclerView.Adapter<engineer_adapter.ViewHolder>
@@ -293,7 +294,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
-                request.setURI(new URI("http://10.0.0.16:8081/UpdateCheckStatus?"));
+                SharedPreferences loginPrefs1 = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+               String serverLink = loginPrefs1.getString("link", "");
+                request.setURI(new URI(serverLink+"UpdateCheckStatus?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("CHECKNO", checkInfoNotification.get(row_index).getChequeNo()));

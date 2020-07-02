@@ -122,7 +122,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     Date currentTimeAndDate;
     SimpleDateFormat df;
     Bitmap serverPicBitmap;
-    private String today, serverPic = "", language, serverLink;
+    private String today, serverPic = "", language, serverLink="http://falconssoft.net/ScanChecks/APIMethods.dll/";
     Calendar myCalendar;
     private JSONObject jsonObject;
 
@@ -1039,7 +1039,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
-                String link = "http://10.0.0.16:8081/IsCheckPinding";
+                String link =serverLink +"IsCheckPinding";
 
 //ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
                 String data = "ACCCODE=" + URLEncoder.encode(jsonObject.getString("ACCCODE"), "UTF-8") + "&"
@@ -1118,7 +1118,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
                                     sDialog.dismissWithAnimation();
                                 }
                             }).show();
-                } } else if (s.contains("\"StatusDescreption\":\"Check not pindding.\"")) {
+                }  else if (s.contains("\"StatusDescreption\":\"Check not pindding.\"")) {
 //                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
 //                        .setTitleText("WARNING")
 //                        .setContentText("Check not pinding!")
@@ -1136,7 +1136,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
                 new GetAllTransaction().execute();
 
 
-            }else {
+            }}else {
                     Log.e("tag", "****Failed to export data");
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("WARNING")

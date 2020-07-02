@@ -271,7 +271,7 @@ String AccountNo,phoneNo, serverLink;
 
                     ChequeInfoLogHistoryMain = new ArrayList<>();
 
-                    for (int i = 0; i < parentArray.length(); i++) {
+                    for (int i = 0; i < parentInfo.length(); i++) {
                         JSONObject finalObject = parentInfo.getJSONObject(i);
 
                         ChequeInfo obj = new ChequeInfo();
@@ -319,6 +319,7 @@ String AccountNo,phoneNo, serverLink;
                         obj.setISOpen("0");
                         ChequeInfoLogHistoryMain.add(obj);
                     }
+
 
 
                     ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);

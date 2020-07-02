@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
     DatabaseHandler dbHandler;
-    static String watch;
+    static String watch,accCode;
     private String language, userNo, username, link;
 
     @Override
@@ -290,14 +290,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
+                if (!TextUtils.isEmpty(inputEditText.getText().toString())&&!TextUtils.isEmpty(accCode)) {
                     // TODO add account
-                    if (!dbHandler.IfAccountFound(inputEditText.getText().toString())) {
-                        dbHandler.addNewAccount(new NewAccount(inputEditText.getText().toString(), "Jordan Bank", "0"));//0 -->not active  1-->active
+                    if (!dbHandler.IfAccountFound(accCode)) {
+                        dbHandler.addNewAccount(new NewAccount(accCode, "Jordan Bank", "0"));//0 -->not active  1-->active
 
                         Toast.makeText(MainActivity.this, "Save Success", Toast.LENGTH_SHORT).show();
                         picforbar = dbHandler.getAllAcCount();
-
+                        accCode="";
                         showAllDataAccount();
 
                         dialog.dismiss();
@@ -479,7 +479,7 @@ public class MainActivity extends AppCompatActivity {
 //                    String checkNo = arr[0];
 //                    String bankNo = arr[1];
 //                    String branchNo = arr[2];
-                String accCode = arr[3];
+                 accCode = arr[3];
 //                    String ibanNo = arr[4];
 //                    String custName= "";
                 inputEditTextTemp.setText(accCode.substring(1));

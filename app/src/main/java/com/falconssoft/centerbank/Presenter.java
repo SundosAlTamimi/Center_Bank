@@ -24,10 +24,11 @@ class Presenter {
     private LoginINFO user;// for login
 
     private JsonObjectRequest signUpRequest;
-    private String urlSignUp = "http://10.0.0.16:8081/RegisterUser?INFO=";
+    String dd="http://falconssoft.net/ScanChecks/APIMethods.dll/";
+    private String urlSignUp = dd+"RegisterUser?INFO=";
 
     private JsonObjectRequest loginRequest;
-    private String urlLogin = "http://10.0.0.16:8081/CheckUser?USERMOB=";
+    private String urlLogin =  dd+"CheckUser?USERMOB=";
 
     private String getUranUp = "http://localhost:8081/RegisterUser?INFO={\"NATID\":\"220022\",\"FIRSTNM\":\"ALAA\"" +
             ",\"FATHERNM\":\"Salem\",\"GRANDNM\":\"M.\",\"FAMILYNM\":\"JF\",\"DOB\":\"19/05/1978\"" +
