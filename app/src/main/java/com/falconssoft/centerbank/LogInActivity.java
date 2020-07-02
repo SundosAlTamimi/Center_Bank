@@ -78,7 +78,8 @@ public class LogInActivity extends AppCompatActivity {
         language = prefs.getString("language", "en");
 
         editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
-        editor.putString("link", "http://10.0.0.16:8081/");
+//        editor.putString("link", "http://10.0.0.16:8081/");
+        editor.putString("link", "http://falconssoft.net/ScanChecks/APIMethods.dll/");
         editor.apply();
 
         if (language.equals("ar")) {
@@ -456,7 +457,9 @@ public class LogInActivity extends AppCompatActivity {
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
-                request.setURI(new URI("http://10.0.0.16:8081/VerifyCheck?"));
+                SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+                String  serverLink = loginPrefs1.getString("link", "");
+                request.setURI(new URI(serverLink+"VerifyCheck?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("CHECKNO", array[0]));
