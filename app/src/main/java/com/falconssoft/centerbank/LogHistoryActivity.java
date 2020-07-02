@@ -57,7 +57,7 @@ public class LogHistoryActivity extends AppCompatActivity {
     List<ChequeInfo> ChequeInfoLogHistoryMain;
     DatabaseHandler dbHandler;
     List<String> parametwrForGetLog;
-    TextView help;
+    TextView help,AccAccount;
     LinearLayout helpDialog;
 String AccountNo,phoneNo, serverLink;
     @Override
@@ -73,6 +73,7 @@ String AccountNo,phoneNo, serverLink;
         serverLink = loginPrefs1.getString("link", "");
 
         listLogHistory = findViewById(R.id.listLogHistory);
+         AccAccount=findViewById(R.id.AccAccount);
         help=findViewById(R.id.help);
         ChequeInfoLogHistoryMain = new ArrayList<>();
         parametwrForGetLog = new ArrayList<>();
@@ -126,6 +127,13 @@ String AccountNo,phoneNo, serverLink;
         parametwrForGetLog.add(phoneNo);
         parametwrForGetLog.add(watch);
         Log.e("parametser","acc = "+AccountNo+"  "+ parametwrForGetLog.get(0) +"    phone = "+ parametwrForGetLog.get(1)+"      "+phoneNo+"  watch "+watch+"  "+  parametwrForGetLog.get(2));
+
+        if(watch.equals("0")){
+            AccAccount.setText(" This Account ("+AccountNo +")");
+
+        }else {
+            AccAccount.setText(" For ALL Account");
+        }
 
         new GetAllTransaction().execute();
 
@@ -263,7 +271,7 @@ String AccountNo,phoneNo, serverLink;
 
                     ChequeInfoLogHistoryMain = new ArrayList<>();
 
-                    for (int i = 0; i < parentArray.length(); i++) {
+                    for (int i = 0; i < parentInfo.length(); i++) {
                         JSONObject finalObject = parentInfo.getJSONObject(i);
 
                         ChequeInfo obj = new ChequeInfo();
@@ -302,9 +310,16 @@ String AccountNo,phoneNo, serverLink;
 
 //                        obj.setCheqPIc(finalObject.getString("CHECKPICPATH"));
                         obj.setTransType(finalObject.getString("TRANSSTATUS"));
+                        obj.setStatus(finalObject.getString("STATUS"));
+                        obj.setUserName(finalObject.getString("USERNO"));
+
+                        obj.setISBF(finalObject.getString("ISFB"));
+                        obj.setISCO(finalObject.getString("ISCO"));
+
                         obj.setISOpen("0");
                         ChequeInfoLogHistoryMain.add(obj);
                     }
+
 
 
                     ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);

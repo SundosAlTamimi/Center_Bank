@@ -58,6 +58,7 @@ import static com.falconssoft.centerbank.AlertScreen.language;
 import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.AlertScreen.textCheckstateChanger;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
+import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
 public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.ViewHolder> {
     //    RecyclerView.Adapter<engineer_adapter.ViewHolder>
@@ -71,7 +72,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     public NotificatioAdapter(Context context, List<notification> notifications) {
         this.context = context;
         this.notificationList = notifications;
-        Log.e("notificationList", "" + notificationList.size());
+        Log.e("notificationList", "" + notificationList.get(0).getCheck_photo());
 
     }
 
@@ -103,7 +104,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         viewHolder.date_check.setText(notificationList.get(i).getDate());
         viewHolder.amount_check.setText(notificationList.get(i).getAmount_check());
         viewHolder.source_check.setText(notificationList.get(i).getSource());
-//        viewHolder.image_check.setImageDrawable(R.drawable.check);
+        viewHolder.image_check.setImageBitmap(notificationList.get(i).getCheck_photo());
+
+
+        Log.e("setImageBitmap",""+notificationList.get(i).getCheck_photo());
         viewHolder.image_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,7 +166,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView source_check, amount_check, date_check;
-        CircleImageView image_check;
+//        CircleImageView image_check;
+       ImageView image_check;
         LinearLayout linearCheckInfo, mainLinearAdapter;
 
         public ViewHolder(View itemView) {
@@ -293,7 +298,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
-                request.setURI(new URI("http://10.0.0.16:8081/UpdateCheckStatus?"));
+                SharedPreferences loginPrefs1 = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+               String serverLink = loginPrefs1.getString("link", "");
+                request.setURI(new URI(serverLink+"UpdateCheckStatus?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("CHECKNO", checkInfoNotification.get(row_index).getChequeNo()));
