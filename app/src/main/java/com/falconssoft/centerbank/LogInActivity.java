@@ -51,7 +51,7 @@ import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class LogInActivity extends AppCompatActivity {
+public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText userName, password;
     private Button singIn, singUp;
@@ -99,32 +99,7 @@ public class LogInActivity extends AppCompatActivity {
             finish();
         }
 
-        singIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (!TextUtils.isEmpty(userName.getText().toString()))
-                    if (userName.length() == 10)
-                        if (!TextUtils.isEmpty(password.getText().toString())){
-                            userName.setError(null);
-                            password.setError(null);
-
-                            LoginINFO user = new LoginINFO();
-                            user.setUsername(userName.getText().toString());
-                            user.setPassword(password.getText().toString());
-
-                            showDialog();
-                            new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
-                        }else {
-                            password.setError("Required!");
-                        }else {
-                            userName.setError("Phone number not correct!");
-                    }else {
-                    userName.setError("Required!");
-                }
-
-            }
-        });
+        singIn.setOnClickListener(this);
 
         singUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,124 +109,11 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
-        arabic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                language = "ar";
-                editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
-                editor.putString("language", "ar");
-                editor.apply();
+        arabic.setOnClickListener(this);
 
-                LocaleAppUtils.setLocale(new Locale("ar"));
-                LocaleAppUtils.setConfigChange(LogInActivity.this);
-                finish();
-                startActivity(getIntent());
+        english.setOnClickListener(this);
 
-            }
-        });
-
-        english.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                language = "en";
-                editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
-                editor.putString("language", "en");
-                editor.apply();
-
-                LocaleAppUtils.setLocale(new Locale("en"));
-                LocaleAppUtils.setConfigChange(LogInActivity.this);
-                finish();
-                startActivity(getIntent());
-            }
-        });
-
-        checkValidation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                barcodeDialog = new Dialog(LogInActivity.this);
-                barcodeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                barcodeDialog.setContentView(R.layout.check_validation_layout);
-
-                TextView scan = barcodeDialog.findViewById(R.id.checkValidation_scanBarcode);
-                ImageView close = barcodeDialog.findViewById(R.id.checkValidation_close);
-                LinearLayout headerLinear = barcodeDialog.findViewById(R.id.checkValidation_headerLinear);
-                TextView haveAProblem = barcodeDialog.findViewById(R.id.checkValidation_help);
-                TextView scanTV = barcodeDialog.findViewById(R.id.checkValidation_scanLinear);
-
-                final LinearLayout serialLinear = barcodeDialog.findViewById(R.id.checkValidation_serial_linear);
-                final TextInputEditText serial = barcodeDialog.findViewById(R.id.checkValidation_serial);
-                TextView check = barcodeDialog.findViewById(R.id.checkValidation_check);
-                serialLinear.setVisibility(View.GONE);
-
-                haveAProblem.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (serialLinear.getVisibility() == View.VISIBLE) {
-                            serialLinear.setVisibility(View.GONE);
-
-                        } else {
-                            serialLinear.setVisibility(View.VISIBLE);
-                            serial.setError(null);
-                        }
-                    }
-                });
-
-                check.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (!TextUtils.isEmpty(serial.getText().toString())) {
-                            serial.setError(null);
-                        } else {
-                            serial.setError("Required");
-                        }
-
-                    }
-                });
-
-                scan.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        IntentIntegrator intentIntegrator = new IntentIntegrator(LogInActivity.this);
-                        intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
-                        intentIntegrator.setBeepEnabled(false);
-                        intentIntegrator.setCameraId(0);
-                        intentIntegrator.setPrompt("SCAN");
-                        intentIntegrator.setBarcodeImageEnabled(false);
-                        intentIntegrator.initiateScan();
-                    }
-                });
-
-                close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        barcodeDialog.dismiss();
-                    }
-                });
-
-                Log.e("checkLang", language);
-                if (language.equals("ar")) {
-                    headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                    check.setGravity(Gravity.RIGHT);
-
-                    haveAProblem.setCompoundDrawablesWithIntrinsicBounds(null, null
-                            , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_help), null);
-                    scanTV.setCompoundDrawablesWithIntrinsicBounds(null, null
-                            , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_phone), null);
-
-                } else {
-                    headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-                    check.setGravity(Gravity.LEFT);
-
-                    haveAProblem.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_help), null
-                            , null, null);
-                    scanTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_phone), null
-                            , null, null);
-
-                }
-
-                barcodeDialog.show();
-            }
-        });
+        checkValidation.setOnClickListener(this);
 
         SettingImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -439,6 +301,143 @@ public class LogInActivity extends AppCompatActivity {
                     , null, null);
         }
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.LogInSingIn:{
+                if (!TextUtils.isEmpty(userName.getText().toString()))
+                    if (userName.length() == 10)
+                        if (!TextUtils.isEmpty(password.getText().toString())){
+                            userName.setError(null);
+                            password.setError(null);
+
+                            LoginINFO user = new LoginINFO();
+                            user.setUsername(userName.getText().toString());
+                            user.setPassword(password.getText().toString());
+
+                            showDialog();
+                            new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
+                        }else {
+                            password.setError("Required!");
+                        }else {
+                        userName.setError("Phone number not correct!");
+                    }else {
+                    userName.setError("Required!");
+                }
+            }
+                break;
+            case R.id.login_checkValidation:{
+                barcodeDialog = new Dialog(LogInActivity.this);
+                barcodeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                barcodeDialog.setContentView(R.layout.check_validation_layout);
+
+                TextView scan = barcodeDialog.findViewById(R.id.checkValidation_scanBarcode);
+                ImageView close = barcodeDialog.findViewById(R.id.checkValidation_close);
+                LinearLayout headerLinear = barcodeDialog.findViewById(R.id.checkValidation_headerLinear);
+                TextView haveAProblem = barcodeDialog.findViewById(R.id.checkValidation_help);
+                TextView scanTV = barcodeDialog.findViewById(R.id.checkValidation_scanLinear);
+
+                final LinearLayout serialLinear = barcodeDialog.findViewById(R.id.checkValidation_serial_linear);
+                final TextInputEditText serial = barcodeDialog.findViewById(R.id.checkValidation_serial);
+                TextView check = barcodeDialog.findViewById(R.id.checkValidation_check);
+                serialLinear.setVisibility(View.GONE);
+
+                haveAProblem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (serialLinear.getVisibility() == View.VISIBLE) {
+                            serialLinear.setVisibility(View.GONE);
+
+                        } else {
+                            serialLinear.setVisibility(View.VISIBLE);
+                            serial.setError(null);
+                        }
+                    }
+                });
+
+                check.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (!TextUtils.isEmpty(serial.getText().toString())) {
+                            serial.setError(null);
+                        } else {
+                            serial.setError("Required");
+                        }
+
+                    }
+                });
+
+                scan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        IntentIntegrator intentIntegrator = new IntentIntegrator(LogInActivity.this);
+                        intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
+                        intentIntegrator.setBeepEnabled(false);
+                        intentIntegrator.setCameraId(0);
+                        intentIntegrator.setPrompt("SCAN");
+                        intentIntegrator.setBarcodeImageEnabled(false);
+                        intentIntegrator.initiateScan();
+                    }
+                });
+
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        barcodeDialog.dismiss();
+                    }
+                });
+
+                Log.e("checkLang", language);
+                if (language.equals("ar")) {
+                    headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                    check.setGravity(Gravity.RIGHT);
+
+                    haveAProblem.setCompoundDrawablesWithIntrinsicBounds(null, null
+                            , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_help), null);
+                    scanTV.setCompoundDrawablesWithIntrinsicBounds(null, null
+                            , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_phone), null);
+
+                } else {
+                    headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+                    check.setGravity(Gravity.LEFT);
+
+                    haveAProblem.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_help), null
+                            , null, null);
+                    scanTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_phone), null
+                            , null, null);
+
+                }
+
+                barcodeDialog.show();
+            }
+            break;
+            case R.id.login_arabic:{
+                language = "ar";
+                editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
+                editor.putString("language", "ar");
+                editor.apply();
+
+                LocaleAppUtils.setLocale(new Locale("ar"));
+                LocaleAppUtils.setConfigChange(LogInActivity.this);
+                finish();
+                startActivity(getIntent());
+            }
+            break;
+            case R.id.login_english:{
+                language = "en";
+                editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
+                editor.putString("language", "en");
+                editor.apply();
+
+                LocaleAppUtils.setLocale(new Locale("en"));
+                LocaleAppUtils.setConfigChange(LogInActivity.this);
+                finish();
+                startActivity(getIntent());
+            }
+            break;
+        }
     }
 
     // ******************************************** CHECK QR VALIDATION *************************************
