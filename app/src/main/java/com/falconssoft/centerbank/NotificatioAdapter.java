@@ -72,7 +72,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     public NotificatioAdapter(Context context, List<notification> notifications) {
         this.context = context;
         this.notificationList = notifications;
-        Log.e("notificationList", "" + notificationList.size());
+        Log.e("notificationList", "" + notificationList.get(0).getCheck_photo());
 
     }
 
@@ -104,7 +104,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         viewHolder.date_check.setText(notificationList.get(i).getDate());
         viewHolder.amount_check.setText(notificationList.get(i).getAmount_check());
         viewHolder.source_check.setText(notificationList.get(i).getSource());
-//        viewHolder.image_check.setImageDrawable(R.drawable.check);
+        viewHolder.image_check.setImageBitmap(notificationList.get(i).getCheck_photo());
+
+
+        Log.e("setImageBitmap",""+notificationList.get(i).getCheck_photo());
         viewHolder.image_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,7 +166,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView source_check, amount_check, date_check;
-        CircleImageView image_check;
+//        CircleImageView image_check;
+       ImageView image_check;
         LinearLayout linearCheckInfo, mainLinearAdapter;
 
         public ViewHolder(View itemView) {
