@@ -245,27 +245,30 @@
                     android:textColor="@color/white" />
 
                 <TextView
+                    android:id="@+id/customName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.7"
+                    android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
+
                     android:text="@string/customer_name"
                     android:textColor="@color/white"
-
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.7"
+                    android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
                     android:text="@string/date"
 
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -299,199 +302,217 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/clear_buttons_a"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         tools:visibility="visible">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/edit_bac_s"
-            android:drawableStart="@drawable/ic_arrow_downward_black_24dp"
-            android:drawableEnd="@drawable/ic_help"
-            android:drawableTint="@color/white"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Recive"
-            android:textColor="@color/white_dark"
-            android:textSize="15sp" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="5dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:src="@drawable/ic_arrow_downward_black_24dp"
-                android:textColor="@color/white"
-                app:civ_border_color="@color/RealGreen"
-                app:civ_border_width="2dp"
-                tools:ignore="VectorDrawableCompat" />
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="Accept"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-        </TableRow>
+                android:layout_margin="5dp"
 
-        <TableRow
+                android:background="@drawable/edit_bac_s"
+                android:drawableStart="@drawable/ic_arrow_upward_black_24dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Send"
+                android:textColor="@color/white_dark"
+                android:textSize="15sp" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_arrow_upward_black_24dp"
+                    android:textColor="@color/white"
+                    app:civ_border_color="@color/RealRed"
+                    app:civ_border_width="2dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Reject"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_arrow_upward_black_24dp"
+                    android:textColor="@color/white"
+                    app:civ_border_color="@color/blue"
+                    app:civ_border_width="2dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Append"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_arrow_upward_black_24dp"
+                    android:textColor="@color/white"
+                    app:civ_border_color="@color/RealGreen"
+                    app:civ_border_width="2dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Accept"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </TableRow>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="5dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:src="@drawable/ic_arrow_downward_black_24dp"
-                android:textColor="@color/white"
-                app:civ_border_color="@color/RealRed"
-                app:civ_border_width="2dp"
-                tools:ignore="VectorDrawableCompat" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Reject"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="5dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:src="@drawable/ic_arrow_downward_black_24dp"
-                android:textColor="@color/white"
-                app:civ_border_color="@color/blue"
-                app:civ_border_width="2dp"
-                tools:ignore="VectorDrawableCompat" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Append"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-        </TableRow>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/edit_bac_s"
-            android:drawableStart="@drawable/ic_arrow_upward_black_24dp"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Send"
-            android:textColor="@color/white_dark"
-            android:textSize="15sp" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="5dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:src="@drawable/ic_arrow_upward_black_24dp"
-                android:textColor="@color/white"
-                app:civ_border_color="@color/RealGreen"
-                app:civ_border_width="2dp"
-                tools:ignore="VectorDrawableCompat" />
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+                android:drawableStart="@drawable/ic_arrow_downward_black_24dp"
+                android:drawableEnd="@drawable/ic_help"
+                android:drawableTint="@color/white"
                 android:gravity="center"
-                android:text="Accept"
-                android:textColor="@color/white"
+                android:padding="5dp"
+                android:text="Recive"
+                android:textColor="@color/white_dark"
                 android:textSize="15sp" />
-        </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="5dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:src="@drawable/ic_arrow_upward_black_24dp"
-                android:textColor="@color/white"
-                app:civ_border_color="@color/RealRed"
-                app:civ_border_width="2dp"
-                tools:ignore="VectorDrawableCompat" />
+                android:padding="5dp">
 
-            <TextView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_arrow_downward_black_24dp"
+                    android:textColor="@color/white"
+                    app:civ_border_color="@color/blue"
+                    app:civ_border_width="2dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Append"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="Reject"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-        </TableRow>
+                android:padding="5dp">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="5dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_arrow_downward_black_24dp"
+                    android:textColor="@color/white"
+                    app:civ_border_color="@color/RealGreen"
+                    app:civ_border_width="2dp"
+                    tools:ignore="VectorDrawableCompat" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Accept"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:src="@drawable/ic_arrow_upward_black_24dp"
-                android:textColor="@color/white"
-                app:civ_border_color="@color/blue"
-                app:civ_border_width="2dp"
-                tools:ignore="VectorDrawableCompat" />
+                android:padding="5dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Append"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-        </TableRow>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_arrow_downward_black_24dp"
+                    android:textColor="@color/white"
+                    app:civ_border_color="@color/RealRed"
+                    app:civ_border_width="2dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Reject"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </TableRow>
+
+        </LinearLayout>
 
 
     </LinearLayout>

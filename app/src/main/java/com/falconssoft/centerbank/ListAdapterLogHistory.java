@@ -106,8 +106,6 @@ CircleImageView status;
         holder.branchNo .setText("This Tran From bank Name  : "+ itemsList.get(i).getBranchNo());
 
 
-
-
         if(itemsList.get(i).getTransType().equals("2")){
             holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
         }else if(itemsList.get(i).getTransType().equals("1")){

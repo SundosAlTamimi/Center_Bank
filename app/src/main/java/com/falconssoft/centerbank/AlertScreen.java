@@ -697,10 +697,11 @@ protected class Image extends AsyncTask<String, String, String> {
             HttpClient client = new DefaultHttpClient();
             HttpPost request = new HttpPost();
             //  http://10.0.0.16:8081/GetCheckTemp?ACCCODE=1014569990011000&IBANNO=&SERIALNO=&BANKNO=004&BRANCHNO=0099&CHECKNO=390144"
-            request.setURI(new URI(serverLink + "GetCheckTemp?"));
+
 //            ACCCODE=1014569990011000&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
             try {
-                request.setURI(new URI("http://10.0.0.16:8081/GetCheckPic?"));
+                request.setURI(new URI(serverLink + "GetCheckTemp?"));
+//                request.setURI(new URI("http://10.0.0.16:8081/GetCheckPic?"));
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
