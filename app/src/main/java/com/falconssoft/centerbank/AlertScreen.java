@@ -81,6 +81,8 @@ import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 
 public class AlertScreen extends AppCompatActivity {
     RecyclerView recyclerView;
+    public static String acc="",bankN="",branch="",cheNo="";
+
     ArrayList <notification> notificationArrayList;
     ArrayList <notification> notificationArrayListTest;
     LinearLayoutManager layoutManager;
@@ -358,8 +360,9 @@ public class AlertScreen extends AppCompatActivity {
                             chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
                             chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
                             chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
+                            Log.e("chequeInfo",""+chequeInfo.getAccCode()+chequeInfo.getBankNo()+chequeInfo.getBranchNo()+"\t"+chequeInfo.getChequeNo());
 
-                           getPicture(chequeInfo.getAccCode(),chequeInfo.getBankName(),chequeInfo.getBranchNo(),chequeInfo.getChequeNo());
+                           getPicture(chequeInfo.getAccCode(),chequeInfo.getBankNo(),chequeInfo.getBranchNo(),chequeInfo.getChequeNo());
                            Log.e("serverPicBitmap",""+serverPicBitmap);
                            notifi.setCheck_photo(serverPicBitmap);
                             arrayListRow.add(chequeInfo.getRowId());
@@ -506,7 +509,6 @@ public class AlertScreen extends AppCompatActivity {
         }
     }
 
-    public static String acc="",bankN="",branch="",cheNo="";
     private void getPicture(String accCode, String bankName, String branchNo, String chequeNo) {
         acc    =accCode;
         bankN  =bankName;
@@ -697,23 +699,24 @@ protected class Image extends AsyncTask<String, String, String> {
             HttpClient client = new DefaultHttpClient();
             HttpPost request = new HttpPost();
             //  http://10.0.0.16:8081/GetCheckTemp?ACCCODE=1014569990011000&IBANNO=&SERIALNO=&BANKNO=004&BRANCHNO=0099&CHECKNO=390144"
-            request.setURI(new URI(serverLink + "GetCheckTemp?"));
+           // request.setURI(new URI(serverLink + "GetCheckTemp?"));
 //            ACCCODE=1014569990011000&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
             try {
-                request.setURI(new URI("http://10.0.0.16:8081/GetCheckPic?"));
+                request.setURI(new URI(serverLink + "GetCheckTemp?"));
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
 
+            Log.e("NameValuePair",""+acc+bankN+branch+""+cheNo);
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-//            nameValuePairs.add(new BasicNameValuePair("ACCCODE", acc));
-//            nameValuePairs.add(new BasicNameValuePair("BANKNO", bankN));
-//            nameValuePairs.add(new BasicNameValuePair("BRANCHNO", branch));// test
-//            nameValuePairs.add(new BasicNameValuePair("CHECKNO", cheNo));
-            nameValuePairs.add(new BasicNameValuePair("ACCCODE", "4014569990011000"));
-            nameValuePairs.add(new BasicNameValuePair("BANKNO", "004"));
-            nameValuePairs.add(new BasicNameValuePair("BRANCHNO", "0099"));// test
-            nameValuePairs.add(new BasicNameValuePair("CHECKNO", "390092"));
+            nameValuePairs.add(new BasicNameValuePair("ACCCODE", acc));
+            nameValuePairs.add(new BasicNameValuePair("BANKNO", bankN));
+            nameValuePairs.add(new BasicNameValuePair("BRANCHNO", branch));// test
+            nameValuePairs.add(new BasicNameValuePair("CHECKNO", cheNo));
+//            nameValuePairs.add(new BasicNameValuePair("ACCCODE", ""));
+//            nameValuePairs.add(new BasicNameValuePair("BANKNO", "004"));
+//            nameValuePairs.add(new BasicNameValuePair("BRANCHNO", "0099"));// test
+//            nameValuePairs.add(new BasicNameValuePair("CHECKNO", "390092"));
             request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
             HttpResponse response = client.execute(request);
 
