@@ -7,9 +7,9 @@
     <string name="sing_up">sing Up</string>
     <string name="national_no">National NO.</string>
     <string name="first_name">1st Name</string>
-    <string name="second_name">nd Name</string>
-    <string name="third_name">rd Name</string>
-    <string name="fourth_name">th Name</string>
+    <string name="second_name">2nd Name</string>
+    <string name="third_name">3rd Name</string>
+    <string name="fourth_name">4th Name</string>
     <string name="date">Date</string>
     <string name="phone_number">Phone number</string>
     <string name="address">Address</string>

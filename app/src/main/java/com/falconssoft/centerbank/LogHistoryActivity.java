@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -36,6 +38,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.Collator;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -48,18 +52,20 @@ import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 import static com.falconssoft.centerbank.MainActivity.watch;
 
 public class LogHistoryActivity extends AppCompatActivity {
-//    PieChart pieChart, piechart2;
+    //    PieChart pieChart, piechart2;
     List<ChequeInfo> LogHistoryList;
     ListView listLogHistory;
-//    Spinner spinnerState, spinnerTranse;
+    //    Spinner spinnerState, spinnerTranse;
     List<String> ListState, ListTrans;
     ArrayAdapter<String> arrayAdapterStautes, arrayAdapterTrans;
     List<ChequeInfo> ChequeInfoLogHistoryMain;
     DatabaseHandler dbHandler;
     List<String> parametwrForGetLog;
-    TextView help,AccAccount;
+    TextView help, AccAccount;
     LinearLayout helpDialog;
-String AccountNo,phoneNo, serverLink;
+    String AccountNo, phoneNo, serverLink;
+    TextView customName,dateText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,11 +79,13 @@ String AccountNo,phoneNo, serverLink;
         serverLink = loginPrefs1.getString("link", "");
 
         listLogHistory = findViewById(R.id.listLogHistory);
-         AccAccount=findViewById(R.id.AccAccount);
-        help=findViewById(R.id.help);
+        AccAccount = findViewById(R.id.AccAccount);
+        help = findViewById(R.id.help);
+        customName=findViewById(R.id.customName);
+        dateText=findViewById(R.id.date);
         ChequeInfoLogHistoryMain = new ArrayList<>();
         parametwrForGetLog = new ArrayList<>();
-        helpDialog= findViewById(R.id.helpDialog);
+        helpDialog = findViewById(R.id.helpDialog);
         helpDialog.setVisibility(View.GONE);
         dbHandler = new DatabaseHandler(LogHistoryActivity.this);
 //        pieChart(pieChart);
@@ -95,14 +103,63 @@ String AccountNo,phoneNo, serverLink;
         ListTrans.add("Send");
         ListTrans.add("Receive");
 
+
+        dateText.setTag("1");
+        dateText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(LogHistoryActivity.this, "SortDate", Toast.LENGTH_SHORT).show();
+                sortDate();
+//                Log.e("Sort2",""+sortAlpha());
+                if (dateText.getTag().toString().equals("1")) {
+                    ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);
+                    listLogHistory.setAdapter(listAdapterLogHistory);
+                    dateText.setTag("0");
+                    dateText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_downward_black_24dp, 0);
+                } else if (dateText.getTag().toString().equals("0")) {
+                    Collections.reverse(ChequeInfoLogHistoryMain);
+                    ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);
+                    listLogHistory.setAdapter(listAdapterLogHistory);
+                    dateText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_upward_black_24dp, 0);
+
+                    dateText.setTag("1");
+                }
+            }
+        });
+
+        customName.setTag("0");
+        customName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Toast.makeText(LogHistoryActivity.this, "Sort", Toast.LENGTH_SHORT).show();
+                sortAlpha();
+//                Log.e("Sort2",""+sortAlpha());
+                if (customName.getTag().toString().equals("1")) {
+                    ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);
+                    listLogHistory.setAdapter(listAdapterLogHistory);
+                    customName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_upward_black_24dp, 0);
+                    customName.setTag("0");
+                } else if (customName.getTag().toString().equals("0")) {
+                    Collections.reverse(ChequeInfoLogHistoryMain);
+                    ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);
+                    listLogHistory.setAdapter(listAdapterLogHistory);
+                    customName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_downward_black_24dp, 0);
+                    customName.setTag("1");
+                }
+
+            }
+        });
+
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(help.getText().toString().equals("0")){
+                if (help.getText().toString().equals("0")) {
                     helpDialog.setVisibility(View.VISIBLE);
                     help.setText("1");
-                }else  if(help.getText().toString().equals("1")) {
+                } else if (help.getText().toString().equals("1")) {
                     helpDialog.setVisibility(View.GONE);
                     help.setText("0");
                 }
@@ -126,12 +183,12 @@ String AccountNo,phoneNo, serverLink;
         parametwrForGetLog.add(AccountNo);
         parametwrForGetLog.add(phoneNo);
         parametwrForGetLog.add(watch);
-        Log.e("parametser","acc = "+AccountNo+"  "+ parametwrForGetLog.get(0) +"    phone = "+ parametwrForGetLog.get(1)+"      "+phoneNo+"  watch "+watch+"  "+  parametwrForGetLog.get(2));
+        Log.e("parametser", "acc = " + AccountNo + "  " + parametwrForGetLog.get(0) + "    phone = " + parametwrForGetLog.get(1) + "      " + phoneNo + "  watch " + watch + "  " + parametwrForGetLog.get(2));
 
-        if(watch.equals("0")){
-            AccAccount.setText(" This Account ("+AccountNo +")");
+        if (watch.equals("0")) {
+            AccAccount.setText(" This Account (" + AccountNo + ")");
 
-        }else {
+        } else {
             AccAccount.setText(" For ALL Account");
         }
 
@@ -321,7 +378,11 @@ String AccountNo,phoneNo, serverLink;
                     }
 
 
-
+                  ChequeInfoLogHistoryMain.get(0).setCustName("مها");
+                    ChequeInfoLogHistoryMain.get(1).setCustName("تهاني");
+                    ChequeInfoLogHistoryMain.get(2).setCustName("عبير");
+                    ChequeInfoLogHistoryMain.get(3).setCustName("احمد");
+                    sortAlpha();
                     ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);
                     listLogHistory.setAdapter(listAdapterLogHistory);
 
@@ -354,8 +415,8 @@ String AccountNo,phoneNo, serverLink;
         }
     }
 
-    void sortAlpha(){
-        Locale arabic = new Locale("en");
+    void sortAlpha() {
+        Locale arabic = new Locale("ar");
         final Collator arabicCollator = Collator.getInstance(arabic);
 
 
@@ -366,10 +427,33 @@ String AccountNo,phoneNo, serverLink;
             public int compare(ChequeInfo one, ChequeInfo two) {
                 // TODO Auto-generated method stub
 
+                Log.e("Sort",""+arabicCollator.compare(one.getCustName(), two.getCustName()));
+
                 return arabicCollator.compare(one.getCustName(), two.getCustName());
             }
 
         });
+    }
+
+
+
+
+
+    private void sortDate() {
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy"); //your own date format
+//        if (reports != null) {
+            Collections.sort(ChequeInfoLogHistoryMain, new Comparator<ChequeInfo>() {
+                @Override
+                public int compare(ChequeInfo o1, ChequeInfo o2) {
+                    try {
+                        return simpleDateFormat.parse(o2.getCheckDueDate()).compareTo(simpleDateFormat.parse(o1.getCheckDueDate()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return 0;
+                    }
+                }
+            });
+//        }
     }
 
 }
