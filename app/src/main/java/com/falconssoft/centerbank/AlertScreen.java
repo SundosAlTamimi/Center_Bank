@@ -81,7 +81,7 @@ import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 
 public class AlertScreen extends AppCompatActivity {
     RecyclerView recyclerView;
-    public static String acc="",bankN="",branch="",cheNo="";
+    public  String acc="",bankN="",branch="",cheNo="";
 
     ArrayList <notification> notificationArrayList;
     ArrayList <notification> notificationArrayListTest;
@@ -337,7 +337,7 @@ public class AlertScreen extends AppCompatActivity {
                         for(int i=0;i<notificationInfo.length();i++)
                         {
                             JSONObject infoDetail=notificationInfo.getJSONObject(i);
-                            serverPicBitmap=null;
+//                            serverPicBitmap=null;
 
                             notification notifi=new notification();
                             notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
@@ -360,11 +360,8 @@ public class AlertScreen extends AppCompatActivity {
                             chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
                             chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
                             chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
-                            Log.e("chequeInfo",""+chequeInfo.getAccCode()+chequeInfo.getBankNo()+chequeInfo.getBranchNo()+"\t"+chequeInfo.getChequeNo());
+//                            Log.e("chequeInfo",""+chequeInfo.getAccCode()+chequeInfo.getBankNo()+chequeInfo.getBranchNo()+"\t"+chequeInfo.getChequeNo());
 
-                           getPicture(chequeInfo.getAccCode(),chequeInfo.getBankNo(),chequeInfo.getBranchNo(),chequeInfo.getChequeNo());
-                           Log.e("serverPicBitmap",""+serverPicBitmap);
-                           notifi.setCheck_photo(serverPicBitmap);
                             arrayListRow.add(chequeInfo.getRowId());
 
                             checkInfoNotification.add(chequeInfo);
@@ -378,6 +375,14 @@ public class AlertScreen extends AppCompatActivity {
 
 
                         }
+//                        for(int k=0;k<checkInfoNotification.size();k++)
+//                        {
+//                            getPicture(checkInfoNotification.get(k).getAccCode(),checkInfoNotification.get(k).getBankNo(),checkInfoNotification.get(k).getBranchNo(),checkInfoNotification.get(k).getChequeNo());
+//                            notificationArrayList.get(k).setCheck_photo(serverPicBitmap);
+//                            Log.e("serverPicBitmapFor",""+serverPicBitmap);
+//
+//                        }
+
 
                         if(first==1)
                         {
@@ -698,11 +703,9 @@ protected class Image extends AsyncTask<String, String, String> {
             String JsonResponse = null;
             HttpClient client = new DefaultHttpClient();
             HttpPost request = new HttpPost();
-            //  http://10.0.0.16:8081/GetCheckTemp?ACCCODE=1014569990011000&IBANNO=&SERIALNO=&BANKNO=004&BRANCHNO=0099&CHECKNO=390144"
-           // request.setURI(new URI(serverLink + "GetCheckTemp?"));
-//            ACCCODE=1014569990011000&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
+
             try {
-                request.setURI(new URI(serverLink + "GetCheckTemp?"));
+                request.setURI(new URI(serverLink + "GetCheckPic?"));
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
