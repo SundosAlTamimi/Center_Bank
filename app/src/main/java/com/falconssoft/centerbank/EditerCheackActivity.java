@@ -134,7 +134,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     static String ACCCODE = "";
     static String IBANNO = "";
     static String CUSTOMERNM = "";
-    static String QRCODE = "";
+    static String QRCODE = "";  
     static String SERIALNO = "";
     static String BANKNO = "";
     static String BRANCHNO = "";
