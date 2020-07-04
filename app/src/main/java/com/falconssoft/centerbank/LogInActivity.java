@@ -51,11 +51,12 @@ import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.falconssoft.centerbank.SingUpActivity.PAGE_NAME;
+
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText userName, password;
     private Button singIn, singUp;
-    private ImageView arabic, english;
     public String language = "";
     private ImageView SettingImage, close;
     private DatabaseHandler databaseHandler;
@@ -65,10 +66,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private TextView checkValidation;
     private String[] array;
     private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "";
-    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
+    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, arabic, english;
     private Dialog barcodeDialog;
     private SharedPreferences.Editor editor;
     private ProgressDialog progressDialog;
+    private Snackbar snackbar;
+    private LinearLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +147,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             } else {
 
                 Log.e("MainActivity", "" + Result.getContents());
-                Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 //                TostMesage(getResources().getString(R.string.scan)+Result.getContents());
 //                barCodTextTemp.setText(Result.getContents() + "");
 //                openEditerCheck();
@@ -194,6 +197,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             });
 
             dialog.show();
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         } else {
             new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("WARNING")
@@ -217,19 +222,25 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.dismiss();
     }
 
-    public void goToTheMainPage(LoginINFO user){
-        DatabaseHandler databaseHandler = new DatabaseHandler(this);
-        databaseHandler.deleteLoginInfo();
-        databaseHandler.addLoginInfo(user);
-        editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
-        editor.putString("mobile", user.getUsername());
-        editor.putString("password", user.getPassword());
-        editor.putString("name", user.getFirstName());
-//        editor.putString("link", "http://10.0.0.16:8081/");
-        editor.apply();
+    public void goToTheMainPage(String message, LoginINFO user) {
 
-        Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
-        startActivity(MainActivityIntent);
+        if (message.contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {//"StatusCode":10,"StatusDescreption":"User not found."
+            DatabaseHandler databaseHandler = new DatabaseHandler(this);
+            databaseHandler.deleteLoginInfo();
+            databaseHandler.addLoginInfo(user);
+            editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
+            editor.putString("mobile", user.getUsername());
+            editor.putString("password", user.getPassword());
+            editor.putString("name", user.getFirstName());
+//          editor.putString("link", "http://10.0.0.16:8081/");
+            editor.apply();
+
+            Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
+            startActivity(MainActivityIntent);
+        } else if (message.contains("\"StatusCode\":10,\"StatusDescreption\":\"User not found.\""))
+            showSnackbar("User not found!", false);
+
+        hideDialog();
     }
 
     void addSettingButton() {
@@ -285,7 +296,27 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         english = findViewById(R.id.login_english);
         checkValidation = findViewById(R.id.login_checkValidation);
         SettingImage = findViewById(R.id.Setting);
+        coordinatorLayout = findViewById(R.id.login_coordinatorLayout);
 
+        if (getIntent().getIntExtra(PAGE_NAME, 0) == 10)
+            showSnackbar("New account saved successfully", true);
+
+    }
+
+    void showSnackbar(String text, boolean showImage) {
+
+        if (showImage) {
+            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#3167F0\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
+            View snackbarLayout = snackbar.getView();
+            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
+            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0);
+        } else {
+            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#D11616\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
+            View snackbarLayout = snackbar.getView();
+            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
+            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_error, 0, 0, 0);
+        }
+        snackbar.show();
     }
 
     void checkLanguage() {
@@ -305,11 +336,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.LogInSingIn:{
+        switch (view.getId()) {
+            case R.id.LogInSingIn: {
                 if (!TextUtils.isEmpty(userName.getText().toString()))
                     if (userName.length() == 10)
-                        if (!TextUtils.isEmpty(password.getText().toString())){
+                        if (!TextUtils.isEmpty(password.getText().toString())) {
                             userName.setError(null);
                             password.setError(null);
 
@@ -319,16 +350,18 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
                             showDialog();
                             new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
-                        }else {
+                        } else {
                             password.setError("Required!");
-                        }else {
+                        }
+                    else {
                         userName.setError("Phone number not correct!");
-                    }else {
+                    }
+                else {
                     userName.setError("Required!");
                 }
             }
-                break;
-            case R.id.login_checkValidation:{
+            break;
+            case R.id.login_checkValidation: {
                 barcodeDialog = new Dialog(LogInActivity.this);
                 barcodeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 barcodeDialog.setContentView(R.layout.check_validation_layout);
@@ -413,7 +446,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 barcodeDialog.show();
             }
             break;
-            case R.id.login_arabic:{
+            case R.id.login_arabic: {
                 language = "ar";
                 editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
                 editor.putString("language", "ar");
@@ -425,7 +458,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(getIntent());
             }
             break;
-            case R.id.login_english:{
+            case R.id.login_english: {
                 language = "en";
                 editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
                 editor.putString("language", "en");
@@ -457,8 +490,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
                 SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-                String  serverLink = loginPrefs1.getString("link", "");
-                request.setURI(new URI(serverLink+"VerifyCheck?"));
+                String serverLink = loginPrefs1.getString("link", "");
+                request.setURI(new URI(serverLink + "VerifyCheck?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("CHECKNO", array[0]));

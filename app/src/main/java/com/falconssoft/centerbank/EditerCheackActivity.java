@@ -688,6 +688,8 @@ public class EditerCheackActivity extends AppCompatActivity {
             });
 
             dialog.show();
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         } else {
             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("WARNING")
