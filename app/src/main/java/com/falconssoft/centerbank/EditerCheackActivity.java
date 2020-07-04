@@ -126,6 +126,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     Calendar myCalendar;
     private JSONObject jsonObject;
 
+    TextView CheckPicText;
     static String qrCode = "";
     static String[] arr;
     CheckBox checkBox_CO,checkBox_firstpinifit;
@@ -315,6 +316,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         serial = findViewById(R.id.editorCheque_serial);
         check = findViewById(R.id.editorCheque_check);
         serialLinear.setVisibility(View.GONE);
+        CheckPicText=findViewById(R.id.CheckPicText);
 
 //        new Image().execute();
 
@@ -353,6 +355,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 // ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
 // ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
 // ,"AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKPIC":""}
+
+
                 localNationlNo = nationalNo.getText().toString();
                 String localPhoneNo = phoneNo.getText().toString();
 //                String localSender = sender.getText().toString();
@@ -368,7 +372,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                         if (!TextUtils.isEmpty(localReciever))
                             if (!TextUtils.isEmpty(localDate))
                                 if (!TextUtils.isEmpty(localDinar)) {
-
+                                    if (!TextUtils.isEmpty(serverPic)) {
+                                        pushCheque.setEnabled(false);
                                     SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
                                     String phoneNo1 = loginPrefs.getString("mobile", "");
 
@@ -428,7 +433,9 @@ public class EditerCheackActivity extends AppCompatActivity {
                                    new  IsCheckPinding().execute();
 
 //                                    new GetAllTransaction().execute();
-
+                                    } else {
+                                        CheckPicText.setError("Required!");
+                                    }
                                 } else {
                                     Danier.setError("Required!");
                                 }
@@ -1107,8 +1114,8 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("WARNING")
-                        .setContentText("Check  pindding can't Sending!")
+                        .setTitleText("*** Pending ***")
+                        .setContentText("Can't Sending Cheque !")
                             .setConfirmText("Ok")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @SuppressLint("WrongConstant")
@@ -1118,6 +1125,8 @@ private class JSONTask extends AsyncTask<String, String, String> {
                                     sDialog.dismissWithAnimation();
                                 }
                             }).show();
+
+                    pushCheque.setEnabled(true);
                 }  else if (s.contains("\"StatusDescreption\":\"Check not pindding.\"")) {
 //                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
 //                        .setTitleText("WARNING")
@@ -1134,6 +1143,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                        .show();
 
                 new GetAllTransaction().execute();
+                    pushCheque.setEnabled(true);
 
 
             }}else {
@@ -1149,7 +1159,9 @@ private class JSONTask extends AsyncTask<String, String, String> {
                         }
                     })
                             .show();
-                }
+                pushCheque.setEnabled(true);
+
+            }
 
         }
     }

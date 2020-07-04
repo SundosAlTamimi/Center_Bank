@@ -126,7 +126,7 @@ CircleImageView status;
 
         if(itemsList.get(i).getStatus().equals("0")){
             holder.status.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
-            holder.branchNo .setText(" Account No  : "+ itemsList.get(i).getAccCode());
+            holder.branchNo .setText(" Account No  : "+ itemsList.get(i).getAccCode().substring(1));
             holder.branchNo .setVisibility(View.VISIBLE);
         }else if(itemsList.get(i).getStatus().equals("1")){
             holder.status.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
