@@ -341,6 +341,7 @@
                         android:drawableLeft="@drawable/ic_attach_money_black_24dp"
                         android:text="@string/amount"
                         android:textColor="@color/colorWhite"
+
                         app:autoSizeMaxTextSize="18sp"
                         app:autoSizeMinTextSize="10sp"
                         app:autoSizeStepGranularity="2sp"

@@ -378,10 +378,10 @@ public class LogHistoryActivity extends AppCompatActivity {
                     }
 
 
-                  ChequeInfoLogHistoryMain.get(0).setCustName("مها");
-                    ChequeInfoLogHistoryMain.get(1).setCustName("تهاني");
-                    ChequeInfoLogHistoryMain.get(2).setCustName("عبير");
-                    ChequeInfoLogHistoryMain.get(3).setCustName("احمد");
+//                  ChequeInfoLogHistoryMain.get(0).setCustName("مها");
+//                    ChequeInfoLogHistoryMain.get(1).setCustName("تهاني");
+//                    ChequeInfoLogHistoryMain.get(2).setCustName("عبير");
+//                    ChequeInfoLogHistoryMain.get(3).setCustName("احمد");
                     sortAlpha();
                     ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);
                     listLogHistory.setAdapter(listAdapterLogHistory);
