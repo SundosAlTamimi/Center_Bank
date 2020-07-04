@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layBar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -31,12 +32,25 @@
         <!--android:textSize="25sp"-->
         <!--/>-->
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:id="@+id/imgbar"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="3"-->
+        <!--android:background="@drawable/ic_account_circle_black_dp" />-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgbar"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_weight="3"
-        android:background="@drawable/ic_account_circle_black_dp" />
+        android:src="@drawable/jordan_bank"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/colorGold"
+        android:gravity="center"
+        android:textColor="@color/white"
+        tools:ignore="VectorDrawableCompat" />
+
 
     <TextView
         android:id="@+id/textbar"
@@ -53,16 +67,16 @@
         app:autoSizeStepGranularity="2sp"
         app:autoSizeTextType="uniform"        />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:text=""
-        android:layout_weight="1"
-        android:textColor="@color/colorGold"
-        android:textSize="25sp"
-        />
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fontFamily="sans-serif-light"-->
+        <!--android:gravity="center"-->
+        <!--android:text=""-->
+        <!--android:layout_weight="1"-->
+        <!--android:textColor="@color/colorGold"-->
+        <!--android:textSize="25sp"-->
+        <!--/>-->
 
     <!--<TextView-->
         <!--android:layout_width="wrap_content"-->

@@ -61,7 +61,7 @@ public class ListAdapterLogHistory extends BaseAdapter {
 
     private class ViewHolder {
        LinearLayout detailRow;
-        TextView name,transType,date,detail,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo ;//, price
+        TextView name,transType,date,detail,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo,cheqNo,chequNo ;//, price
 CircleImageView status;
 
 
@@ -79,46 +79,59 @@ CircleImageView status;
         holder.detailRow =  view.findViewById(R.id.detailRow);
         holder.status =  view.findViewById(R.id.statuts);
         holder.name=  view.findViewById(R.id.name);
-//        holder.transType=  view.findViewById(R.id.trans);
+        holder.cheqNo=  view.findViewById(R.id.cheqNo);
         holder.date=  view.findViewById(R.id.date);
         holder.detail=  view.findViewById(R.id.Detail);
         holder.from =  view.findViewById(R.id.from);
         holder.to =  view.findViewById(R.id.to);
         holder.TranseType =  view.findViewById(R.id.status);
-
+        holder.chequNo=  view.findViewById(R.id.chequNo);
         holder.bankName =  view.findViewById(R.id.bankName);
         holder.AmountJd =  view.findViewById(R.id.AmountJd);
         holder.AmountWord =  view.findViewById(R.id.AmountWord);
         holder.branchNo =  view.findViewById(R.id.branchNo);
+        String TStatus="";
+
+        if(itemsList.get(i).getTransType().equals("2")){
+            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
+            TStatus="Reject";
+        }else if(itemsList.get(i).getTransType().equals("1")){
+            holder.status.setBorderColor(context.getResources().getColor(R.color.RealGreen));
+            TStatus="Accept";
+        }else if(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals("")){
+            holder.status.setBorderColor(context.getResources().getColor(R.color.blue));
+            TStatus="pending";
+
+        }
 
 
         holder.detailRow.setVisibility(View.GONE);
 //        holder.state.setText("" + itemsList.get(i).getStatus());
+
+        holder.TranseType.setText("Cheque Status : "+TStatus);
+        holder.chequNo.setText(itemsList.get(i).getChequeNo());
+
         holder.name.setText("" + itemsList.get(i).getCustName());
 //        holder.transType.setText("" + itemsList.get(i).getTransType());
         holder.date.setText( itemsList.get(i).getCheckDueDate());
-        holder.from.setText("This Cheque from "+ itemsList.get(i).getCustName());
-        holder.to.setText("This Cheque to "+itemsList.get(i).getToCustomerName());
-        holder.TranseType.setText("This Tran From bank Name  : "+ itemsList.get(i).getTransType());
-        holder.bankName .setText("This Tran From bank Name  : "+ itemsList.get(i).getBankName());
+        holder.from.setText(" Cheque Writer : "+ itemsList.get(i).getCustName());
+        holder.to.setText(" Cheque Beneficiary : "+itemsList.get(i).getToCustomerName());
+        holder.bankName .setText("Bank Name  : "+ itemsList.get(i).getBankName());
         holder.AmountJd .setText("Amount is : "+ itemsList.get(i).getMoneyInDinar()+"."+itemsList.get(i).getMoneyInFils());
-        holder.AmountWord .setText(""+itemsList.get(i).getMoneyInWord());
-        holder.branchNo .setText("This Tran From bank Name  : "+ itemsList.get(i).getBranchNo());
+        holder.AmountWord .setText("("+itemsList.get(i).getMoneyInWord()+")");
+        holder.cheqNo. setText(""+itemsList.get(i).getChequeNo()+"");
 
 
-        if(itemsList.get(i).getTransType().equals("2")){
-            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
-        }else if(itemsList.get(i).getTransType().equals("1")){
-            holder.status.setBorderColor(context.getResources().getColor(R.color.RealGreen));
-        }else if(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals("")){
-            holder.status.setBorderColor(context.getResources().getColor(R.color.blue));
 
-        }
 
         if(itemsList.get(i).getStatus().equals("0")){
             holder.status.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+            holder.branchNo .setText(" Account No  : "+ itemsList.get(i).getAccCode());
+            holder.branchNo .setVisibility(View.VISIBLE);
         }else if(itemsList.get(i).getStatus().equals("1")){
             holder.status.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
+            holder.branchNo .setVisibility(View.GONE);
+
         }
 
         holder.detail.setOnClickListener(new View.OnClickListener() {

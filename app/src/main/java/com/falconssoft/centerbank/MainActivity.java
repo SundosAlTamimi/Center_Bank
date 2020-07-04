@@ -293,7 +293,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
                     // TODO add account
-                    if (!dbHandler.IfAccountFound(inputEditText.getText().toString())) {
+                    boolean isFound=dbHandler.IfAccountFound(inputEditText.getText().toString().substring(1));
+                    Log.e("Serial",""+isFound);
+                    if (!isFound) {
+
                         dbHandler.addNewAccount(new NewAccount(inputEditText.getText().toString(), "Jordan Bank", "0"));//0 -->not active  1-->active
 
                         Toast.makeText(MainActivity.this, "Save Success", Toast.LENGTH_SHORT).show();
@@ -483,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
                  accCode = arr[3];
 //                    String ibanNo = arr[4];
 //                    String custName= "";
-                inputEditTextTemp.setText(accCode.substring(1));
+                inputEditTextTemp.setText(accCode);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -533,7 +536,7 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull final MainActivity.CViewHolderForbar cViewHolder, final int i) {
-            cViewHolder.ItemName.setText(list.get(i).getAccountNo());
+            cViewHolder.ItemName.setText(list.get(i).getAccountNo().substring(1));
 //            cViewHolder.itemImage.setBackgroundResource(getImage(pic2.get(i)));
             cViewHolder.layBar.setTag("" + i);
 
