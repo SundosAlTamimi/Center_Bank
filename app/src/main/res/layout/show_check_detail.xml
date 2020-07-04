@@ -341,6 +341,7 @@
                         android:drawableLeft="@drawable/ic_attach_money_black_24dp"
                         android:text="@string/amount"
                         android:textColor="@color/colorWhite"
+
                         app:autoSizeMaxTextSize="18sp"
                         app:autoSizeMinTextSize="10sp"
                         app:autoSizeStepGranularity="2sp"
@@ -459,7 +460,7 @@
 <!--                        />-->
                     <com.github.chrisbanes.photoview.PhotoView
                         android:id="@+id/profile_image2"
-                        android:layout_width="100dp"
+                        android:layout_width="200dp"
                         android:layout_height="100dp"
                         android:src="@drawable/second_check"
                         android:layout_weight="2"/>

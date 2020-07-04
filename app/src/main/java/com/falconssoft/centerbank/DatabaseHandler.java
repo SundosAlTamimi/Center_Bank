@@ -293,18 +293,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public boolean IfAccountFound(String AccountNo) {
         SQLiteDatabase database = this.getWritableDatabase();
-        String selectQuery = "SELECT ACCOUNT_BANK_NO FROM " + ACCOUNT_TABLE + " where ACCOUNT_BANK_NO = '" + AccountNo + "'";
+        String selectQuery = "SELECT ACCOUNT_BANK_NO FROM " + ACCOUNT_TABLE + " where substr(ACCOUNT_BANK_NO,2,15) = '" + AccountNo + "'";
         Cursor cursor = database.rawQuery(selectQuery, null);
         boolean item = false;
         if (cursor.moveToFirst()) {
             do {
-                item = true;
+//                item = true;
 
-//                if(cursor.getString(0) !=null){
-//                    item= true;
-//                }else{
-//                    item= false;
-//                }
+                if(cursor.getString(0) !=null){
+                    item= true;
+                }else{
+                    item= false;
+                }
 
             } while (cursor.moveToNext());
         }

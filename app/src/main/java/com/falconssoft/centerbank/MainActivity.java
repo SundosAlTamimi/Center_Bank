@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
     DatabaseHandler dbHandler;
-    static String watch,accCode;
+    static String watch;
+    String accCode="";
     private String language, userNo, username, link;
 
     @Override
@@ -290,14 +291,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (!TextUtils.isEmpty(inputEditText.getText().toString())&&!TextUtils.isEmpty(accCode)) {
+                if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
                     // TODO add account
-                    if (!dbHandler.IfAccountFound(accCode)) {
-                        dbHandler.addNewAccount(new NewAccount(accCode, "Jordan Bank", "0"));//0 -->not active  1-->active
+                    boolean isFound=dbHandler.IfAccountFound(inputEditText.getText().toString().substring(1));
+                    Log.e("Serial",""+isFound);
+                    if (!isFound) {
+
+                        dbHandler.addNewAccount(new NewAccount(inputEditText.getText().toString(), "Jordan Bank", "0"));//0 -->not active  1-->active
 
                         Toast.makeText(MainActivity.this, "Save Success", Toast.LENGTH_SHORT).show();
                         picforbar = dbHandler.getAllAcCount();
-                        accCode="";
+//                        accCode="";
                         showAllDataAccount();
 
                         dialog.dismiss();
@@ -482,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
                  accCode = arr[3];
 //                    String ibanNo = arr[4];
 //                    String custName= "";
-                inputEditTextTemp.setText(accCode.substring(1));
+                inputEditTextTemp.setText(accCode);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -532,7 +536,7 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull final MainActivity.CViewHolderForbar cViewHolder, final int i) {
-            cViewHolder.ItemName.setText(list.get(i).getAccountNo());
+            cViewHolder.ItemName.setText(list.get(i).getAccountNo().substring(1));
 //            cViewHolder.itemImage.setBackgroundResource(getImage(pic2.get(i)));
             cViewHolder.layBar.setTag("" + i);
 
