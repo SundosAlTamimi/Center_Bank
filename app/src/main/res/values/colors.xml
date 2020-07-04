@@ -33,5 +33,7 @@
 
     <color name="RealRed">#FA0404</color>
     <color name="RealGreen">#38AF04</color>
+    <color name="dark_gray">#30322F</color>
+    <color name="dark_yellow">#EFD702</color>
 
 </resources>
