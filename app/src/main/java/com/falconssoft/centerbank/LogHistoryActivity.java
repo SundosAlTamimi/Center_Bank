@@ -295,6 +295,7 @@ public class LogHistoryActivity extends AppCompatActivity {
                         "WHICH=" + URLEncoder.encode(parametwrForGetLog.get(2), "UTF-8");
 
                 URL url = new URL(link);
+                Log.e("link,3 ", serverLink+"   "+link+ "   "+data);
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
