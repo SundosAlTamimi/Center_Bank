@@ -298,13 +298,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         boolean item = false;
         if (cursor.moveToFirst()) {
             do {
-                item = true;
+//                item = true;
 
-//                if(cursor.getString(0) !=null){
-//                    item= true;
-//                }else{
-//                    item= false;
-//                }
+                if(cursor.getString(0) !=null){
+                    item= true;
+                }else{
+                    item= false;
+                }
 
             } while (cursor.moveToNext());
         }
