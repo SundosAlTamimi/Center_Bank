@@ -154,8 +154,9 @@ class Presenter {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                logInActivity.goToTheMainPage(response.toString(), user);
             }
+
+            logInActivity.goToTheMainPage(response.toString(), user);
 
         }
     }
