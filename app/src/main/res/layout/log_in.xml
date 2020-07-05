@@ -63,15 +63,18 @@
                 app:fontFamily="sans-serif-smallcaps" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/login_english"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="En"
+                    android:gravity="end|right"
                     android:textColor="@color/main_orange_light_color"
                     android:fontFamily="serif"
                     android:textSize="18sp"
@@ -85,9 +88,11 @@
 
                 <TextView
                     android:id="@+id/login_arabic"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="ع"
+                    android:gravity="end|right"
                     android:textColor="@color/main_orange_light_color"
                     android:fontFamily="serif"
                     android:textSize="18sp"
