@@ -381,6 +381,9 @@ public class ChequeInfo {
             obj.put("ISCO",  ISCO);
             obj.put("ISFB",  ISBF);
 
+            obj.put("NOTE",  noteCheck);
+            obj.put("COMPANY",  companyName);
+
 
         } catch (JSONException e) {
             Log.e("Tag" , "JSONException");
