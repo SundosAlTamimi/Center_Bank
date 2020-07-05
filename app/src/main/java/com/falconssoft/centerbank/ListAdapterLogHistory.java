@@ -117,9 +117,9 @@ CircleImageView status;
         holder.from.setText(" Cheque Writer : "+ itemsList.get(i).getCustName());
         holder.to.setText(" Cheque Beneficiary : "+itemsList.get(i).getToCustomerName());
         holder.bankName .setText("Bank Name  : "+ itemsList.get(i).getBankName());
-        holder.AmountJd .setText("Amount is : "+ itemsList.get(i).getMoneyInDinar()+"."+itemsList.get(i).getMoneyInFils());
+        holder.AmountJd .setText("Amount is : "+ itemsList.get(i).getMoneyInDinar()+"."+itemsList.get(i).getMoneyInFils()+" JD");
         holder.AmountWord .setText("("+itemsList.get(i).getMoneyInWord()+")");
-        holder.cheqNo. setText(""+itemsList.get(i).getChequeNo()+"");
+        holder.cheqNo. setText("Cheque No : "+itemsList.get(i).getChequeNo()+"");
 
 
 

@@ -224,6 +224,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     public void goToTheMainPage(String message, LoginINFO user) {
 
+        hideDialog();
+
         if (message.contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {//"StatusCode":10,"StatusDescreption":"User not found."
             DatabaseHandler databaseHandler = new DatabaseHandler(this);
             databaseHandler.deleteLoginInfo();
@@ -240,7 +242,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         } else if (message.contains("\"StatusCode\":10,\"StatusDescreption\":\"User not found.\""))
             showSnackbar("User not found!", false);
 
-        hideDialog();
     }
 
     void addSettingButton() {
