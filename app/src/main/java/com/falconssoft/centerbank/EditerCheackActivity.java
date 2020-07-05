@@ -473,7 +473,10 @@ public class EditerCheackActivity extends AppCompatActivity {
 }
 
     void checkLanguage(){
-        if (language.equals("ar")) {
+        if (language.trim().equals("ar")) {
+            LocaleAppUtils.setLocale(new Locale("ar"));
+            LocaleAppUtils.setConfigChange(EditerCheackActivity.this);
+
             nationalNo.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_person_black_24dp), null);
             phoneNo.setCompoundDrawablesWithIntrinsicBounds(null, null
@@ -493,6 +496,9 @@ public class EditerCheackActivity extends AppCompatActivity {
             picRow.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         } else {
+            LocaleAppUtils.setLocale(new Locale("en"));
+            LocaleAppUtils.setConfigChange(EditerCheackActivity.this);
+
             nationalNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_person_black_24dp), null
                     , null, null);
             phoneNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_local_phone_black_24dp), null
@@ -674,6 +680,7 @@ public class EditerCheackActivity extends AppCompatActivity {
             okTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    checkLanguage();
                     linerEditing.setVisibility(View.VISIBLE);
                     linerBarcode.setVisibility(View.GONE);
                     dialog.dismiss();
@@ -998,6 +1005,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
                                     sDialog.dismissWithAnimation();
                                 }
                             }).show();
+                    pushCheque.setEnabled(true);
                 } else {
                     Log.e("tag", "****Failed to export data");
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -1011,9 +1019,11 @@ private class JSONTask extends AsyncTask<String, String, String> {
                         }
                     })
                             .show();
+                    pushCheque.setEnabled(true);
                 }
             } else {
                 Log.e("tag", "****Failed to export data Please check internet connection");
+                pushCheque.setEnabled(true);
             }
         }
     }
@@ -1145,7 +1155,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                        .show();
 
                 new GetAllTransaction().execute();
-                    pushCheque.setEnabled(true);
+//                    pushCheque.setEnabled(true);
 
 
             }}else {

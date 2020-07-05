@@ -60,4 +60,6 @@
     <string name="CheckAccpted">Check Accpted</string>
     <string name="NewCheck">New Cheque</string>
     <string name="PaidToCustomer">Paid To Customer</string>
+    <string name="cheque_endorsement">Cheque Endorsement</string>
+    <string name="wallet">Wallet</string>
 </resources>

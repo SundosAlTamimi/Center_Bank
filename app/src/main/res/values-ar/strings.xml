@@ -56,9 +56,11 @@
     <string name="Reject">الغاء</string>
     <string name="CheckDetail">تفاصيل الشيك </string>
     <string name="customer_name">Customer Name</string>
-    <string name="cashier_check">cashier Check</string>
+    <string name="cashier_check">شيك مدير</string>
     <string name="firstbeneficiary">المستفيد الاول</string>
     <string name="CheckAccpted">Check Accpted</string>
-    <string name="NewCheck">New Cheque</string>
-    <string name="PaidToCustomer">Paid To Customer</string>
+    <string name="NewCheck">شيك جديد</string>
+    <string name="PaidToCustomer">المستفيد</string>
+    <string name="cheque_endorsement">نقل ملكية الشيك</string>
+    <string name="wallet">محفظة</string>
 </resources>

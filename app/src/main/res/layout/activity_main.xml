@@ -283,7 +283,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center|start"
         android:padding="10dp"
-        android:text="Jerro"
+        android:text="@string/cheque_endorsement"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"
         app:autoSizeMaxTextSize="25sp"
@@ -293,7 +293,7 @@
         app:fontFamily="sans-serif-smallcaps" />
 
     <TextView
-        android:id="@+id/main_walet"
+        android:id="@+id/main_wallet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -304,7 +304,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center|start"
         android:padding="10dp"
-        android:text="Wallet"
+        android:text="@string/wallet"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"
         app:autoSizeMaxTextSize="25sp"
