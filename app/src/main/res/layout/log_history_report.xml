@@ -237,38 +237,52 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.9"
+                    android:layout_weight="1"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
 
                     android:text="@string/status"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/chNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+
+                    android:text="CH.NO"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/customName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.8"
                     android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
 
                     android:text="@string/customer_name"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.9"
                     android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
                     android:text="@string/date"
 
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="match_parent"

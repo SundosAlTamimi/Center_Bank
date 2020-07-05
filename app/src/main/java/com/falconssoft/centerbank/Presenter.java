@@ -92,7 +92,7 @@ class Presenter {
         @Override
         public void onErrorResponse(VolleyError error) {
             Log.e("presenter/", "signup/error/" + error.toString());
-            singUpActivity.hideDialog();
+            singUpActivity.goToLoginPage(error.toString());
 
         }
 
@@ -101,14 +101,8 @@ class Presenter {
 
 //            response = new String(response.getBytes("ISO-8859-1"), "UTF-8");
             Log.e("presenter/", "signup/" + response.toString());
-            if (response.toString().contains("{\"StatusCode\":0,\"StatusDescreption\":\"OK\"}"))
-                singUpActivity.goToLoginPage();
-            else if (response.toString().contains("{\"StatusCode\" : 4,\"StatusDescreption\":\"Error in Saving Check Temp.\" }"))
-                Toast.makeText(singUpActivity, "Not Saved !", Toast.LENGTH_SHORT).show();
-            else if (response.toString().contains("{\"StatusCode\" : 9,\"StatusDescreption\":\"Error in saving User.\" }"))
-                Toast.makeText(singUpActivity, "PLease check sent Info first!", Toast.LENGTH_SHORT).show();
+                singUpActivity.goToLoginPage(response.toString());
 
-            singUpActivity.hideDialog();
         }
     }
 
@@ -126,7 +120,7 @@ class Presenter {
         @Override
         public void onErrorResponse(VolleyError error) {
             Log.e("presenter/", "login/error/" + error.toString());
-            logInActivity.hideDialog();
+            logInActivity.goToTheMainPage(error.getMessage(), null);
 
         }
 
@@ -160,10 +154,10 @@ class Presenter {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                logInActivity.goToTheMainPage(user);
             }
 
-            logInActivity.hideDialog();
+            logInActivity.goToTheMainPage(response.toString(), user);
+
         }
     }
 }

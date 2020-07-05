@@ -1,8 +1,10 @@
 package com.falconssoft.centerbank;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.solver.widgets.Helper;
 
@@ -64,7 +67,7 @@ public class LogHistoryActivity extends AppCompatActivity {
     TextView help, AccAccount;
     LinearLayout helpDialog;
     String AccountNo, phoneNo, serverLink;
-    TextView customName,dateText;
+    TextView customName,dateText,cheqNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,7 @@ public class LogHistoryActivity extends AppCompatActivity {
         help = findViewById(R.id.help);
         customName=findViewById(R.id.customName);
         dateText=findViewById(R.id.date);
+        cheqNo=findViewById(R.id.chNo);
         ChequeInfoLogHistoryMain = new ArrayList<>();
         parametwrForGetLog = new ArrayList<>();
         helpDialog = findViewById(R.id.helpDialog);
@@ -102,6 +106,30 @@ public class LogHistoryActivity extends AppCompatActivity {
         ListTrans.add("All");
         ListTrans.add("Send");
         ListTrans.add("Receive");
+
+
+        cheqNo.setTag("1");
+        cheqNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(LogHistoryActivity.this, "sort", Toast.LENGTH_SHORT).show();
+                Collections.sort(ChequeInfoLogHistoryMain, new CheqNoSorter());
+//                Log.e("Sort2",""+sortAlpha());
+                if (cheqNo.getTag().toString().equals("1")) {
+                    ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);
+                    listLogHistory.setAdapter(listAdapterLogHistory);
+                    cheqNo.setTag("0");
+                    cheqNo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_upward_black_24dp, 0);
+                } else if (cheqNo.getTag().toString().equals("0")) {
+                    Collections.reverse(ChequeInfoLogHistoryMain);
+                    ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);
+                    listLogHistory.setAdapter(listAdapterLogHistory);
+                    cheqNo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_downward_black_24dp, 0);
+
+                    cheqNo.setTag("1");
+                }
+            }
+        });
 
 
         dateText.setTag("1");
@@ -186,7 +214,7 @@ public class LogHistoryActivity extends AppCompatActivity {
         Log.e("parametser", "acc = " + AccountNo + "  " + parametwrForGetLog.get(0) + "    phone = " + parametwrForGetLog.get(1) + "      " + phoneNo + "  watch " + watch + "  " + parametwrForGetLog.get(2));
 
         if (watch.equals("0")) {
-            AccAccount.setText(" This Account (" + AccountNo + ")");
+            AccAccount.setText(" This Account (" + AccountNo.substring(1) + ")");
 
         } else {
             AccAccount.setText(" For ALL Account");
@@ -267,6 +295,7 @@ public class LogHistoryActivity extends AppCompatActivity {
                         "WHICH=" + URLEncoder.encode(parametwrForGetLog.get(2), "UTF-8");
 
                 URL url = new URL(link);
+                Log.e("link,3 ", serverLink+"   "+link+ "   "+data);
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
@@ -436,9 +465,6 @@ public class LogHistoryActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void sortDate() {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy"); //your own date format
 //        if (reports != null) {
@@ -454,6 +480,25 @@ public class LogHistoryActivity extends AppCompatActivity {
                 }
             });
 //        }
+    }
+
+
+
+    class CheqNoSorter implements Comparator<ChequeInfo> {
+        @Override
+        public int compare(ChequeInfo one, ChequeInfo another) {
+            int returnVal = 0;
+
+            if (Integer.parseInt(one.getChequeNo()) < Integer.parseInt(another.getChequeNo())) {
+                returnVal = -1;
+            } else if (Integer.parseInt(one.getChequeNo()) > Integer.parseInt(another.getChequeNo())) {
+                returnVal = 1;
+            } else if (one.getChequeNo() == another.getChequeNo()) {
+                returnVal = 0;
+            }
+            return returnVal;
+        }
+
     }
 
 }

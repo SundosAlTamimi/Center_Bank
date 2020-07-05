@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -33,6 +35,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
@@ -42,9 +46,9 @@ public class SingUpActivity extends AppCompatActivity {
     private SimpleDateFormat df;
     private Calendar myCalendar;
     private EditText natonalNo, phoneNo, address, email, password, firstName, secondName, thirdName, fourthName;
-    private String language, today, selectedAccount = "Individual", selectedGender = "Male";
+    private String language, today, selectedAccount = "Account Type", selectedGender = "Gender";
     private Animation animation;
-    private LinearLayout linearLayout, coordinatorLayout;
+    private LinearLayout linearLayout, coordinatorLayout, accountTypeLinear, genderLinear;
     private Button save;
     private Spinner spinnerAccountType, spinnerGender;
     private List<String> accountTypeList = new ArrayList<>();
@@ -53,6 +57,7 @@ public class SingUpActivity extends AppCompatActivity {
     private DatabaseHandler databaseHandler;
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
+    public static final String PAGE_NAME = "PAGE_NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,54 +98,86 @@ public class SingUpActivity extends AppCompatActivity {
         String localPassword = password.getText().toString();
         String localBirthDate = date_text.getText().toString();
 
-        if (!TextUtils.isEmpty(localNationalID) && localNationalID.length() == 10)
-            if (!TextUtils.isEmpty(localFirstName))
-                if (!TextUtils.isEmpty(localSecondName))
-                    if (!TextUtils.isEmpty(localThirdName))
-                        if (!TextUtils.isEmpty(localFourthName))
-                            if (!TextUtils.isEmpty("" + localPhone) && localPhone.length() == 10)
-                                if (!TextUtils.isEmpty(localAddress))
-                                    if (!TextUtils.isEmpty(localEmail))
-                                        if (!TextUtils.isEmpty(localPassword)) {
+        if (!selectedAccount.equals("Account Type"))
+            if (!selectedGender.equals("Gender"))
+                if (!TextUtils.isEmpty(localNationalID))
+                    if (localNationalID.length() == 10)
+                        if (!TextUtils.isEmpty(localFirstName))
+                            if (!TextUtils.isEmpty(localSecondName))
+                                if (!TextUtils.isEmpty(localThirdName))
+                                    if (!TextUtils.isEmpty(localFourthName))
+                                        if (!TextUtils.isEmpty("" + localPhone))
+                                            if (localPhone.length() == 10)
+                                                if (!TextUtils.isEmpty(localAddress))
+                                                    if (!TextUtils.isEmpty(localEmail))
+                                                        if (Patterns.EMAIL_ADDRESS.matcher(localEmail).matches())
+                                                            if (!TextUtils.isEmpty(localPassword))
+                                                                if (isValidPassword(localPassword)) {
 
-                                            LoginINFO loginINFO = new LoginINFO();
-                                            loginINFO.setNationalID(localNationalID);
-                                            loginINFO.setFirstName(localFirstName);
-                                            loginINFO.setSecondName(localSecondName);
-                                            loginINFO.setThirdName(localThirdName);
-                                            loginINFO.setFourthName(localFourthName);
-                                            loginINFO.setUsername(localPhone);
-                                            loginINFO.setAddress(localAddress);
-                                            loginINFO.setEmail(localEmail);
-                                            loginINFO.setPassword(localPassword);
-                                            loginINFO.setBirthDate(localBirthDate);
-                                            if (selectedGender.equals("Male"))
-                                                loginINFO.setGender("0");
+                                                                    LoginINFO loginINFO = new LoginINFO();
+                                                                    loginINFO.setNationalID(localNationalID);
+                                                                    loginINFO.setFirstName(localFirstName);
+                                                                    loginINFO.setSecondName(localSecondName);
+                                                                    loginINFO.setThirdName(localThirdName);
+                                                                    loginINFO.setFourthName(localFourthName);
+                                                                    loginINFO.setUsername(localPhone);
+                                                                    loginINFO.setAddress(localAddress);
+                                                                    loginINFO.setEmail(localEmail);
+                                                                    loginINFO.setPassword(localPassword);
+                                                                    loginINFO.setBirthDate(localBirthDate);
+                                                                    if (selectedGender.equals("Male"))
+                                                                        loginINFO.setGender("0");
+                                                                    else
+                                                                        loginINFO.setGender("1");
+
+                                                                    showDialog();
+                                                                    new Presenter(SingUpActivity.this).saveSignUpInfo(this, loginINFO);
+
+                                                                } else
+                                                                    password.setError("Password must contains at least 6 digits, capital letter, number and special character");
+                                                            else
+                                                                password.setError("Required!");
+                                                        else
+                                                            email.setError("Not valid email!");
+                                                    else
+                                                        email.setError("Required!");
+                                                else
+                                                    address.setError("Required!");
                                             else
-                                                loginINFO.setGender("1");
-
-                                            showDialog();
-                                            new Presenter(SingUpActivity.this).saveSignUpInfo(this, loginINFO);
-
-                                        } else
-                                            password.setError("Required!");
+                                                phoneNo.setError("Phone number is less than 10 digits!");
+                                        else
+                                            phoneNo.setError("Required!");
                                     else
-                                        email.setError("Required!");
+                                        fourthName.setError("Required!");
                                 else
-                                    address.setError("Required!");
+                                    thirdName.setError("Required!");
                             else
-                                phoneNo.setError("Required!");
+                                secondName.setError("Required!");
                         else
-                            fourthName.setError("Required!");
+                            firstName.setError("Required!");
                     else
-                        thirdName.setError("Required!");
+                        natonalNo.setError("National number is less than 10 digits!");
                 else
-                    secondName.setError("Required!");
+                    natonalNo.setError("Required!");
             else
-                firstName.setError("Required!");
+                showSnackbar("Please choose gender!", false);
         else
-            natonalNo.setError("Required!");
+            showSnackbar("Please choose account type!", false);
 
+    }
+
+    public static boolean isValidPassword(String password) {
+        if (password.length() > 5) {
+
+            Pattern pattern;
+            Matcher matcher;
+            final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+            pattern = Pattern.compile(PASSWORD_PATTERN);
+            matcher = pattern.matcher(password);
+
+            return matcher.matches();
+        } else
+            return false;
     }
 
     private void init() {
@@ -163,11 +200,14 @@ public class SingUpActivity extends AppCompatActivity {
         date_text = (TextView) findViewById(R.id.Date);
         spinnerAccountType = findViewById(R.id.signUp_accountType);
         spinnerGender = findViewById(R.id.signUp_gender);
+        accountTypeLinear = findViewById(R.id.signUp_accountType_linear);
+        genderLinear = findViewById(R.id.signUp_gender_linear);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Waiting...");
 
         accountTypeList.clear();
+        accountTypeList.add("Account Type");
         accountTypeList.add("Individual");
         accountTypeList.add("Corporate");
         accountTypeList.add("Join Account");
@@ -187,6 +227,7 @@ public class SingUpActivity extends AppCompatActivity {
         });
 
         genderList.clear();
+        genderList.add("Gender");
         genderList.add("Male");
         genderList.add("Female");
         genderArrayAdapter = new ArrayAdapter(this, R.layout.spinner_layout, genderList);
@@ -253,11 +294,11 @@ public class SingUpActivity extends AppCompatActivity {
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
-        spinnerAccountType.startAnimation(animation);
+        accountTypeLinear.startAnimation(animation);
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
-        spinnerGender.startAnimation(animation);
+        genderLinear.startAnimation(animation);
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
@@ -288,20 +329,38 @@ public class SingUpActivity extends AppCompatActivity {
         password.startAnimation(animation);
     }
 
-    public void goToLoginPage(){
-        showSnackbar("Saved Successfully", true);
-        Intent intent = new Intent(SingUpActivity.this, LogInActivity.class);
-        startActivity(intent);
-        finish();
+    public void goToLoginPage(String message) {
+        hideDialog();
+        if (message.contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\"")) {
+            Intent intent = new Intent(SingUpActivity.this, LogInActivity.class);
+            intent.putExtra(PAGE_NAME, 10);
+            startActivity(intent);
+            finish();
+        } else if (message.contains("{\"StatusCode\" : 9,\"StatusDescreption\":\"Error in saving User.\" }"))
+            showSnackbar("PLease check sent Information first!", false);
+        else if (message.contains("\"StatusCode\":14,\"StatusDescreption\":\"User Mobile alreay exisit.\""))
+            showSnackbar("User mobile already exists!", false);
+        else if (message.contains("\"StatusCode\":15,\"StatusDescreption\":\"User National ID alreay exisit.\""))
+            showSnackbar("National ID already exists!", false);
+        else //(message.contains("{\"StatusCode\" : 4,\"StatusDescreption\":\"Error in Saving Check Temp.\" }") or error
+            showSnackbar("Information Not Saved !", false);
+
 
     }
 
     void showSnackbar(String text, boolean showImage) {
-        snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#3167F0\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
-        View snackbarLayout = snackbar.getView();
-        TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
-        if (showImage)
+
+        if (showImage) {
+            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#3167F0\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
+            View snackbarLayout = snackbar.getView();
+            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
             textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0);
+        } else {
+            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#D11616\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
+            View snackbarLayout = snackbar.getView();
+            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
+            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_error, 0, 0, 0);
+        }
         snackbar.show();
     }
 
