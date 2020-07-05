@@ -295,6 +295,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         notes = findViewById(R.id.editorCheque_notes);
         picRow = findViewById(R.id.editorCheque_picLinear);
         amountTV = findViewById(R.id.editorCheque_amountTV);
+        amountTV = findViewById(R.id.editorCheque_amountTV);
 
         progressDialog = new ProgressDialog(this);
         progressDialog = new ProgressDialog(this);
@@ -421,7 +422,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                                     chequeInfo.setUserName(phoneNo1);
                                     chequeInfo.setISCO(checkBox_C);
                                     chequeInfo.setISBF(checkBox_Fb);
-
+                                    chequeInfo.setCompanyName(company.getText().toString());
+                                    chequeInfo.setNoteCheck(notes.getText().toString());
                                     Log.e("showpic", serverPic);
 
                                     jsonObject = new JSONObject();

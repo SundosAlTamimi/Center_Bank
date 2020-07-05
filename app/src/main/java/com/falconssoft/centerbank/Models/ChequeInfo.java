@@ -380,9 +380,9 @@ public class ChequeInfo {
             obj.put("USERNO",  userName);
             obj.put("ISCO",  ISCO);
             obj.put("ISFB",  ISBF);
-
-            obj.put("NOTE",  noteCheck);
             obj.put("COMPANY",  companyName);
+            obj.put("NOTE",  noteCheck);
+
 
 
         } catch (JSONException e) {
