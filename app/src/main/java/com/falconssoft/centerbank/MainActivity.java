@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -39,11 +40,24 @@ import androidx.appcompat.widget.Toolbar;
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
+import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.NewAccount;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -76,8 +90,11 @@ public class MainActivity extends AppCompatActivity {
     public static final String STOP_ACTION = "STOP";
     DatabaseHandler dbHandler;
     static String watch;
-    String accCode="";
+    String accCode = "";
+    String serverLink = "";
     private String language, userNo, username, link;
+    JSONObject addAccountOb;
+    String AccountNoDelete="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +107,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         userNo = loginPrefs.getString("mobile", "");
         username = loginPrefs.getString("name", "");
+        serverLink = loginPrefs.getString("link", "");
 
         Log.e("editing,main ", language);
         init();
+        addAccountOb = new JSONObject();
         picforbar = new ArrayList<>();
 //        picforbar.add("01365574861","");
 //        picforbar.add("0136557486");
@@ -114,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
 //        recyclerViews.scrollToPosition(2);
 //        recyclerViews.requestFocus();
 
-        showAllDataAccount();
-
+//        showAllDataAccount();
+        new GetAllAccount().execute();
 //        message.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
         checkLanguage();
 
@@ -182,7 +201,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void showAllDataAccount() {
-        picforbar = dbHandler.getAllAcCount();
+//        picforbar = dbHandler.getAllAcCount();
+//        new GetAllAccount().execute();
         layoutManagerd = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, true);
 
         recyclerViews.setLayoutManager(layoutManagerd);
@@ -289,26 +309,15 @@ public class MainActivity extends AppCompatActivity {
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {//addAccountOb
 
                 if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
                     // TODO add account
-                    boolean isFound=dbHandler.IfAccountFound(inputEditText.getText().toString().substring(1));
-                    Log.e("Serial",""+isFound);
-                    if (!isFound) {
 
-                        dbHandler.addNewAccount(new NewAccount(inputEditText.getText().toString(), "Jordan Bank", "0"));//0 -->not active  1-->active
+                    NewAccount acc = new NewAccount("jj", inputEditText.getText().toString(), "Jordan Bank", "0");
+                    addAccountOb = acc.getJSONObject(userNo);
+                    new AddAccount().execute();
 
-                        Toast.makeText(MainActivity.this, "Save Success", Toast.LENGTH_SHORT).show();
-                        picforbar = dbHandler.getAllAcCount();
-//                        accCode="";
-                        showAllDataAccount();
-
-                        dialog.dismiss();
-                    } else {
-                        Toast.makeText(MainActivity.this, "This Account Add Before !", Toast.LENGTH_SHORT).show();
-
-                    }
                 } else
                     Toast.makeText(MainActivity.this, "Please add account first or scan cheque QR barcode!", Toast.LENGTH_SHORT).show();
             }
@@ -483,7 +492,7 @@ public class MainActivity extends AppCompatActivity {
 //                    String checkNo = arr[0];
 //                    String bankNo = arr[1];
 //                    String branchNo = arr[2];
-                 accCode = arr[3];
+                accCode = arr[3];
 //                    String ibanNo = arr[4];
 //                    String custName= "";
                 inputEditTextTemp.setText(accCode);
@@ -569,8 +578,9 @@ public class MainActivity extends AppCompatActivity {
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    dbHandler.deleteAccount(list.get(i).getAccountNo());
-                                    showAllDataAccount();
+//                                    dbHandler.deleteAccount(list.get(i).getAccountNo());
+                                    AccountNoDelete=list.get(i).getAccountNo();
+                                    new DelAccount().execute();
                                     sweetAlertDialog.dismissWithAnimation();
                                 }
                             })
@@ -594,6 +604,351 @@ public class MainActivity extends AppCompatActivity {
         public int getItemCount() {
             return list.size();
 //            return Integer.MAX_VALUE;
+        }
+    }
+
+    //_________________________________________________getDataFromServer_______________
+
+    private class GetAllAccount extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+ 
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+
+                picforbar.clear();
+                String link = serverLink + "GetAccounts";
+
+                //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
+                String data = "MOBILENO=" + URLEncoder.encode(userNo, "UTF-8");
+
+                URL url = new URL(link);
+                Log.e("getAccount,3 ", serverLink + "   " + link + "   " + data + "   " + userNo);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String JsonResponse) {
+            super.onPostExecute(JsonResponse);
+
+
+            if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
+                Log.e("GetAccSuccess", "****Success");
+
+//
+                try {
+
+                    JSONObject parentArray = new JSONObject(JsonResponse);
+                    JSONArray parentInfo = parentArray.getJSONArray("INFO");
+
+
+                    for (int i = 0; i < parentInfo.length(); i++) {
+                        JSONObject finalObject = parentInfo.getJSONObject(i);
+
+                        NewAccount obj = new NewAccount();
+
+                        //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
+
+                        obj.setRowId(finalObject.getString("ROWID"));
+//                        obj.setAccountNo(finalObject.getString("MOBILENO"));
+                        obj.setAccountNo(finalObject.getString("ACCOUNTNO"));
+                        obj.setBank(finalObject.getString("ACCOUNTBANK"));
+                        picforbar.add(obj);
+
+                    }
+
+                    showAllDataAccount();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//{"StatusCode" : 18,"StatusDescreption":"Accounts Data not found"}
+            } else  if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Accounts Data not found")) {
+                showAllDataAccount();
+
+//                if(!isAssetsIn.equals("1")) {
+//                    if (pd != null) {
+//                        pd.dismiss();
+//                        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+//                                .setTitleText("Can't Save")
+//                                .setContentText(MainActivity.this.getResources().getString(R.string.faildstore))
+//                                .show();
+//                    }
+//                }else{
+//                    pd.dismiss();
+//                    new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText(context.getResources().getString(R.string.ops))
+//                            .setContentText(context.getResources().getString(R.string.faildstore))
+//                            .show();
+//                    new SyncGetAssest().execute();
+//                }
+            }
+//            progressDialog.dismiss();
+
+        }
+    }
+
+    private class AddAccount extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String link = serverLink + "AddAcc";
+
+                //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
+                String data = "INFO=" + URLEncoder.encode(addAccountOb.toString(), "UTF-8");
+
+
+                URL url = new URL(link);
+                Log.e("getAccount,3 ", serverLink + "   " + link + "   " + data + "   " + userNo);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String JsonResponse) {
+            super.onPostExecute(JsonResponse);
+
+
+            if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
+                Log.e("GetAccSuccess", "****Success");
+
+                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Save Successful")
+                        .setContentText("Save Account Successful")
+                        .show();
+
+                new GetAllAccount().execute();
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Account alreay exisit.")) {
+//
+                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Can't Save")
+                        .setContentText("Account already exist !")
+                        .show();
+
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in saving Accounts")) {
+                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Can't Save")
+                        .setContentText("Error in saving Accounts!")
+                        .show();
+            }
+
+        }
+    }
+
+    private class DelAccount extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String link = serverLink + "DelAcc";
+
+                //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
+                String data = "MOBILENO=" + URLEncoder.encode(userNo, "UTF-8")+"&"+
+                        "ACCOUNTNO=" + URLEncoder.encode(AccountNoDelete, "UTF-8");
+
+                URL url = new URL(link);
+                Log.e("DelAccount,3 ", serverLink + "   " + link + "   " + data + "   " + userNo);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String JsonResponse) {
+            super.onPostExecute(JsonResponse);
+
+
+            if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
+                Log.e("GetAccSuccess", "****Success");
+
+                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Delete Successful")
+                        .setContentText("Delete Account Successful")
+                        .show();
+
+                new GetAllAccount().execute();
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in deleting account.")) {
+//
+                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Can't Delete")
+                        .setContentText("Error in Deleting account. !")
+                        .show();
+            }
+//            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in saving Accounts")) {
+//                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+//                        .setTitleText("Can't Save")
+//                        .setContentText("Error in saving Accounts!")
+//                        .show();
+//            }
+
         }
     }
 
