@@ -72,6 +72,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
     private LinearLayout coordinatorLayout;
+    boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,6 +224,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void goToTheMainPage(String message, LoginINFO user) {
+        hideDialog();
 
         hideDialog();
 

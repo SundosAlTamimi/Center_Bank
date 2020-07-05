@@ -35,5 +35,8 @@
     <color name="RealGreen">#38AF04</color>
     <color name="dark_gray">#30322F</color>
     <color name="dark_yellow">#EFD702</color>
+    <color name="RealGreen">#90F365</color>
+    <color name="Green">#F335A304</color>
+    <color name="Alpha">#00F6F7F5</color>
 
 </resources>

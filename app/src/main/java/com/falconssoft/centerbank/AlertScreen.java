@@ -99,6 +99,7 @@ public class AlertScreen extends AppCompatActivity {
     ArrayList<String> arrayListRowFirst=new ArrayList<>();
     DatabaseHandler databaseHandler;
     ArrayList<notification> notifiList1;
+    String  phoneNo="";
     public  static  String ROW_ID_PREFERENCE="ROW_ID_PREFERENCE";
     LoginINFO user;
     LinearLayout layout;
@@ -136,6 +137,8 @@ public class AlertScreen extends AppCompatActivity {
 
         editor = sharedPreferences.edit();
         editor.clear();// just for test
+        phoneNo = loginPrefs.getString("mobile", "");
+
         new GetAllCheck_JSONTask().execute();
         CountDownTimer waitTimer;
         timer = new Timer();
@@ -274,12 +277,13 @@ public class AlertScreen extends AppCompatActivity {
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
 //                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
-                request.setURI(new URI(serverLink + "GetAllTempCheck?"));
+                request.setURI(new URI(serverLink + "GetLog?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-                nameValuePairs.add(new BasicNameValuePair("CUSTMOBNO", userNmae));
-//                nameValuePairs.add(new BasicNameValuePair("CUSTIDNO", localNationlNo));
-                nameValuePairs.add(new BasicNameValuePair("CUSTIDNO", "0123456789"));// test
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", "0"));
+//
+                nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));// test
+                nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
 
 
@@ -301,7 +305,7 @@ public class AlertScreen extends AppCompatActivity {
                 in.close();
 
                 JsonResponse = sb.toString();
-                Log.e("tagAlertScreen", "" + JsonResponse);
+                Log.e("tagAlertScreenGetLog", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -322,7 +326,7 @@ public class AlertScreen extends AppCompatActivity {
 
                         checkInfoNotification.clear();
 
-                        if(first==1){
+                        if (first == 1) {
                             notificationArrayList.clear();
                         }
                         notificationArrayListTest.clear();
@@ -334,56 +338,70 @@ public class AlertScreen extends AppCompatActivity {
                         jsonObject = new JSONObject(s);
 
                         JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
-                        for(int i=0;i<notificationInfo.length();i++)
-                        {
-                            JSONObject infoDetail=notificationInfo.getJSONObject(i);
+                        for (int i = 0; i < notificationInfo.length(); i++) {
+                            JSONObject infoDetail = notificationInfo.getJSONObject(i);
 //                            serverPicBitmap=null;
+                            ChequeInfo chequeInfo = new ChequeInfo();
+                            chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
+                            chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
+                            Log.e("setTransType","\t"+chequeInfo.getTransType()+"\t setStatus"+chequeInfo.getStatus());
+                            if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
+                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")))// Pending and Reciver
+                            {
 
-                            notification notifi=new notification();
+
+
+                            notification notifi = new notification();
                             notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
                             notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
-                            notifi.setAmount_check( infoDetail.get("AMTJD").toString());
-                            ChequeInfo chequeInfo=new ChequeInfo();
-                            chequeInfo.setRowId(infoDetail.get("ROWID").toString());
+                            notifi.setAmount_check(infoDetail.get("AMTJD").toString());
+                            //**********************************************************************
+
+                            chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
                             chequeInfo.setRecieverNationalID(infoDetail.get("TOCUSTOMERNATID").toString());
                             chequeInfo.setRecieverMobileNo(infoDetail.get("TOCUSTOMERMOB").toString());
                             chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
+                            Log.e("setCustName",""+chequeInfo.getCustName());
                             chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
-                            chequeInfo.setToCustomerName(infoDetail.get("CUSTOMERNM").toString());
+                            chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
 
                             chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
                             chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
+                            chequeInfo.setMoneyInFils(infoDetail.getString("AMTFILS"));
                             chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
                             chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
+
 
                             chequeInfo.setBranchNo(infoDetail.get("BRANCHNO").toString());
                             chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
                             chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
                             chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
+
+                            chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
+                            chequeInfo.setStatus(infoDetail.getString("STATUS"));
+
+                            chequeInfo.setUserName(infoDetail.getString("USERNO"));
+
+                            chequeInfo.setISBF(infoDetail.getString("ISFB"));
+                            chequeInfo.setISCO(infoDetail.getString("ISCO"));
+
+                                chequeInfo.setNoteCheck(infoDetail.getString("NOTE"));
+                                chequeInfo.setCompanyName(infoDetail.getString("COMPANY"));
 //                            Log.e("chequeInfo",""+chequeInfo.getAccCode()+chequeInfo.getBankNo()+chequeInfo.getBranchNo()+"\t"+chequeInfo.getChequeNo());
 
                             arrayListRow.add(chequeInfo.getRowId());
 
                             checkInfoNotification.add(chequeInfo);
-                            if(first==1){
+                            if (first == 1) {
                                 notificationArrayList.add(notifi);
-                                Log.e("notificationArrayList",""+notificationArrayList.get(0).getCheck_photo());
                             }
 
                             notificationArrayListTest.add(notifi);
-                            Log.e("notificationAr2rayList",""+notificationArrayListTest.get(0).getCheck_photo());
-
+                                Log.e("notificatListTest",""+notificationArrayListTest.size());
 
                         }
-//                        for(int k=0;k<checkInfoNotification.size();k++)
-//                        {
-//                            getPicture(checkInfoNotification.get(k).getAccCode(),checkInfoNotification.get(k).getBankNo(),checkInfoNotification.get(k).getBranchNo(),checkInfoNotification.get(k).getChequeNo());
-//                            notificationArrayList.get(k).setCheck_photo(serverPicBitmap);
-//                            Log.e("serverPicBitmapFor",""+serverPicBitmap);
+                    }
 //
-//                        }
-
-
                         if(first==1)
                         {
                             fillListNotification(notificationArrayList);

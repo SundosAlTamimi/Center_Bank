@@ -337,7 +337,11 @@ public class SingUpActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else if (message.contains("{\"StatusCode\" : 9,\"StatusDescreption\":\"Error in saving User.\" }"))
-            showSnackbar("PLease check sent Info first!", false);
+            showSnackbar("PLease check sent Information first!", false);
+        else if (message.contains("\"StatusCode\":14,\"StatusDescreption\":\"User Mobile alreay exisit.\""))
+            showSnackbar("User mobile already exists!", false);
+        else if (message.contains("\"StatusCode\":15,\"StatusDescreption\":\"User National ID alreay exisit.\""))
+            showSnackbar("National ID already exists!", false);
         else //(message.contains("{\"StatusCode\" : 4,\"StatusDescreption\":\"Error in Saving Check Temp.\" }") or error
             showSnackbar("Information Not Saved !", false);
 
