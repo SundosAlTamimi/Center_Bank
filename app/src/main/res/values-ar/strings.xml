@@ -63,4 +63,6 @@
     <string name="NewCheck">شيك جديد</string>
     <string name="PaidToCustomer">Paid To Customer</string>
     <string name="beneficiary"> المستفيد</string>
+    <string name="cheque_endorsement">نقل ملكية الشيك</string>
+    <string name="wallet">محفظه</string>
 </resources>
