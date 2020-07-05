@@ -54,13 +54,13 @@
     <string name="the_cheque_has_been_validated">تم التحقق من صحة الشيك</string>
     <string name="Accept">موافق</string>
     <string name="Reject">الغاء</string>
+    <string name="checkReject">تم رفض الشيك </string>
     <string name="CheckDetail">تفاصيل الشيك </string>
-    <string name="customer_name">Customer Name</string>
-    <string name="cashier_check">شيك مدير</string>
+    <string name="customer_name">اسم العميل </string>
+    <string name="cashier_check">شيك مدير </string>
     <string name="firstbeneficiary">المستفيد الاول</string>
-    <string name="CheckAccpted">Check Accpted</string>
+    <string name="CheckAccpted">تم قبول الشيك</string>
     <string name="NewCheck">شيك جديد</string>
-    <string name="PaidToCustomer">المستفيد</string>
-    <string name="cheque_endorsement">نقل ملكية الشيك</string>
-    <string name="wallet">محفظة</string>
+    <string name="PaidToCustomer">Paid To Customer</string>
+    <string name="beneficiary"> المستفيد</string>
 </resources>
