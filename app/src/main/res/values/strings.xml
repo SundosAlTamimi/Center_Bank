@@ -57,4 +57,7 @@
     <string name="customer_name">Customer Name</string>
     <string name="cashier_check">cashier Check</string>
     <string name="firstbeneficiary">first beneficiary</string>
+    <string name="CheckAccpted">Check Accpted</string>
+    <string name="NewCheck">New Cheque</string>
+    <string name="PaidToCustomer">Paid To Customer</string>
 </resources>

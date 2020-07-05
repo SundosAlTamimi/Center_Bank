@@ -45,6 +45,24 @@ public class ChequeInfo {
     private String ISBF;
 
     private String ISOpen;
+    private String noteCheck;
+    private String companyName;
+
+    public String getNoteCheck() {
+        return noteCheck;
+    }
+
+    public void setNoteCheck(String noteCheck) {
+        this.noteCheck = noteCheck;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 
     public String getRowId() {
         return rowId;
