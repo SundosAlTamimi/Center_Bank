@@ -843,22 +843,22 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("GetAccSuccess", "****Success");
 
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Save Successful")
-                        .setContentText("Save Account Successful")
+                        .setTitleText(MainActivity.this.getResources().getString( R.string.save_success))
+                        .setContentText(MainActivity.this.getResources().getString( R.string.save_success))
                         .show();
 
                 new GetAllAccount().execute();
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Account alreay exisit.")) {
 //
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Can't Save")
-                        .setContentText("Account already exist !")
+                        .setTitleText(MainActivity.this.getResources().getString( R.string.cantSave))
+                        .setContentText(MainActivity.this.getResources().getString(R.string.already_exist))
                         .show();
 
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in saving Accounts")) {
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Can't Save")
-                        .setContentText("Error in saving Accounts!")
+                        .setTitleText(MainActivity.this.getResources().getString( R.string.cantSave))
+                        .setContentText(MainActivity.this.getResources().getString(R.string.error_in_save))
                         .show();
             }
 
@@ -942,16 +942,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("GetAccSuccess", "****Success");
 
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Delete Successful")
-                        .setContentText("Delete Account Successful")
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.success_del))
+                        .setContentText(MainActivity.this.getResources().getString(R.string.del_acc_success))
                         .show();
 
                 new GetAllAccount().execute();
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in deleting account.")) {
 //
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Can't Delete")
-                        .setContentText("Error in Deleting account. !")
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.can_del))
+                        .setContentText(MainActivity.this.getResources().getString(R.string.error_del))
                         .show();
             }
 //            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in saving Accounts")) {

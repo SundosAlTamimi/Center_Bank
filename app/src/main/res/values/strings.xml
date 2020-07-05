@@ -62,7 +62,26 @@
     <string name="checkReject">Check Reject</string>
     <string name="CheckAccpted">Check Accpted</string>
     <string name="NewCheck">New Cheque</string>
-    <string name="PaidToCustomer">Paid To Customer</string>
     <string name="cheque_endorsement">Endorsement</string>
     <string name="wallet">Wallet</string>
+    <string name="ch_status">Cheque Status :</string>
+    <string name="chWriter">Cheque Writer :</string>
+    <string name="chBf">Cheque Beneficiary :</string>
+    <string name="rej">Reject</string>
+    <string name="acccept">Accept</string>
+    <string name="pending">pending</string>
+    <string name="save_success">Save Successfully</string>
+    <string name="cantSave">Can\'t Save</string>
+    <string name="already_exist">Account already exist !</string>
+    <string name="error_in_save">Error in saving Accounts!</string>
+    <string name="success_del">Delete Successfully</string>
+    <string name="del_acc_success">Delete Account Successfully</string>
+    <string name="can_del">Can\'t Delete</string>
+    <string name="error_del">Error in Deleting account. !</string>
+    <string name="pending_">*** Pending ***</string>
+    <string name="cantsendchech">Can\'t Sending Cheque !</string>
+    <string name="ok">Ok</string>
+    <string name="warning">WARNING</string>
+    <string name="failtoSend">Fail to send!</string>
+    <string name="close">Close</string>
 </resources>

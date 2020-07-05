@@ -1126,9 +1126,9 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("*** Pending ***")
-                        .setContentText("Can't Sending Cheque !")
-                            .setConfirmText("Ok")
+                        .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.pending_))
+                        .setContentText(EditerCheackActivity.this.getResources().getString(R.string.cantsendchech))
+                            .setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok))
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @SuppressLint("WrongConstant")
                                 @Override
@@ -1161,9 +1161,9 @@ private class JSONTask extends AsyncTask<String, String, String> {
             }}else {
                     Log.e("tag", "****Failed to export data");
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("WARNING")
-                            .setContentText("Fail to send!")
-                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.warning))
+                            .setContentText(EditerCheackActivity.this.getResources().getString(R.string.failtoSend))
+                            .setCancelText(EditerCheackActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             sweetAlertDialog.dismissWithAnimation();
