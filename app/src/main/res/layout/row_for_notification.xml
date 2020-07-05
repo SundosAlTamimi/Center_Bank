@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLinearAdapter"
-    android:layoutDirection="rtl"
+
     android:padding="5dp"
     android:orientation="vertical">
 
@@ -22,6 +22,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/lineardetail"
 
             android:orientation="horizontal">
 
@@ -106,6 +107,7 @@
 
                     android:textColor="@color/colorBlack" />
                 <LinearLayout
+                    android:id="@+id/rowStatus"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
