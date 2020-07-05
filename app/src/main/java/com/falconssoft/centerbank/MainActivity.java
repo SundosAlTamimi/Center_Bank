@@ -632,7 +632,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try {
- 
+
 //
 //                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
 //                String ip="";
