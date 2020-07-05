@@ -59,6 +59,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import static android.view.View.LAYOUT_DIRECTION_LTR;
+import static android.view.View.LAYOUT_DIRECTION_RTL;
 import static com.falconssoft.centerbank.AlertScreen.checkInfoNotification;
 import static com.falconssoft.centerbank.AlertScreen.editor;
 import static com.falconssoft.centerbank.AlertScreen.language;
@@ -101,16 +103,21 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 
         if (language.equals("ar")) {
-            viewHolder.mainLinearAdapter.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            viewHolder.date_check.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            viewHolder.amount_check.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            viewHolder.source_check.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            viewHolder.mainLinearAdapter.setLayoutDirection(LAYOUT_DIRECTION_RTL);
+            viewHolder.lineardetail.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+            viewHolder.rowStatus.setLayoutDirection(LAYOUT_DIRECTION_RTL);
+//            viewHolder.lineardetail.setBackground(context.getResources().getDrawable(R.drawable.left_background));
+            viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
+            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
+            viewHolder.source_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
         } else {
-            viewHolder.mainLinearAdapter.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            viewHolder.mainLinearAdapter.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+            viewHolder.lineardetail.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+//            viewHolder.lineardetail.setBackground(context.getResources().getDrawable(R.drawable.accept_background));
 
-            viewHolder.date_check.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            viewHolder.amount_check.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            viewHolder.source_check.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+            viewHolder.source_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
 
         }
 
@@ -124,7 +131,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             if(checkInfoNotification.get(i).getTransType().equals("1"))
             {
-                viewHolder.checkStateText.setText(R.string.checkReject);
+                viewHolder.checkStateText.setText(R.string.CheckAccpted);
 //                viewHolder.divider.setBackgroundColor(R.color.RealGreen);
                 viewHolder.rejectImg.setVisibility(View.INVISIBLE);
                 viewHolder.reciveNew.setVisibility(View.INVISIBLE);
@@ -178,7 +185,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView source_check, amount_check, date_check,checkStateText;
        ImageView image_check;
-        LinearLayout linearCheckInfo, mainLinearAdapter,divider;
+        LinearLayout linearCheckInfo, mainLinearAdapter,divider,lineardetail,rowStatus;
         CircleImageView acceptImg,rejectImg,reciveNew;
 
         public ViewHolder(View itemView) {
@@ -189,6 +196,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             image_check = itemView.findViewById(R.id.image_check);
             linearCheckInfo = itemView.findViewById(R.id.linearCheckInfo);
             mainLinearAdapter = itemView.findViewById(R.id.mainLinearAdapter);
+            lineardetail= itemView.findViewById(R.id.lineardetail);
+            rowStatus= itemView.findViewById(R.id.rowStatus);
             divider = itemView.findViewById(R.id.divider);
             checkStateText= itemView.findViewById(R.id.checkState);
 
@@ -223,15 +232,15 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             dialog.show();
             LinearLayout linearLayout = dialog.findViewById(R.id.mainLinearDetail);
             if (language.equals("ar")) {
-                linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                linearLayout.setLayoutDirection(LAYOUT_DIRECTION_RTL);
             } else {
                 if (languagelocalApp.equals("en")) {
-                    linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+                    linearLayout.setLayoutDirection(LAYOUT_DIRECTION_LTR);
                 }
 
             }
             TextView textAmouWord, textAmountNo,
-                    textToOrder, textSourceCheck,amountPhilis, textPhoneNo, texDate,    textCompanyname, note,textFirstPinificry,textCo;
+                    textToOrder, textSourceCheck,amountPhilis, textPhoneNo, texDate,  binificary,  textCompanyname, note,textFirstPinificry,textCo;
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
 
@@ -239,16 +248,26 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             texDate = dialog.findViewById(R.id.texDate);
             texDate.setText(checkInfoNotification.get(row_index).getChequeData());
             textFirstPinificry = dialog.findViewById(R.id.textFirstPinificry);
+
+
+            binificary= dialog.findViewById(R.id.binificary);
+            binificary.setText(checkInfoNotification.get(row_index).getToCustomerName());
+
             rowNote=dialog.findViewById(R.id.rowNote);
             textCo = dialog.findViewById(R.id.textCo);
             if(checkInfoNotification.get(row_index).getISCO().equals("1")){
                 textCo.setVisibility(View.VISIBLE);
 
+
             }
+            else {textCo.setVisibility(View.GONE);}
+
             if(checkInfoNotification.get(row_index).getISBF().equals("1")){
                 textFirstPinificry.setVisibility(View.VISIBLE);
 
             }
+            else {
+                textFirstPinificry.setVisibility(View.GONE);}
 
             textAmouWord = dialog.findViewById(R.id.textAmouWord);
             textAmouWord.setText(checkInfoNotification.get(row_index).getMoneyInWord());
@@ -270,15 +289,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
             textToOrder = dialog.findViewById(R.id.textToOrder);
-            textToOrder.setText(checkInfoNotification.get(row_index).getToCustomerName());
+            textToOrder.setText(checkInfoNotification.get(row_index).getCustName());
             amountPhilis = dialog.findViewById(R.id.amountPhilis);
             amountPhilis.setText(checkInfoNotification.get(row_index).getMoneyInFils());
-
-            textSourceCheck = dialog.findViewById(R.id.textSourceCheck);
-            textSourceCheck.setText(checkInfoNotification.get(row_index).getToCustomerName());
-            textCompanyname = dialog.findViewById(R.id.textSourceCheck);
-            textCompanyname.setText("company Name");
-//            textCompanyname.setText(checkInfoNotification.get(row_index).getCustName());
 
 
             textPhoneNo = dialog.findViewById(R.id.textPhoneNo);
