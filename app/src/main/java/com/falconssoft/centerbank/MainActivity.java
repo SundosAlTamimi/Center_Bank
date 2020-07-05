@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "2";
     CircleImageView imageView;
     private Button notification, menuButton;
-    TextView barCodTextTemp, scanBarcode, signout;
-    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request;
+    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request, cashierCheque, jerro, wallet
+            ,barCodTextTemp, scanBarcode, signout;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog, message, usernameTv;
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     String serverLink = "";
     private String language, userNo, username, link;
     JSONObject addAccountOb;
-    String AccountNoDelete="";
+    String AccountNoDelete = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -357,6 +357,10 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = new DatabaseHandler(MainActivity.this);
         usernameTv = findViewById(R.id.main_username);
         usernameTv.setText("Welcome " + username);
+        cashierCheque = findViewById(R.id.main_cashier);
+        jerro = findViewById(R.id.main_jero);
+        wallet = findViewById(R.id.main_wallet);
+
 
         dbHandler = new DatabaseHandler(MainActivity.this);
         recyclerViews = (RecyclerView) findViewById(R.id.res);
@@ -389,14 +393,22 @@ public class MainActivity extends AppCompatActivity {
                     , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_access_time_black_24dp), null);
             request.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_grain), null);
+            cashierCheque.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_grain), null);
+            jerro.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_autorenew_black_24dp), null);
+            wallet.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_account_balance_wallet_black_24dp), null);
 
         } else {
             Editing.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_send_black_24dp), null
                     , null, null);
             logHistory.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_access_time_black_24dp), null
                     , null, null);
-            request.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_grain), null
-                    , null, null);
+            request.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_grain), null, null, null);
+            cashierCheque.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_grain), null, null, null);
+            jerro.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_autorenew_black_24dp), null, null, null);
+            wallet.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_account_balance_wallet_black_24dp), null, null, null);
         }
     }
 
@@ -579,7 +591,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
 //                                    dbHandler.deleteAccount(list.get(i).getAccountNo());
-                                    AccountNoDelete=list.get(i).getAccountNo();
+                                    AccountNoDelete = list.get(i).getAccountNo();
                                     new DelAccount().execute();
                                     sweetAlertDialog.dismissWithAnimation();
                                 }
@@ -729,7 +741,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 //{"StatusCode" : 18,"StatusDescreption":"Accounts Data not found"}
-            } else  if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Accounts Data not found")) {
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Accounts Data not found")) {
                 showAllDataAccount();
 
 //                if(!isAssetsIn.equals("1")) {
@@ -831,22 +843,22 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("GetAccSuccess", "****Success");
 
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Save Successful")
-                        .setContentText("Save Account Successful")
+                        .setTitleText(MainActivity.this.getResources().getString( R.string.save_success))
+                        .setContentText(MainActivity.this.getResources().getString( R.string.save_success))
                         .show();
 
                 new GetAllAccount().execute();
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Account alreay exisit.")) {
 //
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Can't Save")
-                        .setContentText("Account already exist !")
+                        .setTitleText(MainActivity.this.getResources().getString( R.string.cantSave))
+                        .setContentText(MainActivity.this.getResources().getString(R.string.already_exist))
                         .show();
 
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in saving Accounts")) {
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Can't Save")
-                        .setContentText("Error in saving Accounts!")
+                        .setTitleText(MainActivity.this.getResources().getString( R.string.cantSave))
+                        .setContentText(MainActivity.this.getResources().getString(R.string.error_in_save))
                         .show();
             }
 
@@ -871,7 +883,7 @@ public class MainActivity extends AppCompatActivity {
                 String link = serverLink + "DelAcc";
 
                 //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
-                String data = "MOBILENO=" + URLEncoder.encode(userNo, "UTF-8")+"&"+
+                String data = "MOBILENO=" + URLEncoder.encode(userNo, "UTF-8") + "&" +
                         "ACCOUNTNO=" + URLEncoder.encode(AccountNoDelete, "UTF-8");
 
                 URL url = new URL(link);
@@ -930,16 +942,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("GetAccSuccess", "****Success");
 
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Delete Successful")
-                        .setContentText("Delete Account Successful")
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.success_del))
+                        .setContentText(MainActivity.this.getResources().getString(R.string.del_acc_success))
                         .show();
 
                 new GetAllAccount().execute();
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in deleting account.")) {
 //
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Can't Delete")
-                        .setContentText("Error in Deleting account. !")
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.can_del))
+                        .setContentText(MainActivity.this.getResources().getString(R.string.error_del))
                         .show();
             }
 //            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in saving Accounts")) {

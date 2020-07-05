@@ -100,17 +100,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
-                android:layout_weight="15"
+                android:layout_weight="13"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:padding="10dp"
+                android:text="@string/mainpage_sentence"
+                android:textColor="@color/colorWhite"
                 android:textSize="30sp"
                 app:autoSizeMaxTextSize="30sp"
                 app:autoSizeMinTextSize="12sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
-                android:text="@string/mainpage_sentence"
-                android:textColor="@color/colorWhite"
                 app:fontFamily="sans-serif-smallcaps" />
             <ImageView
                 android:id="@+id/ima"
@@ -143,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:layout_weight="10"
+                android:layout_weight="8"
                 android:background="@color/Nocolor"
                 android:elevation="@dimen/cardview_default_elevation"
                 app:cardBackgroundColor="@color/Nocolor"
@@ -176,179 +176,185 @@
                     <!--/>-->
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="13"
-    android:orientation="vertical">
-    <LinearLayout android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
 
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:gravity="bottom"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/Editing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/send"
-            android:drawableLeft="@drawable/ic_send_black_24dp"
-            android:layout_weight="1"
-            android:background="@drawable/left_background"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
 
-            android:drawablePadding="10dp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center|start"
-            android:padding="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
 
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:fontFamily="sans-serif-smallcaps" />
-        <TextView
-            android:id="@+id/main_history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/log_history"
-            android:layout_weight="1"
+                    <TextView
+                        android:id="@+id/Editing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/left_background"
+                        android:drawableLeft="@drawable/ic_send_black_24dp"
+                        android:drawablePadding="10dp"
 
-            android:drawableLeft="@drawable/ic_access_time_black_24dp"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center|start"
+                        android:padding="10dp"
+                        android:text="@string/send"
 
-            android:drawablePadding="10dp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center|start"
-            android:padding="10dp"
-            android:background="@drawable/accept_background"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:fontFamily="sans-serif-smallcaps" />
-    </LinearLayout>
-    <LinearLayout android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent">
+                        android:textColor="@color/colorWhite"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
+                        app:fontFamily="sans-serif-smallcaps" />
 
+                    <TextView
+                        android:id="@+id/main_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/accept_background"
 
+                        android:drawableLeft="@drawable/ic_access_time_black_24dp"
 
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center|start"
+                        android:padding="10dp"
+                        android:text="@string/log_history"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
+                        app:fontFamily="sans-serif-smallcaps" />
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/main_request"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-
-            android:drawableLeft="@drawable/ic_grain"
-
-            android:text="@string/request"
-            android:layout_weight="1"
-            android:background="@drawable/left_background"
-
-            android:drawablePadding="10dp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center|start"
-            android:padding="10dp"
-
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:autoSizeMaxTextSize="20sp"
-
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:fontFamily="sans-serif-smallcaps" />
-        <TextView
-            android:id="@+id/main_jero"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_grain"
-            android:drawablePadding="10dp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center|start"
-            android:padding="10dp"
-            android:text="Jerro"
-            android:background="@drawable/accept_background"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:fontFamily="sans-serif-smallcaps" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
 
 
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/main_request"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+
+                        android:layout_weight="1"
+
+                        android:background="@drawable/left_background"
+                        android:drawableLeft="@drawable/ic_grain"
+                        android:drawablePadding="10dp"
+
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center|start"
+                        android:padding="10dp"
+                        android:text="@string/request"
+
+                        android:textColor="@color/colorWhite"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:autoSizeMaxTextSize="20sp"
+
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
+                        app:fontFamily="sans-serif-smallcaps" />
+
+                    <TextView
+                        android:id="@+id/main_jero"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/accept_background"
+                        android:drawableLeft="@drawable/ic_autorenew_black_24dp"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center|start"
+                        android:padding="10dp"
+                        android:text="@string/cheque_endorsement"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
+                        app:fontFamily="sans-serif-smallcaps" />
 
 
-    <LinearLayout android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
-        android:layout_width="match_parent">
-        <TextView
-            android:id="@+id/main_walet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_grain"
-            android:drawablePadding="10dp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center|start"
-            android:padding="10dp"
-            android:text="Wallet"
-            android:background="@drawable/left_background"
+                </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:fontFamily="sans-serif-smallcaps" />
-        <TextView
-            android:id="@+id/main_cashier"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
+                    android:orientation="horizontal">
 
-            android:drawableLeft="@drawable/ic_grain"
-            android:drawablePadding="10dp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center|start"
-            android:padding="10dp"
-            android:text="@string/cashier_check"
-            android:textColor="@color/colorWhite"
-            android:background="@drawable/accept_background"
-
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:fontFamily="sans-serif-smallcaps" />
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/main_wallet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/left_background"
+                        android:drawableLeft="@drawable/ic_grain"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center|start"
+                        android:padding="10dp"
+                        android:text="@string/wallet"
 
 
+                        android:textColor="@color/colorWhite"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
+                        app:fontFamily="sans-serif-smallcaps" />
+
+                    <TextView
+                        android:id="@+id/main_cashier"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+
+                        android:background="@drawable/accept_background"
+                        android:drawableLeft="@drawable/ic_grain"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center|start"
+                        android:padding="10dp"
+                        android:text="@string/cashier_check"
+                        android:textColor="@color/colorWhite"
+
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
+                        app:fontFamily="sans-serif-smallcaps" />
+                </LinearLayout>
 
 
             </LinearLayout>
