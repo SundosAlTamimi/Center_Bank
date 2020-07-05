@@ -196,17 +196,20 @@ public class AlertScreen extends AppCompatActivity {
         notif = new Notification.Builder(getApplicationContext());
         notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
         notif.setContentTitle("Recive new Check, click to show detail");
+        notif.setAutoCancel(true);
         Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notif.setSound(path);
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//        Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+//        context.sendBroadcast(it);
 
-        Intent yesReceive = new Intent( );
+        Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS );// test
         yesReceive.setAction(YES_ACTION);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
 
 
-        Intent yesReceive2 = new Intent();
+        Intent yesReceive2 = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         yesReceive2.setAction(STOP_ACTION);
         PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
@@ -651,6 +654,7 @@ public class AlertScreen extends AppCompatActivity {
                 .setChannelId(CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_add)
                 .setOngoing(true)
+                .setAutoCancel(true)
                 .build();
 
 
