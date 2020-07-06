@@ -42,10 +42,18 @@ import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.NewAccount;
+import com.falconssoft.centerbank.Models.notification;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,15 +64,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.falconssoft.centerbank.AlertScreen.editor;
+import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
@@ -88,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
     static int id = 1;
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
+    ArrayList<String> arrayListRow=new ArrayList<>();
+    ArrayList<String> arrayListRowFirst=new ArrayList<>();
+    ArrayList<notification> notifiList1;
+    public ArrayList<notification> notifiList;
     DatabaseHandler dbHandler;
     static String watch;
     String accCode = "";
@@ -95,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
     private String language, userNo, username, link;
     JSONObject addAccountOb;
     String AccountNoDelete = "";
+    String  phoneNo="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +130,17 @@ public class MainActivity extends AppCompatActivity {
 
         Log.e("editing,main ", language);
         init();
+          phoneNo = loginPrefs.getString("mobile", "");
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new GetAllCheck_JSONTask().execute();
+
+
+            }
+
+        }, 0, 10000);
         addAccountOb = new JSONObject();
         picforbar = new ArrayList<>();
 //        picforbar.add("01365574861","");
@@ -233,40 +263,47 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void notificationShow() {
+    public void notificationShow()
+    {
 
         Notification.Builder notif;
         NotificationManager nm;
         notif = new Notification.Builder(getApplicationContext());
         notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
         notif.setContentTitle("Recive new Check, click to show detail");
+        notif.setAutoCancel(true);
         Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notif.setSound(path);
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//        Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+//        context.sendBroadcast(it);
 
-        Intent yesReceive = new Intent();
+        Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS );// test
         yesReceive.setAction(YES_ACTION);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
 
 
-        Intent yesReceive2 = new Intent();
+        Intent yesReceive2 = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         yesReceive2.setAction(STOP_ACTION);
         PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
 
+
+
+        nm.notify(10, notif.getNotification());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void show_Notification(String detail) {
+    public void show_Notification(String detail){
 
-        Intent intent = new Intent(MainActivity.this, notificationReciver.class);
-        intent.putExtra("action", "YES");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        String CHANNEL_ID = "MYCHANNEL";
+        Intent intent=new Intent(MainActivity.this,notificationReciver.class);
+        intent.putExtra("action","YES");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        String CHANNEL_ID="MYCHANNEL";
 
-        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "name", NotificationManager.IMPORTANCE_HIGH);
-        Notification notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID)
+        NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name", NotificationManager.IMPORTANCE_HIGH);
+        Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
                 .setContentText("show Detail ......")
                 .setContentTitle("Recive new Check, click to show detail")
                 .setStyle(new Notification.BigTextStyle()
@@ -274,17 +311,18 @@ public class MainActivity extends AppCompatActivity {
                         .setBigContentTitle(" ")
                         .setSummaryText(""))
                 .setContentIntent(pendingIntent)
-                .addAction(android.R.drawable.sym_action_chat, "Show detail", pendingIntent)
+                .addAction(android.R.drawable.sym_action_chat,"Show detail",pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setChannelId(CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_add)
                 .setOngoing(true)
+                .setAutoCancel(true)
                 .build();
 
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(notificationChannel);
-        notificationManager.notify(1, notification);
+        notificationManager.notify(1,notification);
 
 
     }
@@ -360,6 +398,10 @@ public class MainActivity extends AppCompatActivity {
         cashierCheque = findViewById(R.id.main_cashier);
         jerro = findViewById(R.id.main_jero);
         wallet = findViewById(R.id.main_wallet);
+        arrayListRow=new ArrayList<>();
+        arrayListRowFirst=new ArrayList<>();
+        notifiList1=new ArrayList<>();
+        notifiList=new ArrayList<>();
 
 
         dbHandler = new DatabaseHandler(MainActivity.this);
@@ -961,6 +1003,233 @@ public class MainActivity extends AppCompatActivity {
 //                        .show();
 //            }
 
+        }
+    }
+    public class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+//                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
+                request.setURI(new URI(serverLink + "GetLog?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", "0"));
+
+                nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));// test
+                nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+
+
+//                HttpResponse response = client.execute(request);
+//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tagMainActivityNotifi", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    JSONObject jsonObject = null;
+                    try {
+
+                        arrayListRow.clear();
+                        arrayListRowFirst.clear();
+                        notifiList.clear();
+                        jsonObject = new JSONObject(s);
+
+                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
+                        for (int i = 0; i < notificationInfo.length(); i++) {
+                            JSONObject infoDetail = notificationInfo.getJSONObject(i);
+//                            serverPicBitmap=null;
+                            ChequeInfo chequeInfo = new ChequeInfo();
+                            chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
+                            chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
+                            Log.e("setTransType","\t"+chequeInfo.getTransType()+"\t setStatus"+chequeInfo.getStatus());
+                            if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
+                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")))// Pending and Reciver
+                            {
+
+
+
+                                com.falconssoft.centerbank.Models.notification notifi = new notification();
+                                notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
+                                notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
+                                notifi.setAmount_check(infoDetail.get("AMTJD").toString());
+                                //**********************************************************************
+
+                                chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
+
+
+
+                                arrayListRow.add(chequeInfo.getRowId());
+
+
+                            }
+                        }
+
+
+                        Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+
+                        if(set !=null)
+                        {
+//
+                            set = sharedPreferences.getStringSet("DATE_LIST", null);
+                            arrayListRowFirst.addAll(set);
+
+                            int countFirst=arrayListRowFirst.size();
+                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
+                            {Log.e("olddataGreater","countFirst"+countFirst);
+
+                                for( int h=0;h<arrayListRow.size();h++){
+                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if(index==-1)
+                                    {
+                                        arrayListRowFirst.add(arrayListRow.get(h));
+                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+
+                                    }
+
+                                }
+
+                                if (countFirst < arrayListRowFirst.size())// new data
+                                {
+                                    ShowNotifi();
+
+
+                                     }
+                                else {
+
+                                }
+
+                            }//********************************************
+                            else {
+                                if(arrayListRow.size()>countFirst)// new data
+                                {
+                                    Log.e("NewGreater","countFirst"+countFirst);
+
+                                    ShowNotifi();
+
+                                }
+                                else{
+                                    if(arrayListRow.size()==countFirst)// equal size
+                                    {
+                                        Log.e("arrayListRow","== hereeee");
+
+                                        for( int h=0;h<arrayListRow.size();h++){
+                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if(index==-1)
+                                            {
+                                                arrayListRowFirst.add(arrayListRow.get(h));
+
+
+                                            }
+
+                                        }
+
+                                        if (countFirst < arrayListRowFirst.size())// new data
+                                        {
+                                            ShowNotifi();
+
+
+
+                                        }
+                                        else {
+
+//                                                fillListNotification(notificationArrayListTest);
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+
+                        }
+                        else {//empty shared preference
+//
+                        }
+
+
+                        Set<String> set_tow = new HashSet<String>();
+                        set_tow.addAll(arrayListRow);
+                        Log.e("Empty",""+arrayListRow.size());
+                        editor = sharedPreferences.edit();
+                        editor.putStringSet("DATE_LIST", set_tow);
+                        editor.apply();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+//                    INFO
+                    Log.e("tag", "****Success"+s.toString());
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
+    private void ShowNotifi() {
+        String currentapiVersion = Build.VERSION.RELEASE;
+//
+        if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
+            // Do something for 14 and above versions
+
+//                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+
+                show_Notification("Check  app, Recive new Check");
+
+            }
+            else {
+
+            }
+
+
+        } else {
+
+            notificationShow();
         }
     }
 

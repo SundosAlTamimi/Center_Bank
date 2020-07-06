@@ -84,4 +84,6 @@
     <string name="warning">تحذير</string>
     <string name="failtoSend">خظا بالارسال</string>
     <string name="close">اغلاق</string>
+    <string name="Confirm">Confirm</string>
+    <string name="message_forAccept">Are you sure to accept cheque ?</string>
 </resources>

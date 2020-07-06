@@ -196,7 +196,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo) {
+    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
             final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -211,6 +211,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
             cancelTV.setVisibility(View.GONE);
 
+            chequeNoTV.setText(chequeNo);
             chequeWriterTV.setText(customerName);
             accountNoTV.setText(accountNo);
             okTV.setOnClickListener(new View.OnClickListener() {
@@ -650,7 +651,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                         bankNo = jsonObject.get("BANKNO").toString();
                         branchNo = jsonObject.get("BRANCHNO").toString();
 
-                        showValidationDialog(true, customerName, bankNo, accountCode);
+                        showValidationDialog(true, customerName, bankNo, accountCode, checkNo);
 
 //                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
                     } catch (JSONException e) {
@@ -659,7 +660,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
                 } else {
 
-                    showValidationDialog(false, "", "", "");
+                    showValidationDialog(false, "", "", "", "");
 
                     Log.e("tag", "****Failed to export data");
                 }

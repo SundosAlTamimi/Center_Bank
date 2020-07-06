@@ -62,7 +62,7 @@
     <string name="checkReject">Check Reject</string>
     <string name="CheckAccpted">Check Accpted</string>
     <string name="NewCheck">New Cheque</string>
-    <string name="cheque_endorsement">Endorsement</string>
+    <string name="cheque_endorsement">Giro</string>
     <string name="wallet">Wallet</string>
     <string name="ch_status">Cheque Status :</string>
     <string name="chWriter">Cheque Writer :</string>
@@ -84,4 +84,6 @@
     <string name="warning">WARNING</string>
     <string name="failtoSend">Fail to send!</string>
     <string name="close">Close</string>
+    <string name="Confirm">Confirm</string>
+    <string name="message_forAccept">Are you sure to accept cheque ?</string>
 </resources>

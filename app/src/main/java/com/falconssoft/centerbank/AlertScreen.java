@@ -140,7 +140,6 @@ public class AlertScreen extends AppCompatActivity {
         phoneNo = loginPrefs.getString("mobile", "");
 
         new GetAllCheck_JSONTask().execute();
-        CountDownTimer waitTimer;
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -264,7 +263,7 @@ public class AlertScreen extends AppCompatActivity {
         notifiList=new ArrayList<>();
     }
     // ******************************************** GET NOTIFICATION *************************************
-    private class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
+    public class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
