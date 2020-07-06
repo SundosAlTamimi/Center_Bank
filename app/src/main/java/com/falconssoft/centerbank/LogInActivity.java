@@ -1,24 +1,32 @@
 package com.falconssoft.centerbank;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,22 +66,23 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private EditText userName, password;
     private Button singIn, singUp;
     public String language = "";
-    private ImageView SettingImage, close;
+    private ImageView SettingImage, close, seen;
     private DatabaseHandler databaseHandler;
     private Animation animation;
     public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
     public static final String LOGIN_INFO = "LOGIN_INFO";
-    private TextView checkValidation;
     private String[] array;
     private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "";
-    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, arabic, english;
+    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, arabic, english, checkValidation, forgetPassword;
     private Dialog barcodeDialog;
     private SharedPreferences.Editor editor;
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
     private LinearLayout coordinatorLayout;
     boolean flag = false;
+    private LinearLayout phoneLinear, emailLinear;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +113,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         }
 
         singIn.setOnClickListener(this);
-
         singUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,10 +122,25 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         });
 
         arabic.setOnClickListener(this);
-
         english.setOnClickListener(this);
-
         checkValidation.setOnClickListener(this);
+        forgetPassword.setOnClickListener(this);
+
+        seen.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (password.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                    seen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility));
+                    password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    password.setTransformationMethod(new PasswordTransformationMethod());
+                } else {
+                    seen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+                    password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    password.setTransformationMethod(null);
+                }
+                return false;
+            }
+        });
 
         SettingImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,6 +324,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         checkValidation = findViewById(R.id.login_checkValidation);
         SettingImage = findViewById(R.id.Setting);
         coordinatorLayout = findViewById(R.id.login_coordinatorLayout);
+        seen = findViewById(R.id.login_seen);
+        forgetPassword = findViewById(R.id.login_forgetPassword);
 
         if (getIntent().getIntExtra(PAGE_NAME, 0) == 10)
             showSnackbar("New account saved successfully", true);
@@ -325,15 +350,15 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     void checkLanguage() {
         if (language.equals("ar")) {
-            userName.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_person_black_24dp), null);
-            password.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_https_black_24dp), null);
+//            userName.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_person_black_24dp), null);
+//            password.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_https_black_24dp), null);
         } else {
-            userName.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_person_black_24dp), null
-                    , null, null);
-            password.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_https_black_24dp), null
-                    , null, null);
+//            userName.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_person_black_24dp), null
+//                    , null, null);
+//            password.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_https_black_24dp), null
+//                    , null, null);
         }
 
     }
@@ -472,6 +497,63 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 LocaleAppUtils.setConfigChange(LogInActivity.this);
                 finish();
                 startActivity(getIntent());
+            }
+            break;
+            case R.id.login_forgetPassword: {
+                Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.dialog_forget_password);
+
+                phoneLinear = dialog.findViewById(R.id.forgetPassword_phone_linear);
+                final EditText phone = dialog.findViewById(R.id.forgetPassword_phone);
+                final Button phoneSend = dialog.findViewById(R.id.forgetPassword_phone_send);
+                RadioButton phoneRB = dialog.findViewById(R.id.forgetPassword_phone_rb);
+                emailLinear = dialog.findViewById(R.id.forgetPassword_email_linear);
+                final EditText email = dialog.findViewById(R.id.forgetPassword_email);
+                final Button emailSend = dialog.findViewById(R.id.forgetPassword_email_send);
+                RadioButton emailRB = dialog.findViewById(R.id.forgetPassword_email_rb);
+                RadioGroup radioGroup = dialog.findViewById(R.id.forgetPassword_rg);
+
+
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, int id) {
+                        if (id == R.id.forgetPassword_email_rb){
+                            phoneLinear.setVisibility(View.GONE);
+                            emailLinear.setVisibility(View.VISIBLE);
+
+                            emailSend.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (!TextUtils.isEmpty(email.getText().toString())){
+                                        
+
+                                    }else
+                                        Toast.makeText(LogInActivity.this, "Please fill email first!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }else {
+                            phoneLinear.setVisibility(View.VISIBLE);
+                            emailLinear.setVisibility(View.GONE);
+
+                            phoneSend.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (!TextUtils.isEmpty(phone.getText().toString())){
+
+                                    }else
+                                        Toast.makeText(LogInActivity.this, "Please fill phone first!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                    }
+                });
+
+
+                dialog.show();
+                Window window = dialog.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             }
             break;
         }
