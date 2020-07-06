@@ -35,6 +35,7 @@ import androidx.core.content.ContextCompat;
 
 import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.Setting;
+import com.falconssoft.centerbank.mail.LongOperation;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -524,7 +525,23 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                 @Override
                                 public void onClick(View view) {
                                     if (!TextUtils.isEmpty(email.getText().toString())){
-                                        
+                                        try
+                                        {
+
+                                             String emailSender = "hiary.abeer96@gmail.com"
+                                                     , password = "000"
+                                                     , emailReceiver = "hiary.abeer@yahoo.com"
+                                                     , userName = "Cheque App";
+
+                                            LongOperation l=new LongOperation(emailSender
+                                                    , password
+                                                    , emailReceiver
+                                                    ,userName);
+                                            l.execute();  //sends the email in background
+                                            Toast.makeText(LogInActivity.this, l.get(), Toast.LENGTH_SHORT).show();
+                                        } catch (Exception e) {
+                                            Log.e("SendMail", e.getMessage(), e);
+                                        }
 
                                     }else
                                         Toast.makeText(LogInActivity.this, "Please fill email first!", Toast.LENGTH_SHORT).show();
