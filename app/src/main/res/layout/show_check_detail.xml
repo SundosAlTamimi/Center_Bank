@@ -55,6 +55,35 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="5dp">
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/edit_bac_s"
+                    android:gravity="center"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/texChequNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:drawableStart="@drawable/ic_send_black_24dp"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:padding="5dp"
+
+                        android:text=""
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textSize="18sp"
+                        app:autoSizeMaxTextSize="18sp"
+                        app:autoSizeMinTextSize="16sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+
+                </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -65,21 +94,11 @@
                     android:gravity="center"
                     android:padding="5dp">
 
-                    <!--<TextView-->
-                    <!--android:id="@+id/ttView27"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_margin="2dp"-->
-                    <!--android:text="ID No."-->
-                    <!--android:textColor="@color/colorWhite"-->
-                    <!--android:textSize="18sp"-->
-                    <!--android:textStyle="bold" />-->
-
                     <TextView
                         android:id="@+id/texDate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="2dp"
+
                         android:drawableStart="@drawable/ic_date_range_black_24dp"
                         android:ems="10"
                         android:gravity="center"
@@ -127,13 +146,13 @@
                         android:id="@+id/binificary"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="2dp"
+
                         android:layout_weight="1"
 
                         android:ems="10"
                         android:gravity="center"
                         android:hint=""
-                        android:padding="5dp"
+                        android:padding="1dp"
                         android:textColor="@color/colorWhite"
                         android:textColorHint="@color/colorWhite"
                         android:textSize="18sp"
@@ -223,22 +242,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="5"
-                        android:padding="5dp">
+                      >
 
 
                         <TextView
                             android:id="@+id/textAmouWord"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
+                            android:layout_height="wrap_content"
+
                             android:background="@drawable/edit_bac_s"
                             android:ems="5"
                             android:gravity="center"
-                            android:inputType="numberDecimal"
+                            android:inputType="textMultiLine"
                             android:padding="5dp"
                             android:lines="2"
-                            android:scrollbars="horizontal"
-                            android:scrollIndicators="top"
+
                             android:textColor="@color/colorWhite"
                             android:textSize="18sp"
                             app:autoSizeMaxTextSize="18sp"
@@ -365,13 +383,13 @@
                         android:id="@+id/textToOrder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+
                         android:layout_weight="1"
                         android:ems="10"
                         android:gravity="center"
-                        android:hint=""
+
                         android:inputType="textPersonName"
-                        android:padding="5dp"
+                        android:padding="1dp"
                         android:textColor="@color/colorWhite"
                         android:textColorHint="@color/colorWhite"
                         android:textSize="18sp"
@@ -413,12 +431,13 @@
                         android:id="@+id/textnote"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="2dp"
+
                         android:layout_weight="1"
                         android:ems="10"
 
                         android:gravity="center"
-                        android:padding="5dp"
+                        android:padding="1dp"
+                        android:lines="2"
                         android:textColor="@color/colorWhite"
                         android:textColorHint="@color/colorWhite"
                         android:textSize="18sp"

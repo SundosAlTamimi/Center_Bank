@@ -362,7 +362,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                 String localPhoneNo = phoneNo.getText().toString();
 //                String localSender = sender.getText().toString();
 
-                String localReciever = fName.getText().toString()+""+sName.getText().toString()+""+tName.getText().toString()+""+fourthName.getText().toString();
+                String localReciever =""+ fName.getText().toString()+"sName"+sName.getText().toString()+"tName"+tName.getText().toString()+"fName"+fourthName.getText().toString();
                 String localDinar = Danier.getText().toString();
                 String localFils = "" + phails.getText().toString();
                 String localMoneyInWord = AmouWord.getText().toString();
