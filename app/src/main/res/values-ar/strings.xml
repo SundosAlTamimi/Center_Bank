@@ -89,7 +89,7 @@
     <string name="close">اغلاق</string>
     <string name="Confirm">Confirm</string>
     <string name="message_forAccept">Are you sure to accept cheque ?</string>
-    <string name="signout">Signout</string>
-    <string name="profile">Profile</string>
-    <string name="giro">Giro</string>
+    <string name="signout">خروج</string>
+    <string name="profile">معوماتي</string>
+    <string name="giro">جيرو</string>
 </resources>
