@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">Cheque editor</string>
     <string name="cheque_app">Cheque App</string>
+    <string name="open_drawer">Open</string>
+    <string name="close_drawer">Close</string>
+
     <string name="user_name">اسم المستخدم (رقم الهاتف)</string>
     <string name="password">كلمة المرور</string>
     <string name="sing_in">دخول</string>
@@ -28,9 +31,9 @@
     <string name="order_to">لامر</string>
     <string name="company_optional">الشركه (اختياري)</string>
     <string name="notes_optional">ملاحظه (اختياري)</string>
-    <string name="amount">المبلغ</string>
+    <string name="amount">$المبلغ</string>
     <string name="dinar">دينار</string>
-    <string name="phils">فيلس</string>
+    <string name="phils">قرش</string>
     <string name="amount_in_word">المبلغ بالكلمات</string>
     <string name="check_pic">صورة الشيك</string>
     <string name="send">ارسال</string>
@@ -84,4 +87,10 @@
     <string name="warning">تحذير</string>
     <string name="failtoSend">خظا بالارسال</string>
     <string name="close">اغلاق</string>
+    <string name="Confirm">Confirm</string>
+    <string name="message_forAccept">Are you sure to accept cheque ?</string>
+    <string name="signout">خروج</string>
+    <string name="profile">معوماتي</string>
+    <string name="giro">جيرو</string>
+    <string name="verification">Verification</string>
 </resources>

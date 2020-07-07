@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Cheque editor</string>
     <string name="cheque_app">Cheque App</string>
+    <string name="open_drawer">Open</string>
+    <string name="close_drawer">Close</string>
+
     <string name="user_name">Username (Mobile No)</string>
     <string name="password">Password</string>
     <string name="sing_in">Sing In</string>
@@ -27,9 +30,9 @@
     <string name="order_to">Order To</string>
     <string name="company_optional">Company (optional)</string>
     <string name="notes_optional">Notes (optional)</string>
-    <string name="amount">amount</string>
+    <string name="amount">$ amount</string>
     <string name="dinar">Dinar</string>
-    <string name="phils">Phils</string>
+    <string name="phils">Qirsh</string>
     <string name="amount_in_word">Amount in word</string>
     <string name="check_pic">Check Pic</string>
     <string name="send">Send</string>
@@ -56,13 +59,13 @@
     <string name="CheckDetail">Check Detail</string>
     <string name="customer_name">Customer Name</string>
     <string name="cashier_check">cashier Check </string>
-<!--    <string name="cashier_check">cashier Check</string>-->
+    <!--    <string name="cashier_check">cashier Check</string>-->
     <string name="firstbeneficiary">first beneficiary</string>
     <string name="beneficiary"> Beneficiary</string>
     <string name="checkReject">Check Reject</string>
     <string name="CheckAccpted">Check Accpted</string>
     <string name="NewCheck">New Cheque</string>
-    <string name="cheque_endorsement">Endorsement</string>
+    <string name="cheque_endorsement">Giro</string>
     <string name="wallet">Wallet</string>
     <string name="ch_status">Cheque Status :</string>
     <string name="chWriter">Cheque Writer :</string>
@@ -84,4 +87,10 @@
     <string name="warning">WARNING</string>
     <string name="failtoSend">Fail to send!</string>
     <string name="close">Close</string>
+    <string name="Confirm">Confirm</string>
+    <string name="message_forAccept">Are you sure to accept cheque ?</string>
+    <string name="signout">Signout</string>
+    <string name="profile">Profile</string>
+    <string name="giro">Giro</string>
+    <string name="verification">Verification</string>
 </resources>

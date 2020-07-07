@@ -2,8 +2,10 @@ package com.falconssoft.centerbank;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -15,6 +17,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,6 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,10 +46,19 @@ import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.NewAccount;
+import com.falconssoft.centerbank.Models.notification;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,46 +68,62 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.falconssoft.centerbank.AlertScreen.editor;
+import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String CHANNEL_ID = "2";
     CircleImageView imageView;
     private Button notification, menuButton;
-    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request, cashierCheque, jerro, wallet
-            ,barCodTextTemp, scanBarcode, signout;
+    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request, cashierCheque, jerro, wallet, barCodTextTemp, scanBarcode, signout;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog, message, usernameTv;
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
-    List<NewAccount> picforbar;
+    private List<NewAccount> picforbar;
     private Toolbar toolbar;
-    Timer timer;
-    TextInputEditText inputEditTextTemp;
-    NotificationManager notificationManager;
+    private Timer timer;
+    private TextInputEditText inputEditTextTemp;
+    private NotificationManager notificationManager;
     static int id = 1;
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
-    DatabaseHandler dbHandler;
+    private ArrayList<String> arrayListRow = new ArrayList<>();
+    private ArrayList<String> arrayListRowFirst = new ArrayList<>();
+    private ArrayList<notification> notifiList1;
+    public ArrayList<notification> notifiList;
+    private DatabaseHandler dbHandler;
     static String watch;
-    String accCode = "";
-    String serverLink = "";
-    private String language, userNo, username, link;
-    JSONObject addAccountOb;
-    String AccountNoDelete = "";
+    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = ""
+            , CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = ""
+            , BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "";
+    private JSONObject addAccountOb;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private Dialog barcodeDialog;
+    private String[] arr;
+    private boolean isAdd = false;
+    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +140,17 @@ public class MainActivity extends AppCompatActivity {
 
         Log.e("editing,main ", language);
         init();
+        phoneNo = loginPrefs.getString("mobile", "");
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new GetAllCheck_JSONTask().execute();
+
+
+            }
+
+        }, 0, 10000);
         addAccountOb = new JSONObject();
         picforbar = new ArrayList<>();
 //        picforbar.add("01365574861","");
@@ -157,6 +197,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, AlertScreen.class);
+                startActivity(i);
+            }
+        });
+
         addAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 //                readBarCode();
 //            }
 //        });
-
+        navigationView.setNavigationItemSelectedListener(this);
 
     }
 
@@ -240,21 +288,26 @@ public class MainActivity extends AppCompatActivity {
         notif = new Notification.Builder(getApplicationContext());
         notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
         notif.setContentTitle("Recive new Check, click to show detail");
+        notif.setAutoCancel(true);
         Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notif.setSound(path);
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//        Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+//        context.sendBroadcast(it);
 
-        Intent yesReceive = new Intent();
+        Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);// test
         yesReceive.setAction(YES_ACTION);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
 
 
-        Intent yesReceive2 = new Intent();
+        Intent yesReceive2 = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         yesReceive2.setAction(STOP_ACTION);
         PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
 
+
+        nm.notify(10, notif.getNotification());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -279,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
                 .setChannelId(CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_add)
                 .setOngoing(true)
+                .setAutoCancel(true)
                 .build();
 
 
@@ -323,6 +377,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        isAdd = true;
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -348,7 +403,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void init() {
-//        signout = findViewById(R.id.main_signout);
         imageView = findViewById(R.id.profile_image);
         scanBarcode = findViewById(R.id.scanBarcode);
         notification = findViewById(R.id.button_notification);
@@ -360,29 +414,27 @@ public class MainActivity extends AppCompatActivity {
         cashierCheque = findViewById(R.id.main_cashier);
         jerro = findViewById(R.id.main_jero);
         wallet = findViewById(R.id.main_wallet);
-
+        arrayListRow = new ArrayList<>();
+        arrayListRowFirst = new ArrayList<>();
+        notifiList1 = new ArrayList<>();
+        notifiList = new ArrayList<>();
 
         dbHandler = new DatabaseHandler(MainActivity.this);
         recyclerViews = (RecyclerView) findViewById(R.id.res);
         setSupportActionBar(toolbar);
         setTitle("");
         message = findViewById(R.id.messages);
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, AlertScreen.class);
-                startActivity(i);
-            }
-        });
 
-//    imageView = findViewById(R.id.profile_image);
-//    scanBarcode=findViewById(R.id.scanBarcode);
-//
         addAccount = findViewById(R.id.main_addAccount);
-//    chooseAccount = findViewById(R.id.main_chooseAccount);
-//    generateCheque = findViewById(R.id.main_send);
         logHistory = findViewById(R.id.main_history);
         Editing = findViewById(R.id.Editing);
+
+        drawerLayout = findViewById(R.id.main_drawerLayout);
+        navigationView = findViewById(R.id.nav_view);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     void checkLanguage() {
@@ -412,23 +464,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_signout:
-                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("EXIT", true);
-                startActivity(intent);
-                break;
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
         }
-        return true;
+
+
+        return super.onOptionsItemSelected(item);
     }
 
     //TextView itemCodeText, int swBarcode
@@ -495,23 +544,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MainActivity", "Scanned");
                 Log.e("resultcontent", "" + Result.getContents());
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
-//                TostMesage(getResources().getString(R.string.scan)+Result.getContents());
-//                barCodTextTemp.setText(Result.getContents() + "");
-//                openEditerCheck();
+
                 String ST = Result.getContents();
                 String[] arr = ST.split(";");
 
-//                    String checkNo = arr[0];
-//                    String bankNo = arr[1];
-//                    String branchNo = arr[2];
                 accCode = arr[3];
-//                    String ibanNo = arr[4];
-//                    String custName= "";
-                inputEditTextTemp.setText(accCode);
+
+                if (isAdd)
+                    inputEditTextTemp.setText(accCode);
+                else
+                    new JSONTask().execute();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+        isAdd = false;
 
     }
 
@@ -521,6 +568,221 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        Log.e("id", " " + id);
+        switch (id) {
+            case R.id.menu_verification: {
+                checkChequeValidation();
+            }
+            break;
+            case R.id.menu_request: {
+
+            }
+            break;
+            case R.id.menu_wallet: {
+
+            }
+            case R.id.menu_giro: {
+
+            }
+            break;
+            case R.id.menu_cashier_cheque: {
+
+            }
+            break;
+            case R.id.menu_profile: {
+                Intent intent = new Intent(MainActivity.this, ProfilePage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+            break;
+            case R.id.menu_signout: {
+                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
+            }
+            break;
+        }
+
+        return true;
+    }
+
+    void checkChequeValidation() {
+        barcodeDialog = new Dialog(MainActivity.this);
+        barcodeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        barcodeDialog.setContentView(R.layout.check_validation_layout);
+
+        TextView scan = barcodeDialog.findViewById(R.id.checkValidation_scanBarcode);
+        ImageView close = barcodeDialog.findViewById(R.id.checkValidation_close);
+        LinearLayout headerLinear = barcodeDialog.findViewById(R.id.checkValidation_headerLinear);
+        TextView haveAProblem = barcodeDialog.findViewById(R.id.checkValidation_help);
+        TextView scanTV = barcodeDialog.findViewById(R.id.checkValidation_scanLinear);
+
+        final LinearLayout serialLinear = barcodeDialog.findViewById(R.id.checkValidation_serial_linear);
+        final TextInputEditText serial = barcodeDialog.findViewById(R.id.checkValidation_serial);
+        TextView check = barcodeDialog.findViewById(R.id.checkValidation_check);
+        serialLinear.setVisibility(View.GONE);
+
+        haveAProblem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (serialLinear.getVisibility() == View.VISIBLE) {
+                    serialLinear.setVisibility(View.GONE);
+
+                } else {
+                    serialLinear.setVisibility(View.VISIBLE);
+                    serial.setError(null);
+                }
+            }
+        });
+
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(serial.getText().toString())) {
+                    serial.setError(null);
+                } else {
+                    serial.setError("Required");
+                }
+
+            }
+        });
+
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentIntegrator intentIntegrator = new IntentIntegrator(MainActivity.this);
+                intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
+                intentIntegrator.setBeepEnabled(false);
+                intentIntegrator.setCameraId(0);
+                intentIntegrator.setPrompt("SCAN");
+                intentIntegrator.setBarcodeImageEnabled(false);
+                intentIntegrator.initiateScan();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                barcodeDialog.dismiss();
+            }
+        });
+
+        Log.e("checkLang", language);
+        if (language.equals("ar")) {
+            headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            check.setGravity(Gravity.RIGHT);
+
+            haveAProblem.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_help), null);
+            scanTV.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_phone), null);
+
+        } else {
+            headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            check.setGravity(Gravity.LEFT);
+
+            haveAProblem.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_help), null
+                    , null, null);
+            scanTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_phone), null
+                    , null, null);
+
+        }
+
+        barcodeDialog.show();
+    }
+
+    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+        if (check) {
+            final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_after_validation);
+            dialog.setCancelable(false);
+
+            bankNameTV = dialog.findViewById(R.id.dialog_validation_bankName);
+            chequeWriterTV = dialog.findViewById(R.id.dialog_validation_chequeWriter);
+            chequeNoTV = dialog.findViewById(R.id.dialog_validation_chequeNo);
+            accountNoTV = dialog.findViewById(R.id.dialog_validation_accountNo);
+            okTV = dialog.findViewById(R.id.dialog_validation_ok);
+            cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
+
+            chequeWriterTV.setText(customerName);
+            accountNoTV.setText(accountNo);
+            chequeNoTV.setText(chequeNo);
+            okTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkLanguage();
+                    dialog.dismiss();
+                }
+            });
+
+            cancelTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        } else {
+            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("WARNING")
+                    .setContentText("Invalidate cheque!")
+                    .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+
+                }
+            }).show();
+
+        }
+
+    }
+
+    void showSweetDialog(boolean check, String customerName, String BankNo, String accountNo) {
+        if (check) {
+            String message = "Cheque is validate \n" + "Customer Name :" + customerName + " \n" + "Bank Name : " + "بنك الاردن " + "\n" + "Account No : " + accountNo + "\n";
+            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Successful")
+                    .setContentText(message)
+                    .setConfirmText("Next")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @SuppressLint("WrongConstant")
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    }).setCancelText("Cancel").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+
+                }
+            })
+                    .show();
+        } else {
+            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("WARNING")
+                    .setContentText("Invalidate cheque!")
+                    .setConfirmText("Ok")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    })
+
+                    .show();
+
+        }
+    }
 
     static class CViewHolderForbar extends RecyclerView.ViewHolder {
 
@@ -843,21 +1105,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("GetAccSuccess", "****Success");
 
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText(MainActivity.this.getResources().getString( R.string.save_success))
-                        .setContentText(MainActivity.this.getResources().getString( R.string.save_success))
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.save_success))
+                        .setContentText(MainActivity.this.getResources().getString(R.string.save_success))
                         .show();
 
                 new GetAllAccount().execute();
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Account alreay exisit.")) {
 //
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText(MainActivity.this.getResources().getString( R.string.cantSave))
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.cantSave))
                         .setContentText(MainActivity.this.getResources().getString(R.string.already_exist))
                         .show();
 
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in saving Accounts")) {
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText(MainActivity.this.getResources().getString( R.string.cantSave))
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.cantSave))
                         .setContentText(MainActivity.this.getResources().getString(R.string.error_in_save))
                         .show();
             }
@@ -964,5 +1226,314 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+//                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
+                request.setURI(new URI(serverLink + "GetLog?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", "0"));
+
+                nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));// test
+                nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+
+
+//                HttpResponse response = client.execute(request);
+//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tagMainActivityNotifi", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    JSONObject jsonObject = null;
+                    try {
+
+                        arrayListRow.clear();
+                        arrayListRowFirst.clear();
+                        notifiList.clear();
+                        jsonObject = new JSONObject(s);
+
+                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
+                        for (int i = 0; i < notificationInfo.length(); i++) {
+                            JSONObject infoDetail = notificationInfo.getJSONObject(i);
+//                            serverPicBitmap=null;
+                            ChequeInfo chequeInfo = new ChequeInfo();
+                            chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
+                            chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
+                            Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t setStatus" + chequeInfo.getStatus());
+                            if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
+                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")))// Pending and Reciver
+                            {
+
+
+                                com.falconssoft.centerbank.Models.notification notifi = new notification();
+                                notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
+                                notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
+                                notifi.setAmount_check(infoDetail.get("AMTJD").toString());
+                                //**********************************************************************
+
+                                chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
+
+
+                                arrayListRow.add(chequeInfo.getRowId());
+
+
+                            }
+                        }
+
+
+                        Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+
+                        if (set != null) {
+//
+                            set = sharedPreferences.getStringSet("DATE_LIST", null);
+                            arrayListRowFirst.addAll(set);
+
+                            int countFirst = arrayListRowFirst.size();
+                            if (arrayListRow.size() < countFirst)//there are update new data is less than old data
+                            {
+                                Log.e("olddataGreater", "countFirst" + countFirst);
+
+                                for (int h = 0; h < arrayListRow.size(); h++) {
+                                    int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if (index == -1) {
+                                        arrayListRowFirst.add(arrayListRow.get(h));
+                                        Log.e("arrayListRowYES", "" + arrayListRow.get(h));
+
+                                    }
+
+                                }
+
+                                if (countFirst < arrayListRowFirst.size())// new data
+                                {
+                                    ShowNotifi();
+
+
+                                } else {
+
+                                }
+
+                            }//********************************************
+                            else {
+                                if (arrayListRow.size() > countFirst)// new data
+                                {
+                                    Log.e("NewGreater", "countFirst" + countFirst);
+
+                                    ShowNotifi();
+
+                                } else {
+                                    if (arrayListRow.size() == countFirst)// equal size
+                                    {
+                                        Log.e("arrayListRow", "== hereeee");
+
+                                        for (int h = 0; h < arrayListRow.size(); h++) {
+                                            int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if (index == -1) {
+                                                arrayListRowFirst.add(arrayListRow.get(h));
+
+
+                                            }
+
+                                        }
+
+                                        if (countFirst < arrayListRowFirst.size())// new data
+                                        {
+                                            ShowNotifi();
+
+
+                                        } else {
+
+//                                                fillListNotification(notificationArrayListTest);
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+
+                        } else {//empty shared preference
+//
+                        }
+
+
+                        Set<String> set_tow = new HashSet<String>();
+                        set_tow.addAll(arrayListRow);
+                        Log.e("Empty", "" + arrayListRow.size());
+                        editor = sharedPreferences.edit();
+                        editor.putStringSet("DATE_LIST", set_tow);
+                        editor.apply();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+//                    INFO
+                    Log.e("tag", "****Success" + s.toString());
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
+
+    private void ShowNotifi() {
+        String currentapiVersion = Build.VERSION.RELEASE;
+//
+        if (Double.parseDouble(currentapiVersion.substring(0, 1)) >= 8) {
+            // Do something for 14 and above versions
+
+//                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+
+                show_Notification("Check  app, Recive new Check");
+
+            } else {
+
+            }
+
+
+        } else {
+
+            notificationShow();
+        }
+    }
+
+    // ******************************************** CHECK QR VALIDATION *************************************
+    private class JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                request.setURI(new URI(serverLink + "VerifyCheck?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
+                nameValuePairs.add(new BasicNameValuePair("BANKNO", arr[1]));
+                nameValuePairs.add(new BasicNameValuePair("BTANCHNO", arr[2]));
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", arr[3]));
+                nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
+                nameValuePairs.add(new BasicNameValuePair("CUSTOMERNM", ""));
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tag", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****Success");
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+
+
+                        CHECKNO = jsonObject.get("CHECKNO").toString();
+                        ACCCODE = jsonObject.get("ACCCODE").toString();
+                        IBANNO = jsonObject.get("IBANNO").toString();
+                        CUSTOMERNM = jsonObject.get("CUSTOMERNM").toString();
+                        QRCODE = jsonObject.get("QRCODE").toString();
+                        SERIALNO = jsonObject.get("SERIALNO").toString();
+                        BANKNO = jsonObject.get("BANKNO").toString();
+                        BRANCHNO = jsonObject.get("BRANCHNO").toString();
+
+                        showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
+
+//                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    showSweetDialog(false, "", "", "");
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+                showSweetDialog(false, "", "", "");
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
 
 }

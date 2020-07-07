@@ -60,7 +60,7 @@ class Presenter {
             e.printStackTrace();
         }
 
-        Log.e("url", "http://10.0.0.16:8081/RegisterUser?INFO=" + jsonObject);
+        Log.e("url", urlSignUp + jsonObject);
         signUpRequest = new JsonObjectRequest(Request.Method.GET, urlSignUp + jsonObject
                 , null, new SignUpRequestClass(), new SignUpRequestClass())
 //        {

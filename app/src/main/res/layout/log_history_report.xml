@@ -40,6 +40,19 @@
                     android:text="@string/log_history"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/SendCheque"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:drawableEnd="@drawable/ic_send_black_24dp"
+                    android:drawableTint="@color/white"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center|start"
+                    android:padding="5dp"
+                    android:text="0"
+                    android:textColor="@color/Nocolor" />
 
                 <TextView
                     android:id="@+id/help"

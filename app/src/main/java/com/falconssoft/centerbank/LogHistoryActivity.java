@@ -67,7 +67,7 @@ public class LogHistoryActivity extends AppCompatActivity {
     TextView help, AccAccount;
     LinearLayout helpDialog;
     String AccountNo, phoneNo, serverLink;
-    TextView customName,dateText,cheqNo;
+    TextView customName,dateText,cheqNo,SendCheque;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +87,14 @@ public class LogHistoryActivity extends AppCompatActivity {
         customName=findViewById(R.id.customName);
         dateText=findViewById(R.id.date);
         cheqNo=findViewById(R.id.chNo);
+        SendCheque=findViewById(R.id.SendCheque);
+        SendCheque.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LogHistoryActivity.this, EditerCheackActivity.class);
+                startActivity(intent);
+            }
+        });
         ChequeInfoLogHistoryMain = new ArrayList<>();
         parametwrForGetLog = new ArrayList<>();
         helpDialog = findViewById(R.id.helpDialog);

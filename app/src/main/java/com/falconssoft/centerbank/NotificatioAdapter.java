@@ -55,6 +55,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -240,7 +241,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             }
             TextView textAmouWord, textAmountNo,
-                    textToOrder, textSourceCheck,amountPhilis, textPhoneNo, texDate,  binificary,  textCompanyname, note,textFirstPinificry,textCo;
+                    textToOrder, texChequNo,amountPhilis, textPhoneNo, texDate,  binificary,  textCompanyname, note,textFirstPinificry,textCo;
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
 
@@ -251,7 +252,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
             binificary= dialog.findViewById(R.id.binificary);
-            binificary.setText(checkInfoNotification.get(row_index).getToCustomerName());
+            String fullName=getFullName(checkInfoNotification.get(row_index).getToCustomerName());
+            binificary.setText(fullName);
+            texChequNo=dialog.findViewById(R.id.texChequNo);
+            texChequNo.setText(checkInfoNotification.get(row_index).getChequeNo());
 
             rowNote=dialog.findViewById(R.id.rowNote);
             textCo = dialog.findViewById(R.id.textCo);
@@ -298,7 +302,6 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             textPhoneNo.setText(checkInfoNotification.get(row_index).getRecieverMobileNo());
             circleImageView = (CircleImageView) dialog.findViewById(R.id.profile_image2);
             getPicture(checkInfoNotification.get(row_index).getAccCode(),checkInfoNotification.get(row_index).getBankNo(),checkInfoNotification.get(row_index).getBranchNo(),checkInfoNotification.get(row_index).getChequeNo());
-            Log.e("serverPicBitmap",""+serverPicBitmap);
 
             circleImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -320,9 +323,28 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    checkState = "1";
-                    updateCheckState();
-                    dialog.dismiss();
+                    new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(R.string.Confirm)
+                            .setContentText(context.getResources().getString(R.string.message_forAccept))
+                            .setConfirmText(context.getResources().getString(R.string.ok))
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    checkState = "1";
+                                    updateCheckState();
+                                    dialog.dismiss();
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).setCancelText(context.getResources().getString(R.string.dialog_cancel)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            dialog.dismiss();
+                            sweetAlertDialog.dismissWithAnimation();
+
+                        }
+                    }).show();
+
                 }
             });
 
@@ -339,6 +361,21 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
         }
     }
+
+    private String getFullName(String toCustomerName) {
+        String first,second,third,fourth,full;
+        int indexSecond=toCustomerName.indexOf("sName");
+        first=toCustomerName.substring(0,indexSecond);
+        int indexTherd=toCustomerName.indexOf("tName");
+        second=toCustomerName.substring(indexSecond+5,indexTherd);
+        int indexFourth=toCustomerName.indexOf("fName");
+        third=toCustomerName.substring(indexTherd+5,indexFourth);
+        fourth=toCustomerName.substring(indexFourth+5);
+        Log.e("full",""+first+"\t"+second+"\t"+third+"\t"+fourth);
+        return full=first+"\t"+second+"\t"+third+"\t"+fourth;
+
+    }
+
     public Bitmap StringToBitMap(String image) {
         try {
 

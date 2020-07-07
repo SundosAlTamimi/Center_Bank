@@ -1,5 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_signout" android:title="signout"/>
+    <group>
+
+        <item
+            android:id="@+id/menu_request"
+            android:icon="@drawable/ic_grain"
+            android:title="@string/request"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_wallet"
+            android:icon="@drawable/ic_money"
+            android:title="@string/wallet"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_giro"
+            android:icon="@drawable/ic_swap"
+            android:title="@string/giro"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_cashier_cheque"
+            android:icon="@drawable/cheque_icon"
+            android:title="Cashier Cheque"
+            app:showAsAction="always" />
+
+    </group>
+
+    <group android:id="@+id/group">
+
+        <item
+            android:id="@+id/menu_verification"
+            android:icon="@drawable/ic_playlist_check"
+            android:title="@string/verification"
+            app:showAsAction="always" />
+
+    </group>
+
+    <group android:id="@+id/group2">
+
+        <item
+            android:id="@+id/menu_profile"
+            android:icon="@drawable/ic_person"
+            android:title="Profile"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_signout"
+            android:icon="@drawable/ic_exit"
+            android:title="@string/signout"
+            app:showAsAction="always" />
+
+    </group>
 </menu>
