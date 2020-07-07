@@ -33,7 +33,7 @@
     <string name="notes_optional">ملاحظه (اختياري)</string>
     <string name="amount">$المبلغ</string>
     <string name="dinar">دينار</string>
-    <string name="phils">فيلس</string>
+    <string name="phils">قرش</string>
     <string name="amount_in_word">المبلغ بالكلمات</string>
     <string name="check_pic">صورة الشيك</string>
     <string name="send">ارسال</string>
@@ -92,4 +92,5 @@
     <string name="signout">خروج</string>
     <string name="profile">معوماتي</string>
     <string name="giro">جيرو</string>
+    <string name="verification">Verification</string>
 </resources>

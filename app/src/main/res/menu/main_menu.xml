@@ -33,6 +33,16 @@
     <group android:id="@+id/group">
 
         <item
+            android:id="@+id/menu_verification"
+            android:icon="@drawable/ic_playlist_check"
+            android:title="@string/verification"
+            app:showAsAction="always" />
+
+    </group>
+
+    <group android:id="@+id/group2">
+
+        <item
             android:id="@+id/menu_profile"
             android:icon="@drawable/ic_person"
             android:title="Profile"
