@@ -1206,7 +1206,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
             System.out.println("Error in http connection "+e.toString());
         }
 
-    } 
+    }
 
 
     public void showImageOfCheck(Bitmap bitmap) {
