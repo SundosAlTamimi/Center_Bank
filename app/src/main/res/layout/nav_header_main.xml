@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_header"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:gravity="bottom|center"
+    android:orientation="vertical"
+    android:background="@color/dark_gray2"
+    android:padding="16dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/nav_header_imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/profile_pic" />
+
+    <TextView
+        android:id="@+id/nav_header_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:text="Othman Ahmad"
+        android:textColor="@color/white"
+        android:fontFamily="serif"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+</LinearLayout>

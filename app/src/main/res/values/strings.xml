@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Cheque editor</string>
     <string name="cheque_app">Cheque App</string>
+    <string name="open_drawer">Open</string>
+    <string name="close_drawer">Close</string>
+
     <string name="user_name">Username (Mobile No)</string>
     <string name="password">Password</string>
     <string name="sing_in">Sing In</string>
@@ -86,4 +89,7 @@
     <string name="close">Close</string>
     <string name="Confirm">Confirm</string>
     <string name="message_forAccept">Are you sure to accept cheque ?</string>
+    <string name="signout">Signout</string>
+    <string name="profile">Profile</string>
+    <string name="giro">Giro</string>
 </resources>

@@ -266,9 +266,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         LoginINFO user = new LoginINFO();
         if (cursor.moveToFirst()) {
             do {
-
                 user.setUsername(cursor.getString(0));
                 user.setPassword(cursor.getString(1));
+                user.setNationalID(cursor.getString(2));
+                user.setFirstName(cursor.getString(3));
+                user.setSecondName(cursor.getString(4));
+                user.setThirdName(cursor.getString(5));
+                user.setFourthName(cursor.getString(6));
+                user.setBirthDate(cursor.getString(7));
+                user.setGender(cursor.getString(8));
+                user.setAddress(cursor.getString(9));
+                user.setEmail(cursor.getString(10));
+                user.setInactive(cursor.getString(11));
+                user.setIndate(cursor.getString(12));
+
                 Log.e("user", "" + cursor.getString(0) + cursor.getString(1));
 
             } while (cursor.moveToNext());

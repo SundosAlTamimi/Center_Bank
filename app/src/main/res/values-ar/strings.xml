@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">Cheque editor</string>
     <string name="cheque_app">Cheque App</string>
+    <string name="open_drawer">Open</string>
+    <string name="close_drawer">Close</string>
+
     <string name="user_name">اسم المستخدم (رقم الهاتف)</string>
     <string name="password">كلمة المرور</string>
     <string name="sing_in">دخول</string>
@@ -86,4 +89,7 @@
     <string name="close">اغلاق</string>
     <string name="Confirm">Confirm</string>
     <string name="message_forAccept">Are you sure to accept cheque ?</string>
+    <string name="signout">خروج</string>
+    <string name="profile">معوماتي</string>
+    <string name="giro">جيرو</string>
 </resources>

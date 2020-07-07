@@ -1030,6 +1030,8 @@ private class JSONTask extends AsyncTask<String, String, String> {
         }
     }
 
+
+    // ******************************************** Check Pending *************************************
     private class IsCheckPinding extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;

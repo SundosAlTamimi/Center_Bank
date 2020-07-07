@@ -35,6 +35,7 @@ import androidx.core.content.ContextCompat;
 
 import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.Setting;
+import com.falconssoft.centerbank.mail.LongOperation;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -80,7 +81,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private Snackbar snackbar;
     private LinearLayout coordinatorLayout;
     boolean flag = false;
-    private LinearLayout phoneLinear, emailLinear;
+    private LinearLayout phoneLinear, emailLinear, passwordLinear;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -155,7 +156,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
-        password.startAnimation(animation);
+        passwordLinear.startAnimation(animation);
 
     }
 
@@ -250,8 +251,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     public void goToTheMainPage(String message, LoginINFO user) {
         hideDialog();
 
-        hideDialog();
-
         if (message.contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {//"StatusCode":10,"StatusDescreption":"User not found."
             DatabaseHandler databaseHandler = new DatabaseHandler(this);
             databaseHandler.deleteLoginInfo();
@@ -267,6 +266,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             startActivity(MainActivityIntent);
         } else if (message.contains("\"StatusCode\":10,\"StatusDescreption\":\"User not found.\""))
             showSnackbar("User not found!", false);
+        else
+            showSnackbar("Please check internet connection!", false);
 
     }
 
@@ -326,6 +327,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         coordinatorLayout = findViewById(R.id.login_coordinatorLayout);
         seen = findViewById(R.id.login_seen);
         forgetPassword = findViewById(R.id.login_forgetPassword);
+        passwordLinear = findViewById(R.id.login_password_linear);
 
         if (getIntent().getIntExtra(PAGE_NAME, 0) == 10)
             showSnackbar("New account saved successfully", true);
@@ -517,31 +519,43 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup radioGroup, int id) {
-                        if (id == R.id.forgetPassword_email_rb){
+                        if (id == R.id.forgetPassword_email_rb) {
                             phoneLinear.setVisibility(View.GONE);
                             emailLinear.setVisibility(View.VISIBLE);
 
                             emailSend.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if (!TextUtils.isEmpty(email.getText().toString())){
-                                        
+                                    if (!TextUtils.isEmpty(email.getText().toString())) {
+                                        try {
 
-                                    }else
+                                            String emailSender = "hiary.abeer96@gmail.com", password = "000", emailReceiver = "hiary.abeer@yahoo.com", userName = "Cheque App";
+
+                                            LongOperation l = new LongOperation(emailSender
+                                                    , password
+                                                    , emailReceiver
+                                                    , userName);
+                                            l.execute();  //sends the email in background
+                                            Toast.makeText(LogInActivity.this, l.get(), Toast.LENGTH_SHORT).show();
+                                        } catch (Exception e) {
+                                            Log.e("SendMail", e.getMessage(), e);
+                                        }
+
+                                    } else
                                         Toast.makeText(LogInActivity.this, "Please fill email first!", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
-                        }else {
+                        } else {
                             phoneLinear.setVisibility(View.VISIBLE);
                             emailLinear.setVisibility(View.GONE);
 
                             phoneSend.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if (!TextUtils.isEmpty(phone.getText().toString())){
+                                    if (!TextUtils.isEmpty(phone.getText().toString())) {
 
-                                    }else
+                                    } else
                                         Toast.makeText(LogInActivity.this, "Please fill phone first!", Toast.LENGTH_SHORT).show();
                                 }
                             });
