@@ -2,8 +2,10 @@ package com.falconssoft.centerbank;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -43,6 +45,7 @@ import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.NewAccount;
 import com.falconssoft.centerbank.Models.notification;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -82,12 +85,11 @@ import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String CHANNEL_ID = "2";
     CircleImageView imageView;
     private Button notification, menuButton;
-    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request, cashierCheque, jerro, wallet
-            ,barCodTextTemp, scanBarcode, signout;
+    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request, cashierCheque, jerro, wallet, barCodTextTemp, scanBarcode, signout;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog, message, usernameTv;
@@ -102,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
     static int id = 1;
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
-    ArrayList<String> arrayListRow=new ArrayList<>();
-    ArrayList<String> arrayListRowFirst=new ArrayList<>();
+    ArrayList<String> arrayListRow = new ArrayList<>();
+    ArrayList<String> arrayListRowFirst = new ArrayList<>();
     ArrayList<notification> notifiList1;
     public ArrayList<notification> notifiList;
     DatabaseHandler dbHandler;
@@ -113,7 +115,10 @@ public class MainActivity extends AppCompatActivity {
     private String language, userNo, username, link;
     JSONObject addAccountOb;
     String AccountNoDelete = "";
-    String  phoneNo="";
+    String phoneNo = "";
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.e("editing,main ", language);
         init();
-          phoneNo = loginPrefs.getString("mobile", "");
+        phoneNo = loginPrefs.getString("mobile", "");
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -187,6 +192,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, AlertScreen.class);
+                startActivity(i);
+            }
+        });
+
         addAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -226,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
 //                readBarCode();
 //            }
 //        });
-
+        navigationView.setNavigationItemSelectedListener(this);
 
     }
 
@@ -263,8 +276,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void notificationShow()
-    {
+    public void notificationShow() {
 
         Notification.Builder notif;
         NotificationManager nm;
@@ -278,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
 //        Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 //        context.sendBroadcast(it);
 
-        Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS );// test
+        Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);// test
         yesReceive.setAction(YES_ACTION);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
@@ -290,20 +302,19 @@ public class MainActivity extends AppCompatActivity {
         notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
 
 
-
         nm.notify(10, notif.getNotification());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void show_Notification(String detail){
+    public void show_Notification(String detail) {
 
-        Intent intent=new Intent(MainActivity.this,notificationReciver.class);
-        intent.putExtra("action","YES");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        String CHANNEL_ID="MYCHANNEL";
+        Intent intent = new Intent(MainActivity.this, notificationReciver.class);
+        intent.putExtra("action", "YES");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        String CHANNEL_ID = "MYCHANNEL";
 
-        NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name", NotificationManager.IMPORTANCE_HIGH);
-        Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
+        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "name", NotificationManager.IMPORTANCE_HIGH);
+        Notification notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID)
                 .setContentText("show Detail ......")
                 .setContentTitle("Recive new Check, click to show detail")
                 .setStyle(new Notification.BigTextStyle()
@@ -311,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
                         .setBigContentTitle(" ")
                         .setSummaryText(""))
                 .setContentIntent(pendingIntent)
-                .addAction(android.R.drawable.sym_action_chat,"Show detail",pendingIntent)
+                .addAction(android.R.drawable.sym_action_chat, "Show detail", pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setChannelId(CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_add)
@@ -320,9 +331,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
 
-        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(notificationChannel);
-        notificationManager.notify(1,notification);
+        notificationManager.notify(1, notification);
 
 
     }
@@ -386,7 +397,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void init() {
-//        signout = findViewById(R.id.main_signout);
         imageView = findViewById(R.id.profile_image);
         scanBarcode = findViewById(R.id.scanBarcode);
         notification = findViewById(R.id.button_notification);
@@ -398,33 +408,27 @@ public class MainActivity extends AppCompatActivity {
         cashierCheque = findViewById(R.id.main_cashier);
         jerro = findViewById(R.id.main_jero);
         wallet = findViewById(R.id.main_wallet);
-        arrayListRow=new ArrayList<>();
-        arrayListRowFirst=new ArrayList<>();
-        notifiList1=new ArrayList<>();
-        notifiList=new ArrayList<>();
-
+        arrayListRow = new ArrayList<>();
+        arrayListRowFirst = new ArrayList<>();
+        notifiList1 = new ArrayList<>();
+        notifiList = new ArrayList<>();
 
         dbHandler = new DatabaseHandler(MainActivity.this);
         recyclerViews = (RecyclerView) findViewById(R.id.res);
         setSupportActionBar(toolbar);
         setTitle("");
         message = findViewById(R.id.messages);
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, AlertScreen.class);
-                startActivity(i);
-            }
-        });
 
-//    imageView = findViewById(R.id.profile_image);
-//    scanBarcode=findViewById(R.id.scanBarcode);
-//
         addAccount = findViewById(R.id.main_addAccount);
-//    chooseAccount = findViewById(R.id.main_chooseAccount);
-//    generateCheque = findViewById(R.id.main_send);
         logHistory = findViewById(R.id.main_history);
         Editing = findViewById(R.id.Editing);
+
+        drawerLayout = findViewById(R.id.main_drawerLayout);
+        navigationView = findViewById(R.id.nav_view);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     void checkLanguage() {
@@ -454,23 +458,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_signout:
-                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("EXIT", true);
-                startActivity(intent);
-                break;
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
         }
-        return true;
+
+
+        return super.onOptionsItemSelected(item);
     }
 
     //TextView itemCodeText, int swBarcode
@@ -561,6 +562,48 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MainActivity.this, EditerCheackActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        Log.e("id", " " + id);
+        switch (id) {
+            case R.id.menu_request: {
+
+            }
+            break;
+            case R.id.menu_wallet: {
+
+            }
+            case R.id.menu_log_history: {
+                Intent LogHistoryIntent = new Intent(MainActivity.this, LogHistoryActivity.class);
+                LogHistoryIntent.putExtra("AccountNo", "00000");
+                watch = "1";
+                startActivity(LogHistoryIntent);
+
+            }
+            break;
+            case R.id.menu_cashier_cheque: {
+
+            }
+            break;
+            case R.id.menu_profile: {
+                Intent intent = new Intent(MainActivity.this, ProfilePage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+            break;
+            case R.id.menu_signout: {
+                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
+            }
+            break;
+        }
+
+        return true;
     }
 
 
@@ -885,21 +928,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("GetAccSuccess", "****Success");
 
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText(MainActivity.this.getResources().getString( R.string.save_success))
-                        .setContentText(MainActivity.this.getResources().getString( R.string.save_success))
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.save_success))
+                        .setContentText(MainActivity.this.getResources().getString(R.string.save_success))
                         .show();
 
                 new GetAllAccount().execute();
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Account alreay exisit.")) {
 //
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText(MainActivity.this.getResources().getString( R.string.cantSave))
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.cantSave))
                         .setContentText(MainActivity.this.getResources().getString(R.string.already_exist))
                         .show();
 
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Error in saving Accounts")) {
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText(MainActivity.this.getResources().getString( R.string.cantSave))
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.cantSave))
                         .setContentText(MainActivity.this.getResources().getString(R.string.error_in_save))
                         .show();
             }
@@ -1005,6 +1048,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
     public class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -1028,7 +1072,7 @@ public class MainActivity extends AppCompatActivity {
 
                 nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));// test
                 nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 
 //                HttpResponse response = client.execute(request);
@@ -1080,11 +1124,10 @@ public class MainActivity extends AppCompatActivity {
                             ChequeInfo chequeInfo = new ChequeInfo();
                             chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
                             chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
-                            Log.e("setTransType","\t"+chequeInfo.getTransType()+"\t setStatus"+chequeInfo.getStatus());
+                            Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t setStatus" + chequeInfo.getStatus());
                             if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
                                     (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")))// Pending and Reciver
                             {
-
 
 
                                 com.falconssoft.centerbank.Models.notification notifi = new notification();
@@ -1096,7 +1139,6 @@ public class MainActivity extends AppCompatActivity {
                                 chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
 
 
-
                                 arrayListRow.add(chequeInfo.getRowId());
 
 
@@ -1106,22 +1148,21 @@ public class MainActivity extends AppCompatActivity {
 
                         Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
 
-                        if(set !=null)
-                        {
+                        if (set != null) {
 //
                             set = sharedPreferences.getStringSet("DATE_LIST", null);
                             arrayListRowFirst.addAll(set);
 
-                            int countFirst=arrayListRowFirst.size();
-                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
-                            {Log.e("olddataGreater","countFirst"+countFirst);
+                            int countFirst = arrayListRowFirst.size();
+                            if (arrayListRow.size() < countFirst)//there are update new data is less than old data
+                            {
+                                Log.e("olddataGreater", "countFirst" + countFirst);
 
-                                for( int h=0;h<arrayListRow.size();h++){
-                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                    if(index==-1)
-                                    {
+                                for (int h = 0; h < arrayListRow.size(); h++) {
+                                    int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if (index == -1) {
                                         arrayListRowFirst.add(arrayListRow.get(h));
-                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+                                        Log.e("arrayListRowYES", "" + arrayListRow.get(h));
 
                                     }
 
@@ -1132,29 +1173,26 @@ public class MainActivity extends AppCompatActivity {
                                     ShowNotifi();
 
 
-                                     }
-                                else {
+                                } else {
 
                                 }
 
                             }//********************************************
                             else {
-                                if(arrayListRow.size()>countFirst)// new data
+                                if (arrayListRow.size() > countFirst)// new data
                                 {
-                                    Log.e("NewGreater","countFirst"+countFirst);
+                                    Log.e("NewGreater", "countFirst" + countFirst);
 
                                     ShowNotifi();
 
-                                }
-                                else{
-                                    if(arrayListRow.size()==countFirst)// equal size
+                                } else {
+                                    if (arrayListRow.size() == countFirst)// equal size
                                     {
-                                        Log.e("arrayListRow","== hereeee");
+                                        Log.e("arrayListRow", "== hereeee");
 
-                                        for( int h=0;h<arrayListRow.size();h++){
-                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                            if(index==-1)
-                                            {
+                                        for (int h = 0; h < arrayListRow.size(); h++) {
+                                            int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if (index == -1) {
                                                 arrayListRowFirst.add(arrayListRow.get(h));
 
 
@@ -1167,9 +1205,7 @@ public class MainActivity extends AppCompatActivity {
                                             ShowNotifi();
 
 
-
-                                        }
-                                        else {
+                                        } else {
 
 //                                                fillListNotification(notificationArrayListTest);
                                         }
@@ -1180,15 +1216,14 @@ public class MainActivity extends AppCompatActivity {
                             }
 
 
-                        }
-                        else {//empty shared preference
+                        } else {//empty shared preference
 //
                         }
 
 
                         Set<String> set_tow = new HashSet<String>();
                         set_tow.addAll(arrayListRow);
-                        Log.e("Empty",""+arrayListRow.size());
+                        Log.e("Empty", "" + arrayListRow.size());
                         editor = sharedPreferences.edit();
                         editor.putStringSet("DATE_LIST", set_tow);
                         editor.apply();
@@ -1199,7 +1234,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success"+s.toString());
+                    Log.e("tag", "****Success" + s.toString());
                 } else {
                     Log.e("tag", "****Failed to export data");
                 }
@@ -1209,10 +1244,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     private void ShowNotifi() {
         String currentapiVersion = Build.VERSION.RELEASE;
 //
-        if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
+        if (Double.parseDouble(currentapiVersion.substring(0, 1)) >= 8) {
             // Do something for 14 and above versions
 
 //                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
@@ -1221,8 +1257,7 @@ public class MainActivity extends AppCompatActivity {
 
                 show_Notification("Check  app, Recive new Check");
 
-            }
-            else {
+            } else {
 
             }
 
