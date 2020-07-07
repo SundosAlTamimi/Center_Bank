@@ -392,6 +392,14 @@ public class MainActivity extends AppCompatActivity {
         notification = findViewById(R.id.button_notification);
         toolbar = findViewById(R.id.main_toolbar);
         request = findViewById(R.id.main_request);
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in=new Intent(MainActivity.this,Request.class);
+                startActivity(in);
+
+            }
+        });
         dbHandler = new DatabaseHandler(MainActivity.this);
         usernameTv = findViewById(R.id.main_username);
         usernameTv.setText("Welcome " + username);

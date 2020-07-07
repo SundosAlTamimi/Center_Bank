@@ -56,7 +56,7 @@
     <string name="CheckDetail">Check Detail</string>
     <string name="customer_name">Customer Name</string>
     <string name="cashier_check">cashier Check </string>
-<!--    <string name="cashier_check">cashier Check</string>-->
+    <!--    <string name="cashier_check">cashier Check</string>-->
     <string name="firstbeneficiary">first beneficiary</string>
     <string name="beneficiary"> Beneficiary</string>
     <string name="checkReject">Check Reject</string>

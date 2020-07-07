@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bank4"
+    android:id="@+id/mainlayout"
+    android:orientation="vertical"
+    tools:context=".Request">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="ltr"
+        android:background="@drawable/clear_buttons"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp"
+            android:layout_weight="7"
+            android:drawableStart="@drawable/ic_send_black_24dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/request"
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp"
+            app:fontFamily="sans-serif-smallcaps" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.9"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/ttView27"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1.3"
+                    android:background="@color/Nocolor"
+                    android:drawableStart="@drawable/ic_person"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:hint="@string/customer_name"
+
+                    android:maxLength="10"
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textCursorDrawable="@null"
+                    android:textSize="15sp"
+                    />
+
+                <EditText
+                    android:id="@+id/editorCheque_nationalNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+
+
+                    android:elevation="2dp"
+                    android:fontFamily="serif"
+
+                    android:inputType="numberDecimal"
+                    android:maxLength="10"
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textCursorDrawable="@null"
+                    android:textSize="15sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                android:layout_weight="1"
+
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textVi"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1.3"
+                    android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="serif"
+                    android:hint="@string/phone_no"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textCursorDrawable="@null"
+                    android:textSize="15sp"
+                    />
+
+                <EditText
+                    android:id="@+id/editorCheque_phoneNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:drawablePadding="10dp"
+
+
+                    android:elevation="2dp"
+                    android:fontFamily="serif"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textCursorDrawable="@null"
+                    android:textSize="15sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textView00"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1.3"
+                    android:background="@color/Nocolor"
+                    android:drawableLeft="@drawable/ic_company"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:fontFamily="serif"
+                    android:hint="@string/company_optional"
+                    android:inputType="textPersonName"
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/editorCheque_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:drawablePadding="10dp"
+                    android:elevation="2dp"
+                    android:ems="10"
+                    android:fontFamily="serif"
+                    android:inputType="textPersonName"
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textvi8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1.3"
+                    android:background="@color/Nocolor"
+                    android:drawableLeft="@drawable/ic_notes"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:fontFamily="serif"
+                    android:hint="@string/notes_optional"
+                    android:inputType="textPersonName"
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/editorCheque_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:drawablePadding="10dp"
+                    android:elevation="2dp"
+                    android:ems="10"
+                    android:fontFamily="serif"
+                    android:inputType="textPersonName"
+
+                    android:padding="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+
+            </TableRow>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/editorCheque_amountTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:fontFamily="serif"
+                    android:text="@string/amount"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="5dp">
+
+                    <EditText
+                        android:id="@+id/denier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:ems="5"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:hint="@string/dinar"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/Phils"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:ems="5"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:hint="@string/phils"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp" />
+
+
+                </TableRow>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:background="@drawable/edit_bac_s"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/editorCheque258_amountTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:fontFamily="serif"
+                    android:text="@string/amount"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="5dp">
+
+                    <EditText
+                        android:id="@+id/den23.20ier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:ems="5"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:hint="@string/dinar"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/Ph2510ils"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:ems="5"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:hint="@string/phils"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp" />
+
+
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="5dp">
+
+                    <EditText
+                        android:id="@+id/den23.20ier0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:ems="5"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:hint="@string/dinar"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/Ph2510ils0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:ems="5"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:hint="@string/phils"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp" />
+
+
+                </TableRow>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="clip_horizontal|center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:padding="10dp"
+            android:layout_weight="7"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/AcceptButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_sinup"
+                android:padding="5dp"
+                android:text="@string/send"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="16sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+            <Button
+                android:id="@+id/RejectButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_"
+                android:padding="5dp"
+                android:text="@string/dialog_cancel"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="16sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
