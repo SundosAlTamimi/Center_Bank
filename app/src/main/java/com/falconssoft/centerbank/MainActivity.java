@@ -576,11 +576,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_wallet: {
 
             }
-            case R.id.menu_log_history: {
-                Intent LogHistoryIntent = new Intent(MainActivity.this, LogHistoryActivity.class);
-                LogHistoryIntent.putExtra("AccountNo", "00000");
-                watch = "1";
-                startActivity(LogHistoryIntent);
+            case R.id.menu_giro: {
 
             }
             break;
