@@ -83,6 +83,7 @@ import java.util.TimerTask;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.falconssoft.centerbank.AlertScreen.ROW_ID_PREFERENCE;
 import static com.falconssoft.centerbank.AlertScreen.editor;
 import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = getSharedPreferences(ROW_ID_PREFERENCE, Context.MODE_PRIVATE);
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
 
-        }, 0, 10000);
+        }, 0, 20000);
         addAccountOb = new JSONObject();
         picforbar = new ArrayList<>();
 //        picforbar.add("01365574861","");
@@ -408,6 +410,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         notification = findViewById(R.id.button_notification);
         toolbar = findViewById(R.id.main_toolbar);
         request = findViewById(R.id.main_request);
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in=new Intent(MainActivity.this,Request.class);
+                startActivity(in);
+
+            }
+        });
         dbHandler = new DatabaseHandler(MainActivity.this);
         usernameTv = findViewById(R.id.main_username);
         usernameTv.setText("Welcome " + username);
@@ -578,6 +588,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             break;
             case R.id.menu_request: {
+                Intent in=new Intent(MainActivity.this,Request.class);
+                startActivity(in);
+
 
             }
             break;
@@ -1253,10 +1266,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
-
-//                HttpResponse response = client.execute(request);
-//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
                 HttpResponse response = client.execute(request);
 
                 BufferedReader in = new BufferedReader(new
@@ -1324,8 +1333,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                         }
 
+                        Set<String> set_tow = new HashSet<String>();
+                        set_tow.addAll(arrayListRow);
+                        Log.e("Empty", "" + arrayListRow.size());
+//                        editor = sharedPreferences.edit();
+//                        editor.putStringSet("DATE_LIST", set_tow);
+//                        editor.apply();
+                        
+                        Set<String> set = null;
+                        try {
 
-                        Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+                          set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
+                            Log.e("sharedPreferences",""+set.size()+set.toString()); 
+                        }
+                        catch (Exception e)
+                        {
+                            
+                        }
+
+
 
                         if (set != null) {
 //
@@ -1400,9 +1426,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
 
 
-                        Set<String> set_tow = new HashSet<String>();
-                        set_tow.addAll(arrayListRow);
-                        Log.e("Empty", "" + arrayListRow.size());
+//                        Set<String> set_tow = new HashSet<String>();
+//                        set_tow.addAll(arrayListRow);
+//                        Log.e("Empty", "" + arrayListRow.size());
                         editor = sharedPreferences.edit();
                         editor.putStringSet("DATE_LIST", set_tow);
                         editor.apply();

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/bank4"
     android:id="@+id/mainlayout"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,16 +39,16 @@
             android:background="@drawable/edit_bac_s"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="15dp"
+            android:layout_margin="10dp"
 
-            android:layout_weight="3" >
+            android:layout_weight="4" >
         <androidx.recyclerview.widget.RecyclerView
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:id="@+id/recycler"
             android:background="@drawable/edit_bac_s"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="10dp" />
+            android:padding="5dp" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
