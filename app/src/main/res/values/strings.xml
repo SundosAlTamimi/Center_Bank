@@ -32,7 +32,7 @@
     <string name="notes_optional">Notes (optional)</string>
     <string name="amount">$ amount</string>
     <string name="dinar">Dinar</string>
-    <string name="phils">Phils</string>
+    <string name="phils">Qirsh</string>
     <string name="amount_in_word">Amount in word</string>
     <string name="check_pic">Check Pic</string>
     <string name="send">Send</string>
@@ -92,5 +92,6 @@
     <string name="signout">Signout</string>
     <string name="profile">Profile</string>
     <string name="giro">Giro</string>
+    <string name="verification">Verification</string>
     <string name="required">Required Filed</string>
 </resources>

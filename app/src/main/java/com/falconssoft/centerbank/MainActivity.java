@@ -17,6 +17,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,6 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -66,6 +68,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -97,29 +100,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SearchView searchAccount;
     private RecyclerView recyclerViewSearchAccount, recyclerViews;
     private CarouselLayoutManager layoutManagerd;
-    List<NewAccount> picforbar;
+    private List<NewAccount> picforbar;
     private Toolbar toolbar;
-    Timer timer;
-    TextInputEditText inputEditTextTemp;
-    NotificationManager notificationManager;
+    private Timer timer;
+    private TextInputEditText inputEditTextTemp;
+    private NotificationManager notificationManager;
     static int id = 1;
     public static final String YES_ACTION = "YES";
     public static final String STOP_ACTION = "STOP";
-    ArrayList<String> arrayListRow = new ArrayList<>();
-    ArrayList<String> arrayListRowFirst = new ArrayList<>();
-    ArrayList<notification> notifiList1;
+    private ArrayList<String> arrayListRow = new ArrayList<>();
+    private ArrayList<String> arrayListRowFirst = new ArrayList<>();
+    private ArrayList<notification> notifiList1;
     public ArrayList<notification> notifiList;
-    DatabaseHandler dbHandler;
+    private DatabaseHandler dbHandler;
     static String watch;
-    String accCode = "";
-    String serverLink = "";
-    private String language, userNo, username, link;
-    JSONObject addAccountOb;
-    String AccountNoDelete = "";
-    String phoneNo = "";
+    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = ""
+            , CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = ""
+            , BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "";
+    private JSONObject addAccountOb;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    private Dialog barcodeDialog;
+    private String[] arr;
+    private boolean isAdd = false;
+    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -374,6 +379,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        isAdd = true;
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -548,23 +554,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("MainActivity", "Scanned");
                 Log.e("resultcontent", "" + Result.getContents());
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
-//                TostMesage(getResources().getString(R.string.scan)+Result.getContents());
-//                barCodTextTemp.setText(Result.getContents() + "");
-//                openEditerCheck();
+
                 String ST = Result.getContents();
                 String[] arr = ST.split(";");
 
-//                    String checkNo = arr[0];
-//                    String bankNo = arr[1];
-//                    String branchNo = arr[2];
                 accCode = arr[3];
-//                    String ibanNo = arr[4];
-//                    String custName= "";
-                inputEditTextTemp.setText(accCode);
+
+                if (isAdd)
+                    inputEditTextTemp.setText(accCode);
+                else
+                    new JSONTask().execute();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+        isAdd = false;
 
     }
 
@@ -579,6 +583,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         Log.e("id", " " + id);
         switch (id) {
+            case R.id.menu_verification: {
+                checkChequeValidation();
+            }
+            break;
             case R.id.menu_request: {
                 Intent in=new Intent(MainActivity.this,Request.class);
                 startActivity(in);
@@ -615,6 +623,179 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    void checkChequeValidation() {
+        barcodeDialog = new Dialog(MainActivity.this);
+        barcodeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        barcodeDialog.setContentView(R.layout.check_validation_layout);
+
+        TextView scan = barcodeDialog.findViewById(R.id.checkValidation_scanBarcode);
+        ImageView close = barcodeDialog.findViewById(R.id.checkValidation_close);
+        LinearLayout headerLinear = barcodeDialog.findViewById(R.id.checkValidation_headerLinear);
+        TextView haveAProblem = barcodeDialog.findViewById(R.id.checkValidation_help);
+        TextView scanTV = barcodeDialog.findViewById(R.id.checkValidation_scanLinear);
+
+        final LinearLayout serialLinear = barcodeDialog.findViewById(R.id.checkValidation_serial_linear);
+        final TextInputEditText serial = barcodeDialog.findViewById(R.id.checkValidation_serial);
+        TextView check = barcodeDialog.findViewById(R.id.checkValidation_check);
+        serialLinear.setVisibility(View.GONE);
+
+        haveAProblem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (serialLinear.getVisibility() == View.VISIBLE) {
+                    serialLinear.setVisibility(View.GONE);
+
+                } else {
+                    serialLinear.setVisibility(View.VISIBLE);
+                    serial.setError(null);
+                }
+            }
+        });
+
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(serial.getText().toString())) {
+                    serial.setError(null);
+                } else {
+                    serial.setError("Required");
+                }
+
+            }
+        });
+
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentIntegrator intentIntegrator = new IntentIntegrator(MainActivity.this);
+                intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
+                intentIntegrator.setBeepEnabled(false);
+                intentIntegrator.setCameraId(0);
+                intentIntegrator.setPrompt("SCAN");
+                intentIntegrator.setBarcodeImageEnabled(false);
+                intentIntegrator.initiateScan();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                barcodeDialog.dismiss();
+            }
+        });
+
+        Log.e("checkLang", language);
+        if (language.equals("ar")) {
+            headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            check.setGravity(Gravity.RIGHT);
+
+            haveAProblem.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_help), null);
+            scanTV.setCompoundDrawablesWithIntrinsicBounds(null, null
+                    , ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_phone), null);
+
+        } else {
+            headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            check.setGravity(Gravity.LEFT);
+
+            haveAProblem.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_help), null
+                    , null, null);
+            scanTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_phone), null
+                    , null, null);
+
+        }
+
+        barcodeDialog.show();
+    }
+
+    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+        if (check) {
+            final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_after_validation);
+            dialog.setCancelable(false);
+
+            bankNameTV = dialog.findViewById(R.id.dialog_validation_bankName);
+            chequeWriterTV = dialog.findViewById(R.id.dialog_validation_chequeWriter);
+            chequeNoTV = dialog.findViewById(R.id.dialog_validation_chequeNo);
+            accountNoTV = dialog.findViewById(R.id.dialog_validation_accountNo);
+            okTV = dialog.findViewById(R.id.dialog_validation_ok);
+            cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
+
+            chequeWriterTV.setText(customerName);
+            accountNoTV.setText(accountNo);
+            chequeNoTV.setText(chequeNo);
+            okTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkLanguage();
+                    dialog.dismiss();
+                }
+            });
+
+            cancelTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        } else {
+            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("WARNING")
+                    .setContentText("Invalidate cheque!")
+                    .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+
+                }
+            }).show();
+
+        }
+
+    }
+
+    void showSweetDialog(boolean check, String customerName, String BankNo, String accountNo) {
+        if (check) {
+            String message = "Cheque is validate \n" + "Customer Name :" + customerName + " \n" + "Bank Name : " + "بنك الاردن " + "\n" + "Account No : " + accountNo + "\n";
+            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Successful")
+                    .setContentText(message)
+                    .setConfirmText("Next")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @SuppressLint("WrongConstant")
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    }).setCancelText("Cancel").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+
+                }
+            })
+                    .show();
+        } else {
+            new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("WARNING")
+                    .setContentText("Invalidate cheque!")
+                    .setConfirmText("Ok")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    })
+
+                    .show();
+
+        }
+    }
 
     static class CViewHolderForbar extends RecyclerView.ViewHolder {
 
@@ -1290,5 +1471,95 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // ******************************************** CHECK QR VALIDATION *************************************
+    private class JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                request.setURI(new URI(serverLink + "VerifyCheck?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
+                nameValuePairs.add(new BasicNameValuePair("BANKNO", arr[1]));
+                nameValuePairs.add(new BasicNameValuePair("BTANCHNO", arr[2]));
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", arr[3]));
+                nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
+                nameValuePairs.add(new BasicNameValuePair("CUSTOMERNM", ""));
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tag", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****Success");
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+
+
+                        CHECKNO = jsonObject.get("CHECKNO").toString();
+                        ACCCODE = jsonObject.get("ACCCODE").toString();
+                        IBANNO = jsonObject.get("IBANNO").toString();
+                        CUSTOMERNM = jsonObject.get("CUSTOMERNM").toString();
+                        QRCODE = jsonObject.get("QRCODE").toString();
+                        SERIALNO = jsonObject.get("SERIALNO").toString();
+                        BANKNO = jsonObject.get("BANKNO").toString();
+                        BRANCHNO = jsonObject.get("BRANCHNO").toString();
+
+                        showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
+
+//                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    showSweetDialog(false, "", "", "");
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+                showSweetDialog(false, "", "", "");
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
 
 }
