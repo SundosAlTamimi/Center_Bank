@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bank4"
+    >
+
+    <LinearLayout
+        android:id="@+id/giroList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/clear_buttons"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/AccAccount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_bac_s"
+                android:drawableLeft="@drawable/ic_swap"
+                android:drawableTint="@color/white"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Giro"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--tools:visibility="gone">-->
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/dateLogHistory"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:hint="@string/date"-->
+            <!--android:padding="5dp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textColorHint="@color/white" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal">-->
+
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView9"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableStart="@drawable/ic_live_help_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:hint="@string/status"-->
+            <!--android:padding="5dp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textColorHint="@color/white" />-->
+
+            <!--<Spinner-->
+            <!--android:id="@+id/spinnerState"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1" />-->
+
+
+            <!--</LinearLayout>-->
+
+
+            <!--</TableRow>-->
+
+            <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--tools:visibility="gone">-->
+
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal">-->
+
+
+            <!--<TextView-->
+            <!--android:id="@+id/Translate"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/edit_bac_s"-->
+            <!--android:drawableLeft="@drawable/ic_autorenew_black_24dp"-->
+            <!--android:gravity="center"-->
+            <!--android:hint="@string/transaction_type"-->
+            <!--android:padding="5dp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textColorHint="@color/white" />-->
+
+            <!--<Spinner-->
+            <!--android:id="@+id/spinnerTranse"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1" />-->
+
+
+            <!--</LinearLayout>-->
+
+            <!--</TableRow>-->
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.3"
+            android:background="@drawable/edit_bac_s"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="2"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:padding="5dp"-->
+            <!--tools:visibility="gone">-->
+
+            <!--<com.github.mikephil.charting.charts.PieChart-->
+            <!--android:id="@+id/piechart"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1" />-->
+
+            <!--<com.github.mikephil.charting.charts.PieChart-->
+            <!--android:id="@+id/piechart2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1" />-->
+
+            <!--</LinearLayout>-->
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/edit_bac"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical"-->
+                <!--tools:visibility="gone">-->
+
+                <!--</LinearLayout>-->
+
+                <TextView
+                    android:id="@+id/chNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+
+                    android:text="CH.NO"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/customName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+
+                    android:text="@string/customer_name"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.9"
+                    android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:text="@string/date"
+
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_expand_more_black_24dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+            </TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_margin="5dp"
+                android:background="@color/colorGold" />
+
+            <ListView
+                android:id="@+id/GiroList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linerEditing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/clear_buttons"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:src="@drawable/bank4"
+                app:civ_border_color="@color/colorWhiteLight"
+                app:civ_border_width="3dp" />
+
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="6dp"
+                android:layout_weight="5"
+                android:fontFamily="sans-serif-light"
+                android:padding="10dp"
+                android:text="Giro"
+                android:textColor="@color/colorWhite"
+                android:textSize="30sp"
+                app:autoSizeMaxTextSize="30sp"
+                app:autoSizeMinTextSize="14sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                app:fontFamily="sans-serif-smallcaps" />
+            <TextView
+                android:id="@+id/getTrial"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:background="@drawable/edit_bac_s"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="3dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:padding="5dp"-->
+                    <!--android:layout_margin="2dp"-->
+                    <!--android:background="@drawable/edit_bac_"-->
+                    <!--&gt;-->
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+
+                        android:gravity="center">
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/ttView27"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="2dp"-->
+                        <!--android:text="ID No."-->
+                        <!--android:textColor="@color/colorWhite"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:textStyle="bold" />-->
+
+                        <EditText
+                            android:id="@+id/editorCheque_nationalNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:background="@color/Nocolor"
+                            android:drawableStart="@drawable/ic_person"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="serif"
+                            android:hint="@string/national_no"
+                            android:inputType="numberDecimal"
+                            android:maxLength="10"
+                            android:padding="5dp"
+                            android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite"
+                            android:textCursorDrawable="@null"
+                            android:textSize="15sp" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+                        android:gravity="center">
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/textVi"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="2dp"-->
+                        <!--android:text="Phone No."-->
+                        <!--android:textColor="@color/colorWhite"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:textStyle="bold" />-->
+
+                        <EditText
+                            android:id="@+id/editorCheque_phoneNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:background="@color/Nocolor"
+                            android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="serif"
+                            android:hint="@string/phone_no"
+                            android:inputType="phone"
+                            android:maxLength="10"
+                            android:padding="5dp"
+                            android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite"
+                            android:textCursorDrawable="@null"
+                            android:textSize="15sp" />
+
+                    </TableRow>
+                    <!--</LinearLayout>-->
+
+                    <TableRow
+                        android:id="@+id/editorCheque_reciever"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <EditText
+                            android:id="@+id/first_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:hint="@string/first_name"
+                            android:padding="10dp"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textColorHint="@color/colorWhiteLight"
+                            android:textCursorDrawable="@null"
+                            android:textSize="12sp"
+
+                            app:autoSizeTextType="uniform" />
+
+
+                        <!--                <EditText-->
+                        <!--                    android:id="@+id/editorCheque_reciever"-->
+                        <!--                    android:layout_width="match_parent"-->
+                        <!--                    android:layout_height="wrap_content"-->
+                        <!--                    android:layout_margin="2dp"-->
+                        <!--                    android:background="@color/Nocolor"-->
+                        <!--                    android:drawableLeft="@drawable/ic_border_color_black_24dp"-->
+                        <!--                    android:drawablePadding="10dp"-->
+                        <!--                    android:ems="10"-->
+                        <!--                    android:fontFamily="serif"-->
+                        <!--                    android:hint="@string/order_to"-->
+                        <!--                    android:inputType="textPersonName"-->
+                        <!--                    android:padding="5dp"-->
+                        <!--                    android:textColor="@color/colorWhite"-->
+                        <!--                    android:textColorHint="@color/colorWhite"-->
+                        <!--                    android:textSize="18sp" />-->
+
+
+                        <EditText
+                            android:id="@+id/second_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:hint="@string/second_name"
+
+                            android:padding="10dp"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textColorHint="@color/colorWhiteLight"
+                            android:textCursorDrawable="@null"
+                            android:textSize="12sp"
+
+                            app:autoSizeTextType="uniform" />
+
+                        <EditText
+                            android:id="@+id/thered_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:hint="@string/third_name"
+
+                            android:padding="10dp"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textColorHint="@color/colorWhiteLight"
+                            android:textCursorDrawable="@null"
+                            android:textSize="12sp"
+
+                            app:autoSizeTextType="uniform" />
+
+                        <EditText
+                            android:id="@+id/fourth_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:hint="@string/fourth_name"
+                            android:padding="10dp"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textColorHint="@color/colorWhiteLight"
+                            android:textCursorDrawable="@null"
+                            android:textSize="12sp"
+                            app:autoSizeTextType="uniform" />
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+                        android:gravity="center">
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/textView7"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="2dp"-->
+                        <!--android:text="Date"-->
+                        <!--android:textColor="@color/colorWhite"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:textStyle="bold" />-->
+
+                        <TextView
+                            android:id="@+id/editorCheque_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:background="@color/Nocolor"
+                            android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                            android:drawablePadding="10dp"
+                            android:ems="10"
+                            android:fontFamily="serif"
+                            android:hint="@string/date"
+                            android:inputType="textPersonName"
+                            android:padding="5dp"
+                            android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+
+                        android:background="@color/colorGold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+                        android:orientation="horizontal">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:gravity="center">
+
+                            <EditText
+                                android:id="@+id/editorCheque_company"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:background="@color/Nocolor"
+                                android:drawableLeft="@drawable/ic_company"
+                                android:drawablePadding="10dp"
+                                android:ems="10"
+                                android:fontFamily="serif"
+                                android:hint="@string/company_optional"
+                                android:inputType="textPersonName"
+                                android:padding="5dp"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textCursorDrawable="@null"
+                                android:textSize="14sp" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:gravity="center">
+
+                            <EditText
+                                android:id="@+id/editorCheque_notes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:background="@color/Nocolor"
+                                android:drawableLeft="@drawable/ic_notes"
+                                android:drawablePadding="10dp"
+                                android:ems="10"
+                                android:fontFamily="serif"
+                                android:hint="@string/notes_optional"
+                                android:inputType="textPersonName"
+                                android:padding="5dp"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textCursorDrawable="@null"
+                                android:textSize="14sp" />
+
+                        </TableRow>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/editorCheque_amountTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:drawableLeft="@drawable/ic_attach_money_black_24dp"
+                            android:fontFamily="serif"
+                            android:text="@string/amount"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/denier"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:background="@drawable/edit_bac_s"
+                                android:ems="5"
+                                android:fontFamily="serif"
+                                android:gravity="center"
+                                android:hint="@string/dinar"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textCursorDrawable="@null"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/Phils"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:background="@drawable/edit_bac_s"
+                                android:ems="5"
+                                android:fontFamily="serif"
+                                android:gravity="center"
+                                android:hint="@string/phils"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textCursorDrawable="@null"
+                                android:textSize="14sp" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/AmouWord"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:background="@drawable/edit_bac_s"
+                                android:fontFamily="serif"
+                                android:hint="@string/amount_in_word"
+                                android:lines="2"
+                                android:padding="5dp"
+                                android:scrollIndicators="top"
+                                android:scrollbars="horizontal"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textCursorDrawable="@null"
+                                android:textSize="15sp" />
+
+                        </TableRow>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+
+                        android:background="@color/colorGold" />
+
+                    <TableRow
+                        android:id="@+id/co_first"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+                        android:gravity="center">
+
+                        <CheckBox
+                            android:id="@+id/checkBox_CO"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="C/O"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <CheckBox
+                            android:id="@+id/checkBox_firstpinifit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/firstbeneficiary"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/editorCheque_picLinear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/CheckPicText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="serif"
+                            android:text="@string/check_pic"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/CheckPic"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="2"
+                            android:src="@drawable/bank4"
+                            app:civ_border_color="@color/colorWhiteLight"
+                            app:civ_border_width="3dp" />
+
+                    </TableRow>
+
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="clip_horizontal|center"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/SingUpButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_sinup"
+                android:fontFamily="serif"
+                android:text="@string/send"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linerBarcode"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/clear_buttons"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_bac_s"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-light"
+                android:gravity="bottom|center"
+                android:text="@string/please_scan_the_barcode_to_continue_editing_the_check"
+                android:textColor="@color/colorWhite"
+                android:textSize="25sp"
+                app:autoSizeMaxTextSize="30sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="3sp"
+                app:autoSizeTextType="uniform"
+                app:fontFamily="sans-serif-smallcaps" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="2"
+                android:background="@color/colorWhite"
+                android:elevation="@dimen/cardview_default_elevation"
+                app:cardCornerRadius="100dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <pl.droidsonroids.gif.GifImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/Nocolor"
+                        android:src="@drawable/rscananimation"
+                        app:civ_border_color="@color/colorWhiteLight"
+                        app:civ_border_width="3dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/scanBarcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/edit_bac_sinup"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:paddingHorizontal="50dp"
+                android:paddingVertical="10dp"
+                android:text="@string/scan_barcode"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                app:fontFamily="sans-serif-smallcaps" />
+
+            <LinearLayout
+                android:id="@+id/editorCheque_haveAProblem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/ic_help" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="5dp"
+                    android:fontFamily="serif"
+                    android:text="@string/have_a_problem"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/editorCheque_serial_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="serif"
+                    android:hint="@string/serial_no"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/red">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editorCheque_serial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="serif"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/editorCheque_check"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="serif"
+                    android:gravity="end"
+                    android:text="@string/check"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

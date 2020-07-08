@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/edit_bac_s"
+        android:layout_margin="3dp">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="5dp">
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/edit_bac"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical"-->
+        <!--tools:visibility="gone">-->
+
+        <!--</LinearLayout>-->
+
+        <TextView
+            android:id="@+id/chequNo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:text="Name"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:text="Name"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:gravity="center"
+            android:text="Date"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/Detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/ic_expand_more_black_24dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+    </TableRow>
+
+    <LinearLayout
+        android:id="@+id/detailRow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@drawable/edit_bac_log"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_person_black_24dp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_border_color_black_24dp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_person_black_24dp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/cheqNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_border_color_black_24dp"
+            android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/branchNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_account_circle_black_24dp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/bankName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_attach_money_black_24dp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/AmountJd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_attach_money_black_24dp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/AmountWord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_attach_money_black_24dp"
+            android:textColor="@color/white" />
+
+
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.7"
+            android:layout_margin="5dp"
+
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/sendGiro"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/two_colors_frame"
+                android:text="Giro Send"
+                android:fontFamily="sans-serif-light"
+                android:drawableLeft="@drawable/ic_send_black_24dp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
