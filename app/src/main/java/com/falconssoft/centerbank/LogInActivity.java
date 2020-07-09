@@ -318,6 +318,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.setMessage("Please Waiting...");
         userName = findViewById(R.id.LogInUserName);
         password = findViewById(R.id.LogInPassword);
+//        userName.setText("0790790791");
+//        password.setText("tahaniA1$");
         singIn = findViewById(R.id.LogInSingIn);
         singUp = findViewById(R.id.LogInSingUp);
         arabic = findViewById(R.id.login_arabic);

@@ -94,4 +94,9 @@
     <string name="giro">جيرو</string>
     <string name="verification">Verification</string>
     <string name="required">Required Filed</string>
+    <string name="newRequest">New Request</string>
+    <string name="company">Companey</string>
+    <string name="RequestDetail">Request Detail</string>
+    <string name="Request_From">Request From</string>
+    <string name="ResonOfReject">Reson Of Reject</string>
 </resources>
