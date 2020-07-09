@@ -169,7 +169,7 @@ public class ListAdapterGiro extends BaseAdapter {
                 getTrial.setTag("" + i);
                 getTrial.setText("1");
                 context.checkIfBending();
-                holder.send.setEnabled(false);
+//                holder.send.setEnabled(false);
 
 
             }
