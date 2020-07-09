@@ -1,6 +1,7 @@
 package com.falconssoft.centerbank;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,34 +63,28 @@ import static com.falconssoft.centerbank.EditerCheackActivity.CAMERA_PIC_REQUEST
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
 public class JeroActivity extends AppCompatActivity {
-    String serverLink;
-    String AccountNo, serverPic;
+    String serverLink, AccountNo, serverPic, localNationlNo, today = "";
     static String phoneNo;
     List<ChequeInfo> ChequeInfoGiro;
     ListView listGiro;
-    TextView customName, dateText, cheqNo;
+    TextView customName, dateText, cheqNo, scanBarcode, AmouWord, date, amountTV, Danier, phails, CheckPicText;
     public LinearLayout giroList, editLiner, barcodeLiner;
     public List<ChequeInfo> chequeInfoTilar;
     public static TextView getTrial;
     EditText nationalNo, phoneNos, company, notes, fName, sName, tName, fourthName;
-    TextView Danier, phails;
     int index;
     Button pushCheque;
-    TextView scanBarcode, AmouWord, date, amountTV;
     TableRow picRow;
     int flag = 0;
     CircleImageView CheckPic;
     ListAdapterGiro listAdapterLogHistory;
     Bitmap serverPicBitmap;
     ChequeInfo chequeInfos;
-    String localNationlNo;
-    CheckBox checkBox_CO,checkBox_firstpinifit;
+    CheckBox checkBox_CO, checkBox_firstpinifit;
     JSONObject jsonObject;
-    TextView CheckPicText;
     Date currentTimeAndDate;
     SimpleDateFormat df;
-    String today="";
-
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,20 +95,20 @@ public class JeroActivity extends AppCompatActivity {
         SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs1.getString("link", "");
 
-        listGiro=findViewById(R.id.GiroList);
-        getTrial=findViewById(R.id.getTrial);
-        giroList=findViewById(R.id.giroList);
-        editLiner=findViewById(R.id.linerEditing);
-        barcodeLiner=findViewById(R.id.linerBarcode);
+        listGiro = findViewById(R.id.GiroList);
+        getTrial = findViewById(R.id.getTrial);
+        giroList = findViewById(R.id.giroList);
+        editLiner = findViewById(R.id.linerEditing);
+        barcodeLiner = findViewById(R.id.linerBarcode);
         phoneNos = findViewById(R.id.editorCheque_phoneNo);
-        fName     = findViewById(R.id.first_name);
-        sName     = findViewById(R.id.second_name);
-        tName     = findViewById(R.id.thered_name);
-        fourthName= findViewById(R.id.fourth_name);
+        fName = findViewById(R.id.first_name);
+        sName = findViewById(R.id.second_name);
+        tName = findViewById(R.id.thered_name);
+        fourthName = findViewById(R.id.fourth_name);
 
         date = findViewById(R.id.editorCheque_date);
-        checkBox_CO= findViewById(R.id.checkBox_CO);
-        checkBox_firstpinifit= findViewById(R.id.checkBox_firstpinifit);
+        checkBox_CO = findViewById(R.id.checkBox_CO);
+        checkBox_firstpinifit = findViewById(R.id.checkBox_firstpinifit);
         Danier = findViewById(R.id.denier);
         phails = findViewById(R.id.Phils);
         AmouWord = findViewById(R.id.AmouWord);
@@ -122,10 +117,13 @@ public class JeroActivity extends AppCompatActivity {
         notes = findViewById(R.id.editorCheque_notes);
         picRow = findViewById(R.id.editorCheque_picLinear);
         amountTV = findViewById(R.id.editorCheque_amountTV);
-        CheckPicText=findViewById(R.id.CheckPicText);
+        CheckPicText = findViewById(R.id.CheckPicText);
         CheckPic = findViewById(R.id.CheckPic);
-        nationalNo=findViewById(R.id.editorCheque_nationalNo);
+        nationalNo = findViewById(R.id.editorCheque_nationalNo);
         scanBarcode = findViewById(R.id.scanBarcode);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please waiting...");
 
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
@@ -148,9 +146,9 @@ public class JeroActivity extends AppCompatActivity {
 //        AccountNo = getIntent().getStringExtra("AccountNo");
         phoneNo = loginPrefs.getString("mobile", "");
 
-        customName=findViewById(R.id.customName);
-        dateText=findViewById(R.id.date);
-        cheqNo=findViewById(R.id.chNo);
+        customName = findViewById(R.id.customName);
+        dateText = findViewById(R.id.date);
+        cheqNo = findViewById(R.id.chNo);
 
 
         CheckPic.setOnClickListener(new View.OnClickListener() {
@@ -224,14 +222,14 @@ public class JeroActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                if(getTrial.getText().toString().equals("1")){
-                   int index= Integer.parseInt(getTrial.getTag().toString());
-                    Log.e("getTrialText","  "+getTrial.getText().toString());
-                    Log.e("getTrial","  "+index+"   "+ChequeInfoGiro.get(index).getChequeNo());
+                if (getTrial.getText().toString().equals("1")) {
+                    int index = Integer.parseInt(getTrial.getTag().toString());
+                    Log.e("getTrialText", "  " + getTrial.getText().toString());
+                    Log.e("getTrial", "  " + index + "   " + ChequeInfoGiro.get(index).getChequeNo());
                     giroList.setVisibility(View.GONE);
                     barcodeLiner.setVisibility(View.VISIBLE);
                     editLiner.setVisibility(View.GONE);
-                    chequeInfos=ChequeInfoGiro.get(index);
+                    chequeInfos = ChequeInfoGiro.get(index);
 
                 }
 
@@ -251,13 +249,13 @@ public class JeroActivity extends AppCompatActivity {
                 Collections.sort(ChequeInfoGiro, new JeroActivity.CheqNoSorter());
 //                Log.e("Sort2",""+sortAlpha());
                 if (cheqNo.getTag().toString().equals("1")) {
-                     listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro,giroList);
+                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
                     cheqNo.setTag("0");
                     cheqNo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_upward_black_24dp, 0);
                 } else if (cheqNo.getTag().toString().equals("0")) {
                     Collections.reverse(ChequeInfoGiro);
-                     listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro,giroList);
+                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
                     cheqNo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_downward_black_24dp, 0);
 
@@ -275,13 +273,13 @@ public class JeroActivity extends AppCompatActivity {
                 sortDate();
 //                Log.e("Sort2",""+sortAlpha());
                 if (dateText.getTag().toString().equals("1")) {
-                     listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro,giroList);
+                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
                     dateText.setTag("0");
                     dateText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_downward_black_24dp, 0);
                 } else if (dateText.getTag().toString().equals("0")) {
                     Collections.reverse(ChequeInfoGiro);
-                     listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro,giroList);
+                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
                     dateText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_upward_black_24dp, 0);
 
@@ -300,13 +298,13 @@ public class JeroActivity extends AppCompatActivity {
                 sortAlpha();
 //                Log.e("Sort2",""+sortAlpha());
                 if (customName.getTag().toString().equals("1")) {
-                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro,giroList);
+                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
                     customName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_upward_black_24dp, 0);
                     customName.setTag("0");
                 } else if (customName.getTag().toString().equals("0")) {
                     Collections.reverse(ChequeInfoGiro);
-                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro,giroList);
+                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
                     customName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_downward_black_24dp, 0);
                     customName.setTag("1");
@@ -314,7 +312,6 @@ public class JeroActivity extends AppCompatActivity {
 
             }
         });
-
 
 
         pushCheque.setOnClickListener(new View.OnClickListener() {
@@ -331,7 +328,7 @@ public class JeroActivity extends AppCompatActivity {
                 String localPhoneNo = phoneNos.getText().toString();
 //                String localSender = sender.getText().toString();
 
-                String localReciever =""+ fName.getText().toString()+"sName"+sName.getText().toString()+"tName"+tName.getText().toString()+"fName"+fourthName.getText().toString();
+                String localReciever = "" + fName.getText().toString() + "sName" + sName.getText().toString() + "tName" + tName.getText().toString() + "fName" + fourthName.getText().toString();
                 String localDinar = Danier.getText().toString();
                 String localFils = "" + phails.getText().toString();
                 String localMoneyInWord = AmouWord.getText().toString();
@@ -355,18 +352,18 @@ public class JeroActivity extends AppCompatActivity {
                                         phoneNos.setError(null);
                                         nationalNo.setError(null);
 
-                                        String checkBox_C="",checkBox_Fb="";
+                                        String checkBox_C = "", checkBox_Fb = "";
 
-                                        if(checkBox_CO.isChecked()){
-                                            checkBox_C="1";
-                                        }else{
-                                            checkBox_C="0";
+                                        if (checkBox_CO.isChecked()) {
+                                            checkBox_C = "1";
+                                        } else {
+                                            checkBox_C = "0";
                                         }
 
-                                        if(checkBox_firstpinifit.isChecked()){
-                                            checkBox_Fb="1";
-                                        }else{
-                                            checkBox_Fb="0";
+                                        if (checkBox_firstpinifit.isChecked()) {
+                                            checkBox_Fb = "1";
+                                        } else {
+                                            checkBox_Fb = "0";
                                         }
 
                                         ChequeInfo chequeInfo = new ChequeInfo();
@@ -433,7 +430,6 @@ public class JeroActivity extends AppCompatActivity {
 
     }
 
-
     public void readBarCode() {
 
         flag = 1;
@@ -468,7 +464,7 @@ public class JeroActivity extends AppCompatActivity {
 //                openEditerCheck();
 
                     String ST = Result.getContents();
-                    String []arr = ST.split(";");
+                    String[] arr = ST.split(";");
 
                     String checkNo = arr[0];
 //                    String bankNo = arr[1];
@@ -477,9 +473,9 @@ public class JeroActivity extends AppCompatActivity {
 //                    String ibanNo = arr[4];
 //                    String custName= "";
 
-                    if(checkNo.equals(chequeInfos.getChequeNo())) {
+                    if (checkNo.equals(chequeInfos.getChequeNo())) {
                         new TillerGetCheck(ChequeInfoGiro.get(index)).execute();
-                    }else{
+                    } else {
                         new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("Cheque")
                                 .setContentText("This cheque is not the same as the cheque you want to send !!!")
@@ -489,7 +485,7 @@ public class JeroActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
                                         finish();
-                                        Intent intent=new Intent(JeroActivity.this,JeroActivity.class);
+                                        Intent intent = new Intent(JeroActivity.this, JeroActivity.class);
                                         startActivity(intent);
                                         sDialog.dismissWithAnimation();
                                     }
@@ -510,7 +506,7 @@ public class JeroActivity extends AppCompatActivity {
                     Bitmap image = (Bitmap) data.getExtras().get("data");
                     if (image != null) {
                         CheckPic.setImageBitmap(image);
-                        serverPicBitmap=image;
+                        serverPicBitmap = image;
                         serverPic = bitMapToString(image);
                     }
                 }
@@ -524,19 +520,19 @@ public class JeroActivity extends AppCompatActivity {
 
     }
 
+    void FailGiroSave() {
 
-void FailGiroSave(){
+        giroList.setVisibility(View.GONE);
+        barcodeLiner.setVisibility(View.GONE);
+        editLiner.setVisibility(View.VISIBLE);
 
-    giroList.setVisibility(View.GONE);
-    barcodeLiner.setVisibility(View.GONE);
-    editLiner.setVisibility(View.VISIBLE);
+        Danier.setText("" + chequeInfos.getMoneyInDinar());
+        phails.setText("" + chequeInfos.getMoneyInFils());
+        AmouWord.setText("" + chequeInfos.getMoneyInWord());
 
-    Danier.setText(""+chequeInfos.getMoneyInDinar());
-    phails.setText(""+chequeInfos.getMoneyInFils());
-    AmouWord.setText(""+chequeInfos.getMoneyInWord());
+    }
 
-}
-
+    //     ******************************************** Get Giro *************************************
     private class GetGiro extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
@@ -574,7 +570,7 @@ void FailGiroSave(){
                 String data = "MOBILENO=" + URLEncoder.encode(phoneNo, "UTF-8");
 
                 URL url = new URL(link);
-                Log.e("link,3 ", serverLink+"   "+link+ "   "+data);
+                Log.e("link,3 ", serverLink + "   " + link + "   " + data);
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
@@ -642,7 +638,7 @@ void FailGiroSave(){
                         ChequeInfo obj = new ChequeInfo();
 
                         //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
-//                        if(!finalObject.getString("ISFB").equals("1")&&finalObject.getString("TRANSTYPE").equals("1")&&finalObject.getString("STATUS").equals("1")){
+                        if(finalObject.getString("ISFB").equals("0")&&finalObject.getString("TRANSTYPE").equals("1")){//&&finalObject.getString("STATUS").equals("1")
                         obj.setRowId(finalObject.getString("ROWID"));
                         obj.setBankNo(finalObject.getString("BANKNO"));
                         obj.setBankName(finalObject.getString("BANKNM"));
@@ -674,8 +670,8 @@ void FailGiroSave(){
                         obj.setISOpen("0");
 
 
-                            ChequeInfoGiro.add(obj);
-//                        }
+                        ChequeInfoGiro.add(obj);
+                        }
 
 
                     }
@@ -686,7 +682,7 @@ void FailGiroSave(){
 //                    ChequeInfoLogHistoryMain.get(2).setCustName("عبير");
 //                    ChequeInfoLogHistoryMain.get(3).setCustName("احمد");
                     sortAlpha();
-                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro,giroList);
+                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
 
 
@@ -718,14 +714,14 @@ void FailGiroSave(){
         }
     }
 
-    public  class TillerGetCheck extends AsyncTask<String, String, String> {
+    public class TillerGetCheck extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
         private BufferedReader reader = null;
-ChequeInfo chequeInfo;
+        ChequeInfo chequeInfo;
 
-public TillerGetCheck(ChequeInfo chequeInfo) {
-            this.chequeInfo=chequeInfo;
+        public TillerGetCheck(ChequeInfo chequeInfo) {
+            this.chequeInfo = chequeInfo;
         }
 
         @Override
@@ -754,7 +750,7 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
 
-                String link =serverLink + "TillerGetCheck";
+                String link = serverLink + "TillerGetCheck";
 
 
 //                ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144&USESERIAL=0
@@ -769,7 +765,7 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
                         "USESERIAL=" + URLEncoder.encode("0", "UTF-8");
 
                 URL url = new URL(link);
-                Log.e("link,3 ", serverLink+"   "+link+ "   "+data);
+                Log.e("link,3 ", serverLink + "   " + link + "   " + data);
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
@@ -832,9 +828,8 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
 //                    INFO":[{"ROWID":"AABX2UAAPAAAACDAA1","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الصقور للبرمجيات","QRCODE":"390144;004;0099;1014569990011000","SERIALNO":"635088CD7E6D405B","CHECKISSUEDATE":"7\/2\/2020 12:51:57 PM","CHECKDUEDATE":"","TOCUSTOMERNM":"","AMTJD":"","AMTFILS":"","AMTWORD":"","TOCUSTOMERMOB":"","TOCUSTOMERNATID":"","CHECKWRITEDATE":"","CHECKPICPATH":"","USERNO":"","ISCO":"","ISFB":"","COMPANY":"","NOTE":""}]}
 
 
-
                     chequeInfoTilar = new ArrayList<>();
-                    boolean foundIn=false;
+                    boolean foundIn = false;
 
                     for (int i = 0; i < parentInfo.length(); i++) {
                         JSONObject finalObject = parentInfo.getJSONObject(i);
@@ -887,14 +882,14 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
 
                             chequeInfoTilar.add(obj);
 
-                            foundIn=true;
+                            foundIn = true;
 
                         }
                     }
 
-                    if(foundIn){
+                    if (foundIn) {
                         FailGiroSave();
-                    }else {
+                    } else {
                         new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("Giro Cheque ")
                                 .setContentText("This check is not Yours !!!")
@@ -902,12 +897,11 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
                     }
 
 
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }//
 
-            } else  if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Check Data not found")) {
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Check Data not found")) {
                 Log.e("TAG_GetStor", "****Check Data not found");
 
 
@@ -948,7 +942,7 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
             byte[] arr = baos.toByteArray();
 //            byte[] encoded = Base64.encode(arr, Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
 
-            String result = Base64.encodeToString(arr,  Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
+            String result = Base64.encodeToString(arr, Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
             return result;
         }
         return "";
@@ -966,14 +960,13 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
             public int compare(ChequeInfo one, ChequeInfo two) {
                 // TODO Auto-generated method stub
 
-                Log.e("Sort",""+arabicCollator.compare(one.getCustName(), two.getCustName()));
+                Log.e("Sort", "" + arabicCollator.compare(one.getCustName(), two.getCustName()));
 
                 return arabicCollator.compare(one.getCustName(), two.getCustName());
             }
 
         });
     }
-
 
     private void sortDate() {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy"); //your own date format
@@ -992,8 +985,6 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
 //        }
     }
 
-
-
     class CheqNoSorter implements Comparator<ChequeInfo> {
         @Override
         public int compare(ChequeInfo one, ChequeInfo another) {
@@ -1011,7 +1002,14 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
 
     }
 
-//     ******************************************** Check Pending *************************************
+    public void checkIfBending() {
+        progressDialog.show();
+        new IsCheckPinding().execute();
+
+
+    }
+
+    //     ******************************************** Check Pending *************************************
     private class IsCheckPinding extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
@@ -1042,7 +1040,7 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
-                String link =serverLink +"IsCheckPinding";
+                String link = serverLink + "IsCheckPinding";
 
 //ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
 //                String data = "ACCCODE=" + URLEncoder.encode(jsonObject.getString("ACCCODE"), "UTF-8") + "&"
@@ -1058,10 +1056,7 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
                         "SERIALNO=" + URLEncoder.encode(chequeInfos.getSerialNo(), "UTF-8") + "&" +
                         "BANKNO=" + URLEncoder.encode(chequeInfos.getBankNo(), "UTF-8") + "&" +
                         "BRANCHNO=" + URLEncoder.encode(chequeInfos.getBranchNo(), "UTF-8") + "&" +
-                        "CHECKNO=" + URLEncoder.encode(chequeInfos.getChequeNo(), "UTF-8") ;
-
-
-
+                        "CHECKNO=" + URLEncoder.encode(chequeInfos.getChequeNo(), "UTF-8");
 
 
 //
@@ -1091,7 +1086,7 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
                 httpURLConnection.disconnect();
 
                 Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
-                Log.e("tag", "dataSave  -->" +data);
+                Log.e("tag", "dataSave  -->" + data);
 
                 return stringBuffer.toString();
 
@@ -1116,24 +1111,21 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e("editorChequeActivity/", "saved//" + s);
+            progressDialog.dismiss();
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
-//                    linerEditing.setVisibility(View.GONE);
-//                   linerBarcode.setVisibility(View.VISIBLE);
                     new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText(JeroActivity.this.getResources().getString(R.string.pending_))
-                            .setContentText(JeroActivity.this.getResources().getString(R.string.cantsendchech))
-                            .setConfirmText(JeroActivity.this.getResources().getString(R.string.ok))
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @SuppressLint("WrongConstant")
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    finish();
-                                    sDialog.dismissWithAnimation();
-                                }
-                            }).show();
+                            .setTitleText(JeroActivity.this.getResources().getString(R.string.warning))
+                            .setContentText(JeroActivity.this.getResources().getString(R.string.pending_))
+                            .setCancelText(JeroActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
 
-                }  else if (s.contains("\"StatusDescreption\":\"Check not pindding.\"")) {
+                        }
+                    }).show();
+
+                } else if (s.contains("\"StatusDescreption\":\"Check not pindding.\"")) {
 //                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
 //                        .setTitleText("WARNING")
 //                        .setContentText("Check not pinding!")
@@ -1151,8 +1143,11 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
 //                    new EditerCheackActivity.GetAllTransaction().execute();
 //                    pushCheque.setEnabled(true);
 
-
-                }}else {
+                    barcodeLiner.setVisibility(View.VISIBLE);
+                    giroList.setVisibility(View.GONE);
+                    editLiner.setVisibility(View.GONE);
+                }
+            } else {
                 Log.e("tag", "****Failed to export data");
                 new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText(JeroActivity.this.getResources().getString(R.string.warning))
@@ -1163,15 +1158,14 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
                         sweetAlertDialog.dismissWithAnimation();
 
                     }
-                })
-                        .show();
+                }).show();
 
             }
 
         }
     }
 
-
+    //     ******************************************** Save Giro *************************************
     private class SaveGiro extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
@@ -1233,7 +1227,7 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
                 httpURLConnection.disconnect();
 
                 Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
-                Log.e("tag", "dataSave  -->" +data);
+                Log.e("tag", "dataSave  -->" + data);
 
                 return stringBuffer.toString();
 
@@ -1275,7 +1269,7 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
                                     sDialog.dismissWithAnimation();
                                 }
                             }).show();
-                } else  if (s != null&&s.contains("\"StatusDescreption\":\"Error in Saving Check Gero.\"")) {
+                } else if (s != null && s.contains("\"StatusDescreption\":\"Error in Saving Check Gero.\"")) {
                     Log.e("tag", "****Failed to export data");
                     new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("WARNING")

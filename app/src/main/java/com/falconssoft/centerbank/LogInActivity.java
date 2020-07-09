@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -21,7 +19,6 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,11 +79,14 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private LinearLayout coordinatorLayout;
     boolean flag = false;
     private LinearLayout phoneLinear, emailLinear, passwordLinear;
+//    private LogInBinding binding;
+//    private SignupVM signupVM;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        binding = LogInBinding.inflate(getLayoutInflater());
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
@@ -103,7 +103,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             LocaleAppUtils.setLocale(new Locale("en"));
             LocaleAppUtils.setConfigChange(LogInActivity.this);
         }
-        setContentView(R.layout.log_in);
+        setContentView(R.layout.log_in);//binding.getRoot()
 
         init();
         checkLanguage();
@@ -369,11 +369,13 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.LogInSingIn: {
-                if (!TextUtils.isEmpty(userName.getText().toString()))
-                    if (userName.length() == 10)
-                        if (!TextUtils.isEmpty(password.getText().toString())) {
+                if (!TextUtils.isEmpty(userName.getText().toString()))//!TextUtils.isEmpty(binding.LogInUserName.getText())
+                    if (userName.length() == 10)//binding.LogInUserName.getText().length() == 10
+                        if (!TextUtils.isEmpty(password.getText().toString())) {//!TextUtils.isEmpty(binding.LogInPassword.getText())
                             userName.setError(null);
                             password.setError(null);
+//                            binding.LogInUserName.setError(null);
+//                            binding.LogInPassword.setError(null);
 
                             LoginINFO user = new LoginINFO();
                             user.setUsername(userName.getText().toString());

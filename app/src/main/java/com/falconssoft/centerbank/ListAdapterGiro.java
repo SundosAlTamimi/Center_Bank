@@ -28,21 +28,21 @@ import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
 public class ListAdapterGiro extends BaseAdapter {
     CheckBox checkPriceed;
-    private Context context;
+    private JeroActivity context;
     List<ChequeInfo> itemsList;
- String phoneNo,language;
- LinearLayout liner;
- int index;
+    String phoneNo, language;
+    LinearLayout liner;
+    int index;
 
-    public ListAdapterGiro(Context context, List<ChequeInfo> itemsList,LinearLayout liner) {
+    public ListAdapterGiro(JeroActivity context, List<ChequeInfo> itemsList, LinearLayout liner) {
         this.context = context;
         this.itemsList = itemsList;
         SharedPreferences prefs = context.getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");//"No name defined" is the default value.
         Log.e("editing,3 ", language);
-        this.liner=liner;
+        this.liner = liner;
 
-        Log.e("sizeLog",""+itemsList.size());
+        Log.e("sizeLog", "" + itemsList.size());
     }
 
     public ListAdapterGiro() {
@@ -70,11 +70,11 @@ public class ListAdapterGiro extends BaseAdapter {
     }
 
     private class ViewHolder {
-       LinearLayout detailRow;
-        TextView name,transType,date,detail,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo,cheqNo,chequNo ;//, price
+        LinearLayout detailRow;
+        TextView name, transType, date, detail, from, to, TranseType, bankName, AmountJd, AmountWord, branchNo, cheqNo, chequNo;//, price
 //CircleImageView status;
 
-Button send;
+        Button send;
 
 
     }
@@ -86,22 +86,22 @@ Button send;
         view = View.inflate(context, R.layout.report_row_giro, null);
 
 
-        holder.detailRow =  view.findViewById(R.id.detailRow);
+        holder.detailRow = view.findViewById(R.id.detailRow);
 //        holder.status =  view.findViewById(R.id.statuts);
-        holder.name=  view.findViewById(R.id.name);
-        holder.cheqNo=  view.findViewById(R.id.cheqNo);
-        holder.date=  view.findViewById(R.id.date);
-        holder.detail=  view.findViewById(R.id.Detail);
-        holder.from =  view.findViewById(R.id.from);
-        holder.to =  view.findViewById(R.id.to);
-        holder.TranseType =  view.findViewById(R.id.status);
-        holder.chequNo=  view.findViewById(R.id.chequNo);
-        holder.bankName =  view.findViewById(R.id.bankName);
-        holder.AmountJd =  view.findViewById(R.id.AmountJd);
-        holder.AmountWord =  view.findViewById(R.id.AmountWord);
-        holder.branchNo =  view.findViewById(R.id.branchNo);
-        holder.send=  view.findViewById(R.id.sendGiro);
-        String TStatus="";
+        holder.name = view.findViewById(R.id.name);
+        holder.cheqNo = view.findViewById(R.id.cheqNo);
+        holder.date = view.findViewById(R.id.date);
+        holder.detail = view.findViewById(R.id.Detail);
+        holder.from = view.findViewById(R.id.from);
+        holder.to = view.findViewById(R.id.to);
+        holder.TranseType = view.findViewById(R.id.status);
+        holder.chequNo = view.findViewById(R.id.chequNo);
+        holder.bankName = view.findViewById(R.id.bankName);
+        holder.AmountJd = view.findViewById(R.id.AmountJd);
+        holder.AmountWord = view.findViewById(R.id.AmountWord);
+        holder.branchNo = view.findViewById(R.id.branchNo);
+        holder.send = view.findViewById(R.id.sendGiro);
+        String TStatus = "";
         checkLanguage(holder);
 //        if(itemsList.get(i).getTransType().equals("2")){
 //            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
@@ -117,22 +117,21 @@ Button send;
 
 
         holder.detailRow.setVisibility(View.GONE);
-        holder.branchNo .setVisibility(View.GONE);
+        holder.branchNo.setVisibility(View.GONE);
 //        holder.state.setText("" + itemsList.get(i).getStatus());
 
-        holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+TStatus);
+        holder.TranseType.setText(context.getResources().getString(R.string.ch_status) + TStatus);
         holder.chequNo.setText(itemsList.get(i).getChequeNo());
 
         holder.name.setText("" + itemsList.get(i).getCustName());
 //        holder.transType.setText("" + itemsList.get(i).getTransType());
-        holder.date.setText( itemsList.get(i).getCheckDueDate());
-        holder.from.setText(context.getResources().getString(R.string.chWriter)+ itemsList.get(i).getCustName());
-        holder.to.setText(context.getResources().getString(R.string.chBf)+itemsList.get(i).getToCustomerName());
-        holder.bankName .setText(context.getResources().getString(R.string.bank_name)+ itemsList.get(i).getBankName());
-        holder.AmountJd .setText(context.getResources().getString(R.string.amount)+" : " + itemsList.get(i).getMoneyInDinar()+"."+itemsList.get(i).getMoneyInFils()+" JD");
-        holder.AmountWord .setText("("+itemsList.get(i).getMoneyInWord()+")");
-        holder.cheqNo. setText(context.getResources().getString(R.string.cheque_no)+itemsList.get(i).getChequeNo()+"");
-
+        holder.date.setText(itemsList.get(i).getCheckDueDate());
+        holder.from.setText(context.getResources().getString(R.string.chWriter) + itemsList.get(i).getCustName());
+        holder.to.setText(context.getResources().getString(R.string.chBf) + itemsList.get(i).getToCustomerName());
+        holder.bankName.setText(context.getResources().getString(R.string.bank_name) + itemsList.get(i).getBankName());
+        holder.AmountJd.setText(context.getResources().getString(R.string.amount) + " : " + itemsList.get(i).getMoneyInDinar() + "." + itemsList.get(i).getMoneyInFils() + " JD");
+        holder.AmountWord.setText("(" + itemsList.get(i).getMoneyInWord() + ")");
+        holder.cheqNo.setText(context.getResources().getString(R.string.cheque_no) + itemsList.get(i).getChequeNo() + "");
 
 
 //
@@ -149,14 +148,13 @@ Button send;
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (itemsList.get(i).getISOpen().equals("0")){
+                if (itemsList.get(i).getISOpen().equals("0")) {
                     holder.detailRow.setVisibility(View.VISIBLE);
-                itemsList.get(i).setISOpen("1");
-            }else {
+                    itemsList.get(i).setISOpen("1");
+                } else {
                     holder.detailRow.setVisibility(View.GONE);
                     itemsList.get(i).setISOpen("0");
                 }
-
 
 
             }
@@ -167,9 +165,11 @@ Button send;
             @Override
             public void onClick(View view) {
 
-                index=i;
-                getTrial.setTag(""+i);
+                index = i;
+                getTrial.setTag("" + i);
                 getTrial.setText("1");
+                context.checkIfBending();
+                holder.send.setEnabled(false);
 
 
             }
@@ -180,12 +180,12 @@ Button send;
     }
 
 
-    public int returnIndex(){
+    public int returnIndex() {
 
         return index;
     }
 
-    void checkLanguage(ViewHolder holder){
+    void checkLanguage(ViewHolder holder) {
         if (language.trim().equals("ar")) {
             LocaleAppUtils.setLocale(new Locale("ar"));
             LocaleAppUtils.setConfigChange(context);
@@ -226,7 +226,6 @@ Button send;
 
             holder.AmountJd.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null
                     , null, null);
-
 
 
             holder.AmountWord.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null
