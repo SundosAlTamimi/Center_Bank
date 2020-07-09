@@ -8,182 +8,251 @@
     android:id="@+id/signup_coordinatorLayout"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/clear_buttons"
-        android:orientation="vertical"
-        android:padding="20dp">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:gravity="center"
-            android:orientation="vertical">
-
-<!--            <de.hdodenhof.circleimageview.CircleImageView-->
-<!--                xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--                android:id="@+id/profile_image"-->
-<!--                android:layout_width="150dp"-->
-<!--                android:layout_height="80dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:src="@drawable/ic_perm_identity_black_24dp"-->
-<!--                app:civ_border_color="@color/colorWhiteLight"-->
-<!--                app:civ_border_width="3dp"-->
-<!--                tools:ignore="VectorDrawableCompat" />-->
-
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-light"
-                android:padding="10dp"
-                android:text="@string/sing_up"
-                android:textSize="20sp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="15sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"
-                android:textColor="@color/colorWhite"
-                app:fontFamily="sans-serif-smallcaps" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="@drawable/clear_buttons"
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <LinearLayout
-                android:id="@+id/signUp_accountType_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/edit_bac_s">
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                <Spinner
-                    android:id="@+id/signUp_accountType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:padding="10dp"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/signUp_gender_linear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/edit_bac_s">
-
-                <Spinner
-                    android:id="@+id/signUp_gender"
+                <TextView
+                    android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="6dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-light"
                     android:padding="10dp"
-                    />
+                    android:text="@string/sing_up"
+                    android:textSize="20sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="15sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
+                    android:textColor="@color/colorWhite"
+                    app:fontFamily="sans-serif-smallcaps" />
+
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/Date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_date_range_black_24dp"
-                android:padding="10dp"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                android:fontFamily="serif"
-                android:drawablePadding="5dp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
-
-            <EditText
-                android:id="@+id/signUp_IdNo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_person_black_24dp"
-                android:hint="@string/national_no"
-                android:textCursorDrawable="@null"
-                android:maxLength="10"
-                android:padding="10dp"
-                android:inputType="number"
-                android:singleLine="true"
-                android:drawablePadding="5dp"
-                android:fontFamily="serif"
-                android:nextFocusDown="@id/signUp_first_name"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:layout_weight="1"
-                android:textSize="12sp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
-
             <LinearLayout
-                android:id="@+id/signup_nameLinear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:layout_weight="6"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/signUp_first_name"
+                <LinearLayout
+                    android:id="@+id/signUp_accountType_linear"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/edit_bac_s">
+
+                    <Spinner
+                        android:id="@+id/signUp_accountType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/signUp_gender_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/edit_bac_s">
+
+                    <Spinner
+                        android:id="@+id/signUp_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    android:nextFocusDown="@id/signUp_second_name"
                     android:background="@drawable/edit_bac_s"
-                    android:hint="@string/first_name"
-                    android:fontFamily="serif"
+                    android:drawableLeft="@drawable/ic_date_range_black_24dp"
                     android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
                     android:textColor="@color/colorWhiteLight"
                     android:textColorHint="@color/colorWhiteLight"
                     android:textSize="14sp"
+                    android:fontFamily="serif"
+                    android:drawablePadding="5dp"
                     app:autoSizeMaxTextSize="20sp"
                     app:autoSizeMinTextSize="12sp"
                     app:autoSizeStepGranularity="2sp"
                     app:autoSizeTextType="uniform" />
 
                 <EditText
-                    android:id="@+id/signUp_second_name"
+                    android:id="@+id/signUp_IdNo"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/edit_bac_s"
+                    android:drawableLeft="@drawable/ic_person_black_24dp"
+                    android:hint="@string/national_no"
+                    android:text="@{String.valueOf(model_signup.nationalID)}"
+                    android:textCursorDrawable="@null"
+                    android:maxLength="10"
+                    android:padding="10dp"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="serif"
+                    android:nextFocusDown="@id/signUp_first_name"
+                    android:textColor="@color/colorWhiteLight"
+                    android:textColorHint="@color/colorWhiteLight"
+                    android:layout_weight="1"
+                    android:textSize="12sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform" />
+
+                <LinearLayout
+                    android:id="@+id/signup_nameLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/signUp_first_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:textCursorDrawable="@null"
+                        android:nextFocusDown="@id/signUp_second_name"
+                        android:background="@drawable/edit_bac_s"
+                        android:hint="@string/first_name"
+                        android:fontFamily="serif"
+                        android:padding="10dp"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textColorHint="@color/colorWhiteLight"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <EditText
+                        android:id="@+id/signUp_second_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:textCursorDrawable="@null"
+                        android:nextFocusDown="@id/signUp_third_name"
+                        android:background="@drawable/edit_bac_s"
+                        android:hint="@string/second_name"
+                        android:fontFamily="serif"
+                        android:padding="10dp"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textColorHint="@color/colorWhiteLight"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"/>
+
+                    <EditText
+                        android:id="@+id/signUp_third_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:textCursorDrawable="@null"
+                        android:nextFocusDown="@id/signUp_fourth_name"
+                        android:background="@drawable/edit_bac_s"
+                        android:hint="@string/third_name"
+                        android:fontFamily="serif"
+                        android:padding="10dp"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textColorHint="@color/colorWhiteLight"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <EditText
+                        android:id="@+id/signUp_fourth_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:textCursorDrawable="@null"
+                        android:nextFocusDown="@id/signUp_phone"
+                        android:background="@drawable/edit_bac_s"
+                        android:hint="@string/fourth_name"
+                        android:fontFamily="serif"
+                        android:padding="10dp"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textColorHint="@color/colorWhiteLight"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
+                <!--            <EditText-->
+                <!--                android:id="@+id/Sex"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_margin="5dp"-->
+                <!--                android:background="@drawable/edit_bac_s"-->
+                <!--                android:drawableLeft="@drawable/ic_perm_identity_black_24dp"-->
+                <!--                android:hint="Sex"-->
+                <!--                android:padding="10dp"-->
+                <!--                android:textColor="@color/colorWhiteLight"-->
+                <!--                android:textColorHint="@color/colorWhiteLight"-->
+                <!--                android:textSize="14sp" />-->
+                <EditText
+                    android:id="@+id/signUp_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    android:nextFocusDown="@id/signUp_third_name"
                     android:background="@drawable/edit_bac_s"
-                    android:hint="@string/second_name"
-                    android:fontFamily="serif"
+                    android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+                    android:hint="@string/phone_number"
+                    android:textCursorDrawable="@null"
+                    android:maxLength="10"
+                    android:nextFocusDown="@id/signUp_address"
+                    android:inputType="phone"
                     android:padding="10dp"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="serif"
+                    android:singleLine="true"
                     android:textColor="@color/colorWhiteLight"
                     android:textColorHint="@color/colorWhiteLight"
                     android:textSize="14sp"
@@ -193,18 +262,20 @@
                     app:autoSizeTextType="uniform"/>
 
                 <EditText
-                    android:id="@+id/signUp_third_name"
+                    android:id="@+id/signUp_address"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    android:nextFocusDown="@id/signUp_fourth_name"
+                    android:nextFocusDown="@id/signUp_email"
                     android:background="@drawable/edit_bac_s"
-                    android:hint="@string/third_name"
-                    android:fontFamily="serif"
+                    android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                    android:hint="@string/address"
                     android:padding="10dp"
+                    android:textCursorDrawable="@null"
+                    android:fontFamily="serif"
+                    android:drawablePadding="5dp"
                     android:textColor="@color/colorWhiteLight"
                     android:textColorHint="@color/colorWhiteLight"
                     android:textSize="14sp"
@@ -214,157 +285,75 @@
                     app:autoSizeTextType="uniform" />
 
                 <EditText
-                    android:id="@+id/signUp_fourth_name"
+                    android:id="@+id/signUp_email"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    android:nextFocusDown="@id/signUp_phone"
                     android:background="@drawable/edit_bac_s"
-                    android:hint="@string/fourth_name"
-                    android:fontFamily="serif"
+                    android:drawableLeft="@drawable/ic_email_black_24dp"
+                    android:hint="@string/e_mail"
+                    android:nextFocusDown="@id/signUp_password"
+                    android:inputType="textEmailAddress"
                     android:padding="10dp"
+                    android:textCursorDrawable="@null"
+                    android:fontFamily="serif"
+                    android:drawablePadding="5dp"
+                    android:singleLine="true"
                     android:textColor="@color/colorWhiteLight"
                     android:textColorHint="@color/colorWhiteLight"
                     android:textSize="14sp"
                     app:autoSizeMaxTextSize="20sp"
                     app:autoSizeMinTextSize="12sp"
                     app:autoSizeStepGranularity="2sp"
-                    app:autoSizeTextType="uniform" />
+                    app:autoSizeTextType="uniform"/>
+
+                <EditText
+                    android:id="@+id/signUp_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:drawableLeft="@drawable/ic_https_black_24dp"
+                    android:hint="@string/password"
+                    android:padding="10dp"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/colorWhiteLight"
+                    android:textColorHint="@color/colorWhiteLight"
+                    android:textSize="14sp"
+                    android:fontFamily="serif"
+                    android:drawablePadding="5dp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"/>
             </LinearLayout>
 
-<!--            <EditText-->
-<!--                android:id="@+id/Sex"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:background="@drawable/edit_bac_s"-->
-<!--                android:drawableLeft="@drawable/ic_perm_identity_black_24dp"-->
-<!--                android:hint="Sex"-->
-<!--                android:padding="10dp"-->
-<!--                android:textColor="@color/colorWhiteLight"-->
-<!--                android:textColorHint="@color/colorWhiteLight"-->
-<!--                android:textSize="14sp" />-->
-            <EditText
-                android:id="@+id/signUp_phone"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_gravity="clip_horizontal|center"
                 android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_local_phone_black_24dp"
-                android:hint="@string/phone_number"
-                android:textCursorDrawable="@null"
-                android:maxLength="10"
-                android:nextFocusDown="@id/signUp_address"
-                android:inputType="phone"
-                android:padding="10dp"
-                android:drawablePadding="5dp"
-                android:fontFamily="serif"
-                android:singleLine="true"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"/>
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/signUp_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:nextFocusDown="@id/signUp_email"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_location_on_black_24dp"
-                android:hint="@string/address"
-                android:padding="10dp"
-                android:textCursorDrawable="@null"
-                android:fontFamily="serif"
-                android:drawablePadding="5dp"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
+                <Button
+                    android:id="@+id/signUp_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/edit_bac_sinup"
+                    android:padding="5dp"
+                    android:text="@string/save"
+                    android:textSize="14sp"
+                    android:fontFamily="serif"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="14sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
+                    android:textColor="@color/colorWhite" />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/signUp_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_email_black_24dp"
-                android:hint="@string/e_mail"
-                android:nextFocusDown="@id/signUp_password"
-                android:inputType="textEmailAddress"
-                android:padding="10dp"
-                android:textCursorDrawable="@null"
-                android:fontFamily="serif"
-                android:drawablePadding="5dp"
-                android:singleLine="true"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"/>
-
-            <EditText
-                android:id="@+id/signUp_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_https_black_24dp"
-                android:hint="@string/password"
-                android:padding="10dp"
-                android:textCursorDrawable="@null"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                android:fontFamily="serif"
-                android:drawablePadding="5dp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"/>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="clip_horizontal|center"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/signUp_save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/edit_bac_sinup"
-                android:padding="5dp"
-                android:text="@string/save"
-                android:textSize="14sp"
-                android:fontFamily="serif"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="14sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"
-                android:textColor="@color/colorWhite" />
-        </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>
