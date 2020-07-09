@@ -1064,7 +1064,7 @@ public TillerGetCheck(ChequeInfo chequeInfo) {
 
 
 
-//
+//  
                 URL url = new URL(link);
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
