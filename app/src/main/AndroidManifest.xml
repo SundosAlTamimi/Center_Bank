@@ -53,6 +53,11 @@
         <activity
             android:name=".AlertScreen"
             android:screenOrientation="sensorPortrait" />
+
+        <activity
+            android:name=".JeroActivity"
+            android:screenOrientation="sensorPortrait" />
+
         <activity
             android:name=".LogHistoryActivity"
             android:screenOrientation="sensor" />

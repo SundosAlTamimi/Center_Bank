@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -58,11 +57,15 @@ public class SingUpActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
     public static final String PAGE_NAME = "PAGE_NAME";
+//    private SingUpLayoutBinding binding;
+//    private SignupVM signupVM;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sing_up_layout);
+//        binding = SingUpLayoutBinding.inflate(getLayoutInflater());
+        setContentView(R.layout.sing_up_layout);//binding.getRoot()
 
 //        language = getIntent().getStringExtra(LANGUAGE_FLAG);
         init();

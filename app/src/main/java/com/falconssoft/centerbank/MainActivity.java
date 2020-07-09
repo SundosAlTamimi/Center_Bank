@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                new GetAllCheck_JSONTask().execute();
+//                new GetAllCheck_JSONTask().execute();
 
 
             }
@@ -606,6 +606,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
             case R.id.menu_giro: {
+                Intent intentJero = new Intent(MainActivity.this, JeroActivity.class);
+                startActivity(intentJero);
 
             }
             break;
