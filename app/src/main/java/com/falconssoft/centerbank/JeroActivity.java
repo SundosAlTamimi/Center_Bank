@@ -1059,7 +1059,7 @@ public class JeroActivity extends AppCompatActivity {
                         "CHECKNO=" + URLEncoder.encode(chequeInfos.getChequeNo(), "UTF-8");
 
 
-//  
+//
                 URL url = new URL(link);
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
