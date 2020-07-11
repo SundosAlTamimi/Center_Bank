@@ -92,7 +92,7 @@ import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String CHANNEL_ID = "2";
     CircleImageView imageView;
-    private Button notification, menuButton;
+    private Button notification, requestButton;
     private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request, cashierCheque, jerro, wallet, barCodTextTemp, scanBarcode, signout;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
@@ -203,6 +203,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, AlertScreen.class);
+                startActivity(i);
+            }
+        });
+        requestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, RequestCheque.class);
                 startActivity(i);
             }
         });
@@ -408,6 +415,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         imageView = findViewById(R.id.profile_image);
         scanBarcode = findViewById(R.id.scanBarcode);
         notification = findViewById(R.id.button_notification);
+        requestButton= findViewById(R.id.button_request);
         toolbar = findViewById(R.id.main_toolbar);
         request = findViewById(R.id.main_request);
         request.setOnClickListener(new View.OnClickListener() {

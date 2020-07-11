@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLinearAdapter"
+
+    android:padding="5dp"
+    android:orientation="vertical">
+
+    <!--    <androidx.cardview.widget.CardView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_margin="10dp"-->
+    <!--        android:padding="5dp"-->
+    <!--        app:cardBackgroundColor="@color/Alpha"-->
+
+    <!--        android:elevation="@dimen/cardview_default_elevation"-->
+    <!--       >-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lineardetail"
+
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:visibility="gone"
+            android:layout_weight="3"
+
+            android:orientation="vertical">
+
+            <!--                <de.hdodenhof.circleimageview.CircleImageView-->
+            <!--                    android:id="@+id/image_check"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:src="@drawable/second_check"-->
+            <!--                    app:civ_border_width="2dp"-->
+            <!--                    app:civ_border_color="@color/colorGold"-->
+            <!--               />-->
+            <ImageView
+                android:id="@+id/image_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:src="@drawable/second_check"
+
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/divider"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+
+            android:background="@color/white_dark"
+            >
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearCheckInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:background="@drawable/accept_background"
+
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/cust_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Customer Name"
+                android:textSize="18sp"
+
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/amount_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="200JD"
+
+                android:textSize="16sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/date_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+
+                android:text="20/20/2020"
+                android:layout_margin="5dp"
+
+                android:textSize="16sp"
+
+                android:textColor="@color/colorBlack" />
+            <LinearLayout
+                android:id="@+id/rowStatus"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/checkState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_weight="1"
+
+                    android:text="@string/newRequest"
+
+                    android:layout_margin="5dp"
+
+                    android:textSize="16sp"
+
+                    android:textColor="@color/colorBlack"
+                    />
+                <RelativeLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+
+                    >
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/acceptimage"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:src="@drawable/ic_arrow_upward_black_24dp"
+                        android:textColor="@color/white"
+                        app:civ_border_color="@color/RealGreen"
+                        app:civ_border_width="2dp"
+                        android:visibility="visible"
+                        tools:ignore="VectorDrawableCompat" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/rejectimage"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:src="@drawable/ic_arrow_upward_black_24dp"
+                        android:textColor="@color/white"
+                        android:visibility="invisible"
+                        app:civ_border_color="@color/RealRed"
+                        app:civ_border_width="2dp"
+                        tools:ignore="VectorDrawableCompat" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/pendingimage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:visibility="invisible"
+
+                        android:src="@drawable/ic_arrow_downward_black_24dp"
+                        android:textColor="@color/white"
+                        app:civ_border_color="@color/blue"
+                        app:civ_border_width="2dp"
+                        tools:ignore="VectorDrawableCompat" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+    <!--    </androidx.cardview.widget.CardView>-->
+
+
