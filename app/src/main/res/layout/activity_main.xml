@@ -8,81 +8,86 @@
     android:background="@drawable/bank4"
     android:orientation="vertical">
 
-
-
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"        android:background="@drawable/clear_buttons"
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/clear_buttons"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/main_toolbar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                >
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/main_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="6dp"
+                    android:layout_weight="5"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:text="Welcome Ala'a "
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
+                    app:fontFamily="sans-serif-smallcaps" />
 
-                    <TextView
-                        android:id="@+id/main_username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_margin="6dp"
-                        android:layout_weight="5"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="center"
-                        android:text="Welcome Ala'a "
-                        android:textSize="20sp"
-                        android:textColor="@color/white"
-                        app:autoSizeMaxTextSize="20sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform"
-                        app:fontFamily="sans-serif-smallcaps" />
+                <Button
+                    android:id="@+id/button_notification"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="15dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/ic_notifications"
+                    android:backgroundTint="@color/white"
+                    android:gravity="right" />
 
-                    <Button
-                        android:id="@+id/button_notification"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginVertical="15dp"
-                        android:gravity="right"
-                        android:backgroundTint="@color/white"
-                        android:background="@drawable/ic_notifications" />
-                    <Button
-                        android:id="@+id/button_request"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginVertical="10dp"
-                        android:gravity="right"
-                        android:backgroundTint="@color/white"
-                        android:background="@drawable/ic_attach_money_black_24dp" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/button_request"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="15dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/ic_monetization_on_black_24dp"
+                    android:backgroundTint="@color/white"
+                    android:gravity="right" />
+            </LinearLayout>
 
-            </androidx.appcompat.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="10"
-            android:gravity="center"
             android:background="@drawable/edit_bac_s"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -102,10 +107,11 @@
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
                 app:fontFamily="sans-serif-smallcaps" />
+
             <ImageView
                 android:id="@+id/ima"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
             <TextView
@@ -154,6 +160,7 @@
                         android:id="@+id/res"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         tools:listitem="@layout/raw_account_chooser" />
 
                     <!--<pl.droidsonroids.gif.GifImageView-->
@@ -170,25 +177,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="10"
+                android:layout_weight="11"
                 android:gravity="bottom"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="5dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/Editing"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/left_background"
+                        android:background="@drawable/edit_bac_sinup"
                         android:drawableLeft="@drawable/ic_send_black_24dp"
                         android:drawablePadding="10dp"
 
@@ -206,59 +209,62 @@
                         app:autoSizeTextType="uniform"
                         app:fontFamily="sans-serif-smallcaps" />
 
-                    <TextView
-                        android:id="@+id/main_history"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/accept_background"
+                    <!--<TextView-->
+                    <!--android:id="@+id/main_history"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_margin="5dp"-->
 
-                        android:drawableLeft="@drawable/ic_access_time_black_24dp"
+                    <!--android:layout_weight="1"-->
 
-                        android:drawablePadding="10dp"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="center|start"
-                        android:padding="10dp"
-                        android:text="@string/log_history"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:autoSizeMaxTextSize="16sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform"
-                        app:fontFamily="sans-serif-smallcaps" />
+                    <!--android:background="@drawable/edit_bac_sinup"-->
+                    <!--android:drawableLeft="@drawable/ic_grain"-->
+                    <!--android:drawablePadding="10dp"-->
+
+                    <!--android:fontFamily="sans-serif-light"-->
+                    <!--android:gravity="center|start"-->
+                    <!--android:padding="10dp"-->
+                    <!--android:text="@string/log_history"-->
+
+                    <!--android:textColor="@color/colorWhite"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--app:autoSizeMaxTextSize="20sp"-->
+
+                    <!--app:autoSizeMinTextSize="12sp"-->
+                    <!--app:autoSizeStepGranularity="2sp"-->
+                    <!--app:autoSizeTextType="uniform"-->
+                    <!--app:fontFamily="sans-serif-smallcaps" />-->
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
+                    android:layout_margin="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
 
 
                     <TextView
                         android:id="@+id/main_request"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-
-                        android:layout_weight="1"
 
                         android:background="@drawable/left_background"
+
                         android:drawableLeft="@drawable/ic_grain"
                         android:drawablePadding="10dp"
-
                         android:fontFamily="sans-serif-light"
+
                         android:gravity="center|start"
                         android:padding="10dp"
                         android:text="@string/request"
-
                         android:textColor="@color/colorWhite"
+
                         android:textSize="20sp"
                         android:textStyle="bold"
+                        android:visibility="gone"
                         app:autoSizeMaxTextSize="20sp"
 
                         app:autoSizeMinTextSize="12sp"
@@ -270,19 +276,23 @@
                         android:id="@+id/main_jero"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+
                         android:layout_weight="1"
-                        android:background="@drawable/accept_background"
-                        android:drawableLeft="@drawable/ic_autorenew_black_24dp"
+
+                        android:background="@drawable/edit_bac_sinup"
+                        android:drawableLeft="@drawable/ic_grain"
                         android:drawablePadding="10dp"
+
                         android:fontFamily="sans-serif-light"
                         android:gravity="center|start"
                         android:padding="10dp"
-                        android:text="@string/cheque_endorsement"
+                        android:text="@string/giro"
+
                         android:textColor="@color/colorWhite"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
-                        app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeMaxTextSize="20sp"
+
                         app:autoSizeMinTextSize="12sp"
                         app:autoSizeStepGranularity="2sp"
                         app:autoSizeTextType="uniform"
@@ -293,10 +303,11 @@
 
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
 
                     <TextView
                         android:id="@+id/main_wallet"
@@ -312,10 +323,10 @@
                         android:padding="10dp"
                         android:text="@string/wallet"
 
-
                         android:textColor="@color/colorWhite"
                         android:textSize="20sp"
                         android:textStyle="bold"
+                        android:visibility="gone"
                         app:autoSizeMaxTextSize="20sp"
                         app:autoSizeMinTextSize="12sp"
                         app:autoSizeStepGranularity="2sp"
@@ -328,7 +339,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-
                         android:background="@drawable/accept_background"
                         android:drawableLeft="@drawable/ic_grain"
                         android:drawablePadding="10dp"
@@ -337,10 +347,36 @@
                         android:padding="10dp"
                         android:text="@string/cashier_check"
                         android:textColor="@color/colorWhite"
-
                         android:textSize="16sp"
+
                         android:textStyle="bold"
+                        android:visibility="gone"
                         app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
+                        app:fontFamily="sans-serif-smallcaps" />
+
+                    <TextView
+                        android:id="@+id/main_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+
+                        android:background="@drawable/edit_bac_sinup"
+                        android:drawableLeft="@drawable/ic_access_time_black_24dp"
+                        android:drawablePadding="10dp"
+
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center|start"
+                        android:padding="10dp"
+                        android:text="@string/log_history"
+
+                        android:textColor="@color/colorWhite"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:autoSizeMaxTextSize="20sp"
+
                         app:autoSizeMinTextSize="12sp"
                         app:autoSizeStepGranularity="2sp"
                         app:autoSizeTextType="uniform"
@@ -355,15 +391,18 @@
 
     </LinearLayout>
 
+
+
+</LinearLayout>
     <com.google.android.material.navigation.NavigationView
-        android:visibility="visible"
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:layout_marginTop="50dp"
-        app:itemTextColor="@color/dark_gray"
+        android:visibility="visible"
         app:headerLayout="@layout/nav_header_main"
+        app:itemTextColor="@color/dark_gray"
         app:menu="@menu/main_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
