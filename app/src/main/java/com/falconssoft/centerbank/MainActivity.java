@@ -255,6 +255,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        });
         navigationView.setNavigationItemSelectedListener(this);
 
+        jerro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentJeros = new Intent(MainActivity.this, JeroActivity.class);
+                startActivity(intentJeros);
+                
+            }
+        });
+
+
     }
 
     void showAllDataAccount() {
@@ -564,7 +574,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 
                 String ST = Result.getContents();
-                String[] arr = ST.split(";");
+                 arr = ST.split(";");
 
                 accCode = arr[3];
 
@@ -1363,7 +1373,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         if (set != null) {
 //
-                            set = sharedPreferences.getStringSet("DATE_LIST", null);
+                            set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
                             arrayListRowFirst.addAll(set);
 
                             int countFirst = arrayListRowFirst.size();
