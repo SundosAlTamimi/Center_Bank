@@ -1387,7 +1387,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         if (set != null) {
 //
-                            set = sharedPreferences.getStringSet("DATE_LIST", null);
+                            set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
                             arrayListRowFirst.addAll(set);
 
                             int countFirst = arrayListRowFirst.size();
