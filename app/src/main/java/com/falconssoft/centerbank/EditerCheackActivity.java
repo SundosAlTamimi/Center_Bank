@@ -432,9 +432,9 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                                    imageSend();
 //                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
 //                new Image().execute();
-                                   new  IsCheckPinding().execute();
+//                                   new  IsCheckPinding().execute();
 
-//                                    new GetAllTransaction().execute();
+                                    new GetAllTransaction().execute();
                                     } else {
                                         CheckPicText.setError("Required!");
                                     }
@@ -683,8 +683,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     checkLanguage();
-                    linerEditing.setVisibility(View.VISIBLE);
-                    linerBarcode.setVisibility(View.GONE);
+                    new  IsCheckPinding().execute();
+
                     dialog.dismiss();
                 }
             });
@@ -884,6 +884,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 
                     showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
 
+
 //                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1065,12 +1066,12 @@ private class JSONTask extends AsyncTask<String, String, String> {
                 String link =serverLink +"IsCheckPinding";
 
 //ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
-                String data = "ACCCODE=" + URLEncoder.encode(jsonObject.getString("ACCCODE"), "UTF-8") + "&"
-                        +"IBANNO=" + URLEncoder.encode(jsonObject.getString("IBANNO"), "UTF-8") + "&"
-                        +"SERIALNO=" + URLEncoder.encode(jsonObject.getString("SERIALNO"), "UTF-8") + "&"
-                        +"BANKNO=" + URLEncoder.encode(jsonObject.getString("BANKNO"), "UTF-8") + "&"
-                        +"BRANCHNO=" + URLEncoder.encode(jsonObject.getString("BRANCHNO"), "UTF-8") + "&"
-                        +"CHECKNO=" + URLEncoder.encode(jsonObject.getString("CHECKNO"), "UTF-8");
+                String data = "ACCCODE=" + URLEncoder.encode(ACCCODE, "UTF-8") + "&"
+                        +"IBANNO=" + URLEncoder.encode(IBANNO, "UTF-8") + "&"
+                        +"SERIALNO=" + URLEncoder.encode(SERIALNO, "UTF-8") + "&"
+                        +"BANKNO=" + URLEncoder.encode(BANKNO, "UTF-8") + "&"
+                        +"BRANCHNO=" + URLEncoder.encode(BRANCHNO, "UTF-8") + "&"
+                        +"CHECKNO=" + URLEncoder.encode(CHECKNO, "UTF-8");
 //
                 URL url = new URL(link);
 
@@ -1103,8 +1104,6 @@ private class JSONTask extends AsyncTask<String, String, String> {
                 return stringBuffer.toString();
 
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
                 e.printStackTrace();
             } finally {
                 if (urlConnection != null) {
@@ -1158,8 +1157,12 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                })
 //                        .show();
 
-                new GetAllTransaction().execute();
-//                    pushCheque.setEnabled(true);
+
+                    linerEditing.setVisibility(View.VISIBLE);
+                    linerBarcode.setVisibility(View.GONE);
+
+
+                    pushCheque.setEnabled(true);
 
 
             }}else {
