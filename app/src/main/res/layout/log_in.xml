@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bank4"
-    android:id="@+id/login_coordinatorLayout"
-    android:orientation="vertical">
+    >
+    <data>
+        <variable
+            name="loginModel"
+            type="com.falconssoft.centerbank.viewmodel.SignupVM" />
+
+        <variable
+            name="clickHandler"
+            type="com.falconssoft.centerbank.LogInActivity.ButtonsClickHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bank4"
+        android:id="@+id/login_coordinatorLayout"
+        android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,6 +83,7 @@
 
                 <TextView
                     android:id="@+id/login_english"
+                    android:onClick="@{clickHandler::onClickEnglish}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -89,6 +102,7 @@
 
                 <TextView
                     android:id="@+id/login_arabic"
+                    android:onClick="@{clickHandler::onClickArabic}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -112,6 +126,7 @@
 
             <EditText
                 android:id="@+id/LogInUserName"
+                android:text="@{loginModel.username}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -137,6 +152,7 @@
 
                 <EditText
                     android:id="@+id/LogInPassword"
+                    android:text="@{loginModel.password}"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
@@ -162,6 +178,7 @@
 
             <TextView
                 android:id="@+id/login_forgetPassword"
+                android:onClick="@{clickHandler::onClickForgetPassword}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Forget Password"
@@ -185,6 +202,7 @@
 
             <Button
                 android:id="@+id/LogInSingIn"
+                android:onClick="@{clickHandler::onClickLogin}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="10dp"
@@ -196,6 +214,7 @@
 
             <Button
                 android:id="@+id/LogInSingUp"
+                android:onClick="@{clickHandler::onClickSignup}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="10dp"
@@ -208,6 +227,7 @@
 
             <TextView
                 android:id="@+id/login_checkValidation"
+                android:onClick="@{clickHandler::onClickCheckValidation}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/check_validation"
@@ -221,3 +241,5 @@
     </LinearLayout>
 
 </LinearLayout>
+
+</layout>
