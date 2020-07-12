@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 Intent intentJeros = new Intent(MainActivity.this, JeroActivity.class);
                 startActivity(intentJeros);
-                
+
             }
         });
 
@@ -334,7 +334,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-//
         Intent yesReceive2 = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         yesReceive2.setAction(STOP_ACTION);
         PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -1593,7 +1592,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
-                    Log.e("tag", "****Success");
+                    Log.e("main/checkValidation/", "Success/" + s);
                     try {
                         JSONObject jsonObject = new JSONObject(s);
 
