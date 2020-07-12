@@ -58,6 +58,31 @@ if(stateAction!=null)
 
     }
     else{
+        if(stateAction.equals("Request")) {
+            boolean result=isAppOnForeground(context,"com.falconssoft.centerbank");
+            if(result)
+            {
+                Intent i=new Intent(context,RequestCheque.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 2, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                try {
+                    // Perform the operation associated with our pendingIntent
+                    pendingIntent.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                Intent intent1=new Intent(context,LogInActivity.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                try {
+                    // Perform the operation associated with our pendingIntent
+                    pendingIntent.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
         Log.e("notificationReciver","else \t "+action);
     }
 }
