@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.NewAccount;
 import com.falconssoft.centerbank.Models.notification;
+import com.falconssoft.centerbank.Models.requestModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NotificationManager notificationManager;
     static int id = 1;
     public static final String YES_ACTION = "YES";
+    public static final String Request_ACTION = "Request";
     public static final String STOP_ACTION = "STOP";
     private ArrayList<String> arrayListRow = new ArrayList<>();
     private ArrayList<String> arrayListRowFirst = new ArrayList<>();
@@ -123,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private Dialog barcodeDialog;
     private String[] arr;
-    private boolean isAdd = false;
+    private boolean isAdd = false,isNewData=false;
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
 
     @Override
@@ -147,12 +150,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-//                new GetAllCheck_JSONTask().execute();
+                new GetAllCheck_JSONTask().execute();
+
+//                new GetAllRequestFromUser_JSONTask().execute();
+
 
 
             }
 
-        }, 0, 20000);
+        }, 0, 9000);
         addAccountOb = new JSONObject();
         picforbar = new ArrayList<>();
 //        picforbar.add("01365574861","");
@@ -290,26 +296,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void notificationShow() {
-
+    public void notificationShow(String title) {
+        Log.e("notificationShow", "" + title);
+        String actionType = "";
         Notification.Builder notif;
         NotificationManager nm;
         notif = new Notification.Builder(getApplicationContext());
         notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
-        notif.setContentTitle("Recive new Check, click to show detail");
+        notif.setContentTitle(title);
         notif.setAutoCancel(true);
         Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notif.setSound(path);
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 //        Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 //        context.sendBroadcast(it);
+        if (title.contains("Request")) {
+            Log.e("notificationShow", "" + title.contains("Request"));
+            Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);// test
+            yesReceive.setAction(Request_ACTION);
+            PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 1234, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+            notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
+        } else {
+            Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);// test
+            yesReceive.setAction(YES_ACTION);
+            PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+            notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
+        }
 
-        Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);// test
-        yesReceive.setAction(YES_ACTION);
-        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
-        notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
 
-
+//
         Intent yesReceive2 = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         yesReceive2.setAction(STOP_ACTION);
         PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -321,16 +336,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void show_Notification(String detail) {
+        Log.e("show_Notification",""+detail);
+        String actionType="";
+        if(detail.contains("Request"))
+        {
+            actionType="Request";
+        }
+        else {
+            actionType="YES";
+        }
 
         Intent intent = new Intent(MainActivity.this, notificationReciver.class);
-        intent.putExtra("action", "YES");
+        intent.putExtra("action", actionType);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         String CHANNEL_ID = "MYCHANNEL";
 
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "name", NotificationManager.IMPORTANCE_HIGH);
         Notification notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID)
-                .setContentText("show Detail ......")
-                .setContentTitle("Recive new Check, click to show detail")
+                .setContentText(detail)
+                .setContentTitle("App Check")
                 .setStyle(new Notification.BigTextStyle()
                         .bigText(detail)
                         .setBigContentTitle(" ")
@@ -596,7 +620,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             break;
             case R.id.menu_request: {
-                Intent in=new Intent(MainActivity.this,Request.class);
+                Intent in=new Intent(MainActivity.this,RequestCheque.class);
                 startActivity(in);
 
 
@@ -1383,7 +1407,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                 if (countFirst < arrayListRowFirst.size())// new data
                                 {
-                                    ShowNotifi();
+                                    ShowNotifi("check");
 
 
                                 } else {
@@ -1396,7 +1420,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 {
                                     Log.e("NewGreater", "countFirst" + countFirst);
 
-                                    ShowNotifi();
+                                    ShowNotifi("check");
 
                                 } else {
                                     if (arrayListRow.size() == countFirst)// equal size
@@ -1415,7 +1439,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                         if (countFirst < arrayListRowFirst.size())// new data
                                         {
-                                            ShowNotifi();
+                                            ShowNotifi("check");
 
 
                                         } else {
@@ -1440,6 +1464,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         editor = sharedPreferences.edit();
                         editor.putStringSet("DATE_LIST", set_tow);
                         editor.apply();
+                        new  GetAllRequestToUser_JSONTask().execute();
 
 
                     } catch (JSONException e) {
@@ -1458,8 +1483,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void ShowNotifi() {
+    private void ShowNotifi(String type) {
         String currentapiVersion = Build.VERSION.RELEASE;
+        String title="",content="";
+        switch (type)
+        {
+            case "check":
+                title="Recive new Check";
+                break;
+            case "request":
+                title="Recive new Request";
+                break;
+        }
+
 //
         if (Double.parseDouble(currentapiVersion.substring(0, 1)) >= 8) {
             // Do something for 14 and above versions
@@ -1468,7 +1504,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
-                show_Notification("Check  app, Recive new Check");
+                show_Notification(title);
 
             } else {
 
@@ -1477,7 +1513,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else {
 
-            notificationShow();
+            notificationShow(title);
         }
     }
 
@@ -1567,6 +1603,451 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             } else {
                 showSweetDialog(false, "", "", "");
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
+    //**********************************************************************************************************
+    public class GetAllRequestToUser_JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+              String  WHICH="0";// to user
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+//                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
+                request.setURI(new URI(serverLink + "GetRequest?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("MOBILENO", phoneNo));
+
+                nameValuePairs.add(new BasicNameValuePair("WHICH", "0"));// to me witch=1
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tagGetRequest", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    JSONObject jsonObject = null;
+                    try {
+
+                        arrayListRow.clear();
+                        arrayListRowFirst.clear();
+
+                        jsonObject = new JSONObject(s);
+
+                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
+                        for (int i = 0; i < notificationInfo.length(); i++) {
+                            JSONObject infoDetail = notificationInfo.getJSONObject(i);
+
+                            requestModel chequeInfo = new requestModel();
+
+                            chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
+
+
+                            Log.e("setTransType","\t"+chequeInfo.getTRANSSTATUS());
+
+                            if (chequeInfo.getTRANSSTATUS().equals("0") )// reject from mee
+                            {
+                                chequeInfo.setROWID(infoDetail.getString("ROWID"));
+                                chequeInfo.setFROMUSER_No(infoDetail.getString("FROMUSER"));
+                                chequeInfo.setWitch("0");
+                                chequeInfo.setFROMUSER_name(infoDetail.get("FROMUSERNM").toString());
+                                chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
+                                chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
+                                chequeInfo.setCOMPNAME(infoDetail.get("COMPNAME").toString());
+                                Log.e("getFROMUSER_name",""+chequeInfo.getFROMUSER_name());
+                                chequeInfo.setNOTE(infoDetail.get("NOTE").toString());
+                                chequeInfo.setAMOUNT(infoDetail.get("AMOUNT").toString());
+
+                                chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
+                                chequeInfo.setINDATE(infoDetail.get("INDATE").toString());
+                                chequeInfo.setREASON(infoDetail.getString("REASON"));
+
+
+                                arrayListRow.add(chequeInfo.getROWID());
+                                Log.e("arrayListRowTouser",""+arrayListRow.size());
+
+
+                            }
+                        }
+
+                        Set<String> set_tow = new HashSet<String>();
+                        set_tow.addAll(arrayListRow);
+                        Log.e("Empty",""+arrayListRow.size());
+
+
+
+                        Set<String> set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
+
+                        if(set !=null)
+                        {
+//
+                            set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
+                            arrayListRowFirst.addAll(set);
+
+                            int countFirst=arrayListRowFirst.size();
+                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
+                            {Log.e("olddataGreater","countFirst"+countFirst);
+
+                                for( int h=0;h<arrayListRow.size();h++){
+                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if(index==-1)
+                                    {
+                                        arrayListRowFirst.add(arrayListRow.get(h));
+                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+
+                                    }
+
+                                }
+
+                                if (countFirst < arrayListRowFirst.size())// new data
+                                {
+
+                                    ShowNotifi("request");
+//                                    isNewData=true;
+
+
+
+                                }
+                                else {
+
+//
+                                }
+
+                            }//********************************************
+                            else {
+                                if(arrayListRow.size()>countFirst)// new data
+                                {
+                                    Log.e("NewGreater","countFirst");
+                                    ShowNotifi("request");
+//                                    isNewData=true;
+
+                                }
+                                else{
+                                    if(arrayListRow.size()==countFirst)// equal size
+                                    {
+                                        Log.e("arrayListRow","== hereeee");
+
+                                        for( int h=0;h<arrayListRow.size();h++){
+                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if(index==-1)
+                                            {
+                                                arrayListRowFirst.add(arrayListRow.get(h));
+
+
+                                            }
+
+                                        }
+
+                                        if (countFirst < arrayListRowFirst.size())// new data
+                                        {
+                                            ShowNotifi("request");
+//                                            isNewData=true;
+//
+
+                                        }
+                                        else {
+
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+
+//                            }
+
+                        }
+                        else {//empty shared preference
+
+
+                        }
+
+                        editor = sharedPreferences.edit();
+                        editor.putStringSet("REQUEST_ToUser", set_tow);
+                        editor.apply();
+                        Log.e("EndFirstToUser","****************");
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+//                    INFO
+                    Log.e("tag", "****Success"+s.toString());
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                }
+            }
+            else {
+
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
+    public class GetAllRequestFromUser_JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                Log.e("flagMaindoInBackground","");
+               String WHICH="1";
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+//                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
+                request.setURI(new URI(serverLink + "GetRequest?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("MOBILENO", phoneNo));
+
+                nameValuePairs.add(new BasicNameValuePair("WHICH", WHICH));// to me witch=1
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tagGetRequest", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    JSONObject jsonObject = null;
+                    try {
+                        Log.e("StartSecondUser","****************");
+
+
+
+                        arrayListRow.clear();
+                        arrayListRowFirst.clear();
+
+                        jsonObject = new JSONObject(s);
+
+                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
+                        for (int i = 0; i < notificationInfo.length(); i++) {
+                            JSONObject infoDetail = notificationInfo.getJSONObject(i);
+
+                            requestModel chequeInfo = new requestModel();
+
+                            chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
+
+
+                            Log.e("setTransType","\t"+chequeInfo.getTRANSSTATUS());
+
+                            if (chequeInfo.getTRANSSTATUS().equals("1") )// reject from mee
+                            {
+                                chequeInfo.setROWID(infoDetail.getString("ROWID"));
+                                chequeInfo.setFROMUSER_No(infoDetail.getString("FROMUSER"));
+                                chequeInfo.setWitch("1");
+                                chequeInfo.setFROMUSER_name(infoDetail.get("FROMUSERNM").toString());
+                                chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
+                                chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
+                                chequeInfo.setCOMPNAME(infoDetail.get("COMPNAME").toString());
+                                Log.e("getFROMUSER_name",""+chequeInfo.getFROMUSER_name());
+                                chequeInfo.setNOTE(infoDetail.get("NOTE").toString());
+                                chequeInfo.setAMOUNT(infoDetail.get("AMOUNT").toString());
+
+                                chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
+                                chequeInfo.setINDATE(infoDetail.get("INDATE").toString());
+                                chequeInfo.setREASON(infoDetail.getString("REASON"));
+
+
+                                arrayListRow.add(chequeInfo.getROWID());
+
+
+                            }
+                        }
+//
+                        Set<String> set_Data = new HashSet<String>();
+                        set_Data.addAll(arrayListRow);
+                        Log.e("Empty",""+arrayListRow.size());
+
+
+
+                        Set<String> set = sharedPreferences.getStringSet("REQUEST_LIST", set_Data);
+
+                        if(set !=null)
+                        {
+//
+                            set = sharedPreferences.getStringSet("REQUEST_LIST", set_Data);
+                            arrayListRowFirst.addAll(set);
+
+                            int countFirst=arrayListRowFirst.size();
+                            Log.e("countFirst",""+countFirst);
+                            Log.e("arrayListRow9999",""+arrayListRow.size());
+
+                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
+                            {
+                                Log.e("olddataGreater2222","countFirst"+countFirst+"arrayListRow"+arrayListRow.size());
+
+
+                                for( int h=0;h<arrayListRow.size();h++){
+                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if(index==-1)
+                                    {
+                                        arrayListRowFirst.add(arrayListRow.get(h));
+                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+
+                                    }
+
+                                }
+
+                                if (countFirst < arrayListRowFirst.size())// new data
+                                {
+                                    Log.e("NewGreater","new data");
+                                    ShowNotifi("request");
+//                                    isNewData=true;
+
+
+                                }
+                                else {
+                                }
+
+                            }//********************************************
+                            else {
+                                if(arrayListRow.size()>countFirst)// new data
+                                {
+                                    Log.e("Statenewdata","g");
+
+                                    ShowNotifi("request");
+//                                    isNewData=true;
+
+                                }
+                                else{
+                                    if(arrayListRow.size()==countFirst)// equal size
+                                    {
+                                        Log.e("arrayListRow","== hereeee");
+
+                                        for( int h=0;h<arrayListRow.size();h++){
+                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if(index==-1)
+                                            {
+                                                arrayListRowFirst.add(arrayListRow.get(h));
+
+
+                                            }
+
+                                        }
+
+                                        if (countFirst < arrayListRowFirst.size())// new data
+                                        {
+
+                                            Log.e("newdata","gCompare");
+                                            ShowNotifi("request");
+//                                            isNewData=true;
+                                        }
+                                        else {
+
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+
+//                            }
+
+                        }
+                        else {//empty shared preference
+                        }
+
+
+
+                        editor = sharedPreferences.edit();
+                        editor.putStringSet("REQUEST_LIST", set_Data);
+                        editor.apply();
+                        Log.e("isNewData",""+isNewData);
+//                        if(isNewData)
+//                        {
+//                            ShowNotifi("request");
+//                        }
+//
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+//                    INFO
+                    Log.e("tag", "****Success"+s.toString());
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                }
+            }
+            else {
+
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
         }

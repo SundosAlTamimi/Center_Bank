@@ -2,15 +2,21 @@ package com.falconssoft.centerbank;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -54,6 +60,9 @@ public class Request extends AppCompatActivity {
     boolean isFull=true;
     public  static   String language="", serverLink="http://falconssoft.net/ScanChecks/APIMethods.dll/";
     JSONObject obj;
+    private ProgressDialog progressDialog;
+    private Snackbar snackbar;
+    private LinearLayout coordinatorLayout;
 
 
     @Override
@@ -94,6 +103,7 @@ public class Request extends AppCompatActivity {
     }
 
     private void initView() {
+        coordinatorLayout=findViewById(R.id.request_coordinatorLayout);
         edit_customerName = findViewById(R.id.edit_customerName);
         phoneNo = findViewById(R.id.edit_phoneNo);
         amountDinar = findViewById(R.id.denier);
@@ -240,9 +250,25 @@ public class Request extends AppCompatActivity {
                     Log.e("tag", "****Failed to Send data"+s.toString());
                 }
             } else {
+                showSnackbar("Check internet connection", false);
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
         }
+    }
+    void showSnackbar(String text, boolean showImage) {
+
+        if (showImage) {
+            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#3167F0\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
+            View snackbarLayout = snackbar.getView();
+            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
+            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0);
+        } else {
+            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#D11616\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
+            View snackbarLayout = snackbar.getView();
+            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
+            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_error, 0, 0, 0);
+        }
+        snackbar.show();
     }
 
     private void clearData() {

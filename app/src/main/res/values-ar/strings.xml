@@ -99,4 +99,5 @@
     <string name="RequestDetail">Request Detail</string>
     <string name="Request_From">Request From</string>
     <string name="ResonOfReject">Reson Of Reject</string>
+    <string name="requestRejected">Request Rejected</string>
 </resources>
