@@ -84,6 +84,7 @@ public class JeroActivity extends AppCompatActivity {
     JSONObject jsonObject;
     Date currentTimeAndDate;
     SimpleDateFormat df;
+    int flag1=0;
     private ProgressDialog progressDialog;
 
     @Override
@@ -138,6 +139,7 @@ public class JeroActivity extends AppCompatActivity {
         scanBarcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                flag1=1;//barcode
                 readBarCode();
             }
         });
@@ -474,7 +476,8 @@ public class JeroActivity extends AppCompatActivity {
 //                    String custName= "";
 
                     if (checkNo.equals(chequeInfos.getChequeNo())) {
-                        new TillerGetCheck(ChequeInfoGiro.get(index)).execute();
+                        new IsCheckPinding(ChequeInfoGiro.get(index)).execute();
+
                     } else {
                         new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("Cheque")
@@ -521,7 +524,7 @@ public class JeroActivity extends AppCompatActivity {
     }
 
     void FailGiroSave() {
-
+        flag1=2;
         giroList.setVisibility(View.GONE);
         barcodeLiner.setVisibility(View.GONE);
         editLiner.setVisibility(View.VISIBLE);
@@ -627,7 +630,7 @@ public class JeroActivity extends AppCompatActivity {
 //
                 try {
 
-                    JSONObject parentArray = new JSONObject(JsonResponse);
+                  JSONObject parentArray = new JSONObject(JsonResponse);
                     JSONArray parentInfo = parentArray.getJSONArray("INFO");
 
                     ChequeInfoGiro = new ArrayList<>();
@@ -638,7 +641,7 @@ public class JeroActivity extends AppCompatActivity {
                         ChequeInfo obj = new ChequeInfo();
 
                         //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
-                        if(finalObject.getString("ISFB").equals("0")&&finalObject.getString("TRANSTYPE").equals("1")){//&&finalObject.getString("STATUS").equals("1")
+                        if(finalObject.getString("ISFB").equals("0")){//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
                         obj.setRowId(finalObject.getString("ROWID"));
                         obj.setBankNo(finalObject.getString("BANKNO"));
                         obj.setBankName(finalObject.getString("BANKNM"));
@@ -884,6 +887,7 @@ public class JeroActivity extends AppCompatActivity {
 
                             foundIn = true;
 
+
                         }
                     }
 
@@ -894,6 +898,7 @@ public class JeroActivity extends AppCompatActivity {
                                 .setTitleText("Giro Cheque ")
                                 .setContentText("This check is not Yours !!!")
                                 .show();
+                        flag1=1;
                     }
 
 
@@ -910,7 +915,7 @@ public class JeroActivity extends AppCompatActivity {
                         .setContentText("Check Data not found")
                         .show();
 
-
+                flag1=1;
 //                if(!isAssetsIn.equals("1")) {
 //                    if (pd != null) {
 //                        pd.dismiss();
@@ -985,6 +990,16 @@ public class JeroActivity extends AppCompatActivity {
 //        }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(flag1!=0) {
+            finish();
+            Intent intent = new Intent(JeroActivity.this, JeroActivity.class);
+            startActivity(intent);
+        }
+    }
+
     class CheqNoSorter implements Comparator<ChequeInfo> {
         @Override
         public int compare(ChequeInfo one, ChequeInfo another) {
@@ -1003,9 +1018,10 @@ public class JeroActivity extends AppCompatActivity {
     }
 
     public void checkIfBending() {
-        progressDialog.show();
-        new IsCheckPinding().execute();
-
+//        new IsCheckPinding().execute();
+        barcodeLiner.setVisibility(View.VISIBLE);
+        giroList.setVisibility(View.GONE);
+        editLiner.setVisibility(View.GONE);
 
     }
 
@@ -1014,6 +1030,12 @@ public class JeroActivity extends AppCompatActivity {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
         private BufferedReader reader = null;
+
+        ChequeInfo chequeInfo;
+
+        public IsCheckPinding( ChequeInfo chequeInfo) {
+             this.chequeInfo= chequeInfo;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -1027,6 +1049,8 @@ public class JeroActivity extends AppCompatActivity {
 
 //            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
 //            pd.setTitleText(context.getResources().getString(R.string.importstor));
+            progressDialog.show();
+
 
         }
 
@@ -1040,6 +1064,7 @@ public class JeroActivity extends AppCompatActivity {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
+
                 String link = serverLink + "IsCheckPinding";
 
 //ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
@@ -1051,12 +1076,12 @@ public class JeroActivity extends AppCompatActivity {
 //                        +"CHECKNO=" + URLEncoder.encode(jsonObject.getString("CHECKNO"), "UTF-8");
 //
 
-                String data = "ACCCODE=" + URLEncoder.encode(chequeInfos.getAccCode(), "UTF-8") + "&" +
-                        "IBANNO=" + URLEncoder.encode(chequeInfos.getIbanNo(), "UTF-8") + "&" +
-                        "SERIALNO=" + URLEncoder.encode(chequeInfos.getSerialNo(), "UTF-8") + "&" +
-                        "BANKNO=" + URLEncoder.encode(chequeInfos.getBankNo(), "UTF-8") + "&" +
-                        "BRANCHNO=" + URLEncoder.encode(chequeInfos.getBranchNo(), "UTF-8") + "&" +
-                        "CHECKNO=" + URLEncoder.encode(chequeInfos.getChequeNo(), "UTF-8");
+                String data = "ACCCODE=" + URLEncoder.encode(chequeInfo.getAccCode(), "UTF-8") + "&" +
+                        "IBANNO=" + URLEncoder.encode(chequeInfo.getIbanNo(), "UTF-8") + "&" +
+                        "SERIALNO=" + URLEncoder.encode(chequeInfo.getSerialNo(), "UTF-8") + "&" +
+                        "BANKNO=" + URLEncoder.encode(chequeInfo.getBankNo(), "UTF-8") + "&" +
+                        "BRANCHNO=" + URLEncoder.encode(chequeInfo.getBranchNo(), "UTF-8") + "&" +
+                        "CHECKNO=" + URLEncoder.encode(chequeInfo.getChequeNo(), "UTF-8");
 
 
 //
@@ -1125,6 +1150,11 @@ public class JeroActivity extends AppCompatActivity {
                         }
                     }).show();
 
+                    flag1=0;
+                    barcodeLiner.setVisibility(View.GONE);
+                    giroList.setVisibility(View.VISIBLE);
+                    editLiner.setVisibility(View.GONE);
+
                 } else if (s.contains("\"StatusDescreption\":\"Check not pindding.\"")) {
 //                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
 //                        .setTitleText("WARNING")
@@ -1143,9 +1173,9 @@ public class JeroActivity extends AppCompatActivity {
 //                    new EditerCheackActivity.GetAllTransaction().execute();
 //                    pushCheque.setEnabled(true);
 
-                    barcodeLiner.setVisibility(View.VISIBLE);
-                    giroList.setVisibility(View.GONE);
-                    editLiner.setVisibility(View.GONE);
+                    new TillerGetCheck(chequeInfo).execute();
+
+
                 }
             } else {
                 Log.e("tag", "****Failed to export data");

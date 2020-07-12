@@ -52,7 +52,7 @@ public class Request extends AppCompatActivity {
     EditText edit_customerName,phoneNo,amountDinar,company,note;
     Button sendButton,cancelButton;
     boolean isFull=true;
-    public  static   String language="", serverLink;
+    public  static   String language="", serverLink="http://falconssoft.net/ScanChecks/APIMethods.dll/";
     JSONObject obj;
 
 
@@ -139,14 +139,16 @@ public class Request extends AppCompatActivity {
         COMPNAME=company.getText().toString();
         Log.e("getUserInfo",""+FROMUSER_No+"\t"+FROMUSER_Name+"\t"+NOTE);
 
-             obj = new JSONObject();
+        obj = new JSONObject();
 
 
-            obj.put("FROMUSER", FROMUSER_No);
-            obj.put("FROMUSERNM", FROMUSER_Name);
-            obj.put("TOUSER", TOUSER_no        );
-            obj.put("TOUSERNM", TOUSER_Name    );
-            obj.put("COMPNAME", COMPNAME       );
+        obj.put("FROMUSER", FROMUSER_No);
+        obj.put("FROMUSERNM", FROMUSER_Name);
+        obj.put("TOUSER", TOUSER_no);
+        obj.put("TOUSERNM", TOUSER_Name);
+        obj.put("COMPNAME", COMPNAME);
+        obj.put("NOTE", NOTE);
+        obj.put("AMOUNT", AMOUNT);
 
     }
 
@@ -167,42 +169,13 @@ public class Request extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            try {
+        try{
                 String JsonResponse = null;
-//                HttpClient client = new DefaultHttpClient();
-//                HttpPost request = new HttpPost();
-//
-//                try {
-//                    request.setURI(new URI(serverLink + "AddRequest?"));
-//                } catch (URISyntaxException e) {
-//                    e.printStackTrace();
-//                }
-                //   http://localhost:8081/AddRequest?REQINFO={"FROMUSER":"0798899716","FROMUSERNM":"ALAA",
-                //   "TOUSER":"0798899702","TOUSERNM":"WAEL","COMPNAME":"XYZ","NOTE":"Any Thing","AMOUNT":"150.600"}
-
-//
-//                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-//
-////                nameValuePairs.add(new BasicNameValuePair(  "", ""));
-//                nameValuePairs.add(new BasicNameValuePair("REQINFO=", obj.toString()     ));
-//                nameValuePairs.add(new BasicNameValuePair("FROMUSERNM", FROMUSER_Name ));
-//                nameValuePairs.add(new BasicNameValuePair("TOUSER", TOUSER_no         ));// test
-//                nameValuePairs.add(new BasicNameValuePair("TOUSERNM", TOUSER_Name      ) );
-//                nameValuePairs.add(new BasicNameValuePair("COMPNAME", COMPNAME         ));
-//                nameValuePairs.add(new BasicNameValuePair("NOTE", NOTE                 ));
-//                nameValuePairs.add(new BasicNameValuePair("AMOUNT", AMOUNT                 ));
-
-
-//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-//                HttpResponse response = client.execute(request);
-//
-//                BufferedReader in = new BufferedReader(new
-//                        InputStreamReader(response.getEntity().getContent()));
-
 
                 String data = "REQINFO=" + URLEncoder.encode(obj.toString(), "UTF-8");
+                String link = serverLink + "AddRequest?";
 //
-                URL url = new URL(serverLink);
+                URL url = new URL(link);
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
@@ -233,22 +206,35 @@ public class Request extends AppCompatActivity {
                 Log.e("tagAlertScreenImage", "" + JsonResponse);
 
                 return  JsonResponse;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
             }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (final IOException e) {
+                    Log.e("tag", "Error closing stream", e);
+                }
+            }
+        }
+            return null;
+
+
 
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.e("editorChequeActivity/", "saved//" + s);
+            Log.e("onPostExecute/", "saved//" + s);
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("tag", "****saved Success In Request");
                     showSweetDialog();
+                    clearData();
 
                 } else {
                     Log.e("tag", "****Failed to Send data"+s.toString());
@@ -257,6 +243,16 @@ public class Request extends AppCompatActivity {
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
         }
+    }
+
+    private void clearData() {
+        note.setText("");
+        company.setText("");
+        phoneNo.setText("");
+        edit_customerName.setText("");
+        amountDinar.setText("");
+
+
     }
 
     private void showSweetDialog() {
