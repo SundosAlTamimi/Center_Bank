@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-//                new GetAllCheck_JSONTask().execute();
+                new GetAllCheck_JSONTask().execute();
 
 
             }
@@ -564,7 +564,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 
                 String ST = Result.getContents();
-                String[] arr = ST.split(";");
+                 arr = ST.split(";");
 
                 accCode = arr[3];
 
@@ -1540,7 +1540,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
-                    Log.e("tag", "****Success");
+                    Log.e("main/checkValidation/", "Success/" + s);
                     try {
                         JSONObject jsonObject = new JSONObject(s);
 

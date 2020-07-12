@@ -867,7 +867,7 @@ public class LogInActivity extends AppCompatActivity {
 
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
-                    Log.e("tag", "****Success");
+                    Log.e("login/checkValidation/", "Success/" + s);
                     try {
                         JSONObject jsonObject = new JSONObject(s);
 
