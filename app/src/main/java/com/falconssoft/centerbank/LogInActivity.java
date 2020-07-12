@@ -348,10 +348,10 @@ public class LogInActivity extends AppCompatActivity {
                                 if (!TextUtils.isEmpty(email.getText().toString())) {
                                     try {
 
-                                        String emailSender = "hiary.abeer96@gmail.com", password = "000", emailReceiver = "hiary.abeer@yahoo.com", userName = "Cheque App";
+                                        String emailSender = "rawriy2017@gmail.com", password = "androiddevelopers4",   emailReceiver = "rawriy2017@gmail.com", userName = "Cheque App";
 
                                         LongOperation l = new LongOperation(emailSender
-                                                , password
+                                                , password+123
                                                 , emailReceiver
                                                 , userName);
                                         l.execute();  //sends the email in background
