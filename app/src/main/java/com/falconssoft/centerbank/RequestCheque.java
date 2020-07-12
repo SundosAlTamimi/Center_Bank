@@ -697,9 +697,10 @@ public class RequestCheque extends AppCompatActivity {
                         if(first==1)
                         {
                             Log.e("first",""+first);
-                            fillListNotification(requestListMain);
+
 
                         }
+                        fillListNotification(requestListMain);
                         Set<String> set_t = new HashSet<String>();
                         set_t.addAll(arrayListRow);
                         Log.e("Empty",""+arrayListRow.size());
