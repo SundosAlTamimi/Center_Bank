@@ -35,6 +35,7 @@ import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.notification;
 import com.falconssoft.centerbank.Models.requestModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -60,6 +61,7 @@ import java.util.TimerTask;
 import static android.widget.LinearLayout.VERTICAL;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
+import static com.falconssoft.centerbank.MainActivity.Request_ACTION;
 import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
 import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 import static com.falconssoft.centerbank.Request.serverLink;
@@ -76,8 +78,10 @@ public class RequestCheque extends AppCompatActivity {
     ArrayList <requestModel> requestArrayList;
     ArrayList <requestModel> requestArrayListTest;
     public ArrayList<requestModel> requestList;
-//    public  static ArrayList<ChequeInfo> checkInfoNotification;
 
+//    public  static ArrayList<ChequeInfo> checkInfoNotification;
+    ArrayList <requestModel> requestListMain;
+    ArrayList <requestModel> requestListTestMain;
     //******************************************************
     LinearLayoutManager layoutManager;
 
@@ -100,7 +104,11 @@ public class RequestCheque extends AppCompatActivity {
     LinearLayout layout;
     Bitmap serverPicBitmap;
     int first=0;
+    int flagMain=0;
+    boolean foundFirst=false,foundSecond=false;
     Timer timer;
+    FloatingActionButton floa_add;
+    public  String WHICH="0";
     public  static   String language="", serverLink="http://falconssoft.net/ScanChecks/APIMethods.dll/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +120,7 @@ public class RequestCheque extends AppCompatActivity {
 
         layout = (LinearLayout)findViewById(R.id.mainlayout);
         first=1;
+        flagMain=1;
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");//"No name defined" is the default value.
         Log.e("editing,3 ", language);
@@ -132,7 +141,13 @@ public class RequestCheque extends AppCompatActivity {
         phoneNo = loginPrefs.getString("mobile", "");
 
 
-        new GetAllRequest_JSONTask().execute();
+        new GetAllRequestToUser_JSONTask().execute();
+        Log.e("flagMainCreat",""+flagMain);
+
+//        if(flagMain==2)
+//        {
+//            new GetAllRequestFromUser_JSONTask().execute();
+//        }
         timer = new Timer();
 //        timer.schedule(new TimerTask() {
 //            @Override
@@ -149,6 +164,14 @@ public class RequestCheque extends AppCompatActivity {
         databaseHandler=new DatabaseHandler(RequestCheque.this);
         recyclerView = findViewById(R.id.recycler);
         mainText=findViewById(R.id.textView);
+        floa_add=findViewById(R.id.floating_add);
+        floa_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(RequestCheque.this,Request.class);
+                startActivity(i);
+            }
+        });
         user=new LoginINFO();
         sharedPreferences = getSharedPreferences(ROW_ID_PREFERENCE, Context.MODE_PRIVATE);
         notifiList1=new ArrayList<>();
@@ -167,8 +190,10 @@ public class RequestCheque extends AppCompatActivity {
         checkInfoNotification=new ArrayList<>();
         notifiList=new ArrayList<>();
         requestList=new ArrayList<>();
+        requestListMain=new ArrayList<>();
+        requestListTestMain=new ArrayList<>();
     }
-    public class GetAllRequest_JSONTask extends AsyncTask<String, String, String> {
+    public class GetAllRequestToUser_JSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -179,6 +204,7 @@ public class RequestCheque extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try {
+                WHICH="0";// to user
 
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
@@ -189,7 +215,7 @@ public class RequestCheque extends AppCompatActivity {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("MOBILENO", phoneNo));
 
-                nameValuePairs.add(new BasicNameValuePair("WHICH", "0"));// to me
+                nameValuePairs.add(new BasicNameValuePair("WHICH", WHICH));// to me witch=1
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
 
 
@@ -231,8 +257,10 @@ public class RequestCheque extends AppCompatActivity {
 
                         if (first == 1) {
                             requestArrayList.clear();
+                            requestListMain.clear();// for first creat
                         }
                         requestArrayListTest.clear();
+                        requestListTestMain.clear();
 
 
                         arrayListRow.clear();
@@ -253,11 +281,12 @@ public class RequestCheque extends AppCompatActivity {
 
 
                             Log.e("setTransType","\t"+chequeInfo.getTRANSSTATUS());
-                            if (!chequeInfo.getTRANSSTATUS().equals("1") )// reject from mee
+
+                            if (chequeInfo.getTRANSSTATUS().equals("0") )// reject from mee
                             {
                                 chequeInfo.setROWID(infoDetail.getString("ROWID"));
                                 chequeInfo.setFROMUSER_No(infoDetail.getString("FROMUSER"));
-                                chequeInfo.setWitch("0");
+                                chequeInfo.setWitch(WHICH);
                                 chequeInfo.setFROMUSER_name(infoDetail.get("FROMUSERNM").toString());
                                 chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
                                 chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
@@ -276,28 +305,35 @@ public class RequestCheque extends AppCompatActivity {
 //                                checkInfoNotification.add(chequeInfo);
                                 if (first == 1) {
                                     requestArrayList.add(chequeInfo);
+                                    requestListMain.add(chequeInfo);
+                                    Log.e("requestListMain",""+requestListMain.size());
                                 }
 
                                 requestArrayListTest.add(chequeInfo);
-                                Log.e("requestArrayListTest",""+requestArrayListTest.size());
+                                requestListTestMain.add(chequeInfo);
+                                Log.e("ToUserArrayListTest",""+requestListTestMain.size());
 
                             }
                         }
+                        Log.e("requestListTestMain",""+requestListTestMain.size());
 //
                         if(first==1)
                         {
-                            fillListNotification(requestArrayList);
+//                            fillListNotification(requestArrayList);
 
                         }
+                        Set<String> set_tow = new HashSet<String>();
+                        set_tow.addAll(arrayListRow);
+                        Log.e("Empty",""+arrayListRow.size());
 
 
 
-                        Set<String> set = sharedPreferences.getStringSet("REQUEST_LIST", null);
+                        Set<String> set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
 
                         if(set !=null)
                         {
 //
-                            set = sharedPreferences.getStringSet("REQUEST_LIST", null);
+                            set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
                             arrayListRowFirst.addAll(set);
 
                             int countFirst=arrayListRowFirst.size();
@@ -317,15 +353,16 @@ public class RequestCheque extends AppCompatActivity {
 
                                 if (countFirst < arrayListRowFirst.size())// new data
                                 {
-                                    ShowNotifi();
+                                    foundFirst=true;
+//                                    ShowNotifi();
 
-                                    fillListNotification(requestArrayListTest);
+//                                    fillListNotification(requestArrayListTest);
 
 
                                 }
                                 else {
 
-                                    fillListNotification(requestArrayListTest);
+//                                    fillListNotification(requestArrayListTest);
                                 }
 
                             }//********************************************
@@ -333,8 +370,9 @@ public class RequestCheque extends AppCompatActivity {
                                 if(arrayListRow.size()>countFirst)// new data
                                 {
                                     Log.e("NewGreater","countFirst");
-                                    fillListNotification(requestArrayListTest);
-                                    ShowNotifi();
+//                                    fillListNotification(requestArrayListTest);
+//                                    ShowNotifi();
+                                    foundFirst=true;
 
                                 }
                                 else{
@@ -355,14 +393,15 @@ public class RequestCheque extends AppCompatActivity {
 
                                         if (countFirst < arrayListRowFirst.size())// new data
                                         {
-                                            ShowNotifi();
-
-                                            fillListNotification(requestArrayListTest);
+//                                            ShowNotifi();
+//
+//                                            fillListNotification(requestArrayListTest);
+                                            foundFirst=true;
 
                                         }
                                         else {
 
-//                                                fillListNotification(notificationArrayListTest);
+//                                                fillListNotification(requestListTestMain);
                                         }
                                     }
 
@@ -377,24 +416,25 @@ public class RequestCheque extends AppCompatActivity {
                         else {//empty shared preference
                             if(first!=1)
                             {
-                                fillListNotification(requestArrayList);
-                                ShowNotifi();
+//                                fillListNotification(requestArrayList);
+//                                ShowNotifi();
                                 Log.e("Notfirst",""+first);
+                                foundFirst=true;
                             }
 
 
 
                         }
 
-
-                        Set<String> set_tow = new HashSet<String>();
-                        set_tow.addAll(arrayListRow);
-                        Log.e("Empty",""+arrayListRow.size());
                         editor = sharedPreferences.edit();
-                        editor.putStringSet("REQUEST_LIST", set_tow);
+                        editor.putStringSet("REQUEST_ToUser", set_tow);
                         editor.apply();
+                        Log.e("EndFirstToUser","****************");
+                        new GetAllRequestFromUser_JSONTask().execute();
 
-                        first=2;
+
+
+
 //                        fillListNotification(notificationArrayList);
 
 
@@ -425,7 +465,7 @@ public class RequestCheque extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
-                show_Notification("Check  app, Recive new Check");
+                show_Notification("Check  app, Recive new Request");
 
             }
             else {
@@ -443,6 +483,7 @@ public class RequestCheque extends AppCompatActivity {
 //        notifiList1.clear();
         requestList1.clear();
         requestList1 = notificationsRequest;
+        Log.e("requestList1",""+requestList1.size());
         layoutManager = new LinearLayoutManager(RequestCheque.this);
         layoutManager.setOrientation(VERTICAL);
         runAnimation(recyclerView, 0);
@@ -479,12 +520,12 @@ public class RequestCheque extends AppCompatActivity {
         NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name", NotificationManager.IMPORTANCE_HIGH);
         Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
                 .setContentText("show Detail ......")
-                .setContentTitle("Recive new Check, click to show detail")
+                .setContentTitle("Recive new Request, click to show detail")
                 .setStyle(new Notification.BigTextStyle()
                         .bigText(detail)
                         .setBigContentTitle(" ")
                         .setSummaryText(""))
-                .setContentIntent(pendingIntent)
+                .setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .addAction(android.R.drawable.sym_action_chat,"Show detail",pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setChannelId(CHANNEL_ID)
@@ -508,7 +549,7 @@ public class RequestCheque extends AppCompatActivity {
         NotificationManager nm;
         notif = new Notification.Builder(getApplicationContext());
         notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
-        notif.setContentTitle("Recive new Check, click to show detail");
+        notif.setContentTitle("Recive new Request, click to show detail");
         notif.setAutoCancel(true);
         Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notif.setSound(path);
@@ -517,7 +558,7 @@ public class RequestCheque extends AppCompatActivity {
 //        context.sendBroadcast(it);
 
         Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS );// test
-        yesReceive.setAction(YES_ACTION);
+        yesReceive.setAction(Request_ACTION);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
 
@@ -530,6 +571,272 @@ public class RequestCheque extends AppCompatActivity {
 
 
         nm.notify(10, notif.getNotification());
+    }
+    public class GetAllRequestFromUser_JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                Log.e("flagMaindoInBackground",""+flagMain);
+                WHICH="1";
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+//                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
+                request.setURI(new URI(serverLink + "GetRequest?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("MOBILENO", phoneNo));
+
+                nameValuePairs.add(new BasicNameValuePair("WHICH", WHICH));// to me witch=1
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tagGetRequest", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    JSONObject jsonObject = null;
+                    try {
+                        Log.e("StartSecondUser","****************");
+                        Log.e("beforeListTestMain",""+requestListTestMain.size());
+
+//                        checkInfoNotification.clear();//delete
+
+//                        if (first == 1) {
+//                            requestArrayList.clear();
+//                        }
+//                        requestArrayListTest.clear();
+
+
+                        arrayListRow.clear();
+                        arrayListRowFirst.clear();
+                        requestList.clear();
+
+
+
+                        jsonObject = new JSONObject(s);
+
+                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
+                        for (int i = 0; i < notificationInfo.length(); i++) {
+                            JSONObject infoDetail = notificationInfo.getJSONObject(i);
+
+                            requestModel chequeInfo = new requestModel();
+
+                            chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
+
+
+                            Log.e("setTransType","\t"+chequeInfo.getTRANSSTATUS());
+
+                            if (chequeInfo.getTRANSSTATUS().equals("1") )// reject from mee
+                            {
+                                chequeInfo.setROWID(infoDetail.getString("ROWID"));
+                                chequeInfo.setFROMUSER_No(infoDetail.getString("FROMUSER"));
+                                chequeInfo.setWitch(WHICH);
+                                chequeInfo.setFROMUSER_name(infoDetail.get("FROMUSERNM").toString());
+                                chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
+                                chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
+                                chequeInfo.setCOMPNAME(infoDetail.get("COMPNAME").toString());
+                                Log.e("getFROMUSER_name",""+chequeInfo.getFROMUSER_name());
+                                chequeInfo.setNOTE(infoDetail.get("NOTE").toString());
+                                chequeInfo.setAMOUNT(infoDetail.get("AMOUNT").toString());
+
+                                chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
+                                chequeInfo.setINDATE(infoDetail.get("INDATE").toString());
+                                chequeInfo.setREASON(infoDetail.getString("REASON"));
+
+
+                                arrayListRow.add(chequeInfo.getROWID());
+
+                                if(first==1){
+                                    requestListMain.add(chequeInfo);
+                                }
+
+
+                                requestArrayListTest.add(chequeInfo);
+                                requestListTestMain.add(chequeInfo);
+                                Log.e("ToUserArrayListTest",""+requestListTestMain.size());
+
+                            }
+                        }
+//
+                        if(first==1)
+                        {
+                            Log.e("first",""+first);
+                            fillListNotification(requestListMain);
+
+                        }
+                        Set<String> set_t = new HashSet<String>();
+                        set_t.addAll(arrayListRow);
+                        Log.e("Empty",""+arrayListRow.size());
+
+
+
+                        Set<String> set = sharedPreferences.getStringSet("REQUEST_LIST", set_t);
+
+                        if(set !=null)
+                        {
+//
+                            set = sharedPreferences.getStringSet("REQUEST_LIST", set_t);
+                            arrayListRowFirst.addAll(set);
+
+                            int countFirst=arrayListRowFirst.size();
+                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
+                            {
+                                Log.e("olddataGreater","countFirst"+countFirst);
+                                Log.e("olddataGreater","arrayListRow"+arrayListRow.size());
+
+                                for( int h=0;h<arrayListRow.size();h++){
+                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if(index==-1)
+                                    {
+                                        arrayListRowFirst.add(arrayListRow.get(h));
+                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+
+                                    }
+
+                                }
+
+                                if (countFirst < arrayListRowFirst.size())// new data
+                                {
+                                    Log.e("NewGreater","new data");
+//                                    ShowNotifi();
+//                                    fillListNotification(requestListTestMain);
+                                    foundSecond=true;
+
+
+                                }
+                                else {
+
+//                                    fillListNotification(requestListMain);
+                                }
+
+                            }//********************************************
+                            else {
+                                if(arrayListRow.size()>countFirst)// new data
+                                {
+                                    Log.e("NewGreater","countFirst");
+//                                    fillListNotification(requestListTestMain);
+//                                    ShowNotifi();
+                                    foundSecond=true;
+
+                                }
+                                else{
+                                    if(arrayListRow.size()==countFirst)// equal size
+                                    {
+                                        Log.e("arrayListRow","== hereeee");
+
+                                        for( int h=0;h<arrayListRow.size();h++){
+                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if(index==-1)
+                                            {
+                                                arrayListRowFirst.add(arrayListRow.get(h));
+
+
+                                            }
+
+                                        }
+
+                                        if (countFirst < arrayListRowFirst.size())// new data
+                                        {
+//                                            ShowNotifi();
+
+//                                            fillListNotification(requestListTestMain);
+                                            foundSecond=true;
+
+                                        }
+                                        else {
+
+//                                                fillListNotification(requestListMain);
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+
+//                            }
+
+                        }
+                        else {//empty shared preference
+                                                   }
+
+
+
+                        editor = sharedPreferences.edit();
+                        editor.putStringSet("REQUEST_LIST", set_t);
+                        editor.apply();
+                        Log.e("foundSecond",""+foundSecond+"\t foundFirst"+foundFirst);
+
+
+                       // fillList();
+                        first=2;
+
+//                        fillListNotification(notificationArrayList);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+//                    INFO
+                    Log.e("tag", "****Success"+s.toString());
+                } else {
+                    Log.e("tag", "****Failed to export data");
+                }
+            }
+            else {
+
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
+
+    private void fillList() {
+        Log.e("fillList",""+foundSecond+requestListTestMain.size());
+        if(foundSecond||foundFirst)
+        {
+            fillListNotification(requestListTestMain);
+            ShowNotifi();
+
+        }
+        foundSecond=false;
+        foundFirst=false;
     }
 
 }

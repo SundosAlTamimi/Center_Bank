@@ -79,6 +79,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
     public Requestadapter(Context context, List<requestModel> notifications) {
         this.context = context;
         this.requestList = notifications;
+        Log.e("Requestadapter",""+notifications.size());
 
 
     }
@@ -113,6 +114,12 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
             viewHolder.cust_name.setLayoutDirection(LAYOUT_DIRECTION_LTR);
 
         }
+        if(requestList.get(i).getTRANSSTATUS().equals("1"))//for me rejected request
+        {
+            viewHolder.checkimage_state.setImageDrawable(context.getResources().getDrawable(R.drawable.reject_images));
+            viewHolder.checkStateText.setText(R.string.requestRejec);
+
+        }
 
         viewHolder.date_check.setText(requestList.get(i).getINDATE());
         viewHolder.amount_check.setText(requestList.get(i).getAMOUNT()+"\tJD");
@@ -120,36 +127,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 //        viewHolder.image_check.setImageBitmap(requestList.get(i).getCheck_photo());
         Log.e("getStatus",""+requestList.get(i).getAMOUNT());
 //        if(checkInfoNotification.get(i).getStatus().equals("0"))
-//        {
-//
-//            if(checkInfoNotification.get(i).getTransType().equals("1"))
-//            {
-//                viewHolder.checkStateText.setText(R.string.CheckAccpted);
-////                viewHolder.divider.setBackgroundColor(R.color.RealGreen);
-//                viewHolder.rejectImg.setVisibility(View.INVISIBLE);
-//                viewHolder.reciveNew.setVisibility(View.INVISIBLE);
-//                viewHolder.acceptImg.setVisibility(View.VISIBLE);
-//
-//            }
-//            else {
-////                viewHolder.divider.setBackgroundColor(R.color.RealRed);
-//                viewHolder.rejectImg.setVisibility(View.VISIBLE);
-//                viewHolder.checkStateText.setText(R.string.checkReject);
-//                viewHolder.reciveNew.setVisibility(View.INVISIBLE);
-//                viewHolder.acceptImg.setVisibility(View.INVISIBLE);
-//
-//            }
-//
-//        }
-//        else {
-//
-////            viewHolder.divider.setBackgroundColor(R.color.white);
-//            viewHolder.reciveNew.setVisibility(View.VISIBLE);
-//            viewHolder.checkStateText.setText(R.string.NewCheck);
-//            viewHolder.rejectImg.setVisibility(View.INVISIBLE);
-//            viewHolder.acceptImg.setVisibility(View.INVISIBLE);
-//
-//        }
+
 
         viewHolder.image_check.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,10 +154,10 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView cust_name, amount_check, date_check,checkStateText;
+        TextView cust_name, amount_check, date_check,checkStateText,checkStatuse;
         ImageView image_check;
         LinearLayout linearCheckInfo, mainLinearAdapter,divider,lineardetail,rowStatus;
-        CircleImageView acceptImg,rejectImg,reciveNew;
+        CircleImageView acceptImg,rejectImg,reciveNew,checkimage_state;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -198,6 +176,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
             acceptImg=itemView.findViewById(R.id.acceptimage);
             rejectImg=itemView.findViewById(R.id.rejectimage);
             reciveNew=itemView.findViewById(R.id.pendingimage);
+            checkimage_state=itemView.findViewById(R.id.checkimage_state);
 
 //
 
@@ -223,7 +202,10 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.request_detail);
             dialog.show();
+            LinearLayout linearresone,linear_buttons;
             LinearLayout linearLayout = dialog.findViewById(R.id.mainLinearDetail);
+            linearresone = dialog.findViewById(R.id.linearresone);
+            linear_buttons  = dialog.findViewById(R.id.linearButtons);
             if (language.equals("ar")) {
                 linearLayout.setLayoutDirection(LAYOUT_DIRECTION_RTL);
             } else {
@@ -232,7 +214,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
                 }
 
             }
-            TextView textAmouWord, textAmountNo,
+            TextView textAmouWord, checkStatuseReson,
                     textToOrder, texDate,  binificary,  textCompanyname, note,textCo;
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
@@ -243,6 +225,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 
 //
             rowcompany=dialog.findViewById(R.id.rowcompany);
+            checkStatuseReson=dialog.findViewById(R.id.checkStatuseReson);
             textCompanyname=dialog.findViewById(R.id.textComp);
             if(!requestList.get(row_index).getCOMPNAME().equals(""))
             {
@@ -252,6 +235,14 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
                 rowcompany.setVisibility(View.GONE);
 
             }
+            if(requestList.get(row_index).getWitch().equals("1"))
+            {
+                linear_buttons.setVisibility(View.GONE);
+                linearresone.setVisibility(View.VISIBLE);
+//                checkStateText.setText(requestList.get(row_index).getREASON());
+                checkStatuseReson.setText(requestList.get(row_index).getREASON());
+            }
+
 
             binificary= dialog.findViewById(R.id.binificary);
             binificary.setText(requestList.get(row_index).getTOUSER_name());
@@ -438,6 +429,8 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Intent i=new Intent(context,RequestCheque.class);
+                    context.startActivity(i);
                     Log.e("AdaptRequestExecute", "OK");
 
                     Log.e("tagAdapter", "****Success" + s.toString());

@@ -1,21 +1,38 @@
 package com.falconssoft.centerbank.viewmodel;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+
+import androidx.databinding.ObservableField;
+
+import java.util.Objects;
+
 public class SignupVM {
 
-    private  String gender;
-    private  String inactive;
-    private  String indate;
+    private String gender;
+    private String inactive;
+    private String indate;
 
-    private  String birthDate;
-    private  String nationalID;
-    private  String firstName;
-    private  String secondName;
-    private  String thirdName;
-    private  String fourthName;
-    private  String username;
-    private  String address;
-    private  String email;
-    private  String password;
+    private String birthDate;
+    private String nationalID;
+    private String firstName;
+    private String secondName;
+    private String thirdName;
+    private String fourthName;
+    private String username;
+    private String address;
+    private String email;
+    private String password;
+
+    public ObservableField<String> text = new ObservableField<>();
+
+//    public TextWatcher watcher = new TextWatcherAdapter() {
+//        @Override public void afterTextChanged(Editable s) {
+//            if (!Objects.equals(text.get(), s.toString())) {
+//                text.set(s.toString());
+//            }
+//        }
+//    };
 
     public String getGender() {
         return gender;
