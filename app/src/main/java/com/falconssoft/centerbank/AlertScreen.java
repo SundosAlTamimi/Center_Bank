@@ -33,6 +33,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,6 +79,8 @@ import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
 import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
+import static com.falconssoft.centerbank.MainActivity.notification_btn;
+
 
 public class AlertScreen extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -216,6 +219,8 @@ public class AlertScreen extends AppCompatActivity {
         user=databaseHandler.getLoginInfo();
         userNmae=user.getUsername();
         Passowrd=user.getPassword();
+        notification_btn.setVisibility(View.INVISIBLE);
+
 
         textCheckstateChanger=findViewById(R.id.textCheckstateChanger);
         textCheckstateChanger.addTextChangedListener(new TextWatcher() {
