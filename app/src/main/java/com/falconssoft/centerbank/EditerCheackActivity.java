@@ -272,7 +272,7 @@ public class EditerCheackActivity extends AppCompatActivity {
             String amountWord = numberToArabic.getArabicString(amount);
 
             Log.e("Ammount", "Jd +" + amountWord);
-            AmouWord.setText(amountWord);
+            AmouWord.setText(amountWord + " فقط لا غير");
 
 
         }

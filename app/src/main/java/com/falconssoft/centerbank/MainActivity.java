@@ -117,17 +117,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ArrayList<notification> notifiList;
     private DatabaseHandler dbHandler;
     static String watch;
-    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = ""
-            , CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = ""
-            , BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "";
+    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = "", CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = "", BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "";
     private JSONObject addAccountOb;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Dialog barcodeDialog;
     private String[] arr;
-    private boolean isAdd = false,isNewData=false;
+    private boolean isAdd = false, isNewData = false;
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
+    public static final String LOGIN_FLAG = "LOGIN_FLAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new GetAllCheck_JSONTask().execute();
 
 //                new GetAllRequestFromUser_JSONTask().execute();
-
 
 
             }
@@ -345,14 +343,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void show_Notification(String detail) {
-        Log.e("show_Notification",""+detail);
-        String actionType="";
-        if(detail.contains("Request"))
-        {
-            actionType="Request";
-        }
-        else {
-            actionType="YES";
+        Log.e("show_Notification", "" + detail);
+        String actionType = "";
+        if (detail.contains("Request")) {
+            actionType = "Request";
+        } else {
+            actionType = "YES";
         }
 
         Intent intent = new Intent(MainActivity.this, notificationReciver.class);
@@ -448,13 +444,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         imageView = findViewById(R.id.profile_image);
         scanBarcode = findViewById(R.id.scanBarcode);
         notification = findViewById(R.id.button_notification);
-        requestButton= findViewById(R.id.button_request);
+        requestButton = findViewById(R.id.button_request);
         toolbar = findViewById(R.id.main_toolbar);
         request = findViewById(R.id.main_request);
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(MainActivity.this,Request.class);
+                Intent in = new Intent(MainActivity.this, Request.class);
                 startActivity(in);
 
             }
@@ -597,7 +593,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 
                 String ST = Result.getContents();
-                 arr = ST.split(";");
+                arr = ST.split(";");
 
                 accCode = arr[3];
 
@@ -629,7 +625,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             break;
             case R.id.menu_request: {
-                Intent in=new Intent(MainActivity.this,RequestCheque.class);
+                Intent in = new Intent(MainActivity.this, RequestCheque.class);
                 startActivity(in);
 
 
@@ -638,6 +634,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_wallet: {
 
             }
+            break;
             case R.id.menu_giro: {
                 Intent intentJero = new Intent(MainActivity.this, JeroActivity.class);
                 startActivity(intentJero);
@@ -659,6 +656,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
+            }
+            break;
+            case R.id.menu_about: {
+                Dialog dialog = new Dialog(this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.about_page);
+                dialog.show();
+
+                Window window = dialog.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            }
+            break;
+            case R.id.menu_tracking: {
+                Intent intent = new Intent(MainActivity.this, TrackingCheque.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
             }
             break;
         }
@@ -753,7 +768,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
-            final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
+            final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_after_validation);
             dialog.setCancelable(false);
@@ -1029,7 +1044,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
-                Log.e("GetAccSuccess", "****Success");
+//                Log.e("GetAccSuccess", "****Success");
 
 //
                 try {
@@ -1257,7 +1272,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
-                Log.e("GetAccSuccess", "****Success");
+//                Log.e("GetAccSuccess", "****Success");
 
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                         .setTitleText(MainActivity.this.getResources().getString(R.string.success_del))
@@ -1322,7 +1337,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 in.close();
 
                 JsonResponse = sb.toString();
-                Log.e("tagMainActivityNotifi", "" + JsonResponse);
+//                Log.e("tagMainActivityNotifi", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -1380,18 +1395,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        editor = sharedPreferences.edit();
 //                        editor.putStringSet("DATE_LIST", set_tow);
 //                        editor.apply();
-                        
+
                         Set<String> set = null;
                         try {
 
-                          set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
-                            Log.e("sharedPreferences",""+set.size()+set.toString()); 
-                        }
-                        catch (Exception e)
-                        {
-                            
-                        }
+                            set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
+                            Log.e("sharedPreferences", "" + set.size() + set.toString());
+                        } catch (Exception e) {
 
+                        }
 
 
                         if (set != null) {
@@ -1473,7 +1485,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         editor = sharedPreferences.edit();
                         editor.putStringSet("DATE_LIST", set_tow);
                         editor.apply();
-                        new  GetAllRequestToUser_JSONTask().execute();
+                        new GetAllRequestToUser_JSONTask().execute();
 
 
                     } catch (JSONException e) {
@@ -1481,7 +1493,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success" + s.toString());
+//                    Log.e("tag", "****Success" + s.toString());
                 } else {
                     Log.e("tag", "****Failed to export data");
                 }
@@ -1494,14 +1506,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void ShowNotifi(String type) {
         String currentapiVersion = Build.VERSION.RELEASE;
-        String title="",content="";
-        switch (type)
-        {
+        String title = "", content = "";
+        switch (type) {
             case "check":
-                title="Recive new Check";
+                title = "Recive new Check";
                 break;
             case "request":
-                title="Recive new Request";
+                title = "Recive new Request";
                 break;
         }
 
@@ -1616,6 +1627,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
     //**********************************************************************************************************
     public class GetAllRequestToUser_JSONTask extends AsyncTask<String, String, String> {
 
@@ -1628,7 +1640,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected String doInBackground(String... params) {
             try {
-              String  WHICH="0";// to user
+                String WHICH = "0";// to user
 
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
@@ -1640,7 +1652,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 nameValuePairs.add(new BasicNameValuePair("MOBILENO", phoneNo));
 
                 nameValuePairs.add(new BasicNameValuePair("WHICH", "0"));// to me witch=1
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 
                 HttpResponse response = client.execute(request);
@@ -1658,7 +1670,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 in.close();
 
                 JsonResponse = sb.toString();
-                Log.e("tagGetRequest", "" + JsonResponse);
+//                Log.e("tagGetRequest", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -1691,9 +1703,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
 
 
-                            Log.e("setTransType","\t"+chequeInfo.getTRANSSTATUS());
+                            Log.e("setTransType", "\t" + chequeInfo.getTRANSSTATUS());
 
-                            if (chequeInfo.getTRANSSTATUS().equals("0") )// reject from mee
+                            if (chequeInfo.getTRANSSTATUS().equals("0"))// reject from mee
                             {
                                 chequeInfo.setROWID(infoDetail.getString("ROWID"));
                                 chequeInfo.setFROMUSER_No(infoDetail.getString("FROMUSER"));
@@ -1702,7 +1714,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
                                 chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
                                 chequeInfo.setCOMPNAME(infoDetail.get("COMPNAME").toString());
-                                Log.e("getFROMUSER_name",""+chequeInfo.getFROMUSER_name());
+//                                Log.e("getFROMUSER_name", "" + chequeInfo.getFROMUSER_name());
                                 chequeInfo.setNOTE(infoDetail.get("NOTE").toString());
                                 chequeInfo.setAMOUNT(infoDetail.get("AMOUNT").toString());
 
@@ -1712,7 +1724,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
                                 arrayListRow.add(chequeInfo.getROWID());
-                                Log.e("arrayListRowTouser",""+arrayListRow.size());
+                                Log.e("arrayListRowTouser", "" + arrayListRow.size());
 
 
                             }
@@ -1720,28 +1732,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         Set<String> set_tow = new HashSet<String>();
                         set_tow.addAll(arrayListRow);
-                        Log.e("Empty",""+arrayListRow.size());
-
+                        Log.e("Empty", "" + arrayListRow.size());
 
 
                         Set<String> set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
 
-                        if(set !=null)
-                        {
+                        if (set != null) {
 //
                             set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
                             arrayListRowFirst.addAll(set);
 
-                            int countFirst=arrayListRowFirst.size();
-                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
-                            {Log.e("olddataGreater","countFirst"+countFirst);
+                            int countFirst = arrayListRowFirst.size();
+                            if (arrayListRow.size() < countFirst)//there are update new data is less than old data
+                            {
+                                Log.e("olddataGreater", "countFirst" + countFirst);
 
-                                for( int h=0;h<arrayListRow.size();h++){
-                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                    if(index==-1)
-                                    {
+                                for (int h = 0; h < arrayListRow.size(); h++) {
+                                    int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if (index == -1) {
                                         arrayListRowFirst.add(arrayListRow.get(h));
-                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+                                        Log.e("arrayListRowYES", "" + arrayListRow.get(h));
 
                                     }
 
@@ -1754,31 +1764,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                                    isNewData=true;
 
 
-
-                                }
-                                else {
+                                } else {
 
 //
                                 }
 
                             }//********************************************
                             else {
-                                if(arrayListRow.size()>countFirst)// new data
+                                if (arrayListRow.size() > countFirst)// new data
                                 {
-                                    Log.e("NewGreater","countFirst");
+                                    Log.e("NewGreater", "countFirst");
                                     ShowNotifi("request");
 //                                    isNewData=true;
 
-                                }
-                                else{
-                                    if(arrayListRow.size()==countFirst)// equal size
+                                } else {
+                                    if (arrayListRow.size() == countFirst)// equal size
                                     {
-                                        Log.e("arrayListRow","== hereeee");
+                                        Log.e("arrayListRow", "== hereeee");
 
-                                        for( int h=0;h<arrayListRow.size();h++){
-                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                            if(index==-1)
-                                            {
+                                        for (int h = 0; h < arrayListRow.size(); h++) {
+                                            int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if (index == -1) {
                                                 arrayListRowFirst.add(arrayListRow.get(h));
 
 
@@ -1792,8 +1798,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                                            isNewData=true;
 //
 
-                                        }
-                                        else {
+                                        } else {
 
                                         }
                                     }
@@ -1805,8 +1810,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //                            }
 
-                        }
-                        else {//empty shared preference
+                        } else {//empty shared preference
 
 
                         }
@@ -1814,9 +1818,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         editor = sharedPreferences.edit();
                         editor.putStringSet("REQUEST_ToUser", set_tow);
                         editor.apply();
-                        Log.e("EndFirstToUser","****************");
-
-
+                        Log.e("EndFirstToUser", "****************");
 
 
                     } catch (JSONException e) {
@@ -1824,17 +1826,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success"+s.toString());
+//                    Log.e("tag", "****Success" + s.toString());
                 } else {
                     Log.e("tag", "****Failed to export data");
                 }
-            }
-            else {
+            } else {
 
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
         }
     }
+
     public class GetAllRequestFromUser_JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -1846,8 +1848,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected String doInBackground(String... params) {
             try {
-                Log.e("flagMaindoInBackground","");
-               String WHICH="1";
+                Log.e("flagMaindoInBackground", "");
+                String WHICH = "1";
 
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
@@ -1859,7 +1861,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 nameValuePairs.add(new BasicNameValuePair("MOBILENO", phoneNo));
 
                 nameValuePairs.add(new BasicNameValuePair("WHICH", WHICH));// to me witch=1
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 
                 HttpResponse response = client.execute(request);
@@ -1895,8 +1897,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     JSONObject jsonObject = null;
                     try {
-                        Log.e("StartSecondUser","****************");
-
+                        Log.e("StartSecondUser", "****************");
 
 
                         arrayListRow.clear();
@@ -1913,9 +1914,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
 
 
-                            Log.e("setTransType","\t"+chequeInfo.getTRANSSTATUS());
+                            Log.e("setTransType", "\t" + chequeInfo.getTRANSSTATUS());
 
-                            if (chequeInfo.getTRANSSTATUS().equals("1") )// reject from mee
+                            if (chequeInfo.getTRANSSTATUS().equals("1"))// reject from mee
                             {
                                 chequeInfo.setROWID(infoDetail.getString("ROWID"));
                                 chequeInfo.setFROMUSER_No(infoDetail.getString("FROMUSER"));
@@ -1924,7 +1925,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
                                 chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
                                 chequeInfo.setCOMPNAME(infoDetail.get("COMPNAME").toString());
-                                Log.e("getFROMUSER_name",""+chequeInfo.getFROMUSER_name());
+                                Log.e("getFROMUSER_name", "" + chequeInfo.getFROMUSER_name());
                                 chequeInfo.setNOTE(infoDetail.get("NOTE").toString());
                                 chequeInfo.setAMOUNT(infoDetail.get("AMOUNT").toString());
 
@@ -1941,33 +1942,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
                         Set<String> set_Data = new HashSet<String>();
                         set_Data.addAll(arrayListRow);
-                        Log.e("Empty",""+arrayListRow.size());
-
+                        Log.e("Empty", "" + arrayListRow.size());
 
 
                         Set<String> set = sharedPreferences.getStringSet("REQUEST_LIST", set_Data);
 
-                        if(set !=null)
-                        {
+                        if (set != null) {
 //
                             set = sharedPreferences.getStringSet("REQUEST_LIST", set_Data);
                             arrayListRowFirst.addAll(set);
 
-                            int countFirst=arrayListRowFirst.size();
-                            Log.e("countFirst",""+countFirst);
-                            Log.e("arrayListRow9999",""+arrayListRow.size());
+                            int countFirst = arrayListRowFirst.size();
+                            Log.e("countFirst", "" + countFirst);
+                            Log.e("arrayListRow9999", "" + arrayListRow.size());
 
-                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
+                            if (arrayListRow.size() < countFirst)//there are update new data is less than old data
                             {
-                                Log.e("olddataGreater2222","countFirst"+countFirst+"arrayListRow"+arrayListRow.size());
+                                Log.e("olddataGreater2222", "countFirst" + countFirst + "arrayListRow" + arrayListRow.size());
 
 
-                                for( int h=0;h<arrayListRow.size();h++){
-                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                    if(index==-1)
-                                    {
+                                for (int h = 0; h < arrayListRow.size(); h++) {
+                                    int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if (index == -1) {
                                         arrayListRowFirst.add(arrayListRow.get(h));
-                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+                                        Log.e("arrayListRowYES", "" + arrayListRow.get(h));
 
                                     }
 
@@ -1975,34 +1973,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                 if (countFirst < arrayListRowFirst.size())// new data
                                 {
-                                    Log.e("NewGreater","new data");
+                                    Log.e("NewGreater", "new data");
                                     ShowNotifi("request");
 //                                    isNewData=true;
 
 
-                                }
-                                else {
+                                } else {
                                 }
 
                             }//********************************************
                             else {
-                                if(arrayListRow.size()>countFirst)// new data
+                                if (arrayListRow.size() > countFirst)// new data
                                 {
-                                    Log.e("Statenewdata","g");
+                                    Log.e("Statenewdata", "g");
 
                                     ShowNotifi("request");
 //                                    isNewData=true;
 
-                                }
-                                else{
-                                    if(arrayListRow.size()==countFirst)// equal size
+                                } else {
+                                    if (arrayListRow.size() == countFirst)// equal size
                                     {
-                                        Log.e("arrayListRow","== hereeee");
+                                        Log.e("arrayListRow", "== hereeee");
 
-                                        for( int h=0;h<arrayListRow.size();h++){
-                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                            if(index==-1)
-                                            {
+                                        for (int h = 0; h < arrayListRow.size(); h++) {
+                                            int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if (index == -1) {
                                                 arrayListRowFirst.add(arrayListRow.get(h));
 
 
@@ -2013,11 +2008,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         if (countFirst < arrayListRowFirst.size())// new data
                                         {
 
-                                            Log.e("newdata","gCompare");
+                                            Log.e("newdata", "gCompare");
                                             ShowNotifi("request");
 //                                            isNewData=true;
-                                        }
-                                        else {
+                                        } else {
 
                                         }
                                     }
@@ -2029,16 +2023,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //                            }
 
+                        } else {//empty shared preference
                         }
-                        else {//empty shared preference
-                        }
-
 
 
                         editor = sharedPreferences.edit();
                         editor.putStringSet("REQUEST_LIST", set_Data);
                         editor.apply();
-                        Log.e("isNewData",""+isNewData);
+                        Log.e("isNewData", "" + isNewData);
 //                        if(isNewData)
 //                        {
 //                            ShowNotifi("request");
@@ -2050,12 +2042,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success"+s.toString());
+//                    Log.e("tag", "****Success" + s.toString());
                 } else {
                     Log.e("tag", "****Failed to export data");
                 }
-            }
-            else {
+            } else {
 
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }

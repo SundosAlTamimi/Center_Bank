@@ -10,10 +10,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.LoginINFO;
+import com.falconssoft.centerbank.databinding.ActivityTrackingChequeBinding;
+import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class Presenter {
 
@@ -22,13 +29,18 @@ class Presenter {
     private Context context;
     private RequestQueue requestQueue;
     private LoginINFO user;// for login
+    private ActivityTrackingChequeBinding binding;
+    private TrackingCheque trackingCheque;
+    String URL = "http://falconssoft.net/ScanChecks/APIMethods.dll/";
 
     private JsonObjectRequest signUpRequest;
-    String dd="http://falconssoft.net/ScanChecks/APIMethods.dll/";
-    private String urlSignUp = dd+"RegisterUser?INFO=";
+    private String urlSignUp = URL + "RegisterUser?INFO=";
 
     private JsonObjectRequest loginRequest;
-    private String urlLogin =  dd+"CheckUser?USERMOB=";
+    private String urlLogin = URL + "CheckUser?USERMOB=";
+
+    private JsonObjectRequest trackingRequest;
+    private String urlTracking = URL + "GetOwnerChecks?MOBILENO=";
 
     private String getUranUp = "http://localhost:8081/RegisterUser?INFO={\"NATID\":\"220022\",\"FIRSTNM\":\"ALAA\"" +
             ",\"FATHERNM\":\"Salem\",\"GRANDNM\":\"M.\",\"FAMILYNM\":\"JF\",\"DOB\":\"19/05/1978\"" +
@@ -39,7 +51,59 @@ class Presenter {
         this.requestQueue = Volley.newRequestQueue(context);
     }
 
-    // ******************************************************************************
+    // **************************************** trackingCheque **************************************
+    public void trackingCheque(TrackingCheque context, String phone, ActivityTrackingChequeBinding binding) {
+        trackingCheque = context;
+        this.binding = binding;
+        trackingRequest = new JsonObjectRequest(Request.Method.GET, urlTracking + phone
+                , null, new TrackingRequestClass(), new TrackingRequestClass());
+        requestQueue.add(trackingRequest);
+    }
+
+    class TrackingRequestClass implements Response.Listener<JSONObject>, Response.ErrorListener {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.e("presenter/", "v/error/" + error.toString());
+
+        }
+
+        @Override
+        public void onResponse(JSONObject response) {
+
+            Log.e("presenter/", "trackingCheque/" + response.toString());
+            if (response.toString().contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("INFO");
+                    List<ChequeInfoVM> list = new ArrayList<>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        ChequeInfoVM chequeInfo = new ChequeInfoVM();
+//                        chequeInfo.setRowId(jsonObject.getString("ROWID"));
+//                        chequeInfo.setBankNo(jsonObject.getString("BANKNO"));
+//                        chequeInfo.setBankName(jsonObject.getString("BANKNM"));
+//                        chequeInfo.setBranchNo(jsonObject.getString("BRANCHNO"));
+                        chequeInfo.setChequeNo(jsonObject.getString("CHECKNO"));
+                        chequeInfo.setAccCode(jsonObject.getString("ACCCODE"));
+//                        chequeInfo.setIbanNo(jsonObject.getString("IBANNO"));
+//                        chequeInfo.setCustName(jsonObject.getString("CUSTOMERNM"));
+//                        chequeInfo.setQrCode(jsonObject.getString("QRCODE"));
+//                        chequeInfo.setSerialNo(jsonObject.getString("SERIALNO"));
+//                        chequeInfo.setCheckIsSueDate(jsonObject.getString("CHECKISSUEDATE"));
+//                        chequeInfo.setCheckDueDate(jsonObject.getString("CHECKDUEDATE"));
+                        list.add(chequeInfo);
+                    }
+
+                    trackingCheque.fillAdapter(list, binding);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else if (response.toString().contains("\"StatusCode\":28,\"StatusDescreption\":\"This User not have checks.\""));
+            Toast.makeText(singUpActivity, "No cheques found!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // *************************************** saveSignUpInfo ***************************************
     public void saveSignUpInfo(SingUpActivity singUpActivity, final LoginINFO loginINFO) {
 
         this.singUpActivity = singUpActivity;
@@ -101,12 +165,12 @@ class Presenter {
 
 //            response = new String(response.getBytes("ISO-8859-1"), "UTF-8");
             Log.e("presenter/", "signup/" + response.toString());
-                singUpActivity.goToLoginPage(response.toString());
+            singUpActivity.goToLoginPage(response.toString());
 
         }
     }
 
-    // ******************************************************************************
+    // **************************************** loginInfoCheck **************************************
     public void loginInfoCheck(LogInActivity logInActivity, LoginINFO loginINFO) {
         user = loginINFO;
         this.logInActivity = logInActivity;
@@ -133,7 +197,7 @@ class Presenter {
 
 //            response = new String(response.getBytes("ISO-8859-1"), "UTF-8");
             Log.e("presenter/", "login/" + response.toString());
-            if (response.toString().contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")){
+            if (response.toString().contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {
                 try {
                     JSONObject jsonObject = response.getJSONArray("INFO").getJSONObject(0);
                     Log.e("jsonobject", jsonObject.getString("NATID") + jsonObject.getString("INACTIVE") + jsonObject.getString("INDATE"));
@@ -150,6 +214,8 @@ class Presenter {
                     user.setPassword(jsonObject.getString("PASSWORD"));
                     user.setInactive(jsonObject.getString("INACTIVE"));
                     user.setIndate(jsonObject.getString("INDATE"));
+
+                    Log.e("remember/Active3", "" + user.getIsRemember() + user.getIsNowActive());
 
                 } catch (JSONException e) {
                     e.printStackTrace();

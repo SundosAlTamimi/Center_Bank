@@ -213,7 +213,7 @@ public class AlertScreen extends AppCompatActivity {
         user=new LoginINFO();
         sharedPreferences = getSharedPreferences(ROW_ID_PREFERENCE, Context.MODE_PRIVATE);
         notifiList1=new ArrayList<>();
-        user=databaseHandler.getLoginInfo();
+        user=databaseHandler.getActiveUserInfo();
         userNmae=user.getUsername();
         Passowrd=user.getPassword();
 

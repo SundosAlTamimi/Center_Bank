@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,7 +21,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,6 +42,7 @@ import com.falconssoft.centerbank.Models.Setting;
 import com.falconssoft.centerbank.databinding.LogInBinding;
 import com.falconssoft.centerbank.mail.LongOperation;
 import com.falconssoft.centerbank.viewmodel.SignupVM;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -68,7 +74,7 @@ public class LogInActivity extends AppCompatActivity {
     //    private EditText userName, password;
 //    private Button singIn, singUp;
     public String language = "";
-    private ImageView SettingImage, close, seen;
+    private ImageView SettingImage, close;//, seen;
     private DatabaseHandler databaseHandler;
     private Animation animation;
     public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
@@ -84,8 +90,11 @@ public class LogInActivity extends AppCompatActivity {
     boolean flag = false;
     private LinearLayout phoneLinear, emailLinear, passwordLinear;
     private LogInBinding binding;
-    private SignupVM signupVM;
+    private SignupVM signupVM = new SignupVM();
     private ButtonsClickHandler buttonsClickHandler;
+    private ArrayList<String> spinnerList = new ArrayList<>();
+    private ArrayAdapter<String> adapter;
+    private int checkedRemember = -1;// -1 => mean not checked , 0 => not checked, 1=> checked
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -95,12 +104,10 @@ public class LogInActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
-
         editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
 //        editor.putString("link", "http://10.0.0.16:8081/");
         editor.putString("link", "http://falconssoft.net/ScanChecks/APIMethods.dll/");
         editor.apply();
-
         if (language.equals("ar")) {
             LocaleAppUtils.setLocale(new Locale("ar"));
             LocaleAppUtils.setConfigChange(LogInActivity.this);
@@ -111,12 +118,13 @@ public class LogInActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.log_in);
 //        setContentView(R.layout.log_in);//binding.getRoot()
 
-        binding.setLoginModel(signupVM);
+        init();
+//        databaseHandler.deleteLoginInfo();
 
+//        checkIfIsRemember();
         buttonsClickHandler = new ButtonsClickHandler(this);
         binding.setClickHandler(buttonsClickHandler);
 
-        init();
         checkLanguage();
         Log.e("editing,login ", language);
 
@@ -138,28 +146,28 @@ public class LogInActivity extends AppCompatActivity {
 //        checkValidation.setOnClickListener(this);
 //        forgetPassword.setOnClickListener(this);
 
-        seen.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (binding.LogInPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) { //password
-                    seen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility));
-                    binding.LogInPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// password
-                    binding.LogInPassword.setTransformationMethod(new PasswordTransformationMethod());// password
-                } else {
-                    seen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
-                    binding.LogInPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);// password
-                    binding.LogInPassword.setTransformationMethod(null);//password
-                }
-                return false;
-            }
-        });
+//        seen.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                if (binding.LogInPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) { //password
+//                    seen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility));
+//                    binding.LogInPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// password
+//                    binding.LogInPassword.setTransformationMethod(new PasswordTransformationMethod());// password
+//                } else {
+//                    seen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+//                    binding.LogInPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);// password
+//                    binding.LogInPassword.setTransformationMethod(null);//password
+//                }
+//                return false;
+//            }
+//        });
 
-        SettingImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addSettingButton();
-            }
-        });
+//        SettingImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                addSettingButton();
+//            }
+//        });
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
@@ -169,16 +177,136 @@ public class LogInActivity extends AppCompatActivity {
                 R.anim.move_to_right);
         passwordLinear.startAnimation(animation);
 
+
+        binding.LogInUserName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                checkIfIsRemember(String.valueOf(charSequence));
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                checkIfIsRemember(String.valueOf(charSequence));
+                Log.e("tracking", String.valueOf(charSequence));
+                if (!TextUtils.isEmpty(String.valueOf(charSequence)))
+                    binding.loginSearch.setText(databaseHandler.getLoginInfo(String.valueOf(charSequence)).getUsername());
+                else
+                    binding.loginSearch.setText("");
+
+
+//                signupVM.setSearchPhone(databaseHandler.getLoginInfo(String.valueOf(charSequence)).getUsername());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        binding.setLoginModel(signupVM);
+
     }
 
-    public class ButtonsClickHandler{
+
+    void checkIfIsRemember(String word) {
+
+        Log.e("tracking", word);
+        List<LoginINFO> list = new ArrayList<LoginINFO>();
+        list.clear();
+        spinnerList.clear();
+
+//        list = databaseHandler.getLoginInfo(word);
+//        if (list.size() > 0) {
+////            binding.logInSpinner.setVisibility(View.VISIBLE);
+//            for (int i = 0; i < list.size(); i++)
+//                spinnerList.add(list.get(i).getUsername());
+//        } else {
+////            binding.logInSpinner.setVisibility(View.GONE);
+//            list.clear();
+//            spinnerList.clear();
+//        }
+//
+//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerList);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        binding.logInSpinner.setAdapter(adapter);
+//
+//        binding.logInSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                LoginINFO user = databaseHandler.getUserInfo(adapterView.getSelectedItem().toString());
+//                binding.LogInUserName.setText(user.getUsername());
+//                binding.LogInPassword.setText(user.getPassword());
+//                binding.loginRememberMe.setChecked(true);
+//                databaseHandler.updateLoginActive(user.getUsername());
+////                        binding.logInSpinner.setVisibility(View.GONE);
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+
+
+//        Log.e("getIsRemember", "" + list.get(0).getUsername() + "***************" + list.get(1).getUsername());
+//        if (list.size() == 1 && (list.get(0).getIsRemember() == 1)) {
+//            signupVM.setUsername(list.get(0).getUsername());
+//            signupVM.setPassword(list.get(0).getPassword());
+//            binding.loginRememberMe.setChecked(true);
+//            databaseHandler.updateLoginActive(list.get(0).getUsername());
+//
+//        } else if (list.size() > 1) {
+//            for (int i = 0; i < list.size(); i++){
+//                Log.e("getIsRemember", "" + list.get(i).getUsername());
+//                if (list.get(i).getIsRemember() == 1) {
+//                    spinnerList.add(list.get(i).getUsername());
+//
+//
+//                }
+//            }
+//            if (spinnerList.size() > 1) {
+//
+//                binding.logInSpinner.setVisibility(View.VISIBLE);
+//                binding.loginRememberMe.setChecked(true);
+//                adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerList);
+//                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                binding.logInSpinner.setAdapter(adapter);
+//
+//                binding.logInSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                        LoginINFO user = databaseHandler.getUserInfo(adapterView.getSelectedItem().toString());
+//                        binding.LogInUserName.setText(user.getUsername());
+//                        binding.LogInPassword.setText(user.getPassword());
+//                        binding.loginRememberMe.setChecked(true);
+//                        databaseHandler.updateLoginActive(user.getUsername());
+//
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//                    }
+//                });
+//            }else if (spinnerList.size() == 1){
+//                signupVM.setUsername(spinnerList.get(0));
+//                signupVM.setPassword(databaseHandler.getUserInfo(spinnerList.get(0)).getPassword());
+//                binding.loginRememberMe.setChecked(true);
+//                databaseHandler.updateLoginActive(list.get(0).getUsername());
+//            }
+//        }
+
+    }
+
+    public class ButtonsClickHandler implements CompoundButton.OnCheckedChangeListener {
         Context context;
 
         public ButtonsClickHandler(Context context) {
             this.context = context;
         }
 
-        public void onClickLogin(View view){
+        public void onClickLogin(View view) {
 //            Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
             if (!TextUtils.isEmpty(binding.LogInUserName.getText()))//userName.getText().toString()))
                 if (binding.LogInUserName.length() == 10)//userName.length() == 10)
@@ -191,7 +319,9 @@ public class LogInActivity extends AppCompatActivity {
                         LoginINFO user = new LoginINFO();
                         user.setUsername(binding.LogInUserName.getText().toString());//userName.getText().toString());
                         user.setPassword(binding.LogInPassword.getText().toString());//password.getText().toString());
-
+                        user.setIsRemember(checkedRemember);
+                        Log.e("fromlogin", user.getUsername() + checkedRemember);
+                        user.setIsNowActive(0);
                         showDialog();
                         new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
                     } else {
@@ -205,12 +335,12 @@ public class LogInActivity extends AppCompatActivity {
             }
         }
 
-        public void onClickSignup(View view){
+        public void onClickSignup(View view) {
             Intent mainActivityIntent = new Intent(LogInActivity.this, SingUpActivity.class);
             startActivity(mainActivityIntent);
         }
 
-        public void onClickCheckValidation(View view){
+        public void onClickCheckValidation(View view) {
 
             barcodeDialog = new Dialog(LogInActivity.this);
             barcodeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -296,7 +426,7 @@ public class LogInActivity extends AppCompatActivity {
             barcodeDialog.show();
         }
 
-        public void onClickEnglish(View view){
+        public void onClickEnglish(View view) {
             language = "en";
             editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
             editor.putString("language", "en");
@@ -308,7 +438,7 @@ public class LogInActivity extends AppCompatActivity {
             startActivity(getIntent());
         }
 
-        public void onClickArabic(View view){
+        public void onClickArabic(View view) {
             language = "ar";
             editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
             editor.putString("language", "ar");
@@ -320,7 +450,7 @@ public class LogInActivity extends AppCompatActivity {
             startActivity(getIntent());
         }
 
-        public void onClickForgetPassword(View view){
+        public void onClickForgetPassword(View view) {
             Dialog dialog = new Dialog(LogInActivity.this);
             dialog.setContentView(R.layout.dialog_forget_password);
 
@@ -389,6 +519,23 @@ public class LogInActivity extends AppCompatActivity {
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         }
 
+        public void onClickSearchPhone(View view) {
+            binding.LogInUserName.setText(binding.loginSearch.getText().toString());
+
+            binding.LogInPassword.setText(databaseHandler.getUserInfo(binding.loginSearch.getText().toString()).getPassword());
+
+            binding.loginRememberMe.setChecked(true);
+
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if (b)
+                checkedRemember = 1;
+            else
+                checkedRemember = 0;
+
+        }
     }
 
     @Override
@@ -482,10 +629,24 @@ public class LogInActivity extends AppCompatActivity {
     public void goToTheMainPage(String message, LoginINFO user) {
         hideDialog();
 
-        if (message!=null && message.contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {//"StatusCode":10,"StatusDescreption":"User not found."
+        if (message != null && message.contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {//"StatusCode":10,"StatusDescreption":"User not found."
             DatabaseHandler databaseHandler = new DatabaseHandler(this);
-            databaseHandler.deleteLoginInfo();
-            databaseHandler.addLoginInfo(user);
+            LoginINFO currentUser = databaseHandler.getUserInfo(user.getUsername());
+            Log.e("Username", "" + currentUser.getUsername());
+            Log.e("remember/Active", "" + user.getIsRemember() + user.getIsNowActive());
+
+            if (TextUtils.isEmpty(currentUser.getUsername())) {
+                databaseHandler.addLoginInfo(user);
+                Log.e("remember/Active2", "" + user.getIsRemember() + user.getIsNowActive());
+            } else if (!TextUtils.isEmpty(currentUser.getUsername()) && user.getIsRemember() != -1)
+                databaseHandler.updateRememberState(user.getIsRemember(), user.getUsername());
+
+
+            Log.e("fromlogin22", user.getUsername() + checkedRemember);
+
+            databaseHandler.updateLoginActive(user.getUsername());
+//            checkIfIsRemember();
+
             editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
             editor.putString("mobile", user.getUsername());
             editor.putString("password", user.getPassword());
@@ -495,7 +656,7 @@ public class LogInActivity extends AppCompatActivity {
 
             Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
             startActivity(MainActivityIntent);
-        } else if (message!=null && message.contains("\"StatusCode\":10,\"StatusDescreption\":\"User not found.\""))
+        } else if (message != null && message.contains("\"StatusCode\":10,\"StatusDescreption\":\"User not found.\""))
             showSnackbar("User not found!", false);
         else
             showSnackbar("Please check internet connection!", false);
@@ -556,7 +717,7 @@ public class LogInActivity extends AppCompatActivity {
 //        checkValidation = findViewById(R.id.login_checkValidation);
         SettingImage = findViewById(R.id.Setting);
         coordinatorLayout = findViewById(R.id.login_coordinatorLayout);
-        seen = findViewById(R.id.login_seen);
+//        seen = findViewById(R.id.login_seen);
 //        forgetPassword = findViewById(R.id.login_forgetPassword);
         passwordLinear = findViewById(R.id.login_password_linear);
 
@@ -595,6 +756,12 @@ public class LogInActivity extends AppCompatActivity {
         }
 
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        checkIfIsRemember();
+//    }
 
 //    @Override
 //    public void onClick(View view) {

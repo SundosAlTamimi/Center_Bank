@@ -100,4 +100,8 @@
     <string name="Request_From">Request From</string>
     <string name="ResonOfReject">Reson Of Reject</string>
     <string name="requestRejected">Request Rejected</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="about">About</string>
+    <string name="type">Type</string>
+    <string name="tracking">Tracking</string>
 </resources>
