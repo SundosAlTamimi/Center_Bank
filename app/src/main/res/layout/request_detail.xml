@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.9"
-                android:background="@drawable/backwithoutborder"
+                android:background="@drawable/back_black"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="5dp">

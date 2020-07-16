@@ -87,10 +87,12 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.falconssoft.centerbank.AlertScreen.ROW_ID_PREFERENCE;
+import static com.falconssoft.centerbank.AlertScreen.checkInfoNotification;
 import static com.falconssoft.centerbank.AlertScreen.editor;
 import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
+import static com.falconssoft.centerbank.ShowNotifications.showNotification;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String CHANNEL_ID = "2";
@@ -115,20 +117,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ArrayList<String> arrayListRow = new ArrayList<>();
     private ArrayList<String> arrayListRowFirst = new ArrayList<>();
     private ArrayList<notification> notifiList1;
+    private ArrayList<requestModel> requestList;
+    private ArrayList<requestModel> requestList_Tow;
     public ArrayList<notification> notifiList;
+    public ArrayList<ChequeInfo> checkInfoList;
+
     private DatabaseHandler dbHandler;
     static String watch;
-    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = ""
-            , CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = ""
-            , BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "";
+    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = "", CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = "", BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "";
     private JSONObject addAccountOb;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Dialog barcodeDialog;
     private String[] arr;
-    private boolean isAdd = false,isNewData=false;
+    private boolean isAdd = false, isNewData = false;
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
+    public static final String LOGIN_FLAG = "LOGIN_FLAG";
     public  static  TextView  notification_btn,button_request;
     RelativeLayout notifyLayout,requestLayout;
 
@@ -156,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new GetAllCheck_JSONTask().execute();
 
 //                new GetAllRequestFromUser_JSONTask().execute();
-
 
 
             }
@@ -485,8 +489,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         wallet = findViewById(R.id.main_wallet);
         arrayListRow = new ArrayList<>();
         arrayListRowFirst = new ArrayList<>();
+        requestList=new ArrayList<>();
+        requestList_Tow=new ArrayList<>();
         notifiList1 = new ArrayList<>();
         notifiList = new ArrayList<>();
+        checkInfoList=new ArrayList<>();
 
         dbHandler = new DatabaseHandler(MainActivity.this);
         recyclerViews = (RecyclerView) findViewById(R.id.res);
@@ -622,7 +629,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 
                 String ST = Result.getContents();
-                 arr = ST.split(";");
+                arr = ST.split(";");
 
                 accCode = arr[3];
 
@@ -654,7 +661,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             break;
             case R.id.menu_request: {
-                Intent in=new Intent(MainActivity.this,RequestCheque.class);
+                Intent in = new Intent(MainActivity.this, RequestCheque.class);
                 startActivity(in);
 
 
@@ -663,6 +670,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_wallet: {
 
             }
+            break;
             case R.id.menu_giro: {
                 Intent intentJero = new Intent(MainActivity.this, JeroActivity.class);
                 startActivity(intentJero);
@@ -686,6 +694,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
+            }
+            break;
+            case R.id.menu_about: {
+                Dialog dialog = new Dialog(this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.about_page);
+                dialog.show();
+
+                Window window = dialog.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            }
+            break;
+            case R.id.menu_tracking: {
+                Intent intent = new Intent(MainActivity.this, TrackingCheque.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
             }
             break;
         }
@@ -780,7 +806,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
-            final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
+            final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_after_validation);
             dialog.setCancelable(false);
@@ -1056,7 +1082,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
-                Log.e("GetAccSuccess", "****Success");
+//                Log.e("GetAccSuccess", "****Success");
 
 //
                 try {
@@ -1349,7 +1375,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 in.close();
 
                 JsonResponse = sb.toString();
-                Log.e("tagMainActivityNotifi", "" + JsonResponse);
+//                Log.e("tagMainActivityNotifi", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -1371,6 +1397,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         arrayListRow.clear();
                         arrayListRowFirst.clear();
                         notifiList.clear();
+                        checkInfoList.clear();
                         jsonObject = new JSONObject(s);
 
                         JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
@@ -1391,10 +1418,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
                                 notifi.setAmount_check(infoDetail.get("AMTJD").toString());
                                 //**********************************************************************
-
+                                chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
                                 chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
 
-
+                                checkInfoList.add(chequeInfo);
                                 arrayListRow.add(chequeInfo.getRowId());
 
 
@@ -1443,8 +1470,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                 if (countFirst < arrayListRowFirst.size())// new data
                                 {
-                                    ShowNotifi("check");
+//                                    ShowNotifi("check");
                                     notification_btn.setVisibility(View.VISIBLE);
+                                    int stat=-1;
+                                    if(checkInfoList.get(0).getStatus().equals("0")) {
+                                        if (checkInfoList.get(0).getTransType().equals("1")) {
+                                            stat=1;
+
+                                        }
+                                        else {
+                                            stat=2;
+                                        }
+                                    }
+                                    else {
+                                        stat=0;
+
+                                    }
+                                    ShowNotifi_detail("check",stat,checkInfoList.get(0).getChequeNo());
+
+
 
 
                                 } else {
@@ -1458,9 +1502,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 if (arrayListRow.size() > countFirst)// new data
                                 {
                                     Log.e("NewGreater", "countFirst" + countFirst);
-
-                                    ShowNotifi("check");
                                     notification_btn.setVisibility(View.VISIBLE);
+//                                    ShowNotifi("check");
+                                    int stat=-1;
+                                    if(checkInfoList.get(0).getStatus().equals("0")) {
+                                        if (checkInfoList.get(0).getTransType().equals("1")) {
+                                            stat=1;
+
+                                        }
+                                        else {
+                                            stat=2;
+                                        }
+                                    }
+                                    else {
+                                        stat=0;
+
+                                    }
+                                    ShowNotifi_detail("check",stat,checkInfoList.get(0).getChequeNo());
+
+
+
 
 
                                 } else {
@@ -1480,16 +1541,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                         if (countFirst < arrayListRowFirst.size())// new data
                                         {
-                                            ShowNotifi("check");
+//                                            ShowNotifi("check");
+
                                             notification_btn.setVisibility(View.VISIBLE);
+                                            int stat = -1;
+                                            if (checkInfoList.get(0).getStatus().equals("0")) {
+                                                if (checkInfoList.get(0).getTransType().equals("1")) {
+                                                    stat = 1;
+
+                                                } else {
+                                                    stat = 2;
+                                                }
+                                            } else {
+                                                stat = 0;
+
+                                            }
+                                            ShowNotifi_detail("check", stat, checkInfoList.get(0).getChequeNo());
+
+                                        }
 
 
-
-                                        } else {
+                                    } else {
 
 
 //                                                fillListNotification(notificationArrayListTest);
-                                        }
+
                                     }
 
                                 }
@@ -1511,14 +1587,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         editor.apply();
 
                         new  GetAllRequestToUser_JSONTask().execute();
-
+//                        new GetAllRequestFromUser_JSONTask().execute();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success" + s.toString());
+//                    Log.e("tag", "****Success" + s.toString());
                 } else {
                     Log.e("tag", "****Failed to export data");
                 }
@@ -1543,26 +1619,70 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 //
-        if (Double.parseDouble(currentapiVersion.substring(0, 1)) >= 8) {
-            // Do something for 14 and above versions
+
+
 
 //                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
-                show_Notification(title);
+//                show_Notification(title);
+                showNotification(MainActivity.this,title,"details");
 
             } else {
-
+                notificationShow(title);
             }
 
 
-        } else {
 
-            notificationShow(title);
-        }
     }
+    private void ShowNotifi_detail(String type,int state,String contentMessage) {
+        String currentapiVersion = Build.VERSION.RELEASE;
+        String title="",content="",statuse="";
 
+        switch (type)
+        {
+            case "check":
+                title="Check";
+                break;
+            case "request":
+                title="Request";
+                break;
+        }
+        String messgaeBody="";
+        switch (state)
+        {
+            case 0:
+                statuse="new\t"+title+"\t";
+                messgaeBody="you have "+statuse+"From"+"\t"+contentMessage;
+            break;
+            case 1:
+                statuse="Accepted\t"+title+"\t";
+                messgaeBody="you have "+statuse+"\t"+contentMessage;
+                break;
+            case 2:
+                statuse="Rejected\t"+title+"\t";
+                messgaeBody="you have "+statuse+"\t"+contentMessage;
+                break;
+        }
+
+        Log.e("messgaeBody",""+messgaeBody);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+
+//                show_Notification(title);
+            showNotification(MainActivity.this,title,messgaeBody);
+
+        } else {
+            showNotification(MainActivity.this,title,messgaeBody);
+
+//            notificationShow(title);
+        }
+
+
+
+    }
     // ******************************************** CHECK QR VALIDATION *************************************
     private class JSONTask extends AsyncTask<String, String, String> {
 
@@ -1606,7 +1726,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 in.close();
 
                 JsonResponse = sb.toString();
-                Log.e("tag", "" + JsonResponse);
+//                Log.e("tag", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -1695,7 +1815,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 in.close();
 
                 JsonResponse = sb.toString();
-                Log.e("tagGetRequest", "" + JsonResponse);
+//                Log.e("tagGetRequest", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -1716,6 +1836,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         arrayListRow.clear();
                         arrayListRowFirst.clear();
+                        requestList.clear();
 
                         jsonObject = new JSONObject(s);
 
@@ -1739,13 +1860,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
                                 chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
                                 chequeInfo.setCOMPNAME(infoDetail.get("COMPNAME").toString());
-                                Log.e("getFROMUSER_name",""+chequeInfo.getFROMUSER_name());
+//                                Log.e("getFROMUSER_name", "" + chequeInfo.getFROMUSER_name());
                                 chequeInfo.setNOTE(infoDetail.get("NOTE").toString());
                                 chequeInfo.setAMOUNT(infoDetail.get("AMOUNT").toString());
 
                                 chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
                                 chequeInfo.setINDATE(infoDetail.get("INDATE").toString());
                                 chequeInfo.setREASON(infoDetail.getString("REASON"));
+                                requestList.add(chequeInfo);
 
 
                                 arrayListRow.add(chequeInfo.getROWID());
@@ -1784,11 +1906,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                 }
 
-                                if (countFirst < arrayListRowFirst.size())// new data
+                                if (countFirst < arrayListRowFirst.size())// comparenew data
                                 {
 
-                                    ShowNotifi("request");
+//                                    ShowNotifi("request");
                                     button_request.setVisibility(View.VISIBLE);
+                                    ShowNotifi_detail("request",0,requestList.get(requestList.size()-1).getTOUSER_name());
+
+                                    Log.e("requestList_comparenew",""+ arrayListRowFirst.size()+"\t"+countFirst);
 //                                    isNewData=true;
 
 
@@ -1803,8 +1928,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             else {
                                 if(arrayListRow.size()>countFirst)// new data
                                 {
-                                    Log.e("NewGreater","countFirst");
-                                    ShowNotifi("request");
+                                    Log.e("newGreater","countFirst");
+                                    ShowNotifi_detail("request",0,requestList.get(requestList.size()-1).getFROMUSER_name());
+                                    Log.e("requestList",""+ requestList.size()+"\t"+requestList.get(requestList.size()-1).getTOUSER_name());
                                     button_request.setVisibility(View.VISIBLE);
 //                                    isNewData=true;
 
@@ -1824,11 +1950,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             }
 
                                         }
+                                        Log.e("requestList_equal",""+ arrayListRowFirst.size()+"\t"+arrayListRow.size());
 
                                         if (countFirst < arrayListRowFirst.size())// new data
                                         {
-                                            ShowNotifi("request");
+//                                            ShowNotifi("request");
                                             button_request.setVisibility(View.VISIBLE);
+                                            ShowNotifi_detail("request",0,requestList.get(requestList.size()-1).getTOUSER_name());
+
 //                                            isNewData=true;
 //
 
@@ -1942,6 +2071,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         arrayListRow.clear();
                         arrayListRowFirst.clear();
+                        requestList_Tow.clear();
 
                         jsonObject = new JSONObject(s);
 
@@ -1953,8 +2083,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
 
-
-                            Log.e("setTransType","\t"+chequeInfo.getTRANSSTATUS());
 
                             if (chequeInfo.getTRANSSTATUS().equals("1") )// reject from mee
                             {
@@ -1972,13 +2100,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
                                 chequeInfo.setINDATE(infoDetail.get("INDATE").toString());
                                 chequeInfo.setREASON(infoDetail.getString("REASON"));
-
+                                requestList_Tow.add(chequeInfo);
 
                                 arrayListRow.add(chequeInfo.getROWID());
 
 
                             }
                         }
+                        Log.e("requestList_Tow",""+requestList_Tow.size());
 //
                         Set<String> set_Data = new HashSet<String>();
                         set_Data.addAll(arrayListRow);
@@ -1995,12 +2124,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             arrayListRowFirst.addAll(set);
 
                             int countFirst=arrayListRowFirst.size();
-                            Log.e("countFirst",""+countFirst);
+                            Log.e("countFirstT",""+countFirst);
                             Log.e("arrayListRow9999",""+arrayListRow.size());
 
                             if(arrayListRow.size()<countFirst)//there are update new data is less than old data
                             {
-                                Log.e("olddataGreater2222","countFirst"+countFirst+"arrayListRow"+arrayListRow.size());
+                                Log.e("olddataGreater2222T","countFirst"+countFirst+"arrayListRow"+arrayListRow.size());
 
 
                                 for( int h=0;h<arrayListRow.size();h++){
@@ -2008,7 +2137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     if(index==-1)
                                     {
                                         arrayListRowFirst.add(arrayListRow.get(h));
-                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+                                        Log.e("arrayListRowYEST",""+arrayListRow.get(h));
 
                                     }
 
@@ -2016,9 +2145,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                 if (countFirst < arrayListRowFirst.size())// new data
                                 {
-                                    Log.e("NewGreater","new data");
-                                    ShowNotifi("request");
+                                    Log.e("NewGreaterT","new data");
+//                                    ShowNotifi("request");
                                     button_request.setVisibility(View.VISIBLE);
+                                    ShowNotifi_detail("request",2,requestList_Tow.get(requestList_Tow.size()-1).getTOUSER_name());
+
 //                                    isNewData=true;
 
 
@@ -2030,9 +2161,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             else {
                                 if(arrayListRow.size()>countFirst)// new data
                                 {
-                                    Log.e("Statenewdata","g");
+                                    Log.e("StatenewdataT","g");
 
-                                    ShowNotifi("request");
+//                                    ShowNotifi("request");
+                                    ShowNotifi_detail("request",2,requestList_Tow.get(requestList_Tow.size()-1).getTOUSER_name());
                                     button_request.setVisibility(View.VISIBLE);
 //                                    isNewData=true;
 
@@ -2040,7 +2172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 else{
                                     if(arrayListRow.size()==countFirst)// equal size
                                     {
-                                        Log.e("arrayListRow","== hereeee");
+                                        Log.e("arrayListRowT","== hereeee");
 
                                         for( int h=0;h<arrayListRow.size();h++){
                                             int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
@@ -2056,8 +2188,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         if (countFirst < arrayListRowFirst.size())// new data
                                         {
 
-                                            Log.e("newdata","gCompare");
-                                            ShowNotifi("request");
+                                            Log.e("newdataT","gCompare");
+//                                            ShowNotifi("request");
+                                            ShowNotifi_detail("request",2,requestList_Tow.get(requestList_Tow.size()-1).getTOUSER_name());
                                             button_request.setVisibility(View.VISIBLE);
 //                                            isNewData=true;
                                         }
@@ -2094,7 +2227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success"+s.toString());
+//                    Log.e("tag", "****Success" + s.toString());
                 } else {
                     Log.e("tag", "****Failed to export data");
                 }

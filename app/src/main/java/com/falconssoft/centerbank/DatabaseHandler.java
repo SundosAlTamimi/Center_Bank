@@ -3,6 +3,7 @@ package com.falconssoft.centerbank;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int VERSION = 12;
+    private static final int VERSION = 16;
     private static final String BD_NAME = "cheque_editor";
 
     // ********************************************************************
@@ -47,6 +48,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private final String LOGIN_EMAIL = "LOGIN_EMAIL";
     private final String LOGIN_INACTIVE = "LOGIN_INACTIVE";
     private final String LOGIN_INDATE = "LOGIN_INDATE";
+    private final String LOGIN_REMEMBER = "LOGIN_REMEMBER";
+    private final String LOGIN_ACTIVE_NOW = "LOGIN_ACTIVE_NOW"; // 1 for the user log in , 0 fot other accounts
 
     // ********************************************************************
 //    private final String SIGNUP_TABLE = "SIGNUP_TABLE";
@@ -112,7 +115,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + LOGIN_ADDRESS + " TEXT, "
                 + LOGIN_EMAIL + " TEXT, "
                 + LOGIN_INACTIVE + " TEXT, "
-                + LOGIN_INDATE + " TEXT "
+                + LOGIN_INDATE + " TEXT, "
+                + LOGIN_REMEMBER + " INTEGER ,"
+                + LOGIN_ACTIVE_NOW + " INTEGER "
                 + ")";
         db.execSQL(createTableLOGIN);
 
@@ -126,7 +131,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 //            String createTableaccount = "ALTER TABLE ACCOUNT_TABLE ADD  ACCOUNT_STATUS TEXT";
 //            db.execSQL(createTableaccount);
-
 
 
 //            String createTableSignup = "CREATE TABLE IF NOT EXISTS " + SIGNUP_TABLE
@@ -159,31 +163,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //                    + ")";
 //            db.execSQL(createTableLOGIN);
 
-            String createTableSignup = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_NATIONAL_ID + " TEXT ";
+            String createTableSignup = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_REMEMBER + " INTEGER ";
             db.execSQL(createTableSignup);
-            String createTableSignup1 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_FIRST_NAME + " TEXT ";
-            db.execSQL(createTableSignup1);
-            String createTableSignup2 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_SECOND_NAME + " TEXT ";
-            db.execSQL(createTableSignup2);
-            String createTableSignup3 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_THIRD_NAME + " TEXT ";
-            db.execSQL(createTableSignup3);
-            String createTableSignup4 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_FOURTH_NAME + " TEXT ";
-            db.execSQL(createTableSignup4);
-            String createTableSignup5 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_DOB + " TEXT ";
-            db.execSQL(createTableSignup5);
-            String createTableSignup6 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_GENDER + " TEXT ";
-            db.execSQL(createTableSignup6);
-            String createTableSignup7 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_ADDRESS + " TEXT ";
-            db.execSQL(createTableSignup7);
-            String createTableSignup8 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_EMAIL + " TEXT ";
-            db.execSQL(createTableSignup8);
-            String createTableSignup9 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_INACTIVE + " TEXT ";
-            db.execSQL(createTableSignup9);
-            String createTableSignup10 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_INDATE + " TEXT ";
-            db.execSQL(createTableSignup10);
 
-            String dropTable = "DROP TABLE IF EXISTS SIGNUP_TABLE";
-            db.execSQL(dropTable);
+            String createTableSignup2 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_ACTIVE_NOW + " INTEGER ";
+            db.execSQL(createTableSignup2);
+//            String createTableSignup1 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_FIRST_NAME + " TEXT ";
+//            db.execSQL(createTableSignup1);
+//            String createTableSignup2 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_SECOND_NAME + " TEXT ";
+//            db.execSQL(createTableSignup2);
+//            String createTableSignup3 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_THIRD_NAME + " TEXT ";
+//            db.execSQL(createTableSignup3);
+//            String createTableSignup4 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_FOURTH_NAME + " TEXT ";
+//            db.execSQL(createTableSignup4);
+//            String createTableSignup5 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_DOB + " TEXT ";
+//            db.execSQL(createTableSignup5);
+//            String createTableSignup6 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_GENDER + " TEXT ";
+//            db.execSQL(createTableSignup6);
+//            String createTableSignup7 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_ADDRESS + " TEXT ";
+//            db.execSQL(createTableSignup7);
+//            String createTableSignup8 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_EMAIL + " TEXT ";
+//            db.execSQL(createTableSignup8);
+//            String createTableSignup9 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_INACTIVE + " TEXT ";
+//            db.execSQL(createTableSignup9);
+//            String createTableSignup10 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_INDATE + " TEXT ";
+//            db.execSQL(createTableSignup10);
+
+//            String dropTable = "DROP TABLE IF EXISTS SIGNUP_TABLE";
+//            db.execSQL(dropTable);
         } catch (Exception e) {
 
         }
@@ -241,6 +248,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put(LOGIN_EMAIL, loginINFO.getEmail());
         contentValues.put(LOGIN_INACTIVE, loginINFO.getInactive());
         contentValues.put(LOGIN_INDATE, loginINFO.getIndate());
+        contentValues.put(LOGIN_REMEMBER, loginINFO.getIsRemember());
+        contentValues.put(LOGIN_ACTIVE_NOW, loginINFO.getIsNowActive());
 
         database.insert(LOGIN_TABLE, null, contentValues);
         database.close();
@@ -259,11 +268,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // ************************************** GET ************************************
-    public LoginINFO getLoginInfo() {
-        SQLiteDatabase database = this.getWritableDatabase();
-        String selectQuery = "SELECT  * FROM " + LOGIN_TABLE;
-        Cursor cursor = database.rawQuery(selectQuery, null);
+    public LoginINFO getActiveUserInfo() {
         LoginINFO user = new LoginINFO();
+        SQLiteDatabase database = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + LOGIN_TABLE + " WHERE LOGIN_ACTIVE_NOW = 1" ;
+        Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
                 user.setUsername(cursor.getString(0));
@@ -279,12 +288,79 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 user.setEmail(cursor.getString(10));
                 user.setInactive(cursor.getString(11));
                 user.setIndate(cursor.getString(12));
+                user.setIsRemember(cursor.getInt(13));
+                user.setIsNowActive(cursor.getInt(14));
 
-                Log.e("user", "" + cursor.getString(0) + cursor.getString(1));
+                Log.e("user", "" + cursor.getString(0) + cursor.getString(13));
 
             } while (cursor.moveToNext());
         }
         return user;
+    }
+
+    public LoginINFO getUserInfo(String mobileNo) {
+        LoginINFO user = new LoginINFO();
+        SQLiteDatabase database = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + LOGIN_TABLE + " WHERE USER_NAME = '" + mobileNo + "'";
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                user.setUsername(cursor.getString(0));
+                user.setPassword(cursor.getString(1));
+                user.setNationalID(cursor.getString(2));
+                user.setFirstName(cursor.getString(3));
+                user.setSecondName(cursor.getString(4));
+                user.setThirdName(cursor.getString(5));
+                user.setFourthName(cursor.getString(6));
+                user.setBirthDate(cursor.getString(7));
+                user.setGender(cursor.getString(8));
+                user.setAddress(cursor.getString(9));
+                user.setEmail(cursor.getString(10));
+                user.setInactive(cursor.getString(11));
+                user.setIndate(cursor.getString(12));
+                user.setIsRemember(cursor.getInt(13));
+                user.setIsNowActive(cursor.getInt(14));
+
+                Log.e("user", "" + cursor.getString(0) + cursor.getString(13));
+
+            } while (cursor.moveToNext());
+        }
+        return user;
+    }
+
+    public LoginINFO getLoginInfo(String word) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String selectQuery = "SELECT * FROM " + LOGIN_TABLE + " WHERE LOGIN_REMEMBER = 1 AND USER_NAME LIKE '" + word + "%'";
+        Cursor cursor = database.rawQuery(selectQuery, null);
+//        Cursor cursor = m_db.query(MY_TABLE, new String[] {"rowid","Word"},"Word LIKE '?'", new String[]{name+"%"}, null, null, null);
+//        Cursor cursor = database.query(LOGIN_TABLE,null,"LOGIN_REMEMBER = 1 AND USER_NAME LIKE '?'", new String[]{word+"%"}, null, null, null );
+//        List<LoginINFO> list = new ArrayList<>();
+        LoginINFO user = new LoginINFO();
+        if (cursor.moveToFirst()) {
+            do {
+//                LoginINFO user = new LoginINFO();
+                user.setUsername(cursor.getString(0));
+                user.setPassword(cursor.getString(1));
+                user.setNationalID(cursor.getString(2));
+                user.setFirstName(cursor.getString(3));
+                user.setSecondName(cursor.getString(4));
+                user.setThirdName(cursor.getString(5));
+                user.setFourthName(cursor.getString(6));
+                user.setBirthDate(cursor.getString(7));
+                user.setGender(cursor.getString(8));
+                user.setAddress(cursor.getString(9));
+                user.setEmail(cursor.getString(10));
+                user.setInactive(cursor.getString(11));
+                user.setIndate(cursor.getString(12));
+                user.setIsRemember(cursor.getInt(13));
+                user.setIsNowActive(cursor.getInt(14));
+
+                Log.e("getLoginInfo", "" + cursor.getString(0));
+//                list.add(user);
+
+            } while (cursor.moveToNext());
+        }
+        return user;// list;
     }
 
     public Setting getAllSetting() {
@@ -311,10 +387,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             do {
 //                item = true;
 
-                if(cursor.getString(0) !=null){
-                    item= true;
-                }else{
-                    item= false;
+                if (cursor.getString(0) != null) {
+                    item = true;
+                } else {
+                    item = false;
                 }
 
             } while (cursor.moveToNext());
@@ -365,6 +441,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+    // ************************************** UPDATE ************************************
+    public void updateLoginActive(String mobile) {
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        ContentValues args = new ContentValues();
+        args.put(LOGIN_ACTIVE_NOW, 0);
+        database.update(LOGIN_TABLE, args, null, null);
+
+        ContentValues values = new ContentValues();
+        values.put(LOGIN_ACTIVE_NOW, 1);
+        database.update(LOGIN_TABLE, values, USER_NAME + " =? ", new String[]{mobile});
+        database.close();
+    }
+
+    public void updateRememberState(int state, String mobile){
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        ContentValues args = new ContentValues();
+        args.put(LOGIN_REMEMBER, state);
+        database.update(LOGIN_TABLE, args, USER_NAME + " =? ", new String[]{mobile});
+    }
 
     public void updateStatus(String Status) {
         SQLiteDatabase Idb = this.getWritableDatabase();

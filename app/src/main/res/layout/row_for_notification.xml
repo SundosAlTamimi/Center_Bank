@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lineardetail"
+            android:elevation="5dp"
 
             android:orientation="horizontal">
 
@@ -55,6 +56,7 @@
                 android:id="@+id/divider"
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 android:orientation="horizontal"
 
 
@@ -65,120 +67,258 @@
             <LinearLayout
                 android:id="@+id/linearCheckInfo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_margin="1dp"
                 android:gravity="center"
-                android:background="@drawable/accept_background"
+                android:background="@drawable/button_frame"
 
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                >
 
                 <TextView
                     android:id="@+id/source_check"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
                     android:text="Falcon company"
                     android:textSize="18sp"
 
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack" />
-
+                <LinearLayout
+                    android:id="@+id/rowdetail"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    >
                 <TextView
                     android:id="@+id/amount_check"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="200JD"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="15698  JD"
 
                     android:textSize="16sp"
-                    android:layout_margin="5dp"
-                    android:textColor="@color/colorBlack" />
+                    android:layout_margin="2dp"
+                    android:textColor="@color/alpha_black2" />
 
                 <TextView
                     android:id="@+id/date_check"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
 
                     android:text="20/20/2020"
-                    android:layout_margin="5dp"
+                    android:layout_margin="2dp"
 
                     android:textSize="16sp"
 
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/alpha_black2" />
+                </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/rowStatus"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/acceptimage"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     >
                 <TextView
                     android:id="@+id/checkState"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:visibility="visible"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:drawableEnd="@drawable/ic_check_black_24dp"
 
                     android:text="@string/CheckAccpted"
 
-                    android:layout_margin="5dp"
 
                     android:textSize="16sp"
+                    android:background="@drawable/edit_bac_log"
 
                     android:textColor="@color/colorBlack"
                     />
-                    <RelativeLayout
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent"
-                        android:layout_gravity="end"
-                        android:layout_weight="1"
-
-                        >
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/acceptimage"
-
+                    <TextView
+                        android:id="@+id/che"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:src="@drawable/ic_arrow_upward_black_24dp"
-                        android:textColor="@color/white"
-                        app:civ_border_color="@color/RealGreen"
-                        app:civ_border_width="2dp"
+                        android:visibility="invisible"
+                        android:layout_weight="2"
+
+                        android:text="@string/CheckAccpted"
+
+                        android:layout_margin="2dp"
+                        android:padding="2dp"
+
+                        android:textSize="16sp"
+                        android:background="@drawable/accept_background"
+
+                        android:textColor="@color/colorBlack"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/rejectimage"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:id="@+id/checkS"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:visibility="visible"
-                        tools:ignore="VectorDrawableCompat" />
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/rejectimage"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:drawablePadding="10dp"
+                        android:drawableEnd="@drawable/ic_do_not_disturb_alt_black_24dp"
 
+                        android:text="@string/checkReject"
+
+
+                        android:textSize="16sp"
+                        android:background="@drawable/edit_bac_log"
+
+                        android:textColor="@color/colorBlack"
+                        />
+                    <TextView
+                        android:id="@+id/ch"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:src="@drawable/ic_arrow_upward_black_24dp"
-                        android:textColor="@color/white"
                         android:visibility="invisible"
-                        app:civ_border_color="@color/RealRed"
-                        app:civ_border_width="2dp"
-                        tools:ignore="VectorDrawableCompat" />
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/pendingimage"
+                        android:layout_weight="2"
+
+                        android:text="@string/CheckAccpted"
+
+                        android:layout_margin="2dp"
+                        android:padding="2dp"
+
+                        android:textSize="16sp"
+                        android:background="@drawable/accept_background"
+
+                        android:textColor="@color/colorBlack"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/pendingimage"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:id="@+id/chec"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:visibility="invisible"
+                        android:visibility="visible"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:drawablePadding="10dp"
+                        android:drawableEnd="@drawable/ic_note_add_black_24dp"
 
-                        android:src="@drawable/ic_arrow_downward_black_24dp"
-                        android:textColor="@color/white"
-                        app:civ_border_color="@color/blue"
-                        app:civ_border_width="2dp"
-                        tools:ignore="VectorDrawableCompat" />
-                    </RelativeLayout>
+                        android:text="@string/NewCheck"
+
+
+                        android:textSize="16sp"
+                        android:background="@drawable/edit_bac_log"
+
+                        android:textColor="@color/colorBlack"
+                        />
+                    <TextView
+                        android:id="@+id/ch12"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible"
+                        android:layout_weight="2"
+
+                        android:text="@string/CheckAccpted"
+
+                        android:layout_margin="2dp"
+                        android:padding="2dp"
+
+                        android:textSize="16sp"
+                        android:background="@drawable/accept_background"
+
+                        android:textColor="@color/colorBlack"
+                        />
+
                 </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+
+       android:layout_margin="5dp"
+
+
+
+        android:background="@color/colorGold" />
 
 </LinearLayout>
 <!--    </androidx.cardview.widget.CardView>-->
+<!--<RelativeLayout-->
+<!--android:layout_height="match_parent"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_gravity="end"-->
+<!--android:visibility="gone"-->
+<!--android:layout_weight="1"-->
+
+<!--    >-->
+
+
+<!--<de.hdodenhof.circleimageview.CircleImageView-->
+<!--    android:id="@+id/acceptimage"-->
+
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:layout_weight="1"-->
+<!--    android:gravity="end"-->
+<!--    android:src="@drawable/ic_arrow_upward_black_24dp"-->
+<!--    android:textColor="@color/white"-->
+<!--    app:civ_border_color="@color/RealGreen"-->
+<!--    app:civ_border_width="2dp"-->
+<!--    android:visibility="invisible"-->
+<!--    tools:ignore="VectorDrawableCompat" />-->
+<!--<de.hdodenhof.circleimageview.CircleImageView-->
+<!--    android:id="@+id/rejectimage"-->
+
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:layout_weight="1"-->
+<!--    android:gravity="end"-->
+<!--    android:src="@drawable/ic_arrow_upward_black_24dp"-->
+<!--    android:textColor="@color/white"-->
+<!--    android:visibility="invisible"-->
+<!--    app:civ_border_color="@color/RealRed"-->
+<!--    app:civ_border_width="2dp"-->
+<!--    tools:ignore="VectorDrawableCompat" />-->
+<!--<de.hdodenhof.circleimageview.CircleImageView-->
+<!--    android:id="@+id/pendingimage"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:layout_weight="1"-->
+<!--    android:gravity="end"-->
+<!--    android:visibility="invisible"-->
+
+<!--    android:src="@drawable/ic_arrow_downward_black_24dp"-->
+<!--    android:textColor="@color/white"-->
+<!--    app:civ_border_color="@color/blue"-->
+<!--    app:civ_border_width="2dp"-->
+<!--    tools:ignore="VectorDrawableCompat" />-->
+<!--</RelativeLayout>-->
 
 

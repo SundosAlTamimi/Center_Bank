@@ -15,9 +15,27 @@ public class LoginINFO {
     private  String birthDate;
     private  String inactive;
     private  String indate;
+    private  int isRemember;
+    private  int isNowActive;
 
 
     public LoginINFO() {
+    }
+
+    public int getIsNowActive() {
+        return isNowActive;
+    }
+
+    public void setIsNowActive(int isNowActive) {
+        this.isNowActive = isNowActive;
+    }
+
+    public int getIsRemember() {
+        return isRemember;
+    }
+
+    public void setIsRemember(int isRemember) {
+        this.isRemember = isRemember;
     }
 
     public String getInactive() {

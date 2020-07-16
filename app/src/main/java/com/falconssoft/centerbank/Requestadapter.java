@@ -120,13 +120,14 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
             viewHolder.checkStateText.setText(R.string.requestRejec);
 
         }
+        else {
+            viewHolder.checkimage_state.setImageDrawable(context.getResources().getDrawable(R.drawable.request_download));
+
+        }
 
         viewHolder.date_check.setText(requestList.get(i).getINDATE());
         viewHolder.amount_check.setText(requestList.get(i).getAMOUNT()+"\tJD");
         viewHolder.cust_name.setText(requestList.get(i).getFROMUSER_name());
-//        viewHolder.image_check.setImageBitmap(requestList.get(i).getCheck_photo());
-        Log.e("getStatus",""+requestList.get(i).getAMOUNT());
-//        if(checkInfoNotification.get(i).getStatus().equals("0"))
 
 
         viewHolder.image_check.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +141,6 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
             @Override
             public void onClick(View view) {
                 row_index = i;
-                Log.e("row_index", "" + row_index);
                 viewHolder.showDetails();
             }
         });

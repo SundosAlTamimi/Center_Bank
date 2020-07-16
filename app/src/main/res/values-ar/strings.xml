@@ -90,7 +90,7 @@
     <string name="Confirm">تأكيد</string>
     <string name="message_forAccept">هل تريد قبول الطلب ؟</string>
     <string name="signout">خروج</string>
-    <string name="profile">معوماتي</string>
+    <string name="profile">الملف الشخصي</string>
     <string name="giro">جيرو</string>
     <string name="cashier_cheque">Cashier Cheque</string>
     <string name="handovew">Please hand it over :</string>
@@ -108,6 +108,10 @@
     <string name="requestRejected"> تم رفض الطلب للسبب </string>
     <string name="requestRejec"> تم رفض الطلب</string>
     <string name="message_reject">Are you sure to reject cheque?</string>
+    <string name="remember_me">تذكر معلومات الدخول</string>
+    <string name="about">حول</string>
+    <string name="type">النوع</string>
+    <string name="tracking">تتبع حركة</string>
     <string name="bank">Bank</string>
     <string name="cheque_information">Cheque Information</string>
     <string name="the_purpose_of_issuing_the_check">The Purpose Of Issuing The Check</string>

@@ -75,7 +75,7 @@
             android:layout_weight="1"
 
             android:gravity="center"
-            android:background="@drawable/accept_background"
+            android:background="@drawable/button_frame"
 
             android:orientation="vertical"
             android:padding="10dp">
@@ -190,8 +190,8 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/checkimage_state"
 
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:gravity="start"
                 android:src="@drawable/request_download"

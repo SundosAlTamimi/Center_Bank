@@ -47,6 +47,15 @@ public class ChequeInfo {
     private String ISOpen;
     private String noteCheck;
     private String companyName;
+    private String resonOfreject;
+
+    public String getResonOfreject() {
+        return resonOfreject;
+    }
+
+    public void setResonOfreject(String resonOfreject) {
+        this.resonOfreject = resonOfreject;
+    }
 
     public String getNoteCheck() {
         return noteCheck;

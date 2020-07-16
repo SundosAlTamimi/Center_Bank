@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -80,6 +81,7 @@ import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
 import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 import static com.falconssoft.centerbank.MainActivity.notification_btn;
+import static com.falconssoft.centerbank.ShowNotifications.showNotification;
 
 
 public class AlertScreen extends AppCompatActivity {
@@ -91,6 +93,7 @@ public class AlertScreen extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     NotificationManager notificationManager;
     SwipeRefreshLayout swipeRefresh;
+    private ProgressDialog progressDialog;
 
     static int id=1;
     public  static TextView mainText,textCheckstateChanger;
@@ -120,6 +123,7 @@ public class AlertScreen extends AppCompatActivity {
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs.getString("link", "");
+        progressDialog = new ProgressDialog(AlertScreen.this);
 
         layout = (LinearLayout)findViewById(R.id.mainlayout);
         first=1;
@@ -142,6 +146,8 @@ public class AlertScreen extends AppCompatActivity {
         editor.clear();// just for test
         phoneNo = loginPrefs.getString("mobile", "");
 
+        progressDialog.show();
+        progressDialog.setMessage("Loading...");
         new GetAllCheck_JSONTask().execute();
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -216,7 +222,7 @@ public class AlertScreen extends AppCompatActivity {
         user=new LoginINFO();
         sharedPreferences = getSharedPreferences(ROW_ID_PREFERENCE, Context.MODE_PRIVATE);
         notifiList1=new ArrayList<>();
-        user=databaseHandler.getLoginInfo();
+        user=databaseHandler.getActiveUserInfo();
         userNmae=user.getUsername();
         Passowrd=user.getPassword();
         notification_btn.setVisibility(View.INVISIBLE);
@@ -382,6 +388,7 @@ public class AlertScreen extends AppCompatActivity {
 
                                 chequeInfo.setNoteCheck(infoDetail.getString("NOTE"));
                                 chequeInfo.setCompanyName(infoDetail.getString("COMPANY"));
+                                chequeInfo.setResonOfreject(infoDetail.getString("RJCTREASON"));
 //                            Log.e("chequeInfo",""+chequeInfo.getAccCode()+chequeInfo.getBankNo()+chequeInfo.getBranchNo()+"\t"+chequeInfo.getChequeNo());
 
                             arrayListRow.add(chequeInfo.getRowId());
@@ -508,6 +515,7 @@ public class AlertScreen extends AppCompatActivity {
                         editor.apply();
 
                         first=2;
+                        progressDialog.dismiss();
 //                        fillListNotification(notificationArrayList);
 
 
@@ -530,25 +538,22 @@ public class AlertScreen extends AppCompatActivity {
     private void ShowNotifi() {
         String currentapiVersion = Build.VERSION.RELEASE;
 //
-        if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
-            // Do something for 14 and above versions
+
+               // Do something for 14 and above versions
 
 //                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
-                show_Notification("Check  app, Recive new Check");
-
+//                show_Notification("Check  app, Recive new Check");
+                showNotification(AlertScreen.this,"Recive new Check","details");
             }
             else {
-
+                notificationShow();
             }
 
 
-        } else {
 
-            notificationShow();
-        }
     }
 
     public void noto2() // paste in activity
@@ -586,7 +591,7 @@ public class AlertScreen extends AppCompatActivity {
         layoutManager.setOrientation(VERTICAL);
         runAnimation(recyclerView, 0);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        Toast.makeText(AlertScreen.this, "Saved", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(AlertScreen.this, "Saved", Toast.LENGTH_SHORT).show();
 
 
     }

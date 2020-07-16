@@ -12,7 +12,7 @@
     <color name="colorPrimaryDark">#0C0B0B</color>
     <color name="colorAccent">#0C0B0B</color>
     <color name="colorWhite">#D5F7F5F6</color>
-    <color name="colorWhiteLight">#A3F7F5F6</color>
+    <color name="colorWhiteLight">#83F7F5F6</color>
     <color name="colorBlack">#0C0B0B</color>
     <color name="gray_">#60C7C4C4</color>
     <color name="colorBlackLight">#0AFAFAF7</color>
@@ -28,7 +28,7 @@
 
     <color name="alpha_yellow">#80F5A203</color>
     <color name="alpha_white">#79FFFFFF</color>
-    <color name="alpha_black2">#80000000</color>
+    <color name="alpha_black2">#AD000000</color>
     <color name="alpha_gray">#AD363535</color>
 
     <color name="RealRed">#FA0404</color>
