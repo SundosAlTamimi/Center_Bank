@@ -99,7 +99,7 @@ class Presenter {
                     e.printStackTrace();
                 }
             }else if (response.toString().contains("\"StatusCode\":28,\"StatusDescreption\":\"This User not have checks.\""));
-            Toast.makeText(singUpActivity, "No cheques found!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(singUpActivity, "No cheques found!", Toast.LENGTH_SHORT).show();
         }
     }
 
