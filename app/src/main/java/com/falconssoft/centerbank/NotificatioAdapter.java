@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
@@ -130,7 +131,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
         viewHolder.date_check.setText(notificationList.get(i).getDate());
         viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+"\tJD");
-        viewHolder.source_check.setText(notificationList.get(i).getSource());
+//        viewHolder.source_check.setText(checkInfoNotification.get(i).getCustName());
+//        viewHolder.source_check.setText(checkInfoNotification.get(i).getCustName());
         viewHolder.image_check.setImageBitmap(notificationList.get(i).getCheck_photo());
 //        Log.e("getStatus",""+checkInfoNotification.get(i).getStatus());
         if(checkInfoNotification.get(i).getStatus().equals("0"))
@@ -138,19 +140,19 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             if(checkInfoNotification.get(i).getTransType().equals("1"))
             {
-                viewHolder.checkStateText.setText(R.string.CheckAccpted);
+//                viewHolder.checkStateText.setText(R.string.CheckAccpted);
 //                viewHolder.divider.setBackgroundColor(R.color.RealGreen);
-                viewHolder.rejectImg.setVisibility(View.INVISIBLE);
-                viewHolder.reciveNew.setVisibility(View.INVISIBLE);
+                viewHolder.rejectImg.setVisibility(View.GONE);
+                viewHolder.reciveNew.setVisibility(View.GONE);
                 viewHolder.acceptImg.setVisibility(View.VISIBLE);
 
             }
             else {
 //                viewHolder.divider.setBackgroundColor(R.color.RealRed);
                 viewHolder.rejectImg.setVisibility(View.VISIBLE);
-                viewHolder.checkStateText.setText(R.string.checkReject);
-                viewHolder.reciveNew.setVisibility(View.INVISIBLE);
-                viewHolder.acceptImg.setVisibility(View.INVISIBLE);
+//                viewHolder.checkStateText.setText(R.string.checkReject);
+                viewHolder.reciveNew.setVisibility(View.GONE);
+                viewHolder.acceptImg.setVisibility(View.GONE);
 
             }
 
@@ -159,9 +161,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 //            viewHolder.divider.setBackgroundColor(R.color.white);
             viewHolder.reciveNew.setVisibility(View.VISIBLE);
-            viewHolder.checkStateText.setText(R.string.NewCheck);
-            viewHolder.rejectImg.setVisibility(View.INVISIBLE);
-            viewHolder.acceptImg.setVisibility(View.INVISIBLE);
+//            viewHolder.checkStateText.setText(R.string.NewCheck);
+            viewHolder.rejectImg.setVisibility(View.GONE);
+            viewHolder.acceptImg.setVisibility(View.GONE);
 
         }
 
@@ -193,7 +195,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         TextView source_check, amount_check, date_check,checkStateText;
        ImageView image_check;
         LinearLayout linearCheckInfo, mainLinearAdapter,divider,lineardetail,rowStatus;
-        CircleImageView acceptImg,rejectImg,reciveNew;
+        LinearLayout acceptImg,rejectImg,reciveNew;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -246,16 +248,21 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 }
 
             }
-            TextView textAmouWord, textAmountNo,
-                    textToOrder, texChequNo,amountPhilis, textPhoneNo, texDate,  binificary,  textCompanyname, note,textFirstPinificry,textCo;
+            TextView textAmouWord, textAmountNo, textViewMain, textResonReject,
+                    textToOrder, texChequNo, amountPhilis, textPhoneNo, texDate, binificary, textCompanyname, note, textFirstPinificry, textCo;
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
+            LinearLayout resonLayout, linearButn;
+            linearButn = dialog.findViewById(R.id.linearButn);
+
+            resonLayout = dialog.findViewById(R.id.resonLayout);
 
 
             TableRow rowNote;
             texDate = dialog.findViewById(R.id.texDate);
             texDate.setText(checkInfoNotification.get(row_index).getChequeData());
             textFirstPinificry = dialog.findViewById(R.id.textFirstPinificry);
+            textResonReject = dialog.findViewById(R.id.textResonReject);
 
 
             binificary= dialog.findViewById(R.id.binificary);
@@ -266,6 +273,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             rowNote=dialog.findViewById(R.id.rowNote);
             textCo = dialog.findViewById(R.id.textCo);
+
             if(checkInfoNotification.get(row_index).getISCO().equals("1")){
                 textCo.setVisibility(View.VISIBLE);
 
@@ -279,6 +287,28 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             }
             else {
                 textFirstPinificry.setVisibility(View.GONE);}
+            textViewMain=dialog.findViewById(R.id.textViewMain);
+            if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
+                if (checkInfoNotification.get(row_index).getTransType().equals("1")) {
+                    resonLayout.setVisibility(View.GONE);
+                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+                            , ContextCompat.getDrawable(context, R.drawable.ic_check_black_24dp), null);
+
+                }
+                if (checkInfoNotification.get(row_index).getTransType().equals("2")) {
+                    resonLayout.setVisibility(View.VISIBLE);
+                    linearButn.setVisibility(View.GONE);
+                    textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
+                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+                            , ContextCompat.getDrawable(context, R.drawable.ic_do_not_disturb_alt_black_24dp), null);
+                }
+            }
+            else {
+                resonLayout.setVisibility(View.GONE);
+                textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+                        , ContextCompat.getDrawable(context, R.drawable.ic_note_add_black_24dp), null);
+
+            }
 
             textAmouWord = dialog.findViewById(R.id.textAmouWord);
             textAmouWord.setText(checkInfoNotification.get(row_index).getMoneyInWord());
@@ -324,9 +354,11 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             final Button accept = (Button) dialog.findViewById(R.id.AcceptButton);
             if(checkInfoNotification.get(row_index).getStatus().equals("0"))
             {
+                linearButn.setVisibility(View.GONE);
                 accept.setVisibility(View.GONE);
                 reject.setVisibility(View.GONE);
             }
+
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

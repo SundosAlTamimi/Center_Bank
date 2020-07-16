@@ -75,7 +75,7 @@
             android:layout_weight="1"
 
             android:gravity="center"
-            android:background="@drawable/accept_background"
+            android:background="@drawable/button_frame"
 
             android:orientation="vertical"
             android:padding="10dp">

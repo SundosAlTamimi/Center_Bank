@@ -66,6 +66,7 @@ import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
 import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 import static com.falconssoft.centerbank.MainActivity.button_request;
 import static com.falconssoft.centerbank.Request.serverLink;
+import static com.falconssoft.centerbank.ShowNotifications.showNotification;
 
 public class RequestCheque extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -467,7 +468,8 @@ public class RequestCheque extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
-                show_Notification("Check  app, Recive new Request");
+//                show_Notification("Check  app, Recive new Request");
+                showNotification(RequestCheque.this,"Request","BodyRequest Test");
 
             }
             else {
@@ -490,7 +492,7 @@ public class RequestCheque extends AppCompatActivity {
         layoutManager.setOrientation(VERTICAL);
         runAnimation(recyclerView, 0);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        Toast.makeText(RequestCheque.this, "Saved", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(RequestCheque.this, "Saved", Toast.LENGTH_SHORT).show();
 
 
     }

@@ -80,6 +80,7 @@ import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
 import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 import static com.falconssoft.centerbank.MainActivity.notification_btn;
+import static com.falconssoft.centerbank.ShowNotifications.showNotification;
 
 
 public class AlertScreen extends AppCompatActivity {
@@ -382,6 +383,7 @@ public class AlertScreen extends AppCompatActivity {
 
                                 chequeInfo.setNoteCheck(infoDetail.getString("NOTE"));
                                 chequeInfo.setCompanyName(infoDetail.getString("COMPANY"));
+                                chequeInfo.setResonOfreject(infoDetail.getString("RJCTREASON"));
 //                            Log.e("chequeInfo",""+chequeInfo.getAccCode()+chequeInfo.getBankNo()+chequeInfo.getBranchNo()+"\t"+chequeInfo.getChequeNo());
 
                             arrayListRow.add(chequeInfo.getRowId());
@@ -530,25 +532,22 @@ public class AlertScreen extends AppCompatActivity {
     private void ShowNotifi() {
         String currentapiVersion = Build.VERSION.RELEASE;
 //
-        if (Double.parseDouble(currentapiVersion.substring(0,1) )>=8) {
-            // Do something for 14 and above versions
+
+               // Do something for 14 and above versions
 
 //                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
-                show_Notification("Check  app, Recive new Check");
-
+//                show_Notification("Check  app, Recive new Check");
+                showNotification(AlertScreen.this,"Recive new Check","details");
             }
             else {
-
+                notificationShow();
             }
 
 
-        } else {
 
-            notificationShow();
-        }
     }
 
     public void noto2() // paste in activity
@@ -586,7 +585,7 @@ public class AlertScreen extends AppCompatActivity {
         layoutManager.setOrientation(VERTICAL);
         runAnimation(recyclerView, 0);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        Toast.makeText(AlertScreen.this, "Saved", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(AlertScreen.this, "Saved", Toast.LENGTH_SHORT).show();
 
 
     }
