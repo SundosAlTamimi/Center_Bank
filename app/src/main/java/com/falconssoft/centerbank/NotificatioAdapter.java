@@ -178,7 +178,6 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             @Override
             public void onClick(View view) {
                 row_index = i;
-                Log.e("row_index", "" + row_index);
                 viewHolder.showDetails();
             }
         });
@@ -400,10 +399,11 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                                 @SuppressLint("WrongConstant")
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
                                     showDialogreson();
 
 
-                                    sDialog.dismissWithAnimation();
+
                                 }
                             }).setCancelText(context.getResources().getString(R.string.dialog_cancel)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -423,21 +423,21 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     }
 
     private void showDialogreson() {
-        final Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.reson_dialog);
-        dialog.setCancelable(false);
+        final Dialog dialog_reson = new Dialog(context);
+        dialog_reson.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog_reson.setContentView(R.layout.reson_dialog);
+        dialog_reson.setCancelable(false);
 //        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Please Waiting...");
 
 
-        resonText=dialog.findViewById(R.id.edit_reson);
-        Button close = dialog.findViewById(R.id.canceltButton);
-        Button send = dialog.findViewById(R.id.AcceptButton);
+
+        resonText=dialog_reson.findViewById(R.id.edit_reson);
+        Button close = dialog_reson.findViewById(R.id.canceltButton);
+        Button send = dialog_reson.findViewById(R.id.AcceptButton);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                dialog_reson.dismiss();
             }
         });
         send.setOnClickListener(new View.OnClickListener() {
@@ -448,18 +448,22 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 if(!TextUtils.isEmpty(reson_reject))
                 {
                     Log.e("reson_reject",""+reson_reject);
-//                    requestList.get(row_index).setREASON(reson);
-//                    progressDialog.show();
+
+//                  requestList.get(row_index).setREASON(reson);
+                    progressDialog.show();
+                    progressDialog.setMessage("Please Waiting...");
+                    dialog_reson.dismiss();
                     checkState = "2";
-                    updateCheckState();
+
                     try {
 
-                        Thread.sleep(7000);
+                        Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-//                    progressDialog.dismiss();
-                    dialog.dismiss();
+                    updateCheckState();
+
+
 
                 }
                 else {resonText.setError(context.getResources().getString(R.string.required));
@@ -469,7 +473,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             }
         });
 
-        dialog.show();
+        dialog_reson.show();
 
 
     }
@@ -665,7 +669,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 in.close();
 
                 JsonResponse = sb.toString();
-                Log.e("tagAlertScreen", "" + JsonResponse);
+//                Log.e("tagAlertScreen", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -683,7 +687,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("AdapteronPostExecute", "OK");
                     refreshScreen();
-                    Log.e("tagAdapter", "****Success" + s.toString());
+                    progressDialog.dismiss();
+//                    Log.e("tagAdapter", "****Success" + s.toString());
                 } else {
                     Log.e("tagAdapter", "****Failed to Savedata");
                 }

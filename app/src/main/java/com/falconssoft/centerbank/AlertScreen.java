@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -92,6 +93,7 @@ public class AlertScreen extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     NotificationManager notificationManager;
     SwipeRefreshLayout swipeRefresh;
+    private ProgressDialog progressDialog;
 
     static int id=1;
     public  static TextView mainText,textCheckstateChanger;
@@ -121,6 +123,7 @@ public class AlertScreen extends AppCompatActivity {
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs.getString("link", "");
+        progressDialog = new ProgressDialog(AlertScreen.this);
 
         layout = (LinearLayout)findViewById(R.id.mainlayout);
         first=1;
@@ -143,6 +146,8 @@ public class AlertScreen extends AppCompatActivity {
         editor.clear();// just for test
         phoneNo = loginPrefs.getString("mobile", "");
 
+        progressDialog.show();
+        progressDialog.setMessage("Loading...");
         new GetAllCheck_JSONTask().execute();
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -510,6 +515,7 @@ public class AlertScreen extends AppCompatActivity {
                         editor.apply();
 
                         first=2;
+                        progressDialog.dismiss();
 //                        fillListNotification(notificationArrayList);
 
 
