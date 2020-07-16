@@ -102,4 +102,9 @@
     <string name="ResonOfReject">Reson Of Reject</string>
     <string name="requestRejected">Request Rejected For reson</string>
     <string name="requestRejec">Request Rejected</string>
+    <string name="cashier_cheque">Cashier Cheque</string>
+    <string name="handovew">Please hand it over :</string>
+    <string name="thisusernotcheq">This user not has this check.</string>
+    <string name="cheq_acc">*** CHEQUE ACCOUNT ***</string>
+    <string name="CHEQUE_NOT_FOR_YOU">This cheque is not the same as the cheque you want to send !!!</string>
 </resources>
