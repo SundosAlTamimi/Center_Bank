@@ -8,29 +8,28 @@ public class ChequeInfoVM {
     private String branchNo;
     private String accCode;
     private String ibanNo;
-    private String custName;
+    private String ownerName;
     private String qrCode;
     private String serialNo;
+    private String ownerID;
+    private String ownerPhone;
 
     private String bankName;
     private String chequeData;
-    private String toCustomerName;
+    private String receiverName;
     private String moneyInDinar;
     private String moneyInFils;
     private String moneyInWord;
-    private String recieverMobileNo;
-    private String recieverNationalID;
+    private String receiverMobileNo;
+    private String receiverNationalID;
     private String chequeImage;
     private String rowId;
 
-    private String ToCustomerMobel;
-    private String ToCustomerNationalId;
-    private String CheqPIc;
-
+    private String ChequePIc;
 
     private String customerWriteDate;
     private String checkDueDate;
-    private String checkIsSueDate;
+    private String checkIssueDate;
 
     private String transType;
     private String status;
@@ -42,6 +41,31 @@ public class ChequeInfoVM {
     private String ISOpen;
     private String noteCheck;
     private String companyName;
+    private String rejectReason;
+
+    public String getRejectReason() {
+        return rejectReason;
+    }
+
+    public void setRejectReason(String rejectReason) {
+        this.rejectReason = rejectReason;
+    }
+
+    public String getOwnerPhone() {
+        return ownerPhone;
+    }
+
+    public void setOwnerPhone(String ownerPhone) {
+        this.ownerPhone = ownerPhone;
+    }
+
+    public String getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
+    }
 
     public ChequeInfoVM() {
     }
@@ -86,12 +110,12 @@ public class ChequeInfoVM {
         this.ibanNo = ibanNo;
     }
 
-    public String getCustName() {
-        return custName;
+    public String getOwnerName() {
+        return ownerName;
     }
 
-    public void setCustName(String custName) {
-        this.custName = custName;
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public String getQrCode() {
@@ -126,12 +150,12 @@ public class ChequeInfoVM {
         this.chequeData = chequeData;
     }
 
-    public String getToCustomerName() {
-        return toCustomerName;
+    public String getReceiverName() {
+        return receiverName;
     }
 
-    public void setToCustomerName(String toCustomerName) {
-        this.toCustomerName = toCustomerName;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
     public String getMoneyInDinar() {
@@ -158,20 +182,20 @@ public class ChequeInfoVM {
         this.moneyInWord = moneyInWord;
     }
 
-    public String getRecieverMobileNo() {
-        return recieverMobileNo;
+    public String getReceiverMobileNo() {
+        return receiverMobileNo;
     }
 
-    public void setRecieverMobileNo(String recieverMobileNo) {
-        this.recieverMobileNo = recieverMobileNo;
+    public void setReceiverMobileNo(String receiverMobileNo) {
+        this.receiverMobileNo = receiverMobileNo;
     }
 
-    public String getRecieverNationalID() {
-        return recieverNationalID;
+    public String getReceiverNationalID() {
+        return receiverNationalID;
     }
 
-    public void setRecieverNationalID(String recieverNationalID) {
-        this.recieverNationalID = recieverNationalID;
+    public void setReceiverNationalID(String receiverNationalID) {
+        this.receiverNationalID = receiverNationalID;
     }
 
     public String getChequeImage() {
@@ -190,29 +214,7 @@ public class ChequeInfoVM {
         this.rowId = rowId;
     }
 
-    public String getToCustomerMobel() {
-        return ToCustomerMobel;
-    }
 
-    public void setToCustomerMobel(String toCustomerMobel) {
-        ToCustomerMobel = toCustomerMobel;
-    }
-
-    public String getToCustomerNationalId() {
-        return ToCustomerNationalId;
-    }
-
-    public void setToCustomerNationalId(String toCustomerNationalId) {
-        ToCustomerNationalId = toCustomerNationalId;
-    }
-
-    public String getCheqPIc() {
-        return CheqPIc;
-    }
-
-    public void setCheqPIc(String cheqPIc) {
-        CheqPIc = cheqPIc;
-    }
 
     public String getCustomerWriteDate() {
         return customerWriteDate;
@@ -230,12 +232,20 @@ public class ChequeInfoVM {
         this.checkDueDate = checkDueDate;
     }
 
-    public String getCheckIsSueDate() {
-        return checkIsSueDate;
+    public String getChequePIc() {
+        return ChequePIc;
     }
 
-    public void setCheckIsSueDate(String checkIsSueDate) {
-        this.checkIsSueDate = checkIsSueDate;
+    public void setChequePIc(String chequePIc) {
+        ChequePIc = chequePIc;
+    }
+
+    public String getCheckIssueDate() {
+        return checkIssueDate;
+    }
+
+    public void setCheckIssueDate(String checkIssueDate) {
+        this.checkIssueDate = checkIssueDate;
     }
 
     public String getTransType() {

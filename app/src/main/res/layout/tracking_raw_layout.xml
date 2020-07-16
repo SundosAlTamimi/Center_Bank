@@ -1,103 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@color/red"
+    android:layout_margin="5dp"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tracking_raw_chequeNo"
-        android:textSize="15sp"
-        android:textColor="@color/white"
-        android:fontFamily="serif"
-        android:padding="10dp"
-        android:text="@string/cheque_no"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <LinearLayout
+        android:id="@+id/tracking_raw_linear"
+        android:visibility="visible"
         android:background="@drawable/edit_bac_"
         android:orientation="vertical"
         android:layout_margin="5dp"
+        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <TextView
-                android:textSize="12sp"
-                android:text="@string/date"
-                android:padding="5dp"
+                android:id="@+id/tracking_raw_chequeNo"
+                android:textSize="15sp"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
+                android:padding="15dp"
+                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_height="match_parent"/>
 
             <TextView
-                android:textSize="12sp"
-                android:text="@string/beneficiary"
-                android:padding="5dp"
+                android:id="@+id/tracking_raw_accountNo"
+                android:textSize="15sp"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
+                android:padding="10dp"
+                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:textSize="12sp"
-                android:text="@string/national_no"
-                android:padding="5dp"
-                android:textColor="@color/white"
-                android:fontFamily="serif"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:textSize="12sp"
-                android:text="@string/phone_number"
-                android:padding="5dp"
-                android:textColor="@color/white"
-                android:fontFamily="serif"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:textSize="12sp"
-                android:text="@string/transaction_type"
-                android:padding="5dp"
-                android:textColor="@color/white"
-                android:fontFamily="serif"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:textSize="12sp"
-                android:text="@string/status"
-                android:padding="5dp"
-                android:textColor="@color/white"
-                android:fontFamily="serif"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
+                android:layout_height="match_parent"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
             android:orientation="horizontal"
             android:layout_weight="2">
 
             <TextView
+                android:id="@+id/tracking_raw_date"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:fontFamily="serif"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/tracking_raw_beneficiary"
                 android:padding="5dp"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
                 android:layout_width="0dp"
@@ -105,7 +69,9 @@
                 android:layout_weight="1"/>
 
             <TextView
+                android:id="@+id/tracking_raw_nationalID"
                 android:padding="5dp"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
                 android:layout_width="0dp"
@@ -113,7 +79,9 @@
                 android:layout_weight="1"/>
 
             <TextView
+                android:id="@+id/tracking_raw_phone"
                 android:padding="5dp"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
                 android:layout_width="0dp"
@@ -121,7 +89,9 @@
                 android:layout_weight="1"/>
 
             <TextView
+                android:id="@+id/tracking_raw_transactionType"
                 android:padding="5dp"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
                 android:layout_width="0dp"
@@ -129,15 +99,9 @@
                 android:layout_weight="1"/>
 
             <TextView
+                android:id="@+id/tracking_raw_status"
                 android:padding="5dp"
-                android:textColor="@color/white"
-                android:fontFamily="serif"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:padding="5dp"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
                 android:layout_width="0dp"
@@ -146,4 +110,5 @@
 
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

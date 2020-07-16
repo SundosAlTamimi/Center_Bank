@@ -695,7 +695,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             break;
             case R.id.menu_tracking: {
-                Intent intent = new Intent(MainActivity.this, TrackingCheque.class);
+                Intent intent = new Intent(MainActivity.this, OwnerCheques.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 

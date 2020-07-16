@@ -16,7 +16,7 @@ public class TrackingCheque extends AppCompatActivity {
 
     private ActivityTrackingChequeBinding binding;
     private TrackingAdapter adapter;
-    private List<ChequeInfoVM> list= new ArrayList<>();
+    private List<ChequeInfoVM> list = new ArrayList<>();
     private DatabaseHandler handler;
 
 
@@ -25,16 +25,21 @@ public class TrackingCheque extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_tracking_cheque);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tracking_cheque);
+//        handler = new DatabaseHandler(this);
+//        new Presenter(this).trackingCheque(this, handler.getActiveUserInfo().getUsername(), binding);
 
-        handler = new DatabaseHandler(this);
-       new Presenter(this).trackingCheque(this, handler.getActiveUserInfo().getUsername(), binding);
-
+        /// get ntent
+//        getChequeData();
 
     }
 
-    public void fillAdapter(List<ChequeInfoVM> list, ActivityTrackingChequeBinding binding){
+    public void getChequeData(ChequeInfoVM chequeInfoVM){
+        new Presenter(this).trackingCheque(this, chequeInfoVM, binding);
+    }
+
+    public void fillAdapter(List<ChequeInfoVM> list, ActivityTrackingChequeBinding binding) {
         binding.trackingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TrackingAdapter(this,list);
+        adapter = new TrackingAdapter(this, list);
         binding.trackingRecyclerView.setAdapter(adapter);
     }
 
