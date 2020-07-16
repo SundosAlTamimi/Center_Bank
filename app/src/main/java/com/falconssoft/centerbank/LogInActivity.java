@@ -84,7 +84,7 @@ public class LogInActivity extends AppCompatActivity {
     boolean flag = false;
     private LinearLayout phoneLinear, emailLinear, passwordLinear;
     private LogInBinding binding;
-    private SignupVM signupVM;
+    private SignupVM signupVM  = new SignupVM();
     private ButtonsClickHandler buttonsClickHandler;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -111,7 +111,6 @@ public class LogInActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.log_in);
 //        setContentView(R.layout.log_in);//binding.getRoot()
 
-        binding.setLoginModel(signupVM);
 
         buttonsClickHandler = new ButtonsClickHandler(this);
         binding.setClickHandler(buttonsClickHandler);
@@ -168,6 +167,9 @@ public class LogInActivity extends AppCompatActivity {
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
         passwordLinear.startAnimation(animation);
+
+        binding.setLoginModel(signupVM);
+
 
     }
 
@@ -554,6 +556,11 @@ public class LogInActivity extends AppCompatActivity {
 //        arabic = findViewById(R.id.login_arabic);
 //        english = findViewById(R.id.login_english);
 //        checkValidation = findViewById(R.id.login_checkValidation);
+        signupVM.setUsername("0790790791");
+        signupVM.setPassword("tahaniA1$");
+
+//        binding.LogInUserName.setText("0790790791");//userName.getText().toString());
+//        binding.LogInPassword.setText("tahaniA1$");
         SettingImage = findViewById(R.id.Setting);
         coordinatorLayout = findViewById(R.id.login_coordinatorLayout);
         seen = findViewById(R.id.login_seen);
