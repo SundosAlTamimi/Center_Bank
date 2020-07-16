@@ -103,35 +103,35 @@ public class ListAdapterGiro extends BaseAdapter {
         holder.send = view.findViewById(R.id.sendGiro);
         String TStatus = "";
         checkLanguage(holder);
-//        if(itemsList.get(i).getTransType().equals("2")){
+        if(itemsList.get(i).getTransType().equals("2")){
 //            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
-//            TStatus=context.getResources().getString(R.string.rej);
-//        }else if(itemsList.get(i).getTransType().equals("1")){
+            TStatus=context.getResources().getString(R.string.rej);
+        }else if(itemsList.get(i).getTransType().equals("1")){
 //            holder.status.setBorderColor(context.getResources().getColor(R.color.RealGreen));
-//            TStatus=context.getResources().getString(R.string.acccept);
-//        }else if(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals("")){
+            TStatus=context.getResources().getString(R.string.acccept);
+        }else if(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals("")){
 //            holder.status.setBorderColor(context.getResources().getColor(R.color.blue));
-//            TStatus=context.getResources().getString(R.string.pending);
-//
-//        }
+            TStatus=context.getResources().getString(R.string.pending);
+
+        }
 
 
         holder.detailRow.setVisibility(View.GONE);
         holder.branchNo.setVisibility(View.GONE);
 //        holder.state.setText("" + itemsList.get(i).getStatus());
 
-        holder.TranseType.setText(context.getResources().getString(R.string.ch_status) + TStatus);
+        holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+"  " + TStatus);
         holder.chequNo.setText(itemsList.get(i).getChequeNo());
 
         holder.name.setText("" + itemsList.get(i).getCustName());
 //        holder.transType.setText("" + itemsList.get(i).getTransType());
         holder.date.setText(itemsList.get(i).getCheckDueDate());
-        holder.from.setText(context.getResources().getString(R.string.chWriter) + itemsList.get(i).getCustName());
-        holder.to.setText(context.getResources().getString(R.string.chBf) + itemsList.get(i).getToCustomerName());
-        holder.bankName.setText(context.getResources().getString(R.string.bank_name) + itemsList.get(i).getBankName());
-        holder.AmountJd.setText(context.getResources().getString(R.string.amount) + " : " + itemsList.get(i).getMoneyInDinar() + "." + itemsList.get(i).getMoneyInFils() + " JD");
+        holder.from.setText(context.getResources().getString(R.string.chWriter)+"  "  + itemsList.get(i).getCustName());
+        holder.to.setText(context.getResources().getString(R.string.chBf) +"  " +  itemsList.get(i).getToCustomerName());
+        holder.bankName.setText(context.getResources().getString(R.string.bank_name) +"  " +  itemsList.get(i).getBankName());
+        holder.AmountJd.setText(context.getResources().getString(R.string.amount) + "  :  " + itemsList.get(i).getMoneyInDinar() + "." + itemsList.get(i).getMoneyInFils() + " JD");
         holder.AmountWord.setText("(" + itemsList.get(i).getMoneyInWord() + ")");
-        holder.cheqNo.setText(context.getResources().getString(R.string.cheque_no) + itemsList.get(i).getChequeNo() + "");
+        holder.cheqNo.setText(context.getResources().getString(R.string.cheque_no) +"  " + itemsList.get(i).getChequeNo() + "");
 
 
 //

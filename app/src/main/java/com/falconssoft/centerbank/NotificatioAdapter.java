@@ -2,6 +2,7 @@ package com.falconssoft.centerbank;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,11 +84,15 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     String checkState = "0";
     public static String languagelocalApp = "";
     public static String acc="",bankN="",branch="",cheNo="";
+    EditText resonText;
+    String reson_reject="";
+    private ProgressDialog progressDialog;
 
 
     public NotificatioAdapter(Context context, List<notification> notifications) {
         this.context = context;
         this.notificationList = notifications;
+        progressDialog = new ProgressDialog(context);
 
 
     }
@@ -126,7 +132,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+"\tJD");
         viewHolder.source_check.setText(notificationList.get(i).getSource());
         viewHolder.image_check.setImageBitmap(notificationList.get(i).getCheck_photo());
-        Log.e("getStatus",""+checkInfoNotification.get(i).getStatus());
+//        Log.e("getStatus",""+checkInfoNotification.get(i).getStatus());
         if(checkInfoNotification.get(i).getStatus().equals("0"))
         {
 
@@ -245,6 +251,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
 
+
             TableRow rowNote;
             texDate = dialog.findViewById(R.id.texDate);
             texDate.setText(checkInfoNotification.get(row_index).getChequeData());
@@ -351,15 +358,88 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             reject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    checkState = "2";
-                    updateCheckState();
-                    dialog.dismiss();
+                    // alertDialog + reson
+
+                    new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(R.string.Confirm)
+                            .setContentText(context.getResources().getString(R.string.message_reject))
+                            .setConfirmText(context.getResources().getString(R.string.ok))
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    showDialogreson();
+
+
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).setCancelText(context.getResources().getString(R.string.dialog_cancel)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            dialog.dismiss();
+                            sweetAlertDialog.dismissWithAnimation();
+
+                        }
+                    }).show();
+
                 }
             });
 //            imageView.setImageBitmap();
 
 
         }
+    }
+
+    private void showDialogreson() {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.reson_dialog);
+        dialog.setCancelable(false);
+//        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please Waiting...");
+
+
+        resonText=dialog.findViewById(R.id.edit_reson);
+        Button close = dialog.findViewById(R.id.canceltButton);
+        Button send = dialog.findViewById(R.id.AcceptButton);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                reson_reject=resonText.getText().toString();
+                if(!TextUtils.isEmpty(reson_reject))
+                {
+                    Log.e("reson_reject",""+reson_reject);
+//                    requestList.get(row_index).setREASON(reson);
+//                    progressDialog.show();
+                    checkState = "2";
+                    updateCheckState();
+                    try {
+
+                        Thread.sleep(7000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+//                    progressDialog.dismiss();
+                    dialog.dismiss();
+
+                }
+                else {resonText.setError(context.getResources().getString(R.string.required));
+
+                }
+
+            }
+        });
+
+        dialog.show();
+
+
     }
 
     private String getFullName(String toCustomerName) {
@@ -530,6 +610,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 nameValuePairs.add(new BasicNameValuePair("IBANNO", checkInfoNotification.get(row_index).getIbanNo()));
                 nameValuePairs.add(new BasicNameValuePair("ROWID", checkInfoNotification.get(row_index).getRowId()));
                 nameValuePairs.add(new BasicNameValuePair("STATUS", checkState));
+                nameValuePairs.add(new BasicNameValuePair("RJCTREASON", reson_reject));
+
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 

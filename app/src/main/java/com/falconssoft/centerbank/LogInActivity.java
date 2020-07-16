@@ -91,6 +91,7 @@ public class LogInActivity extends AppCompatActivity {
     private LinearLayout phoneLinear, emailLinear, passwordLinear;
     private LogInBinding binding;
     private SignupVM signupVM = new SignupVM();
+    private SignupVM signupVM  = new SignupVM();
     private ButtonsClickHandler buttonsClickHandler;
     private ArrayList<String> spinnerList = new ArrayList<>();
     private ArrayAdapter<String> adapter;
@@ -715,6 +716,11 @@ public class LogInActivity extends AppCompatActivity {
 //        arabic = findViewById(R.id.login_arabic);
 //        english = findViewById(R.id.login_english);
 //        checkValidation = findViewById(R.id.login_checkValidation);
+//        signupVM.setUsername("0790790791");
+//        signupVM.setPassword("tahaniA1$");
+
+//        binding.LogInUserName.setText("0790790791");//userName.getText().toString());
+//        binding.LogInPassword.setText("tahaniA1$");
         SettingImage = findViewById(R.id.Setting);
         coordinatorLayout = findViewById(R.id.login_coordinatorLayout);
 //        seen = findViewById(R.id.login_seen);

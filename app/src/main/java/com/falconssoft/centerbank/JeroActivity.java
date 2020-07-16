@@ -529,6 +529,21 @@ public class JeroActivity extends AppCompatActivity {
         barcodeLiner.setVisibility(View.GONE);
         editLiner.setVisibility(View.VISIBLE);
 
+        if(chequeInfos.getISCO().equals("1")){
+            checkBox_CO.setChecked(true);
+        }else{
+            checkBox_CO.setChecked(false);
+        }
+        if(chequeInfos.getISBF().equals("1")){
+            checkBox_firstpinifit.setChecked(true);
+        }else{
+            checkBox_firstpinifit.setChecked(false);
+        }
+
+        checkBox_CO.setEnabled(false);
+        checkBox_firstpinifit.setEnabled(false);
+
+        date.setText(""+chequeInfos.getCheckDueDate());
         Danier.setText("" + chequeInfos.getMoneyInDinar());
         phails.setText("" + chequeInfos.getMoneyInFils());
         AmouWord.setText("" + chequeInfos.getMoneyInWord());

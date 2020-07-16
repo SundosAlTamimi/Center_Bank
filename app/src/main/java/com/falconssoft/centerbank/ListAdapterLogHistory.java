@@ -1,6 +1,7 @@
 package com.falconssoft.centerbank;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Gravity;
@@ -11,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -19,6 +21,7 @@ import com.falconssoft.centerbank.Models.ChequeInfo;
 import java.util.List;
 import java.util.Locale;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 //import static android.content.Context.MODE_PRIVATE;
@@ -28,11 +31,11 @@ import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
 public class ListAdapterLogHistory extends BaseAdapter {
     CheckBox checkPriceed;
-    private Context context;
+    private LogHistoryActivity context;
     List<ChequeInfo> itemsList;
  String phoneNo,language;
 
-    public ListAdapterLogHistory(Context context, List<ChequeInfo> itemsList) {
+    public ListAdapterLogHistory(LogHistoryActivity context, List<ChequeInfo> itemsList) {
         this.context = context;
         this.itemsList = itemsList;
         SharedPreferences prefs = context.getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
@@ -68,7 +71,7 @@ public class ListAdapterLogHistory extends BaseAdapter {
 
     private class ViewHolder {
        LinearLayout detailRow;
-        TextView name,transType,date,detail,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo,cheqNo,chequNo ;//, price
+        TextView name,transType,date,detail,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo,cheqNo,chequNo,reSend ;//, price
 CircleImageView status;
 
 
@@ -84,6 +87,7 @@ CircleImageView status;
 
 
         holder.detailRow =  view.findViewById(R.id.detailRow);
+        holder.reSend =  view.findViewById(R.id.reSend);
         holder.status =  view.findViewById(R.id.statuts);
         holder.name=  view.findViewById(R.id.name);
         holder.cheqNo=  view.findViewById(R.id.cheqNo);
@@ -102,6 +106,7 @@ CircleImageView status;
         if(itemsList.get(i).getTransType().equals("2")){
             holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
             TStatus=context.getResources().getString(R.string.rej);
+
         }else if(itemsList.get(i).getTransType().equals("1")){
             holder.status.setBorderColor(context.getResources().getColor(R.color.RealGreen));
             TStatus=context.getResources().getString(R.string.acccept);
@@ -111,6 +116,34 @@ CircleImageView status;
 
         }
 
+        holder.reSend.setVisibility(View.GONE);
+        if(itemsList.get(i).getTransType().equals("2")&&itemsList.get(i).getStatus().equals("0")){
+            holder.reSend.setVisibility(View.VISIBLE);
+        }else {
+            holder.reSend.setVisibility(View.GONE);
+        }
+
+
+        holder.reSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(itemsList.get(i).getTransType().equals("2")&&itemsList.get(i).getStatus().equals("0")){
+
+//                    Intent EditeIntent=new Intent(context,EditerCheackActivity.class);
+                   context.startEditerForReSend(itemsList.get(i));
+                    Toast.makeText(context, "Resend "+itemsList.get(i).getChequeNo(), Toast.LENGTH_SHORT).show();
+
+                }else {
+                    new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("ReSend Error!")
+                            .setContentText("This Cheque Can't Resend States is not Reject")
+                            .show();
+                }
+
+            }
+        });
+
 
         holder.detailRow.setVisibility(View.GONE);
 //        holder.state.setText("" + itemsList.get(i).getStatus());
@@ -118,11 +151,11 @@ CircleImageView status;
         holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+TStatus);
         holder.chequNo.setText(itemsList.get(i).getChequeNo());
 
-        holder.name.setText("" + itemsList.get(i).getCustName());
+        holder.name.setText("" + getFullName(itemsList.get(i).getCustName()));
 //        holder.transType.setText("" + itemsList.get(i).getTransType());
         holder.date.setText( itemsList.get(i).getCheckDueDate());
-        holder.from.setText(context.getResources().getString(R.string.chWriter)+ itemsList.get(i).getCustName());
-        holder.to.setText(context.getResources().getString(R.string.chBf)+itemsList.get(i).getToCustomerName());
+        holder.from.setText(context.getResources().getString(R.string.chWriter)+ getFullName(itemsList.get(i).getCustName()));
+        holder.to.setText(context.getResources().getString(R.string.chBf)+getFullName(itemsList.get(i).getToCustomerName()));
         holder.bankName .setText(context.getResources().getString(R.string.bank_name)+ itemsList.get(i).getBankName());
         holder.AmountJd .setText(context.getResources().getString(R.string.amount)+" : " + itemsList.get(i).getMoneyInDinar()+"."+itemsList.get(i).getMoneyInFils()+" JD");
         holder.AmountWord .setText("("+itemsList.get(i).getMoneyInWord()+")");
@@ -215,7 +248,37 @@ CircleImageView status;
         }
 
     }
+    private String getFullName(String toCustomerName) {
+        try {
+            String first, second, third, fourth, full;
+            int indexSecond = toCustomerName.indexOf("sName");
+            first = toCustomerName.substring(0, indexSecond);
+            int indexTherd = toCustomerName.indexOf("tName");
+            second = toCustomerName.substring(indexSecond + 5, indexTherd);
+            int indexFourth = toCustomerName.indexOf("fName");
+            third = toCustomerName.substring(indexTherd + 5, indexFourth);
+            fourth = toCustomerName.substring(indexFourth + 5);
+            Log.e("full", "" + first + "\t" + second + "\t" + third + "\t" + fourth);
+            if(isProbablyArabic(first)){
+                return full = fourth + "\t" + third + "\t" + second + "\t" + first;
 
+            }else{
+                return full = first + "\t" + second + "\t" + third + "\t" + fourth;
+            }
+        }catch (Exception e){
+            return toCustomerName;
+        }
+
+    }
+    public static boolean isProbablyArabic(String s) {
+        for (int i = 0; i < s.length();) {
+            int c = s.codePointAt(i);
+            if (c >= 0x0600 && c <= 0x06E0)
+                return true;
+            i += Character.charCount(c);
+        }
+        return false;
+    }
 
 }
 

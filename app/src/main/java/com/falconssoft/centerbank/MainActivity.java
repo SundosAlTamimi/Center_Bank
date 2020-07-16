@@ -35,6 +35,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -94,8 +95,8 @@ import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String CHANNEL_ID = "2";
     CircleImageView imageView;
-    private Button notification, requestButton;
-    private TextView addAccount, chooseAccount, generateCheque, logHistory, Editing, request, cashierCheque, jerro, wallet, barCodTextTemp, scanBarcode, signout;
+
+    private TextView addAccount, generateCheque, logHistory, Editing, request, cashierCheque, jerro, wallet, usernameNavigation, barCodTextTemp, scanBarcode, signout;
     //    @SuppressLint("WrongConstant")
 //    private LinearLayout addAccount, chooseAccount, generateCheque, logHistory,Editing;
     private TextView closeDialog, message, usernameTv;
@@ -127,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean isAdd = false, isNewData = false;
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
     public static final String LOGIN_FLAG = "LOGIN_FLAG";
+    public  static  TextView  notification_btn,button_request;
+    RelativeLayout notifyLayout,requestLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,14 +206,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        notification.setOnClickListener(new View.OnClickListener() {
+        notification_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, AlertScreen.class);
                 startActivity(i);
             }
         });
-        requestButton.setOnClickListener(new View.OnClickListener() {
+        button_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, RequestCheque.class);
@@ -364,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .bigText(detail)
                         .setBigContentTitle(" ")
                         .setSummaryText(""))
-                .setContentIntent(pendingIntent)
+                .setContentIntent(pendingIntent).setAutoCancel(true)
                 .addAction(android.R.drawable.sym_action_chat, "Show detail", pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setChannelId(CHANNEL_ID)
@@ -443,14 +446,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     void init() {
         imageView = findViewById(R.id.profile_image);
         scanBarcode = findViewById(R.id.scanBarcode);
-        notification = findViewById(R.id.button_notification);
-        requestButton = findViewById(R.id.button_request);
-        toolbar = findViewById(R.id.main_toolbar);
-        request = findViewById(R.id.main_request);
-        request.setOnClickListener(new View.OnClickListener() {
+        notifyLayout=findViewById(R.id.notifyLayout);
+        requestLayout=findViewById(R.id.requestLayout);
+
+        notifyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(MainActivity.this, Request.class);
+                Intent in=new Intent(MainActivity.this,AlertScreen.class);
+                startActivity(in);
+
+            }
+        });
+        notification_btn = findViewById(R.id.button_notification);
+        notification_btn.setVisibility(View.INVISIBLE);
+        button_request= findViewById(R.id.button_request);
+        button_request.setVisibility(View.INVISIBLE);
+
+
+        toolbar = findViewById(R.id.main_toolbar);
+        request = findViewById(R.id.main_request);
+        requestLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in=new Intent(MainActivity.this,RequestCheque.class);
                 startActivity(in);
 
             }
@@ -482,6 +500,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        usernameNavigation = navigationView.getHeaderView(0).findViewById(R.id.nav_header_textView);
+//        View headerView = navigationView.getHeaderView(0);
+//        TextView navUsername = (TextView) headerView.findViewById(R.id.navUsername);
+//        navUsername.setText("Your Text Here");
+        usernameNavigation.setText(username);
+
     }
 
     void checkLanguage() {
@@ -1429,6 +1454,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 if (countFirst < arrayListRowFirst.size())// new data
                                 {
                                     ShowNotifi("check");
+                                    notification_btn.setVisibility(View.VISIBLE);
 
 
                                 } else {
@@ -1442,6 +1468,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     Log.e("NewGreater", "countFirst" + countFirst);
 
                                     ShowNotifi("check");
+                                    notification_btn.setVisibility(View.VISIBLE);
+
 
                                 } else {
                                     if (arrayListRow.size() == countFirst)// equal size
@@ -1461,6 +1489,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         if (countFirst < arrayListRowFirst.size())// new data
                                         {
                                             ShowNotifi("check");
+                                            notification_btn.setVisibility(View.VISIBLE);
+
 
 
                                         } else {
@@ -1627,7 +1657,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
-
     //**********************************************************************************************************
     public class GetAllRequestToUser_JSONTask extends AsyncTask<String, String, String> {
 
@@ -1761,6 +1790,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 {
 
                                     ShowNotifi("request");
+                                    button_request.setVisibility(View.VISIBLE);
 //                                    isNewData=true;
 
 
@@ -1775,6 +1805,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 {
                                     Log.e("NewGreater", "countFirst");
                                     ShowNotifi("request");
+                                    button_request.setVisibility(View.VISIBLE);
 //                                    isNewData=true;
 
                                 } else {
@@ -1795,6 +1826,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         if (countFirst < arrayListRowFirst.size())// new data
                                         {
                                             ShowNotifi("request");
+                                            button_request.setVisibility(View.VISIBLE);
 //                                            isNewData=true;
 //
 
@@ -1818,7 +1850,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         editor = sharedPreferences.edit();
                         editor.putStringSet("REQUEST_ToUser", set_tow);
                         editor.apply();
-                        Log.e("EndFirstToUser", "****************");
+                        Log.e("EndFirstToUser","****************");
+                        new GetAllRequestFromUser_JSONTask().execute();
 
 
                     } catch (JSONException e) {
@@ -1975,6 +2008,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 {
                                     Log.e("NewGreater", "new data");
                                     ShowNotifi("request");
+                                    button_request.setVisibility(View.VISIBLE);
 //                                    isNewData=true;
 
 
@@ -1988,6 +2022,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     Log.e("Statenewdata", "g");
 
                                     ShowNotifi("request");
+                                    button_request.setVisibility(View.VISIBLE);
 //                                    isNewData=true;
 
                                 } else {
@@ -2010,6 +2045,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                             Log.e("newdata", "gCompare");
                                             ShowNotifi("request");
+                                            button_request.setVisibility(View.VISIBLE);
 //                                            isNewData=true;
                                         } else {
 

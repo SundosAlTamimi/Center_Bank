@@ -64,6 +64,7 @@ import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 import static com.falconssoft.centerbank.MainActivity.Request_ACTION;
 import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
 import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
+import static com.falconssoft.centerbank.MainActivity.button_request;
 import static com.falconssoft.centerbank.Request.serverLink;
 
 public class RequestCheque extends AppCompatActivity {
@@ -114,6 +115,7 @@ public class RequestCheque extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_cheque);
+        button_request.setVisibility(View.INVISIBLE);
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs.getString("link", "");
@@ -697,9 +699,10 @@ public class RequestCheque extends AppCompatActivity {
                         if(first==1)
                         {
                             Log.e("first",""+first);
-                            fillListNotification(requestListMain);
+
 
                         }
+                        fillListNotification(requestListMain);
                         Set<String> set_t = new HashSet<String>();
                         set_t.addAll(arrayListRow);
                         Log.e("Empty",""+arrayListRow.size());

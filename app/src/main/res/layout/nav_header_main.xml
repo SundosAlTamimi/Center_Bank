@@ -19,7 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
-        android:text="Othman Ahmad"
         android:textColor="@color/white"
         android:fontFamily="serif"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
