@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
@@ -152,6 +153,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     public  static  String localNationlNo="";
     String phoneNoUser;
     String intentReSend;
+    SweetAlertDialog  pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -699,66 +701,68 @@ date.setText("" + chequeInfo.getCheckDueDate());
             } else {
                 super.onActivityResult(requestCode, resultCode, data);
             }
-        } else {//
-//            try {
-//                if (requestCode == CAMERA_PIC_REQUEST) {
-//                    Bitmap image = (Bitmap) data.getExtras().get("data");
-//                    if (image != null) {
-//                        CheckPic.setImageBitmap(image);
-//                        serverPicBitmap=image;
-//                        serverPic = Base64.encodeToString(convertBitmapToByteArrayUncompressed(image),Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
-//                        byte[]stru=Base64.decode(serverPic,Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
-//                        serverPicBitmap=convertCompressedByteArrayToBitmap(stru);
-//                        showImageOfCheck(serverPicBitmap);
-//                    }
-//                }
-//
-//
-//            } catch (Exception e) {
-//                Log.e("not getCamera", "message " + e.toString());
-//            }
+        } else {
 
+            if (requestCode == 2) {
+                if (data != null) {
+                    image = data.getData();
+                    CheckPic.setImageURI(image);
+//                CheckPic.setVisibility(View.VISIBLE);
+                }
+                if (image == null && mCameraFileName != null) {
+                    image = Uri.fromFile(new File(mCameraFileName));
+
+                    String dstPath =path ;
+
+
+//                CheckPic.setVisibility(View.VISIBLE);
+                }
+                File file = new File(mCameraFileName);
+                if (!file.exists()) {
+                    file.mkdir();
+                    path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//                serverPicBitmap = BitmapFactory.decodeFile(path, options);
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
+                    CheckPic.setImageBitmap(serverPicBitmap);
+                    serverPic = bitMapToString(serverPicBitmap);
+                    Bitmap bitmap1 = StringToBitMap(serverPic);
+                    showImageOfCheck(bitmap1);
+                }else {
+
+                    path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//                serverPicBitmap = BitmapFactory.decodeFile(path, options);
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
+                    CheckPic.setImageBitmap(serverPicBitmap);
+                    serverPic = bitMapToString(serverPicBitmap);
+                Bitmap bitmap1 = StringToBitMap(serverPic);
+                showImageOfCheck(bitmap1);
+//                    new JSONTask1().execute();
+
+                }
+            }
         }
 
 
 
-        if (requestCode == 2) {
-            if (data != null) {
-                image = data.getData();
-                CheckPic.setImageURI(image);
-//                CheckPic.setVisibility(View.VISIBLE);
-            }
-            if (image == null && mCameraFileName != null) {
-                image = Uri.fromFile(new File(mCameraFileName));
-
-                String dstPath =path ;
 
 
-//                CheckPic.setVisibility(View.VISIBLE);
-            }
-            File file = new File(mCameraFileName);
-            if (!file.exists()) {
-                file.mkdir();
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                serverPicBitmap = BitmapFactory.decodeFile(path, options);
-
-                CheckPic.setImageBitmap(serverPicBitmap);
-                serverPic = bitMapToString(serverPicBitmap);
-                Bitmap bitmap1 = StringToBitMap(serverPic);
-                showImageOfCheck(bitmap1);
-            }else {
-
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-//                serverPicBitmap = BitmapFactory.decodeFile(path, options);
-                Bitmap myBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
+    }
 
 
-                CheckPic.setImageBitmap(myBitmap);
-                serverPic = bitMapToString(myBitmap);
-                Bitmap bitmap1 = StringToBitMap(serverPic);
-                showImageOfCheck(bitmap1);
+    public void deleteFiles(String path) {
+        File file = new File(path);
+
+        if (file.exists()) {
+            String deleteCmd = "rm -r " + path;
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec(deleteCmd);
+            } catch (IOException e) {
+
             }
         }
 
@@ -825,7 +829,10 @@ date.setText("" + chequeInfo.getCheckDueDate());
                 @Override
                 public void onClick(View view) {
                     checkLanguage();
-                    new  IsCheckForThisAcc().execute();
+//                    new  IsCheckForThisAcc().execute();
+
+                    linerBarcode.setVisibility(View.GONE);
+                    linerEditing.setVisibility(View.VISIBLE);
 
                     dialog.dismiss();
                 }
@@ -890,6 +897,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
 
     public String bitMapToString(Bitmap bitmap) {
         if (bitmap != null) {
+            bitmap=Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] arr = baos.toByteArray();
@@ -1110,18 +1118,16 @@ private class JSONTask extends AsyncTask<String, String, String> {
         private HttpURLConnection urlConnection = null;
         private BufferedReader reader = null;
 
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
-//            progressDialog.setCancelable(false);
-//            progressDialog.setMessage("Loading...");
-//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//            progressDialog.setProgress(0);
-//            progressDialog.show();
-
-//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
-//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+//
+            pd = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+            pd.setTitleText("pic Save ");
+            pd.setCancelable(false);
+            pd.show();
 
         }
 
@@ -1194,6 +1200,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("tag", "****saved Success In Edit");
+                    pd.dismissWithAnimation();
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
@@ -1222,10 +1229,13 @@ private class JSONTask extends AsyncTask<String, String, String> {
                         }
                     })
                             .show();
+                    pd.dismissWithAnimation();
+
                     pushCheque.setEnabled(true);
                 }
             } else {
                 Log.e("tag", "****Failed to export data Please check internet connection");
+                pd.dismissWithAnimation();
                 pushCheque.setEnabled(true);
             }
         }

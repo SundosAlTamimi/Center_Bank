@@ -108,4 +108,8 @@
     <string name="cheq_acc">*** CHEQUE ACCOUNT ***</string>
     <string name="CHEQUE_NOT_FOR_YOU">This cheque is not the same as the cheque you want to send !!!</string>
     <string name="message_reject">Are you sure to reject cheque?</string>
+    <string name="bank">Bank</string>
+    <string name="cheque_information">Cheque Information</string>
+    <string name="the_purpose_of_issuing_the_check">The Purpose Of Issuing The Check</string>
+    <string name="inCh">Under the attached authorization without assuming any responsibility on your part</string>
 </resources>

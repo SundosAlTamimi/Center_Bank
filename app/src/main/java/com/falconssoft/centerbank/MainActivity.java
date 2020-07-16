@@ -670,6 +670,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             break;
             case R.id.menu_cashier_cheque: {
+                Intent intentCashier = new Intent(MainActivity.this, CashierCheque.class);
+                startActivity(intentCashier);
 
             }
             break;
