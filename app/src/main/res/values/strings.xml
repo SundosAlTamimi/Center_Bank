@@ -3,18 +3,21 @@
     <string name="cheque_app">Cheque App</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
+    <string name="version">Version</string>
+    <string name="version_num"> 1</string>
+    <string name="developers">Developers</string>
 
     <string name="user_name">Username (Mobile No)</string>
     <string name="password">Password</string>
-    <string name="sing_in">Sing In</string>
-    <string name="sing_up">sing Up</string>
+    <string name="sing_in">Sign In</string>
+    <string name="sing_up">Sign Up</string>
     <string name="national_no">National NO.</string>
     <string name="first_name">1st Name</string>
     <string name="second_name">2nd Name</string>
     <string name="third_name">3rd Name</string>
     <string name="fourth_name">4th Name</string>
     <string name="date">Date</string>
-    <string name="phone_number">Phone number</string>
+    <string name="phone_number">Phone</string>
     <string name="address">Address</string>
     <string name="e_mail">E-Mail</string>
     <string name="save">Save</string>
@@ -102,5 +105,14 @@
     <string name="ResonOfReject">Reson Of Reject</string>
     <string name="requestRejected">Request Rejected For reson</string>
     <string name="requestRejec">Request Rejected</string>
+    <string name="cashier_cheque">Cashier Cheque</string>
+    <string name="handovew">Please hand it over :</string>
+    <string name="thisusernotcheq">This user not has this check.</string>
+    <string name="cheq_acc">*** CHEQUE ACCOUNT ***</string>
+    <string name="CHEQUE_NOT_FOR_YOU">This cheque is not the same as the cheque you want to send !!!</string>
     <string name="message_reject">Are you sure to reject cheque?</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="about">About</string>
+    <string name="type">Type</string>
+    <string name="tracking">Tracking</string>
 </resources>

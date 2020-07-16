@@ -23,6 +23,7 @@ public class SignupVM {
     private String address;
     private String email;
     private String password;
+    private String searchPhone;
 
     public ObservableField<String> text = new ObservableField<>();
 
@@ -33,6 +34,15 @@ public class SignupVM {
 //            }
 //        }
 //    };
+
+
+    public String getSearchPhone() {
+        return searchPhone;
+    }
+
+    public void setSearchPhone(String searchPhone) {
+        this.searchPhone = searchPhone;
+    }
 
     public String getGender() {
         return gender;

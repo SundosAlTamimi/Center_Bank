@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/alpha_gray"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:background="@color/alpha_black2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/alpha_gray"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_error"/>
+
+            <TextView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="10dp"
+                android:fontFamily="serif"
+                android:textSize="18sp"
+                android:text="@string/about"
+                android:textColor="@color/colorWhite"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:fontFamily="serif"
+            android:padding="5dp"
+            android:text="@string/version"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:layout_marginHorizontal="15dp"
+            android:text="@string/version_num"
+            android:textColor="@color/gray_btn_bg_color"
+            android:textSize="15sp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/dark_gray"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="10dp"
+            android:text="@string/developers"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_web"
+            android:drawableLeft="@drawable/ic_web"
+            android:drawablePadding="10dp"
+            android:fontFamily="serif"
+            android:padding="10dp"
+            android:text="https://falconssoft.com/"
+            android:textColor="@color/gray_btn_bg_color"
+            android:textSize="15sp"
+           />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_phone_home"
+        android:drawableLeft="@drawable/ic_phone_home"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:text="+962-6-5656597 // +962-6-5658736"
+        android:textColor="@color/gray_btn_bg_color"
+        android:textSize="15sp"
+        android:fontFamily="serif"
+        />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_email"
+        android:drawableLeft="@drawable/ic_email"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:text=" info@falconssoft.com"
+        android:textColor="@color/gray_btn_bg_color"
+        android:textSize="15sp"
+        android:fontFamily="serif"
+        />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_location"
+        android:drawableLeft="@drawable/ic_location"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:layout_marginBottom="40dp"
+        android:text="Adel Al-Qasem Complex, 8th Floor, \n Jabal Al-Hussein, Amman, Jordan"
+        android:textColor="@color/gray_btn_bg_color"
+        android:textSize="15sp"
+        android:fontFamily="serif"
+        />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

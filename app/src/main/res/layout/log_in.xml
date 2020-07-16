@@ -33,21 +33,35 @@
             android:layout_weight="2"
             android:gravity="center"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
+                android:layout_marginHorizontal="5dp"
                 android:layout_weight="0.5"
                 android:orientation="vertical">
-            <ImageView
-                android:id="@+id/Setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_settings_black_30dp"
-                tools:ignore="VectorDrawableCompat" />
+
+                <ImageView
+                    android:id="@+id/Setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_settings_black_30dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <ImageView
+                    android:onClick="@{clickHandler::onClickCheckValidation}"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/qr"
+                    tools:ignore="VectorDrawableCompat" />
+
             </LinearLayout>
+
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
@@ -129,7 +143,7 @@
                 android:text="@{loginModel.username}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginHorizontal="5dp"
                 android:textCursorDrawable="@null"
                 android:background="@drawable/edit_bac_s"
                 android:hint="@string/user_name"
@@ -141,6 +155,25 @@
                 android:textColor="@color/colorWhiteLight"
                 android:textColorHint="@color/colorWhiteLight"
                 android:textSize="14sp" />
+
+<!--            <Spinner-->
+<!--                android:id="@+id/logInSpinner"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:visibility="visible"-->
+<!--                android:background="@color/white"-->
+<!--                android:layout_marginHorizontal="10dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                />-->
+
+            <TextView
+                android:id="@+id/login_search"
+                android:textColor="@color/white"
+                android:onClick="@{clickHandler::onClickSearchPhone}"
+                android:text="@{loginModel.searchPhone}"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:id="@+id/login_password_linear"
@@ -165,31 +198,32 @@
                     android:textColorHint="@color/colorWhiteLight"
                     android:textSize="14sp" />
 
-                <ImageView
-                    android:id="@+id/login_seen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0"
-                    android:paddingVertical="8dp"
-                    android:paddingHorizontal="10dp"
-                    app:srcCompat="@drawable/ic_visibility"/>
+<!--                <ImageView-->
+<!--                    android:id="@+id/login_seen"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="0"-->
+<!--                    android:paddingVertical="8dp"-->
+<!--                    android:paddingHorizontal="10dp"-->
+<!--                    app:srcCompat="@drawable/ic_visibility"/>-->
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/login_forgetPassword"
-                android:onClick="@{clickHandler::onClickForgetPassword}"
+            <CheckBox
+                android:id="@+id/login_rememberMe"
+                android:onCheckedChanged="@{clickHandler::onCheckedChanged}"
+                android:buttonTint="@color/white"
+                android:padding="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Forget Password"
-                android:drawableStart="@drawable/ic_error"
-                android:drawablePadding="5dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
+                android:text="@string/remember_me"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
                 android:gravity="start"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -201,41 +235,55 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/LogInSingIn"
                 android:onClick="@{clickHandler::onClickLogin}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="10dp"
                 android:paddingHorizontal="80dp"
                 android:background="@drawable/edit_bac_"
                 android:text="@string/sing_in"
+                android:textAllCaps="false"
                 android:fontFamily="serif"
                 android:textColor="@color/colorWhite" />
 
             <Button
-                android:id="@+id/LogInSingUp"
                 android:onClick="@{clickHandler::onClickSignup}"
+                android:background="@drawable/edit_bac_sinup2"
+                android:text="@string/sing_up"
+                android:textAllCaps="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="10dp"
                 android:paddingHorizontal="80dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/edit_bac_sinup"
-                android:text="@string/sing_up"
                 android:fontFamily="serif"
                 android:textColor="@color/colorWhite" />
 
             <TextView
-                android:id="@+id/login_checkValidation"
-                android:onClick="@{clickHandler::onClickCheckValidation}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/check_validation"
-                android:layout_marginTop="10dp"
-                android:textSize="16sp"
+                android:background="@drawable/edit_bac_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="13dp"
+                android:paddingHorizontal="45dp"
+                android:textColor="@color/white"
+                android:fontFamily="serif"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/login_forgetPassword"
+                android:onClick="@{clickHandler::onClickForgetPassword}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forget Password"
+                android:layout_marginTop="7dp"
+                android:drawableStart="@drawable/ic_error"
+                android:drawablePadding="5dp"
+                android:textSize="14sp"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
                 android:gravity="center"/>
+
         </LinearLayout>
 
     </LinearLayout>

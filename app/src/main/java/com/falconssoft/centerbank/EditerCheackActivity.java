@@ -20,6 +20,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -50,6 +52,7 @@ import androidx.core.content.ContextCompat;
 
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
+import com.github.mikephil.charting.utils.FileUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -61,6 +64,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,6 +85,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +93,9 @@ import java.util.List;
 import cn.pedant.SweetAlert.Constants;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static android.view.View.DRAWING_CACHE_QUALITY_HIGH;
 import static android.widget.LinearLayout.VERTICAL;
+import static com.falconssoft.centerbank.LogHistoryActivity.chequeInfoReSend;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
@@ -104,6 +111,9 @@ import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditerCheackActivity extends AppCompatActivity {
+    String mCameraFileName,path;
+    ImageView imageView;
+    Uri image;
 
     LinearLayout linerEditing, linerBarcode;
     TextView scanBarcode, AmouWord, date;
@@ -140,6 +150,8 @@ public class EditerCheackActivity extends AppCompatActivity {
     static String BANKNO = "";
     static String BRANCHNO = "";
     public  static  String localNationlNo="";
+    String phoneNoUser;
+    String intentReSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +166,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs.getString("link", "");
+        phoneNoUser= loginPrefs.getString("mobile", "");
 
         checkLanguage();
 
@@ -233,11 +246,37 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                    startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
 //                }
                 flag = 0;
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+                cameraIntent();
+
             }
         });
 
+         intentReSend=getIntent().getStringExtra("ReSend");
+
+
+    }
+
+
+    private void cameraIntent() {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("_mm_ss");
+
+        String newPicFile ="in" + ".png";
+        String outPath =  Environment.getExternalStorageDirectory()  + File.separator+newPicFile;
+        Log.e("InventoryDBFolder",""+outPath);
+        File outFile = new File(outPath);
+        path=outPath;
+        mCameraFileName = outFile.toString();
+        Uri outuri = Uri.fromFile(outFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outuri);
+        startActivityForResult(intent, 2);
     }
 
     TextWatcher textWatcher = new TextWatcher() {
@@ -272,7 +311,7 @@ public class EditerCheackActivity extends AppCompatActivity {
             String amountWord = numberToArabic.getArabicString(amount);
 
             Log.e("Ammount", "Jd +" + amountWord);
-            AmouWord.setText(amountWord);
+            AmouWord.setText(amountWord + " فقط لا غير");
 
 
         }
@@ -474,6 +513,38 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 }
 
+void fillTheCheck(ChequeInfo chequeInfo){
+//if(chequeInfo.getChequeNo().equals()) {
+    Danier.setText("" + chequeInfo.getMoneyInDinar());
+    phails.setText("" + chequeInfo.getMoneyInFils());
+    AmouWord.setText("" + chequeInfo.getMoneyInWord());
+    nationalNo.setText("" + chequeInfo.getToCustomerNationalId());
+    phoneNo.setText("" + chequeInfo.getToCustomerMobel());
+    company.setText("" + chequeInfo.getCompanyName());
+    notes.setText("" + chequeInfo.getNoteCheck());
+    fName.setText("" + chequeInfo.getToCustomerName().substring(0,chequeInfo.getToCustomerName().indexOf("sName")));
+    sName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("sName")+5,chequeInfo.getToCustomerName().indexOf("tName")));
+    tName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("tName")+5,chequeInfo.getToCustomerName().indexOf("fName")));
+    fourthName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("fName")+5));
+date.setText("" + chequeInfo.getCheckDueDate());
+
+    if (chequeInfo.getISCO().equals("1")) {
+        checkBox_CO.setChecked(true);
+    } else {
+        checkBox_CO.setChecked(false);
+
+    }
+
+    if (chequeInfo.getISBF().equals("1")) {
+        checkBox_firstpinifit.setChecked(true);
+    } else {
+        checkBox_firstpinifit.setChecked(false);
+    }
+//}
+
+}
+
+
     void checkLanguage(){
         if (language.trim().equals("ar")) {
             LocaleAppUtils.setLocale(new Locale("ar"));
@@ -564,6 +635,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (flag == 1) {
@@ -592,7 +664,32 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                    String custName= "";
 
                     //qrCode = "CHECKNO=" + arr[0] + "&BANKNO=" + arr[1] + "&BTANCHNO=" + arr[2] + "&ACCCODE=" + arr[3] + "&IBANNOo=" + arr[4] + "&CUSTOMERNM=''"  ;
-                    new JSONTask().execute();
+
+                    if(intentReSend!=null&&intentReSend.equals("ReSend")){
+                        if (arr[0].equals(chequeInfoReSend.getChequeNo())) {
+                            new JSONTask().execute();
+                        } else {
+                            new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.cheque_app))
+                                    .setContentText(EditerCheackActivity.this.getResources().getString(R.string.CHEQUE_NOT_FOR_YOU))
+                                    .setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok))
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @SuppressLint("WrongConstant")
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            finish();
+//
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    }).show();
+                        }
+
+
+
+                    }else{
+                        new JSONTask().execute();
+                    }
+
 
 
                     // showSweetDialog(true);
@@ -603,21 +700,66 @@ public class EditerCheackActivity extends AppCompatActivity {
                 super.onActivityResult(requestCode, resultCode, data);
             }
         } else {//
-            try {
-                if (requestCode == CAMERA_PIC_REQUEST) {
-                    Bitmap image = (Bitmap) data.getExtras().get("data");
-                    if (image != null) {
-                        CheckPic.setImageBitmap(image);
-                        serverPicBitmap=image;
-                        serverPic = bitMapToString(image);
-                    }
-                }
+//            try {
+//                if (requestCode == CAMERA_PIC_REQUEST) {
+//                    Bitmap image = (Bitmap) data.getExtras().get("data");
+//                    if (image != null) {
+//                        CheckPic.setImageBitmap(image);
+//                        serverPicBitmap=image;
+//                        serverPic = Base64.encodeToString(convertBitmapToByteArrayUncompressed(image),Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
+//                        byte[]stru=Base64.decode(serverPic,Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
+//                        serverPicBitmap=convertCompressedByteArrayToBitmap(stru);
+//                        showImageOfCheck(serverPicBitmap);
+//                    }
+//                }
+//
+//
+//            } catch (Exception e) {
+//                Log.e("not getCamera", "message " + e.toString());
+//            }
+
+        }
 
 
-            } catch (Exception e) {
-                Log.e("not getCamera", "message " + e.toString());
+
+        if (requestCode == 2) {
+            if (data != null) {
+                image = data.getData();
+                CheckPic.setImageURI(image);
+//                CheckPic.setVisibility(View.VISIBLE);
             }
+            if (image == null && mCameraFileName != null) {
+                image = Uri.fromFile(new File(mCameraFileName));
 
+                String dstPath =path ;
+
+
+//                CheckPic.setVisibility(View.VISIBLE);
+            }
+            File file = new File(mCameraFileName);
+            if (!file.exists()) {
+                file.mkdir();
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                serverPicBitmap = BitmapFactory.decodeFile(path, options);
+
+                CheckPic.setImageBitmap(serverPicBitmap);
+                serverPic = bitMapToString(serverPicBitmap);
+                Bitmap bitmap1 = StringToBitMap(serverPic);
+                showImageOfCheck(bitmap1);
+            }else {
+
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//                serverPicBitmap = BitmapFactory.decodeFile(path, options);
+                Bitmap myBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
+
+
+                CheckPic.setImageBitmap(myBitmap);
+                serverPic = bitMapToString(myBitmap);
+                Bitmap bitmap1 = StringToBitMap(serverPic);
+                showImageOfCheck(bitmap1);
+            }
         }
 
     }
@@ -683,7 +825,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     checkLanguage();
-                    new  IsCheckPinding().execute();
+                    new  IsCheckForThisAcc().execute();
 
                     dialog.dismiss();
                 }
@@ -779,6 +921,64 @@ public class EditerCheackActivity extends AppCompatActivity {
     void close(){
         finish();
     }
+
+    public  String encodeTobase64(Bitmap image)
+    {
+
+        byte[] array =  copyToBuffer(image);
+
+
+        String imageEncoded = Base64.encodeToString(array,Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
+
+        Log.e("LOOK", imageEncoded);
+        return imageEncoded;
+    }
+    public  Bitmap decodeBase64(String input)
+    {
+
+        byte[] encodeByte = Base64.decode(input, Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        return bitmap;
+    }
+
+
+    public static byte[] convertBitmapToByteArrayUncompressed(Bitmap bitmap){
+        ByteBuffer byteBuffer = ByteBuffer.allocate(bitmap.getByteCount());
+        bitmap.copyPixelsToBuffer(byteBuffer);
+        byteBuffer.rewind();
+        byte[] b=byteBuffer.array();
+        return byteBuffer.array();
+    }
+
+    /**
+     * Converts compressed byte array to bitmap
+     * @param src source array
+     * @return result bitmap
+     */
+    public static Bitmap convertCompressedByteArrayToBitmap(byte[] src){
+        return BitmapFactory.decodeByteArray(src, 0, src.length);
+    }
+
+
+    private byte[] copyToBuffer(Bitmap bitmap)
+    {
+
+        ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount());
+
+
+        bitmap.copyPixelsToBuffer(buffer);
+        boolean check = buffer.hasArray();
+        buffer.rewind();
+        if (buffer.hasArray())
+        {
+            byte [] NewData = buffer.array();
+            return NewData;
+        }
+        else return null;
+    }
+
+
     public String getBase64Image(Bitmap bitmap) {
         try {
             ByteBuffer buffer =
@@ -1158,8 +1358,25 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                        .show();
 
 
-                    linerEditing.setVisibility(View.VISIBLE);
-                    linerBarcode.setVisibility(View.GONE);
+                    if (intentReSend != null && intentReSend.equals("ReSend")) {
+                        new TillerGetCheck(chequeInfoReSend).execute();
+                    } else {
+
+                        ChequeInfo chequeInfo=new ChequeInfo();
+
+                        chequeInfo.setAccCode(ACCCODE);
+                        chequeInfo.setIbanNo(IBANNO);
+                        chequeInfo.setSerialNo(SERIALNO);
+                        chequeInfo.setBankNo(BANKNO);
+                        chequeInfo.setBranchNo(BRANCHNO);
+                        chequeInfo.setChequeNo(CHECKNO);
+
+                        new IsCheckGero(chequeInfo).execute();
+//                        linerEditing.setVisibility(View.VISIBLE);
+//                        linerBarcode.setVisibility(View.GONE);
+
+                    }
+
 
 
                     pushCheque.setEnabled(true);
@@ -1179,6 +1396,590 @@ private class JSONTask extends AsyncTask<String, String, String> {
                     })
                             .show();
                 pushCheque.setEnabled(true);
+
+            }
+
+        }
+    }
+
+    private class IsCheckForThisAcc extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+                String link =serverLink +"IsCheckForThisAcc";
+
+//                ACCCODE=0014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390105&USERNO=0798899716
+
+                String data = "ACCCODE=" + URLEncoder.encode(ACCCODE, "UTF-8") + "&"
+                        +"IBANNO=" + URLEncoder.encode(IBANNO, "UTF-8") + "&"
+                        +"SERIALNO=" + URLEncoder.encode(SERIALNO, "UTF-8") + "&"
+                        +"BANKNO=" + URLEncoder.encode(BANKNO, "UTF-8") + "&"
+                        +"BRANCHNO=" + URLEncoder.encode(BRANCHNO, "UTF-8") + "&"
+                        +"CHECKNO=" + URLEncoder.encode(CHECKNO, "UTF-8") + "&"
+                        +"USERNO=" + URLEncoder.encode(phoneNoUser, "UTF-8");
+//
+                URL url = new URL(link);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+                Log.e("tag", "dataSave  -->" +data);
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("editorChequeActivity/", "saved//" + s);
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+
+                    new IsCheckPinding().execute();
+                    pushCheque.setEnabled(true);
+                }  else if (s.contains("\"StatusDescreption\":\"This user not has this check.\"")) {
+//                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+//                        .setTitleText("WARNING")
+//                        .setContentText("Check not pinding!")
+//                        .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//
+//
+//                    @Override
+//                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                        sweetAlertDialog.dismissWithAnimation();
+//
+//                    }
+//                })
+//                        .show();
+
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.cheq_acc))
+                            .setContentText(EditerCheackActivity.this.getResources().getString(R.string.thisusernotcheq))
+                            .setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok))
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    finish();
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).show();
+
+
+
+                    pushCheque.setEnabled(true);
+
+
+                }}else {
+                Log.e("tag", "****Failed to export data");
+                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.warning))
+                        .setContentText(EditerCheackActivity.this.getResources().getString(R.string.failtoSend))
+                        .setCancelText(EditerCheackActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+
+                    }
+                })
+                        .show();
+                pushCheque.setEnabled(true);
+
+            }
+
+        }
+    }
+
+    public class TillerGetCheck extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+        ChequeInfo chequeInfo;
+
+        public TillerGetCheck(ChequeInfo chequeInfo) {
+            this.chequeInfo = chequeInfo;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+
+                String link = serverLink + "TillerGetCheck";
+
+
+//                ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144&USESERIAL=0
+
+                //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
+                String data = "ACCCODE=" + URLEncoder.encode(chequeInfo.getAccCode(), "UTF-8") + "&" +
+                        "IBANNO=" + URLEncoder.encode(chequeInfo.getIbanNo(), "UTF-8") + "&" +
+                        "SERIALNO=" + URLEncoder.encode(chequeInfo.getSerialNo(), "UTF-8") + "&" +
+                        "BANKNO=" + URLEncoder.encode(chequeInfo.getBankNo(), "UTF-8") + "&" +
+                        "BRANCHNO=" + URLEncoder.encode(chequeInfo.getBranchNo(), "UTF-8") + "&" +
+                        "CHECKNO=" + URLEncoder.encode(chequeInfo.getChequeNo(), "UTF-8") + "&" +
+                        "USESERIAL=" + URLEncoder.encode("0", "UTF-8");
+
+                URL url = new URL(link);
+                Log.e("link,3 ", serverLink + "   " + link + "   " + data);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String JsonResponse) {
+            super.onPostExecute(JsonResponse);
+
+
+            if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
+                Log.e("GetLogSuccess", "****Success");
+
+//
+                try {
+
+                    JSONObject parentArray = new JSONObject(JsonResponse);
+                    JSONArray parentInfo = parentArray.getJSONArray("INFO");
+
+//                    INFO":[{"ROWID":"AABX2UAAPAAAACDAA1","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الصقور للبرمجيات","QRCODE":"390144;004;0099;1014569990011000","SERIALNO":"635088CD7E6D405B","CHECKISSUEDATE":"7\/2\/2020 12:51:57 PM","CHECKDUEDATE":"","TOCUSTOMERNM":"","AMTJD":"","AMTFILS":"","AMTWORD":"","TOCUSTOMERMOB":"","TOCUSTOMERNATID":"","CHECKWRITEDATE":"","CHECKPICPATH":"","USERNO":"","ISCO":"","ISFB":"","COMPANY":"","NOTE":""}]}
+
+
+                    List <ChequeInfo>chequeInfoTilar = new ArrayList<>();
+                    boolean foundIn = false;
+
+                    for (int i = 0; i < parentInfo.length(); i++) {
+                        JSONObject finalObject = parentInfo.getJSONObject(i);
+
+                        ChequeInfo obj = new ChequeInfo();
+
+                        if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNo)) {
+                            //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
+
+                            obj.setRowId(finalObject.getString("ROWID"));
+                            obj.setBankNo(finalObject.getString("BANKNO"));
+
+
+                            obj.setBankName(finalObject.getString("BANKNM"));
+                            obj.setBranchNo(finalObject.getString("BRANCHNO"));
+
+                            obj.setChequeNo(finalObject.getString("CHECKNO"));
+                            obj.setAccCode(finalObject.getString("ACCCODE"));
+
+                            obj.setIbanNo(finalObject.getString("IBANNO"));
+                            obj.setCustName(finalObject.getString("CUSTOMERNM"));
+
+                            obj.setQrCode(finalObject.getString("QRCODE"));
+                            obj.setSerialNo(finalObject.getString("SERIALNO"));
+
+                            obj.setCheckIsSueDate(finalObject.getString("CHECKISSUEDATE"));//?
+                            obj.setCheckDueDate(finalObject.getString("CHECKDUEDATE"));//?
+
+                            obj.setToCustomerName(finalObject.getString("TOCUSTOMERNM"));
+                            obj.setMoneyInDinar(finalObject.getString("AMTJD"));
+
+                            obj.setMoneyInFils(finalObject.getString("AMTFILS"));
+                            obj.setMoneyInWord(finalObject.getString("AMTWORD"));
+
+                            obj.setToCustomerMobel(finalObject.getString("TOCUSTOMERMOB"));
+
+                            obj.setToCustomerNationalId(finalObject.getString("TOCUSTOMERNATID"));
+                            obj.setCustomerWriteDate(finalObject.getString("CHECKWRITEDATE"));//?
+
+//                        obj.setCheqPIc(finalObject.getString("CHECKPICPATH"));
+//                            obj.setTransType(finalObject.getString("TRANSSTATUS"));
+//                            obj.setStatus(finalObject.getString("STATUS"));
+                            obj.setUserName(finalObject.getString("USERNO"));
+
+                            obj.setISBF(finalObject.getString("ISFB"));
+                            obj.setISCO(finalObject.getString("ISCO"));
+
+                            obj.setISOpen("0");
+
+
+                            chequeInfoTilar.add(obj);
+
+                            foundIn = true;
+
+
+                        }
+                    }
+
+                    if (foundIn) {
+                        if (intentReSend != null && intentReSend.equals("ReSend")) {
+                            fillTheCheck(chequeInfoReSend);
+                            linerEditing.setVisibility(View.VISIBLE);
+                            linerBarcode.setVisibility(View.GONE);
+                        }else{
+                            linerEditing.setVisibility(View.VISIBLE);
+                            linerBarcode.setVisibility(View.GONE);
+                        }
+
+                    } else {
+                        new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("ReSend Cheque ")
+                                .setContentText("This check is not Yours !!!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @SuppressLint("WrongConstant")
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        finish();
+//
+                                        sDialog.dismissWithAnimation();
+                                    }
+                                }).show();
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }//
+
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Check Data not found")) {
+                Log.e("TAG_GetStor", "****Check Data not found");
+
+
+                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText(" Cheque ")
+                        .setContentText("Check Data not found")
+                        .show();
+
+            }
+
+        }
+    }
+
+    public class IsCheckGero extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+        ChequeInfo chequeInfo;
+
+        public IsCheckGero(ChequeInfo chequeInfo) {
+            this.chequeInfo = chequeInfo;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+
+                String link = serverLink + "IsCheckGero";
+
+
+//                ACCCODE=0014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390105
+                //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
+                String data = "ACCCODE=" + URLEncoder.encode(chequeInfo.getAccCode(), "UTF-8") + "&" +
+                        "IBANNO=" + URLEncoder.encode(chequeInfo.getIbanNo(), "UTF-8") + "&" +
+                        "SERIALNO=" + URLEncoder.encode(chequeInfo.getSerialNo(), "UTF-8") + "&" +
+                        "BANKNO=" + URLEncoder.encode(chequeInfo.getBankNo(), "UTF-8") + "&" +
+                        "BRANCHNO=" + URLEncoder.encode(chequeInfo.getBranchNo(), "UTF-8") + "&" +
+                        "CHECKNO=" + URLEncoder.encode(chequeInfo.getChequeNo(), "UTF-8") ;
+
+
+                URL url = new URL(link);
+                Log.e("link,3 ", serverLink + "   " + link + "   " + data);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String JsonResponse) {
+            super.onPostExecute(JsonResponse);
+
+
+            if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
+                Log.e("GetLogSuccess", "****Success");
+
+//
+                try {
+
+                    JSONObject parentArray = new JSONObject(JsonResponse);
+                    JSONArray parentInfo = parentArray.getJSONArray("INFO");
+
+//                    INFO":[{"ROWID":"AABX2UAAPAAAACDAA1","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الصقور للبرمجيات","QRCODE":"390144;004;0099;1014569990011000","SERIALNO":"635088CD7E6D405B","CHECKISSUEDATE":"7\/2\/2020 12:51:57 PM","CHECKDUEDATE":"","TOCUSTOMERNM":"","AMTJD":"","AMTFILS":"","AMTWORD":"","TOCUSTOMERMOB":"","TOCUSTOMERNATID":"","CHECKWRITEDATE":"","CHECKPICPATH":"","USERNO":"","ISCO":"","ISFB":"","COMPANY":"","NOTE":""}]}
+
+
+                    List <ChequeInfo>chequeInfoGiro = new ArrayList<>();
+                    boolean foundIn = false;
+
+                    for (int i = 0; i < parentInfo.length(); i++) {
+                        JSONObject finalObject = parentInfo.getJSONObject(i);
+
+                        ChequeInfo obj = new ChequeInfo();
+
+                        if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNo)) {
+//                            "INFO":[{"ROWID":"AAAq3rAAuAAAADeAAB","BANKNO":"004","BANKNM":"Jordan Bank","BRANCHNO":"0099","CHECKNO":"390105","ACCCODE":"0014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"ADA2B3D052C54199","CHECKISSUEDATE":"01\/07\/2020 18:29:14","CHECKDUEDATE":"01\/07\/2020","TOCUSTOMERNM":"GggHhVhGg","AMTJD":"4444","AMTFILS":"44","AMTWORD":"اربعة آلاف و اربعمائة و اربعة و اربعون ديناراً و 440 فلساً","TOCUSTOMERMOB":"0772095887","TOCUSTOMERNATID":"0788588868","CHECKWRITEDATE":"01\/07\/2020 18:29:14","CHECKPICPATH":"Z:\\FS_Acc_Stk\\Web Services\\ChequesScan\\Win32\\Debug\\Images\\00400990014569990011000390105.txt","TRANSSTATUS":"1","USERNO":"0786812709","ISCO":"0","ISFB":"0","COMPANY":"","NOTE":"","TRANSTYPE":"1","RJCTREASON":""}]}
+
+
+                            obj.setRowId(finalObject.getString("ROWID"));
+                            obj.setBankNo(finalObject.getString("BANKNO"));
+
+
+                            obj.setBankName(finalObject.getString("BANKNM"));
+                            obj.setBranchNo(finalObject.getString("BRANCHNO"));
+
+                            obj.setChequeNo(finalObject.getString("CHECKNO"));
+                            obj.setAccCode(finalObject.getString("ACCCODE"));
+
+                            obj.setIbanNo(finalObject.getString("IBANNO"));
+                            obj.setCustName(finalObject.getString("CUSTOMERNM"));
+
+                            obj.setQrCode(finalObject.getString("QRCODE"));
+                            obj.setSerialNo(finalObject.getString("SERIALNO"));
+
+                            obj.setCheckIsSueDate(finalObject.getString("CHECKISSUEDATE"));//?
+                            obj.setCheckDueDate(finalObject.getString("CHECKDUEDATE"));//?
+
+                            obj.setToCustomerName(finalObject.getString("TOCUSTOMERNM"));
+                            obj.setMoneyInDinar(finalObject.getString("AMTJD"));
+
+                            obj.setMoneyInFils(finalObject.getString("AMTFILS"));
+                            obj.setMoneyInWord(finalObject.getString("AMTWORD"));
+
+                            obj.setToCustomerMobel(finalObject.getString("TOCUSTOMERMOB"));
+
+                            obj.setToCustomerNationalId(finalObject.getString("TOCUSTOMERNATID"));
+                            obj.setCustomerWriteDate(finalObject.getString("CHECKWRITEDATE"));//?
+
+//                        obj.setCheqPIc(finalObject.getString("CHECKPICPATH"));
+//                            obj.setTransType(finalObject.getString("TRANSSTATUS"));
+//                            obj.setStatus(finalObject.getString("STATUS"));
+                            obj.setUserName(finalObject.getString("USERNO"));
+
+                            obj.setISBF(finalObject.getString("ISFB"));
+                            obj.setISCO(finalObject.getString("ISCO"));
+
+                            obj.setISOpen("0");
+
+
+                            chequeInfoGiro.add(obj);
+
+                            foundIn = true;
+
+
+                        }
+                    }
+
+                    if (!foundIn) {
+
+
+                    } else {
+                        new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText(" Cheque ")
+                                .setContentText("This check is Giro can't Send !!!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @SuppressLint("WrongConstant")
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        finish();
+                                        sDialog.dismissWithAnimation();
+                                    }
+                                }).show();
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }//
+
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Check Is not Gero")) {
+                Log.e("TAG_GetStor", "****Check Data not found");
+
+
+//                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+//                        .setTitleText(" Cheque ")
+//                        .setContentText("Check Data not found")
+//                        .show();
+
+                new TillerGetCheck(chequeInfo).execute();
+
 
             }
 
@@ -1694,9 +2495,6 @@ private class JSONTask1 extends AsyncTask<String, String, String> {
         }
     }
 }
-
-
-
 
 
 }

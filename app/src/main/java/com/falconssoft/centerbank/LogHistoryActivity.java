@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.solver.widgets.Helper;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.github.mikephil.charting.charts.PieChart;
@@ -68,7 +69,9 @@ public class LogHistoryActivity extends AppCompatActivity {
     LinearLayout helpDialog;
     String AccountNo, phoneNo, serverLink;
     TextView customName,dateText,cheqNo,SendCheque;
-
+    public static ChequeInfo chequeInfoReSend;
+    SwipeRefreshLayout swipeRefresh;
+    boolean isRefresh=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +109,18 @@ public class LogHistoryActivity extends AppCompatActivity {
         LogHistoryList = new ArrayList<>();
         ListState = new ArrayList<>();
         ListTrans = new ArrayList<>();
+
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+               isRefresh=true;
+                new GetAllTransaction().execute();
+
+            }
+        });
+
+
         ListState.add("All");
         ListState.add("Accept");
         ListState.add("Reject");
@@ -264,6 +279,14 @@ public class LogHistoryActivity extends AppCompatActivity {
     }
 
 
+    public void startEditerForReSend(ChequeInfo chequeInfo){
+        chequeInfoReSend=chequeInfo;
+        Intent reSendIntent=new Intent(LogHistoryActivity.this,EditerCheackActivity.class);
+        reSendIntent.putExtra("ReSend","ReSend");
+        startActivity(reSendIntent);
+
+    }
+
     private class GetAllTransaction extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
@@ -409,7 +432,8 @@ public class LogHistoryActivity extends AppCompatActivity {
 
                         obj.setISBF(finalObject.getString("ISFB"));
                         obj.setISCO(finalObject.getString("ISCO"));
-
+                        obj.setCompanyName(finalObject.getString("COMPANY"));
+                        obj.setNoteCheck(finalObject.getString("NOTE"));
                         obj.setISOpen("0");
                         ChequeInfoLogHistoryMain.add(obj);
                     }
@@ -423,7 +447,12 @@ public class LogHistoryActivity extends AppCompatActivity {
                     ListAdapterLogHistory listAdapterLogHistory = new ListAdapterLogHistory(LogHistoryActivity.this, ChequeInfoLogHistoryMain);
                     listLogHistory.setAdapter(listAdapterLogHistory);
 
-
+                    if (isRefresh) {
+                        swipeRefresh.setRefreshing(false);
+                        isRefresh = false;
+                    } else {
+                        isRefresh = false;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

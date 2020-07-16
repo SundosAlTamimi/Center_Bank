@@ -32,12 +32,12 @@ public class ProfilePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
 
-        databaseHandler= new DatabaseHandler(this);
-        loginINFO = databaseHandler.getLoginInfo();
+        databaseHandler = new DatabaseHandler(this);
+        loginINFO = databaseHandler.getActiveUserInfo();
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
-        
+
         firstName = findViewById(R.id.profile_first_name);
         secondName = findViewById(R.id.profile_second_name);
         thirdName = findViewById(R.id.profile_third_name);
@@ -62,7 +62,10 @@ public class ProfilePage extends AppCompatActivity {
         nationalID.setText(loginINFO.getNationalID());
         phoneNo.setText(loginINFO.getUsername());
         accountType.setText("Individual");
-        gender.setText(loginINFO.getGender());
+        if (loginINFO.getGender().equals("0"))
+            gender.setText("Male");
+        else
+            gender.setText("Female");
         date.setText(loginINFO.getBirthDate());
 
         checkLanguage();

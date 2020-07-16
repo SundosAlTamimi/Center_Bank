@@ -124,17 +124,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DatabaseHandler dbHandler;
     static String watch;
-    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = ""
-            , CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = ""
-            , BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "";
+    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = "", CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = "", BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "";
     private JSONObject addAccountOb;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Dialog barcodeDialog;
     private String[] arr;
-    private boolean isAdd = false,isNewData=false;
+    private boolean isAdd = false, isNewData = false;
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
+    public static final String LOGIN_FLAG = "LOGIN_FLAG";
     public  static  TextView  notification_btn,button_request;
     RelativeLayout notifyLayout,requestLayout;
 
@@ -162,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new GetAllCheck_JSONTask().execute();
 
 //                new GetAllRequestFromUser_JSONTask().execute();
-
 
 
             }
@@ -631,7 +629,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
 
                 String ST = Result.getContents();
-                 arr = ST.split(";");
+                arr = ST.split(";");
 
                 accCode = arr[3];
 
@@ -663,7 +661,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             break;
             case R.id.menu_request: {
-                Intent in=new Intent(MainActivity.this,RequestCheque.class);
+                Intent in = new Intent(MainActivity.this, RequestCheque.class);
                 startActivity(in);
 
 
@@ -672,6 +670,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_wallet: {
 
             }
+            break;
             case R.id.menu_giro: {
                 Intent intentJero = new Intent(MainActivity.this, JeroActivity.class);
                 startActivity(intentJero);
@@ -693,6 +692,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
+            }
+            break;
+            case R.id.menu_about: {
+                Dialog dialog = new Dialog(this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.about_page);
+                dialog.show();
+
+                Window window = dialog.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            }
+            break;
+            case R.id.menu_tracking: {
+                Intent intent = new Intent(MainActivity.this, TrackingCheque.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
             }
             break;
         }
@@ -787,7 +804,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
-            final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
+            final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_after_validation);
             dialog.setCancelable(false);
@@ -1063,7 +1080,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
-                Log.e("GetAccSuccess", "****Success");
+//                Log.e("GetAccSuccess", "****Success");
 
 //
                 try {
@@ -1515,6 +1532,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             if (index == -1) {
                                                 arrayListRowFirst.add(arrayListRow.get(h));
 
+
                                             }
 
                                         }
@@ -1574,7 +1592,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success" + s.toString());
+//                    Log.e("tag", "****Success" + s.toString());
                 } else {
                     Log.e("tag", "****Failed to export data");
                 }
@@ -1840,7 +1858,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
                                 chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
                                 chequeInfo.setCOMPNAME(infoDetail.get("COMPNAME").toString());
-                                Log.e("getFROMUSER_name",""+chequeInfo.getFROMUSER_name());
+//                                Log.e("getFROMUSER_name", "" + chequeInfo.getFROMUSER_name());
                                 chequeInfo.setNOTE(infoDetail.get("NOTE").toString());
                                 chequeInfo.setAMOUNT(infoDetail.get("AMOUNT").toString());
 
@@ -1880,7 +1898,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     if(index==-1)
                                     {
                                         arrayListRowFirst.add(arrayListRow.get(h));
-                                        Log.e("requestList_index",""+requestList.get(h).getTOUSER_name());
+                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
 
                                     }
 
@@ -2207,7 +2225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success"+s.toString());
+//                    Log.e("tag", "****Success" + s.toString());
                 } else {
                     Log.e("tag", "****Failed to export data");
                 }
