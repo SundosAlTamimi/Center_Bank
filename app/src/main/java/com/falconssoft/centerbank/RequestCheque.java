@@ -12,6 +12,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -66,6 +67,7 @@ import static com.falconssoft.centerbank.MainActivity.STOP_ACTION;
 import static com.falconssoft.centerbank.MainActivity.YES_ACTION;
 import static com.falconssoft.centerbank.MainActivity.button_request;
 import static com.falconssoft.centerbank.Request.serverLink;
+import static com.falconssoft.centerbank.ShowNotifications.showNotification;
 
 public class RequestCheque extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -110,12 +112,15 @@ public class RequestCheque extends AppCompatActivity {
     Timer timer;
     FloatingActionButton floa_add;
     public  String WHICH="0";
+    private ProgressDialog progressDialog;
     public  static   String language="", serverLink="http://falconssoft.net/ScanChecks/APIMethods.dll/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_cheque);
         button_request.setVisibility(View.INVISIBLE);
+        progressDialog=new ProgressDialog(RequestCheque.this);
+
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs.getString("link", "");
@@ -142,7 +147,8 @@ public class RequestCheque extends AppCompatActivity {
         editor.clear();// just for test
         phoneNo = loginPrefs.getString("mobile", "");
 
-
+        progressDialog.show();
+        progressDialog.setMessage("Loading...");
         new GetAllRequestToUser_JSONTask().execute();
         Log.e("flagMainCreat",""+flagMain);
 
@@ -467,7 +473,8 @@ public class RequestCheque extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
-                show_Notification("Check  app, Recive new Request");
+//                show_Notification("Check  app, Recive new Request");
+                showNotification(RequestCheque.this,"Request","BodyRequest Test");
 
             }
             else {
@@ -490,7 +497,7 @@ public class RequestCheque extends AppCompatActivity {
         layoutManager.setOrientation(VERTICAL);
         runAnimation(recyclerView, 0);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        Toast.makeText(RequestCheque.this, "Saved", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(RequestCheque.this, "Saved", Toast.LENGTH_SHORT).show();
 
 
     }
@@ -809,6 +816,7 @@ public class RequestCheque extends AppCompatActivity {
 
                        // fillList();
                         first=2;
+                        progressDialog.dismiss();
 
 //                        fillListNotification(notificationArrayList);
 

@@ -33,6 +33,9 @@
             android:name=".MainActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
+            android:name=".CashierCheque"
+            android:screenOrientation="sensorPortrait" />
+        <activity
             android:name=".SingUpActivity"
             android:screenOrientation="sensorPortrait"
             android:windowSoftInputMode="stateAlwaysHidden" />

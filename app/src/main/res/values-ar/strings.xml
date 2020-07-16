@@ -104,6 +104,7 @@
     <string name="RequestDetail">تفاصيل الطلب</string>
     <string name="Request_From">طلب من</string>
     <string name="ResonOfReject">سبب الرفض</string>
+    <string name="CHEQUE_NOT_FOR_YOU">هذا الشيك ليس نفس الشيك الذي تريد ارساله !!!</string>
     <string name="requestRejected"> تم رفض الطلب للسبب </string>
     <string name="requestRejec"> تم رفض الطلب</string>
     <string name="message_reject">Are you sure to reject cheque?</string>
@@ -111,5 +112,10 @@
     <string name="about">حول</string>
     <string name="type">النوع</string>
     <string name="tracking">تتبع حركة</string>
-    <string name="cheque_number_">Cheque Number</string>
+    <string name="cheque_number_">رقم الشيك</string>
+    <string name="bank">Bank</string>
+    <string name="cheque_information">Cheque Information</string>
+    <string name="the_purpose_of_issuing_the_check">The Purpose Of Issuing The Check</string>
+    <string name="inCh">بموجب التفويض المرفق دون تحمل اية مسؤولية من طرفكم</string>
+
 </resources>
