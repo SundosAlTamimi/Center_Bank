@@ -91,7 +91,6 @@ public class LogInActivity extends AppCompatActivity {
     private LinearLayout phoneLinear, emailLinear, passwordLinear;
     private LogInBinding binding;
     private SignupVM signupVM = new SignupVM();
-    private SignupVM signupVM  = new SignupVM();
     private ButtonsClickHandler buttonsClickHandler;
     private ArrayList<String> spinnerList = new ArrayList<>();
     private ArrayAdapter<String> adapter;
