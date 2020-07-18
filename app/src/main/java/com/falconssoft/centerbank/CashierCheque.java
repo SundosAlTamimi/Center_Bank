@@ -115,6 +115,9 @@ public class CashierCheque extends AppCompatActivity {
 
             Log.e("Ammount", "Jd +" + amountWord);
             AmouWord.setText(amountWord + " فقط لا غير");
+            if(Phils.getText().toString().equals("")&&denier.getText().toString().equals("")){
+                AmouWord.setText(amountWord + "");
+            }
 
 
         }

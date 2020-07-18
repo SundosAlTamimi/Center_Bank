@@ -315,6 +315,10 @@ public class EditerCheackActivity extends AppCompatActivity {
             Log.e("Ammount", "Jd +" + amountWord);
             AmouWord.setText(amountWord + " فقط لا غير");
 
+            if(phails.getText().toString().equals("")&&Danier.getText().toString().equals("")){
+                AmouWord.setText(amountWord + "");
+            }
+
 
         }
 
