@@ -276,7 +276,6 @@ public class RequestCheque extends AppCompatActivity {
                         requestList.clear();
 
 
-
                         jsonObject = new JSONObject(s);
 
                         JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
@@ -288,9 +287,9 @@ public class RequestCheque extends AppCompatActivity {
                             chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
 
 
-                            Log.e("setTransType","\t"+chequeInfo.getTRANSSTATUS());
+                            Log.e("setTransType", "\t" + chequeInfo.getTRANSSTATUS());
 
-                            if (chequeInfo.getTRANSSTATUS().equals("0") )// reject from mee
+                            if (chequeInfo.getTRANSSTATUS().equals("0"))// reject from mee
                             {
                                 chequeInfo.setROWID(infoDetail.getString("ROWID"));
                                 chequeInfo.setFROMUSER_No(infoDetail.getString("FROMUSER"));
@@ -299,7 +298,7 @@ public class RequestCheque extends AppCompatActivity {
                                 chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
                                 chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
                                 chequeInfo.setCOMPNAME(infoDetail.get("COMPNAME").toString());
-                                Log.e("getFROMUSER_name",""+chequeInfo.getFROMUSER_name());
+                                Log.e("getFROMUSER_name", "" + chequeInfo.getFROMUSER_name());
                                 chequeInfo.setNOTE(infoDetail.get("NOTE").toString());
                                 chequeInfo.setAMOUNT(infoDetail.get("AMOUNT").toString());
 
@@ -314,46 +313,43 @@ public class RequestCheque extends AppCompatActivity {
                                 if (first == 1) {
                                     requestArrayList.add(chequeInfo);
                                     requestListMain.add(chequeInfo);
-                                    Log.e("requestListMain",""+requestListMain.size());
+                                    Log.e("requestListMain", "" + requestListMain.size());
                                 }
 
                                 requestArrayListTest.add(chequeInfo);
                                 requestListTestMain.add(chequeInfo);
-                                Log.e("ToUserArrayListTest",""+requestListTestMain.size());
+                                Log.e("ToUserArrayListTest", "" + requestListTestMain.size());
 
                             }
                         }
-                        Log.e("requestListTestMain",""+requestListTestMain.size());
+                        Log.e("requestListTestMain", "" + requestListTestMain.size());
 //
-                        if(first==1)
-                        {
+                        if (first == 1) {
 //                            fillListNotification(requestArrayList);
 
                         }
                         Set<String> set_tow = new HashSet<String>();
                         set_tow.addAll(arrayListRow);
-                        Log.e("Empty",""+arrayListRow.size());
-
+                        Log.e("Empty", "" + arrayListRow.size());
 
 
                         Set<String> set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
 
-                        if(set !=null)
-                        {
+                        if (set != null) {
 //
                             set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
                             arrayListRowFirst.addAll(set);
 
-                            int countFirst=arrayListRowFirst.size();
-                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
-                            {Log.e("olddataGreater","countFirst"+countFirst);
+                            int countFirst = arrayListRowFirst.size();
+                            if (arrayListRow.size() < countFirst)//there are update new data is less than old data
+                            {
+                                Log.e("olddataGreater", "countFirst" + countFirst);
 
-                                for( int h=0;h<arrayListRow.size();h++){
-                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                    if(index==-1)
-                                    {
+                                for (int h = 0; h < arrayListRow.size(); h++) {
+                                    int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if (index == -1) {
                                         arrayListRowFirst.add(arrayListRow.get(h));
-                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+                                        Log.e("arrayListRowYES", "" + arrayListRow.get(h));
 
                                     }
 
@@ -361,37 +357,34 @@ public class RequestCheque extends AppCompatActivity {
 
                                 if (countFirst < arrayListRowFirst.size())// new data
                                 {
-                                    foundFirst=true;
+                                    foundFirst = true;
 //                                    ShowNotifi();
 
 //                                    fillListNotification(requestArrayListTest);
 
 
-                                }
-                                else {
+                                } else {
 
 //                                    fillListNotification(requestArrayListTest);
                                 }
 
                             }//********************************************
                             else {
-                                if(arrayListRow.size()>countFirst)// new data
+                                if (arrayListRow.size() > countFirst)// new data
                                 {
-                                    Log.e("NewGreater","countFirst");
+                                    Log.e("NewGreater", "countFirst");
 //                                    fillListNotification(requestArrayListTest);
 //                                    ShowNotifi();
-                                    foundFirst=true;
+                                    foundFirst = true;
 
-                                }
-                                else{
-                                    if(arrayListRow.size()==countFirst)// equal size
+                                } else {
+                                    if (arrayListRow.size() == countFirst)// equal size
                                     {
-                                        Log.e("arrayListRow","== hereeee");
+                                        Log.e("arrayListRow", "== hereeee");
 
-                                        for( int h=0;h<arrayListRow.size();h++){
-                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                            if(index==-1)
-                                            {
+                                        for (int h = 0; h < arrayListRow.size(); h++) {
+                                            int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if (index == -1) {
                                                 arrayListRowFirst.add(arrayListRow.get(h));
 
 
@@ -404,10 +397,9 @@ public class RequestCheque extends AppCompatActivity {
 //                                            ShowNotifi();
 //
 //                                            fillListNotification(requestArrayListTest);
-                                            foundFirst=true;
+                                            foundFirst = true;
 
-                                        }
-                                        else {
+                                        } else {
 
 //                                                fillListNotification(requestListTestMain);
                                         }
@@ -420,16 +412,13 @@ public class RequestCheque extends AppCompatActivity {
 
 //                            }
 
-                        }
-                        else {//empty shared preference
-                            if(first!=1)
-                            {
+                        } else {//empty shared preference
+                            if (first != 1) {
 //                                fillListNotification(requestArrayList);
 //                                ShowNotifi();
-                                Log.e("Notfirst",""+first);
-                                foundFirst=true;
+                                Log.e("Notfirst", "" + first);
+                                foundFirst = true;
                             }
-
 
 
                         }
@@ -437,10 +426,8 @@ public class RequestCheque extends AppCompatActivity {
                         editor = sharedPreferences.edit();
                         editor.putStringSet("REQUEST_ToUser", set_tow);
                         editor.apply();
-                        Log.e("EndFirstToUser","****************");
+                        Log.e("EndFirstToUser", "****************");
                         new GetAllRequestFromUser_JSONTask().execute();
-
-
 
 
 //                        fillListNotification(notificationArrayList);
@@ -451,7 +438,12 @@ public class RequestCheque extends AppCompatActivity {
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success"+s.toString());
+                    Log.e("tag", "****Success" + s.toString());
+                }if (s.contains("\"StatusDescreption\":\"Request data not found.\"")) {
+                    new GetAllRequestFromUser_JSONTask().execute();
+
+
+
                 } else {
                     Log.e("tag", "****Failed to export data");
                 }
@@ -827,7 +819,10 @@ public class RequestCheque extends AppCompatActivity {
 
 //                    INFO
                     Log.e("tag", "****Success"+s.toString());
-                } else {
+                }if (s.contains("\"StatusDescreption\":\"Request data not found.\"")) {
+                    progressDialog.dismiss();
+                }else
+                {
                     Log.e("tag", "****Failed to export data");
                 }
             }
