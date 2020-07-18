@@ -73,6 +73,7 @@ import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.AlertScreen.textCheckstateChanger;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
+import static com.falconssoft.centerbank.Requestadapter.mobileNo;
 
 public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.ViewHolder> {
     //    RecyclerView.Adapter<engineer_adapter.ViewHolder>
@@ -84,18 +85,15 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     int row_index = -1;
     String checkState = "0";
     public static String languagelocalApp = "";
-    public static String acc="",bankN="",branch="",cheNo="";
+    public static String acc="",bankN="",branch="",cheNo="", mobile_No="";
     EditText resonText;
     String reson_reject="";
     private ProgressDialog progressDialog;
-
 
     public NotificatioAdapter(Context context, List<notification> notifications) {
         this.context = context;
         this.notificationList = notifications;
         progressDialog = new ProgressDialog(context);
-
-
     }
 
     @NonNull
@@ -197,9 +195,11 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
        ImageView image_check;
         LinearLayout linearCheckInfo, mainLinearAdapter,divider,lineardetail,rowStatus;
         LinearLayout acceptImg,rejectImg,reciveNew;
-
+        SharedPreferences loginPrefs;
         public ViewHolder(View itemView) {
             super(itemView);
+            loginPrefs = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+            mobile_No = loginPrefs.getString("mobile", "");
             source_check = itemView.findViewById(R.id.source_check);
             amount_check = itemView.findViewById(R.id.amount_check);
             date_check = itemView.findViewById(R.id.date_check);
@@ -665,6 +665,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 nameValuePairs.add(new BasicNameValuePair("ROWID", checkInfoNotification.get(row_index).getRowId()));
                 nameValuePairs.add(new BasicNameValuePair("STATUS", checkState));
                 nameValuePairs.add(new BasicNameValuePair("RJCTREASON", reson_reject));
+                nameValuePairs.add(new BasicNameValuePair("USERNO",mobile_No));
 
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 

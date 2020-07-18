@@ -419,7 +419,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
                 nameValuePairs.add(new BasicNameValuePair("ROWID", requestList.get(row_index).getROWID()));
                 nameValuePairs.add(new BasicNameValuePair("STATUS", "1"));
                 nameValuePairs.add(new BasicNameValuePair("REASON", requestList.get(row_index).getREASON()));
-                nameValuePairs.add(new BasicNameValuePair("USERNO",mobileNo));
+
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 
