@@ -828,6 +828,8 @@ date.setText("" + chequeInfo.getCheckDueDate());
                 public void onClick(View view) {
                     checkLanguage();
                     new  IsCheckForThisAcc().execute();
+//                    linerEditing.setVisibility(View.VISIBLE);
+//                    linerBarcode.setVisibility(View.GONE);
                     dialog.dismiss();
                 }
             });
@@ -1119,7 +1121,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //
             pd = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
             pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
-            pd.setTitleText("pic Save ");
+            pd.setTitleText("Save...");
             pd.setCancelable(false);
             pd.show();
 
@@ -1742,18 +1744,33 @@ private class JSONTask extends AsyncTask<String, String, String> {
                         }
 
                     } else {
-                        new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                                .setTitleText("ReSend Cheque ")
-                                .setContentText("This check is not Yours !!!")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @SuppressLint("WrongConstant")
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        finish();
+                        if (intentReSend != null && intentReSend.equals("ReSend")) {
+                            new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("ReSend Cheque ")
+                                    .setContentText("This check is not Yours !!!")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @SuppressLint("WrongConstant")
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            finish();
 //
-                                        sDialog.dismissWithAnimation();
-                                    }
-                                }).show();
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    }).show();
+                        }else {
+                            new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("Send Cheque ")
+                                    .setContentText("This check is not Yours !!!")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @SuppressLint("WrongConstant")
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            finish();
+//
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    }).show();
+                        }
 
                     }
 
