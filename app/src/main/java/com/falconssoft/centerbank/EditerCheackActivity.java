@@ -949,7 +949,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
         Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
         return bitmap;
     }
- 
+
 
     public static byte[] convertBitmapToByteArrayUncompressed(Bitmap bitmap){
         ByteBuffer byteBuffer = ByteBuffer.allocate(bitmap.getByteCount());
