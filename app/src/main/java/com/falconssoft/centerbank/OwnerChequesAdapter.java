@@ -56,7 +56,10 @@ class OwnerChequesAdapter extends RecyclerView.Adapter<OwnerChequesAdapter.Owner
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new TrackingCheque().getChequeData(list.get(position)); //////// intent
+//                new TrackingCheque().getChequeData(list.get(position)); //////// intent
+                Intent trackInTENT=new Intent(activity,TrackingCheque.class);
+                trackInTENT.putExtra("Tracking", list.get(position));
+                activity.startActivity(trackInTENT);
 
             }
         });

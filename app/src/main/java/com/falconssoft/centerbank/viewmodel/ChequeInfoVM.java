@@ -1,6 +1,8 @@
 package com.falconssoft.centerbank.viewmodel;
 
-public class ChequeInfoVM {
+import java.io.Serializable;
+
+public class ChequeInfoVM implements Serializable {
 
 
     private String chequeNo;

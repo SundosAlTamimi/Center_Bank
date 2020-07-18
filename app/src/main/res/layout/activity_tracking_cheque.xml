@@ -18,90 +18,89 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/clear_buttons"
             android:orientation="vertical">
 
             <LinearLayout
-                android:background="@color/alpha_black2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:padding="10dp">
 
                 <TextView
-                    android:textSize="12sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="@string/date"
-                    android:gravity="center"
-                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:fontFamily="serif"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:textSize="12sp" />
 
                 <TextView
-                    android:textSize="12sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="@string/beneficiary"
-                    android:gravity="center"
-                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:fontFamily="serif"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:textSize="12sp" />
 
                 <TextView
-                    android:textSize="12sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="@string/national_no"
-                    android:gravity="center"
-                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:fontFamily="serif"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:textSize="12sp" />
 
                 <TextView
-                    android:textSize="12sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="@string/phone_number"
-                    android:gravity="center"
-                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:fontFamily="serif"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:textSize="12sp" />
 
                 <TextView
-                    android:textSize="12sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="@string/transaction_type"
-                    android:gravity="center"
-                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:fontFamily="serif"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:textSize="12sp" />
 
                 <TextView
-                    android:textSize="12sp"
-                    android:text="@string/status"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:textColor="@color/white"
-                    android:fontFamily="serif"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/status"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tracking_recyclerView"
-                android:background="@color/alpha_black2"
-                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                />
+                android:background="@drawable/edit_bac_s"
+                android:padding="10dp" />
 
         </LinearLayout>
     </RelativeLayout>
