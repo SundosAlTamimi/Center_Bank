@@ -7,113 +7,102 @@
             type="com.falconssoft.centerbank.viewmodel.ChequeInfoVM" />
     </data>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bank4"
-    tools:context=".TrackingCheque">
-
-    <RelativeLayout
-        android:background="@drawable/clear_buttons"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/bank4"
+        tools:context=".TrackingCheque">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_weight="0.6"
-            android:background="@drawable/edit_bac_s"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:orientation="vertical">
 
-            <TableRow
-                android:visibility="gone"
+            <LinearLayout
+                android:background="@color/alpha_black2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="5dp">
+                android:orientation="horizontal"
+                >
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
+                    android:textSize="12sp"
                     android:text="@string/date"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:fontFamily="serif"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.8"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
+                    android:textSize="12sp"
                     android:text="@string/beneficiary"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:fontFamily="serif"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.8"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
+                    android:textSize="12sp"
                     android:text="@string/national_no"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:fontFamily="serif"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.9"
-                    android:fontFamily="sans-serif-light"
+                    android:textSize="12sp"
+                    android:text="@string/phone_number"
                     android:gravity="center"
-                    android:text="@string/phone_no"
+                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:fontFamily="serif"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.9"
-                    android:fontFamily="sans-serif-light"
+                    android:textSize="12sp"
+                    android:text="@string/transaction_type"
                     android:gravity="center"
-                    android:text="@string/type"
+                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:fontFamily="serif"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.9"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
+                    android:textSize="12sp"
                     android:text="@string/status"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </TableRow>
+                    android:fontFamily="serif"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
-            <View
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_margin="5dp"
-                android:background="@color/red" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tracking_recyclerView"
+                android:background="@color/alpha_black2"
+                android:padding="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_height="match_parent"
+                />
 
         </LinearLayout>
-
     </RelativeLayout>
-
-</RelativeLayout>
-
 </layout>

@@ -188,10 +188,13 @@ public class LogInActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 //                checkIfIsRemember(String.valueOf(charSequence));
                 Log.e("tracking", String.valueOf(charSequence));
-                if (!TextUtils.isEmpty(String.valueOf(charSequence)))
+                if (!TextUtils.isEmpty(String.valueOf(charSequence))) {
+                    binding.loginSearch.setVisibility(View.VISIBLE);
                     binding.loginSearch.setText(databaseHandler.getLoginInfo(String.valueOf(charSequence)).getUsername());
-                else
+                } else{
+                    binding.loginSearch.setVisibility(View.GONE);
                     binding.loginSearch.setText("");
+                }
 
 
 //                signupVM.setSearchPhone(databaseHandler.getLoginInfo(String.valueOf(charSequence)).getUsername());
@@ -521,10 +524,9 @@ public class LogInActivity extends AppCompatActivity {
 
         public void onClickSearchPhone(View view) {
             binding.LogInUserName.setText(binding.loginSearch.getText().toString());
-
             binding.LogInPassword.setText(databaseHandler.getUserInfo(binding.loginSearch.getText().toString()).getPassword());
-
             binding.loginRememberMe.setChecked(true);
+            binding.loginSearch.setVisibility(View.GONE);
 
         }
 

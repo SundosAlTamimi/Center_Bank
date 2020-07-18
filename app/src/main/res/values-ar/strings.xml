@@ -112,6 +112,7 @@
     <string name="about">حول</string>
     <string name="type">النوع</string>
     <string name="tracking">تتبع حركة</string>
+    <string name="cheque_number_">رقم الشيك</string>
     <string name="bank">Bank</string>
     <string name="cheque_information">Cheque Information</string>
     <string name="the_purpose_of_issuing_the_check">The Purpose Of Issuing The Check</string>

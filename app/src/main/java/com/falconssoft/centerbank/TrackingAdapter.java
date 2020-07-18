@@ -1,9 +1,11 @@
 package com.falconssoft.centerbank;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,7 +15,7 @@ import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
 
 import java.util.List;
 
-class TrackingAdapter  extends RecyclerView.Adapter<TrackingAdapter.TrackingViewHolder> {
+class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewHolder> {
 
     private List<ChequeInfoVM> list;
     private Activity activity;
@@ -31,7 +33,7 @@ class TrackingAdapter  extends RecyclerView.Adapter<TrackingAdapter.TrackingView
 //                R.layout.list_item, parent, false);
 //
 //        return new ItemViewHolder(binding);
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tracking_raw_layout, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tracking_raw_layout, parent, false);
         return new TrackingViewHolder(view);
     }
 
@@ -41,7 +43,30 @@ class TrackingAdapter  extends RecyclerView.Adapter<TrackingAdapter.TrackingView
 //
 //        ItemViewHolder itemViewHolder = (ItemViewHolder)holder;
 //        itemViewHolder.bindItem(item);
-        holder.chequeNo.setText(list.get(position).getChequeNo());
+        holder.chequeNo.setText("Cheque No: " + list.get(position).getChequeNo());
+        holder.accountNo.setText("Account No: " + list.get(position).getAccCode());
+
+        holder.date.setText(""+list.get(position).getBankNo());
+        holder.beneficiary.setText(list.get(position).getReceiverName());
+        holder.nationalNo.setText(list.get(position).getReceiverNationalID());
+        holder.phone.setText(list.get(position).getReceiverMobileNo());
+        holder.transactionType.setText(list.get(position).getTransType());
+        holder.status.setText(list.get(position).getStatus());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
+//        Log.e("showallinfo", list.get(position).getCheckDueDate()
+//                + list.get(position).getReceiverName()
+//                + list.get(position).getReceiverNationalID()
+//                + list.get(position).getReceiverMobileNo()
+//                + list.get(position).getTransType()
+//                + list.get(position).getStatus()
+
+//        );
 
     }
 
@@ -50,8 +75,9 @@ class TrackingAdapter  extends RecyclerView.Adapter<TrackingAdapter.TrackingView
         return list.size();
     }
 
-    class TrackingViewHolder extends RecyclerView.ViewHolder{
-        TextView chequeNo;
+    class TrackingViewHolder extends RecyclerView.ViewHolder {
+        TextView chequeNo, date, beneficiary, nationalNo, phone, transactionType, status, accountNo;
+        LinearLayout trackingLinear;
 
 //        ListItemBinding binding;
 //
@@ -69,6 +95,15 @@ class TrackingAdapter  extends RecyclerView.Adapter<TrackingAdapter.TrackingView
             super(itemView);
 
             chequeNo = itemView.findViewById(R.id.tracking_raw_chequeNo);
+            accountNo = itemView.findViewById(R.id.tracking_raw_accountNo);
+            trackingLinear = itemView.findViewById(R.id.tracking_raw_linear);
+            date = itemView.findViewById(R.id.tracking_raw_date);
+            beneficiary = itemView.findViewById(R.id.tracking_raw_beneficiary);
+            nationalNo = itemView.findViewById(R.id.tracking_raw_nationalID);
+            phone = itemView.findViewById(R.id.tracking_raw_phone);
+            transactionType = itemView.findViewById(R.id.tracking_raw_transactionType);
+            status = itemView.findViewById(R.id.tracking_raw_status);
+
         }
     }
 }
