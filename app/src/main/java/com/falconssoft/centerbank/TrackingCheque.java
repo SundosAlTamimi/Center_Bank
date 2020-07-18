@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.falconssoft.centerbank.databinding.ActivityTrackingChequeBinding;
 import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
@@ -18,6 +19,7 @@ public class TrackingCheque extends AppCompatActivity {
     private TrackingAdapter adapter;
     private List<ChequeInfoVM> list = new ArrayList<>();
     private DatabaseHandler handler;
+    ChequeInfoVM chequeInfoVM;
 
 
     @Override
@@ -29,7 +31,14 @@ public class TrackingCheque extends AppCompatActivity {
 //        new Presenter(this).trackingCheque(this, handler.getActiveUserInfo().getUsername(), binding);
 
         /// get ntent
-//        getChequeData();
+
+
+
+// To retrieve object in second Activity
+         chequeInfoVM = (ChequeInfoVM) getIntent().getSerializableExtra("Tracking");
+         getChequeData(chequeInfoVM);
+        Log.e("getChequeData",""+chequeInfoVM.getAccCode());
+
 
     }
 

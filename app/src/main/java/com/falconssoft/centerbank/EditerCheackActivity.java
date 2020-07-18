@@ -711,24 +711,22 @@ date.setText("" + chequeInfo.getCheckDueDate());
                 }
                 if (image == null && mCameraFileName != null) {
                     image = Uri.fromFile(new File(mCameraFileName));
-
-                    String dstPath =path ;
-
-
-//                CheckPic.setVisibility(View.VISIBLE);
+                    path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
+                    CheckPic.setImageBitmap(serverPicBitmap);
+                    serverPic = bitMapToString(serverPicBitmap);
+                    deleteFiles(path);
                 }
                 File file = new File(mCameraFileName);
                 if (!file.exists()) {
                     file.mkdir();
                     path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-//                serverPicBitmap = BitmapFactory.decodeFile(path, options);
                     serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
                     CheckPic.setImageBitmap(serverPicBitmap);
                     serverPic = bitMapToString(serverPicBitmap);
-                    Bitmap bitmap1 = StringToBitMap(serverPic);
-                    showImageOfCheck(bitmap1);
+                    deleteFiles(path);
+//                    Bitmap bitmap1 = StringToBitMap(serverPic);
+//                    showImageOfCheck(bitmap1);
                 }else {
 
                     path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
@@ -738,9 +736,9 @@ date.setText("" + chequeInfo.getCheckDueDate());
                     serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
                     CheckPic.setImageBitmap(serverPicBitmap);
                     serverPic = bitMapToString(serverPicBitmap);
-                Bitmap bitmap1 = StringToBitMap(serverPic);
-                showImageOfCheck(bitmap1);
-//                    new JSONTask1().execute();
+                    deleteFiles(path);
+//                Bitmap bitmap1 = StringToBitMap(serverPic);
+//                showImageOfCheck(bitmap1);
 
                 }
             }
@@ -829,11 +827,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
                 @Override
                 public void onClick(View view) {
                     checkLanguage();
-//                    new  IsCheckForThisAcc().execute();
-
-                    linerBarcode.setVisibility(View.GONE);
-                    linerEditing.setVisibility(View.VISIBLE);
-
+                    new  IsCheckForThisAcc().execute();
                     dialog.dismiss();
                 }
             });
@@ -949,7 +943,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
         Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
         return bitmap;
     }
- 
+
 
     public static byte[] convertBitmapToByteArrayUncompressed(Bitmap bitmap){
         ByteBuffer byteBuffer = ByteBuffer.allocate(bitmap.getByteCount());
