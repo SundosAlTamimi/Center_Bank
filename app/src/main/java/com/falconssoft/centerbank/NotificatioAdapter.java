@@ -93,7 +93,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     public NotificatioAdapter(Context context, List<notification> notifications) {
         this.context = context;
         this.notificationList = notifications;
-        progressDialog = new ProgressDialog(context);
+//        progressDialog = new ProgressDialog(context);
     }
 
     @NonNull
@@ -402,6 +402,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     sDialog.dismissWithAnimation();
+                                    dialog.dismiss();
                                     showDialogreson();
 
 
@@ -450,20 +451,18 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 if(!TextUtils.isEmpty(reson_reject))
                 {
                     Log.e("reson_reject",""+reson_reject);
-
-//                  requestList.get(row_index).setREASON(reson);
-                    progressDialog.show();
-                    progressDialog.setMessage("Please Waiting...");
                     dialog_reson.dismiss();
+//                  requestList.get(row_index).setREASON(reson);
+                    progressDialog = new ProgressDialog(context);
+                    progressDialog.setMessage("Please Waiting...");
+                    progressDialog.show();
                     checkState = "2";
 
-                    try {
 
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+
+//
                     updateCheckState();
+
 
 
 
@@ -688,6 +687,11 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 in.close();
 
                 JsonResponse = sb.toString();
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 //                Log.e("tagAlertScreen", "" + JsonResponse);
 
                 return JsonResponse;
@@ -706,7 +710,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("AdapteronPostExecute", "OK");
                     refreshScreen();
+
+
                     progressDialog.dismiss();
+
 //                    Log.e("tagAdapter", "****Success" + s.toString());
                 } else {
                     Log.e("tagAdapter", "****Failed to Savedata");
