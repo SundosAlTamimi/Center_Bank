@@ -78,8 +78,7 @@ public class RequestCheque extends AppCompatActivity {
     public  static ArrayList<ChequeInfo> checkInfoNotification;
     public ArrayList<notification> notifiList;
     //******************************************************
-    ArrayList <requestModel> requestArrayList;
-    ArrayList <requestModel> requestArrayListTest;
+
     public ArrayList<requestModel> requestList;
 
 //    public  static ArrayList<ChequeInfo> checkInfoNotification;
@@ -166,6 +165,22 @@ public class RequestCheque extends AppCompatActivity {
 //            }
 //
 //        }, 0, 10000);
+        swipeRefresh = findViewById(R.id.swipeRefresh_request);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.e("onRefresh",""+flagMain);
+//                first=1;
+                Toast.makeText(RequestCheque.this, "refresh ..", Toast.LENGTH_SHORT).show();
+//
+                Intent i=new Intent(RequestCheque.this,RequestCheque.class);
+                startActivity(i);
+//
+//                new GetAllRequestToUser_JSONTask().execute();
+                swipeRefresh.setRefreshing(false);
+
+            }
+        });
 
     }
     private void initialview() {
@@ -193,14 +208,19 @@ public class RequestCheque extends AppCompatActivity {
         notificationArrayList=new ArrayList<>();
         notificationArrayListTest=new ArrayList<>();
 
-        requestArrayList=new ArrayList<>();
-        requestArrayListTest=new ArrayList<>();
         checkInfoNotification=new ArrayList<>();
         notifiList=new ArrayList<>();
         requestList=new ArrayList<>();
         requestListMain=new ArrayList<>();
         requestListTestMain=new ArrayList<>();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     public class GetAllRequestToUser_JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -264,10 +284,8 @@ public class RequestCheque extends AppCompatActivity {
 //                        checkInfoNotification.clear();//delete
 
                         if (first == 1) {
-                            requestArrayList.clear();
                             requestListMain.clear();// for first creat
                         }
-                        requestArrayListTest.clear();
                         requestListTestMain.clear();
 
 
@@ -305,51 +323,47 @@ public class RequestCheque extends AppCompatActivity {
                                 chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
                                 chequeInfo.setINDATE(infoDetail.get("INDATE").toString());
                                 chequeInfo.setREASON(infoDetail.getString("REASON"));
-
-
                                 arrayListRow.add(chequeInfo.getROWID());
-
-//                                checkInfoNotification.add(chequeInfo);
                                 if (first == 1) {
-                                    requestArrayList.add(chequeInfo);
                                     requestListMain.add(chequeInfo);
-                                    Log.e("requestListMain", "" + requestListMain.size());
+                                    Log.e("requestListMain",""+requestListMain.size());
                                 }
-
-                                requestArrayListTest.add(chequeInfo);
                                 requestListTestMain.add(chequeInfo);
-                                Log.e("ToUserArrayListTest", "" + requestListTestMain.size());
+                                Log.e("ToUserArrayListTest",""+requestListTestMain.size());
 
                             }
                         }
-                        Log.e("requestListTestMain", "" + requestListTestMain.size());
+                        Log.e("requestListTestMain",""+requestListTestMain.size());
 //
-                        if (first == 1) {
+                        if(first==1)
+                        {
 //                            fillListNotification(requestArrayList);
 
                         }
                         Set<String> set_tow = new HashSet<String>();
                         set_tow.addAll(arrayListRow);
-                        Log.e("Empty", "" + arrayListRow.size());
+                        Log.e("Empty",""+arrayListRow.size());
+
 
 
                         Set<String> set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
 
-                        if (set != null) {
+                        if(set !=null)
+                        {
 //
                             set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
                             arrayListRowFirst.addAll(set);
 
-                            int countFirst = arrayListRowFirst.size();
-                            if (arrayListRow.size() < countFirst)//there are update new data is less than old data
-                            {
-                                Log.e("olddataGreater", "countFirst" + countFirst);
+                            int countFirst=arrayListRowFirst.size();
+                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
+                            {Log.e("olddataGreater","countFirst"+countFirst);
 
-                                for (int h = 0; h < arrayListRow.size(); h++) {
-                                    int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                    if (index == -1) {
+                                for( int h=0;h<arrayListRow.size();h++){
+                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if(index==-1)
+                                    {
                                         arrayListRowFirst.add(arrayListRow.get(h));
-                                        Log.e("arrayListRowYES", "" + arrayListRow.get(h));
+                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
 
                                     }
 
@@ -428,6 +442,8 @@ public class RequestCheque extends AppCompatActivity {
                         editor.apply();
                         Log.e("EndFirstToUser", "****************");
                         new GetAllRequestFromUser_JSONTask().execute();
+
+
 
 
 //                        fillListNotification(notificationArrayList);
@@ -633,21 +649,10 @@ public class RequestCheque extends AppCompatActivity {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     JSONObject jsonObject = null;
                     try {
-                        Log.e("StartSecondUser","****************");
-                        Log.e("beforeListTestMain",""+requestListTestMain.size());
-
-//                        checkInfoNotification.clear();//delete
-
-//                        if (first == 1) {
-//                            requestArrayList.clear();
-//                        }
-//                        requestArrayListTest.clear();
-
 
                         arrayListRow.clear();
                         arrayListRowFirst.clear();
                         requestList.clear();
-
 
 
                         jsonObject = new JSONObject(s);
@@ -687,8 +692,6 @@ public class RequestCheque extends AppCompatActivity {
                                     requestListMain.add(chequeInfo);
                                 }
 
-
-                                requestArrayListTest.add(chequeInfo);
                                 requestListTestMain.add(chequeInfo);
                                 Log.e("ToUserArrayListTest",""+requestListTestMain.size());
 
