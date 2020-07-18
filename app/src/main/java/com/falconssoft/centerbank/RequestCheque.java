@@ -101,7 +101,7 @@ public class RequestCheque extends AppCompatActivity {
     DatabaseHandler databaseHandler;
     ArrayList<notification> notifiList1;
     ArrayList<requestModel> requestList1;
-    String  phoneNo="";
+    public  static  String  phoneNo="";
     public  static  String ROW_ID_PREFERENCE="ROW_ID_PREFERENCE";
     LoginINFO user;
     LinearLayout layout;

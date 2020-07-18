@@ -93,17 +93,35 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorBlack" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
             <TextView
                 android:id="@+id/amount_check"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="200JD"
+                android:layout_weight="1"
 
                 android:textSize="16sp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
 
-                android:textColor="@color/colorBlack" />
+                android:textColor="@color/alpha_black2" />
+                <TextView
+                    android:id="@+id/dat_check"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="18-7-2020"
+
+                    android:textSize="16sp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+
+                    android:textColor="@color/alpha_black2" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/date_check"
