@@ -67,7 +67,7 @@
                     android:fontFamily="serif"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="@string/phone_number"
+                    android:text="@string/phone"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 

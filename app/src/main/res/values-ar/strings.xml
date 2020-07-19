@@ -17,7 +17,7 @@
     <string name="date">التاريخ</string>
     <string name="phone_number">رقم الهاتف</string>
     <string name="address">العنوان</string>
-    <string name="e_mail">الايميل</string>
+    <string name="e_mail">البريد الالكتروني</string>
     <string name="save">حفظ</string>
     <string name="editing_cheque">تحرير الشيك</string>
     <string name="amount_in_words">المبلغ بالكلمات</string>
@@ -113,9 +113,28 @@
     <string name="type">النوع</string>
     <string name="tracking">تتبع حركة</string>
     <string name="cheque_number_">رقم الشيك</string>
-    <string name="bank">Bank</string>
-    <string name="cheque_information">Cheque Information</string>
+    <string name="bank">البنك</string>
+    <string name="cheque_information">معلومات الشيك</string>
     <string name="the_purpose_of_issuing_the_check">The Purpose Of Issuing The Check</string>
     <string name="inCh">بموجب التفويض المرفق دون تحمل اية مسؤولية من طرفكم</string>
+    <string name="forget_password">نسيت كلمة المرور</string>
+    <string name="phone">رقم الهاتف</string>
+    <string name="continue_action_using">استرجاع كلمة المرور باستخدام</string>
 
+    <string name="account_type">نوع الحساب</string>
+    <string name="individual">شخصي</string>
+    <string name="corporate">شركة</string>
+    <string name="join_account">شخصي و شركة</string>
+
+    <string name="gender">الجنس</string>
+    <string name="male">ذكر</string>
+    <string name="female">انثى</string>
+
+    <string name="please_waiting">يرجى الانتظار...</string>
+
+    <string name="not_valid_email">البريد ليس صحيحا!</string>
+    <string name="phone_less_than_10_digit">رقم الهاتف غير صحيح!</string>
+    <string name="national_less_than_10_digit">الرقم الوطني غير صحيح!</string>
+    <string name="please_choose_gender">يرجى تحديد النوع!</string>
+    <string name="please_choose_account_type">يرجى تحديد نوع الحساب!</string>
 </resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="account_type">
+        <item>@string/account_type</item>
+        <item>@string/individual</item>
+        <item>@string/corporate</item>
+        <item>@string/join_account</item>
+
+    </string-array>
+
+    <string-array name="gender_type">
+        <item>@string/gender</item>
+        <item>@string/male</item>
+        <item>@string/female</item>
+
+    </string-array>
+</resources>

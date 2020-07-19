@@ -14,6 +14,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -188,10 +189,11 @@ public class LogInActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 //                checkIfIsRemember(String.valueOf(charSequence));
                 Log.e("tracking", String.valueOf(charSequence));
-                if (!TextUtils.isEmpty(String.valueOf(charSequence))) {
-                    binding.loginSearch.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty(String.valueOf(charSequence)) && String.valueOf(charSequence).length() > 2) {
+                    if (!TextUtils.isEmpty(databaseHandler.getLoginInfo(String.valueOf(charSequence)).getUsername()))
+                        binding.loginSearch.setVisibility(View.VISIBLE);
                     binding.loginSearch.setText(databaseHandler.getLoginInfo(String.valueOf(charSequence)).getUsername());
-                } else{
+                } else {
                     binding.loginSearch.setVisibility(View.GONE);
                     binding.loginSearch.setText("");
                 }
@@ -466,8 +468,28 @@ public class LogInActivity extends AppCompatActivity {
             final Button emailSend = dialog.findViewById(R.id.forgetPassword_email_send);
             RadioButton emailRB = dialog.findViewById(R.id.forgetPassword_email_rb);
             RadioGroup radioGroup = dialog.findViewById(R.id.forgetPassword_rg);
+            TextView textView = dialog.findViewById(R.id.forgetPassword_tv);
 
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
+            if (language.equals("ar")) {
+                textView.setCompoundDrawablesWithIntrinsicBounds(null, null
+                        , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_touch), null);
+                LinearLayout.LayoutParams tvBoxParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                tvBoxParam.gravity = Gravity.RIGHT;
+                textView.setLayoutParams(tvBoxParam);
+
+                RadioGroup.LayoutParams phoneParam = new RadioGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                phoneParam.gravity = Gravity.RIGHT;
+                radioGroup.setLayoutParams(phoneParam);
+
+//                emailRB.setGravity(Gravity.RIGHT);
+//                emailRB.setButtonDrawable(android.R.drawable.btn_radio);
+//                LinearLayout.LayoutParams emailParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                emailParam.gravity = Gravity.RIGHT;
+//                emailSend.setLayoutParams(emailParam);
+            }
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int id) {
@@ -518,8 +540,8 @@ public class LogInActivity extends AppCompatActivity {
 
 
             dialog.show();
-            Window window = dialog.getWindow();
-            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            Window window = dialog.getWindow();
+//            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         }
 
         public void onClickSearchPhone(View view) {
@@ -750,7 +772,15 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     void checkLanguage() {
+
         if (language.equals("ar")) {
+//            binding.LogInUserName.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+            binding.LogInPassword.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+
+            LinearLayout.LayoutParams checkBoxParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            checkBoxParam.gravity = Gravity.RIGHT;
+            binding.loginRememberMe.setLayoutParams(checkBoxParam);
+
 //            userName.setCompoundDrawablesWithIntrinsicBounds(null, null
 //                    , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_person_black_24dp), null);
 //            password.setCompoundDrawablesWithIntrinsicBounds(null, null

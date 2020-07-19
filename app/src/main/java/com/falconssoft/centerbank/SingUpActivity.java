@@ -50,7 +50,7 @@ public class SingUpActivity extends AppCompatActivity {
     private LinearLayout linearLayout, coordinatorLayout, accountTypeLinear, genderLinear;
     private Button save;
     private Spinner spinnerAccountType, spinnerGender;
-    private List<String> accountTypeList = new ArrayList<>();
+//    private List<String> accountTypeList = new ArrayList<>();
     private List<String> genderList = new ArrayList<>();
     private ArrayAdapter arrayAdapter, genderArrayAdapter;
     private DatabaseHandler databaseHandler;
@@ -101,8 +101,8 @@ public class SingUpActivity extends AppCompatActivity {
         String localPassword = password.getText().toString();
         String localBirthDate = date_text.getText().toString();
 
-        if (!selectedAccount.equals("Account Type"))
-            if (!selectedGender.equals("Gender"))
+        if (!selectedAccount.equals(getResources().getString(R.string.account_type)))
+            if (!selectedGender.equals(getResources().getString(R.string.gender)))
                 if (!TextUtils.isEmpty(localNationalID))
                     if (localNationalID.length() == 10)
                         if (!TextUtils.isEmpty(localFirstName))
@@ -139,29 +139,29 @@ public class SingUpActivity extends AppCompatActivity {
                                                                 } else
                                                                     password.setError("Password must contains at least 6 digits, capital letter, number and special character");
                                                             else
-                                                                password.setError("Required!");
+                                                                password.setError(getResources().getString(R.string.required));
                                                         else
                                                             email.setError("Not valid email!");
                                                     else
-                                                        email.setError("Required!");
+                                                        email.setError(getResources().getString(R.string.required));
                                                 else
-                                                    address.setError("Required!");
+                                                    address.setError(getResources().getString(R.string.required));
                                             else
                                                 phoneNo.setError("Phone number is less than 10 digits!");
                                         else
-                                            phoneNo.setError("Required!");
+                                            phoneNo.setError(getResources().getString(R.string.required));
                                     else
-                                        fourthName.setError("Required!");
+                                        fourthName.setError(getResources().getString(R.string.required));
                                 else
-                                    thirdName.setError("Required!");
+                                    thirdName.setError(getResources().getString(R.string.required));
                             else
-                                secondName.setError("Required!");
+                                secondName.setError(getResources().getString(R.string.required));
                         else
-                            firstName.setError("Required!");
+                            firstName.setError(getResources().getString(R.string.required));
                     else
                         natonalNo.setError("National number is less than 10 digits!");
                 else
-                    natonalNo.setError("Required!");
+                    natonalNo.setError(getResources().getString(R.string.required));
             else
                 showSnackbar("Please choose gender!", false);
         else
@@ -207,14 +207,14 @@ public class SingUpActivity extends AppCompatActivity {
         genderLinear = findViewById(R.id.signUp_gender_linear);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please Waiting...");
+        progressDialog.setMessage(getResources().getResourceName(R.string.please_waiting));
 
-        accountTypeList.clear();
-        accountTypeList.add("Account Type");
-        accountTypeList.add("Individual");
-        accountTypeList.add("Corporate");
-        accountTypeList.add("Join Account");
-        arrayAdapter = new ArrayAdapter(this, R.layout.spinner_layout, accountTypeList);
+//        accountTypeList.clear();
+//        accountTypeList.add(getResources().getResourceName(R.string.account_type));
+//        accountTypeList.add(getResources().getResourceName(R.string.individual));
+//        accountTypeList.add(getResources().getResourceName(R.string.corporate));
+//        accountTypeList.add(getResources().getResourceName(R.string.join_account));
+        arrayAdapter = ArrayAdapter.createFromResource(this, R.array.account_type,R.layout.spinner_layout);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
         spinnerAccountType.setAdapter(arrayAdapter);
         spinnerAccountType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -229,11 +229,11 @@ public class SingUpActivity extends AppCompatActivity {
             }
         });
 
-        genderList.clear();
-        genderList.add("Gender");
-        genderList.add("Male");
-        genderList.add("Female");
-        genderArrayAdapter = new ArrayAdapter(this, R.layout.spinner_layout, genderList);
+//        genderList.clear();
+//        genderList.add(getResources().getResourceName(R.string.gender));
+//        genderList.add(getResources().getResourceName(R.string.male));
+//        genderList.add(getResources().getResourceName(R.string.female));
+        genderArrayAdapter = ArrayAdapter.createFromResource(this, R.array.gender_type, R.layout.spinner_layout);
         genderArrayAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
         spinnerGender.setAdapter(genderArrayAdapter);
         spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -262,6 +262,8 @@ public class SingUpActivity extends AppCompatActivity {
 
     void checkLanguage() {
         if (language.equals("ar")) {
+            selectedAccount = "نوع الحساب";
+            selectedGender = "الجنس";
             natonalNo.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null);
             phoneNo.setCompoundDrawablesWithIntrinsicBounds(null, null
@@ -276,8 +278,12 @@ public class SingUpActivity extends AppCompatActivity {
                     , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_date_range_black_24dp), null);
             date_text.setGravity(Gravity.RIGHT);
             linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            accountTypeLinear.setGravity(Gravity.RIGHT);
+            genderLinear.setGravity(Gravity.RIGHT);
 
         } else {
+            selectedAccount = "Account Type";
+            selectedGender = "Gender";
             natonalNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null
                     , null, null);
             phoneNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_local_phone_black_24dp), null
@@ -292,6 +298,8 @@ public class SingUpActivity extends AppCompatActivity {
                     , null, null);
             date_text.setGravity(Gravity.LEFT);
             linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            accountTypeLinear.setGravity(Gravity.LEFT);
+            genderLinear.setGravity(Gravity.LEFT);
 
         }
 

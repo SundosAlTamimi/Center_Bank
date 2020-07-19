@@ -64,7 +64,13 @@ class Presenter {
         trackingRequest = new JsonObjectRequest(Request.Method.GET, urlTracking + chequeInfoVM.getAccCode()
                 + "&IBANNO=" + chequeInfoVM.getIbanNo() + "&SERIALNO=" + chequeInfoVM.getSerialNo()
                 + "&BANKNO=" + chequeInfoVM.getBankNo() + "&BRANCHNO=" + chequeInfoVM.getBranchNo()
-                + "'&CHECKNO=" + chequeInfoVM.getChequeNo(),null, new TrackingRequestClass(), new TrackingRequestClass());
+                + "&CHECKNO=" + chequeInfoVM.getChequeNo(),null, new TrackingRequestClass(), new TrackingRequestClass());
+
+        Log.e("trackurl", urlTracking + chequeInfoVM.getAccCode()
+                + "&IBANNO=" + chequeInfoVM.getIbanNo() + "&SERIALNO=" + chequeInfoVM.getSerialNo()
+                + "&BANKNO=" + chequeInfoVM.getBankNo() + "&BRANCHNO=" + chequeInfoVM.getBranchNo()
+                + "&CHECKNO=" + chequeInfoVM.getChequeNo());
+
         requestQueue.add(trackingRequest);
     }
 
@@ -72,7 +78,21 @@ class Presenter {
         @Override
         public void onErrorResponse(VolleyError error) {
             Log.e("presenter/", "trackingCheque/error/" + error.toString());
+//            http://falconssoft.net/ScanChecks/APIMethods.dll/TrackCheck?
+//            ACCCODE=2014569990011000
+//            &IBANNO=123456789
+//            &SERIALNO=09A8A74F513D4958
+//            &BANKNO=004
+//            &BRANCHNO=0099
+//            &CHECKNO=390186
 
+//            http://falconssoft.net/ScanChecks/APIMethods.dll/TrackCheck?
+//            ACCCODE=2014569990011000
+//            &IBANNO=%22123456789%22
+//            &SERIALNO=%220A442902D76B49D0%22
+//            &BANKNO=004
+//            &BRANCHNO=0099
+//            &CHECKNO=390186
         }
 
         @Override

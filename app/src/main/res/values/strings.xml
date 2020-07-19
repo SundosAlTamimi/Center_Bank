@@ -17,7 +17,8 @@
     <string name="third_name">3rd Name</string>
     <string name="fourth_name">4th Name</string>
     <string name="date">Date</string>
-    <string name="phone_number">Phone</string>
+    <string name="phone">Phone</string>
+    <string name="phone_number">Phone Number</string>
     <string name="address">Address</string>
     <string name="e_mail">E-Mail</string>
     <string name="save">Save</string>
@@ -120,4 +121,24 @@
     <string name="the_purpose_of_issuing_the_check">The Purpose Of Issuing The Check</string>
     <string name="inCh">Under the attached authorization without assuming any responsibility on your part</string>
     <string name="cheque_number_">Cheque Number</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="continue_action_using">Continue Action using</string>
+
+    <string name="account_type">Account Type</string>
+    <string name="individual">Individual</string>
+    <string name="corporate">Corporate</string>
+    <string name="join_account">Join Account</string>
+
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
+    <string name="please_waiting">Please Waiting...</string>
+
+    <string name="not_valid_email">Not valid email!</string>
+    <string name="phone_less_than_10_digit">Phone number is less than 10 digits!</string>
+    <string name="national_less_than_10_digit">National number is less than 10 digits!</string>
+    <string name="please_choose_gender">Please choose gender!</string>
+    <string name="please_choose_account_type">Please choose account type!</string>
+
 </resources>

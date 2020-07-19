@@ -146,8 +146,8 @@
                 android:layout_marginHorizontal="5dp"
                 android:textCursorDrawable="@null"
                 android:background="@drawable/edit_bac_s"
-                android:hint="@string/user_name"
-                android:inputType="textPersonName"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
                 android:drawablePadding="5dp"
                 android:padding="15dp"
                 android:fontFamily="serif"
@@ -218,7 +218,7 @@
                 android:onCheckedChanged="@{clickHandler::onCheckedChanged}"
                 android:buttonTint="@color/white"
                 android:padding="6dp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/remember_me"
                 android:layout_marginHorizontal="10dp"
@@ -226,7 +226,7 @@
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
-                android:gravity="start"/>
+                android:layout_gravity="left"/>
 
         </LinearLayout>
 
@@ -279,7 +279,7 @@
                 android:onClick="@{clickHandler::onClickForgetPassword}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Forget Password"
+                android:text="@string/forget_password"
                 android:layout_marginTop="7dp"
                 android:drawableStart="@drawable/ic_error"
                 android:drawablePadding="5dp"
