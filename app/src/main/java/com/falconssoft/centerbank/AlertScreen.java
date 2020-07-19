@@ -228,6 +228,7 @@ public class AlertScreen extends AppCompatActivity {
         }
 
 
+
         textCheckstateChanger = findViewById(R.id.textCheckstateChanger);
         textCheckstateChanger.addTextChangedListener(new TextWatcher() {
             @Override
@@ -320,7 +321,7 @@ public class AlertScreen extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            if (s != null) {
+            if (s != null) {//No log data found
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     JSONObject jsonObject = null;
                     try {
@@ -513,9 +514,10 @@ public class AlertScreen extends AppCompatActivity {
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success" + s.toString());
-                } else {
-                    Log.e("tag", "****Failed to export data");
+                    Log.e("tag", "****Success"+s.toString());
+                } else if (s.contains("\"StatusDescreption\":\"No log data found\"")) {
+                    progressDialog.dismiss();
+//                    Log.e("tag", "****Failed to export data");
                 }
             } else {
 

@@ -6,9 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -18,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableRow;
@@ -39,6 +46,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -46,6 +54,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.Collator;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,6 +72,10 @@ import static com.falconssoft.centerbank.EditerCheackActivity.CAMERA_PIC_REQUEST
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
 public class JeroActivity extends AppCompatActivity {
+    String mCameraFileName,path;
+    ImageView imageView;
+    Uri image;
+
     String serverLink, AccountNo, serverPic, localNationlNo, today = "";
     static String phoneNo;
     List<ChequeInfo> ChequeInfoGiro;
@@ -86,6 +99,7 @@ public class JeroActivity extends AppCompatActivity {
     SimpleDateFormat df;
     int flag1=0;
     private ProgressDialog progressDialog;
+    SweetAlertDialog  pd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -209,8 +223,9 @@ public class JeroActivity extends AppCompatActivity {
 //                    startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
 //                }
                 flag = 0;
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+                cameraIntent();
             }
         });
 
@@ -448,6 +463,26 @@ public class JeroActivity extends AppCompatActivity {
 
     }
 
+    private void cameraIntent() {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("_mm_ss");
+
+        String newPicFile ="in" + ".png";
+        String outPath =  Environment.getExternalStorageDirectory()  + File.separator+newPicFile;
+        Log.e("InventoryDBFolder",""+outPath);
+        File outFile = new File(outPath);
+        path=outPath;
+        mCameraFileName = outFile.toString();
+        Uri outuri = Uri.fromFile(outFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outuri);
+        startActivityForResult(intent, 2);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (flag == 1) {
@@ -504,21 +539,66 @@ public class JeroActivity extends AppCompatActivity {
                 super.onActivityResult(requestCode, resultCode, data);
             }
         } else {//
-            try {
-                if (requestCode == CAMERA_PIC_REQUEST) {
-                    Bitmap image = (Bitmap) data.getExtras().get("data");
-                    if (image != null) {
-                        CheckPic.setImageBitmap(image);
-                        serverPicBitmap = image;
-                        serverPic = bitMapToString(image);
-                    }
+            if (requestCode == 2) {
+                if (data != null) {
+                    image = data.getData();
+                    path= Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
+                    CheckPic.setImageBitmap(serverPicBitmap);
+                    serverPic = bitMapToString(serverPicBitmap);
+                    deleteFiles(path);
+//                CheckPic.setVisibility(View.VISIBLE);
                 }
+                if (image == null && mCameraFileName != null) {
+                    image = Uri.fromFile(new File(mCameraFileName));
+                    path= Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
+                    CheckPic.setImageBitmap(serverPicBitmap);
+                    serverPic = bitMapToString(serverPicBitmap);
+                    deleteFiles(path);
+                }
+                File file = new File(mCameraFileName);
+                if (!file.exists()) {
+                    file.mkdir();
+                    path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
+                    CheckPic.setImageBitmap(serverPicBitmap);
+                    serverPic = bitMapToString(serverPicBitmap);
+                    deleteFiles(path);
+//                    Bitmap bitmap1 = StringToBitMap(serverPic);
+//                    showImageOfCheck(bitmap1);
+                }else {
 
+                    path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//                serverPicBitmap = BitmapFactory.decodeFile(path, options);
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
+                    CheckPic.setImageBitmap(serverPicBitmap);
+                    serverPic = bitMapToString(serverPicBitmap);
+                    deleteFiles(path);
+//                Bitmap bitmap1 = StringToBitMap(serverPic);
+//                showImageOfCheck(bitmap1);
 
-            } catch (Exception e) {
-                Log.e("not getCamera", "message " + e.toString());
+                }
             }
 
+        }
+
+    }
+
+
+    public void deleteFiles(String path) {
+        File file = new File(path);
+
+        if (file.exists()) {
+            String deleteCmd = "rm -r " + path;
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec(deleteCmd);
+            } catch (IOException e) {
+
+            }
         }
 
     }
@@ -656,7 +736,7 @@ public class JeroActivity extends AppCompatActivity {
                         ChequeInfo obj = new ChequeInfo();
 
                         //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
-                        if(finalObject.getString("ISFB").equals("0")){//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
+                        if(finalObject.getString("ISFB").equals("0")&&!finalObject.getString("TRANSTYPE").equals("3")){//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
                         obj.setRowId(finalObject.getString("ROWID"));
                         obj.setBankNo(finalObject.getString("BANKNO"));
                         obj.setBankName(finalObject.getString("BANKNM"));
@@ -957,12 +1037,13 @@ public class JeroActivity extends AppCompatActivity {
 
     public String bitMapToString(Bitmap bitmap) {
         if (bitmap != null) {
+            bitmap=Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] arr = baos.toByteArray();
 //            byte[] encoded = Base64.encode(arr, Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
 
-            String result = Base64.encodeToString(arr, Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
+            String result = Base64.encodeToString(arr,  Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
             return result;
         }
         return "";
@@ -1228,6 +1309,11 @@ public class JeroActivity extends AppCompatActivity {
 
 //            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
 //            pd.setTitleText(context.getResources().getString(R.string.importstor));
+            pd = new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+            pd.setTitleText("Save...");
+            pd.setCancelable(false);
+            pd.show();
 
         }
 
@@ -1331,6 +1417,8 @@ public class JeroActivity extends AppCompatActivity {
             } else {
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
+            pd.dismissWithAnimation();
+
         }
     }
 

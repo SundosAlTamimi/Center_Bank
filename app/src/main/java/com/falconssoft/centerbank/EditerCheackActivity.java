@@ -1685,7 +1685,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 
                         ChequeInfo obj = new ChequeInfo();
 
-                        if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNo)) {
+                        if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNo)||finalObject.getString("TOCUSTOMERMOB").equals("")) {
                             //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
 
                             obj.setRowId(finalObject.getString("ROWID"));
