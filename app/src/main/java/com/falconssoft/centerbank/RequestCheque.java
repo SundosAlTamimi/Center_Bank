@@ -173,6 +173,7 @@ public class RequestCheque extends AppCompatActivity {
 //                first=1;
                 Toast.makeText(RequestCheque.this, "refresh ..", Toast.LENGTH_SHORT).show();
 //
+                finish();
                 Intent i=new Intent(RequestCheque.this,RequestCheque.class);
                 startActivity(i);
 //
@@ -191,6 +192,7 @@ public class RequestCheque extends AppCompatActivity {
         floa_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent i=new Intent(RequestCheque.this,Request.class);
                 startActivity(i);
             }

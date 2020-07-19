@@ -115,13 +115,17 @@ CircleImageView status;
             TStatus=context.getResources().getString(R.string.pending);
 
         }
+//        else if(itemsList.get(i).getTransType().equals("3")){//OWNERMOBNO
+//            holder.status.setBorderColor(context.getResources().getColor(R.color.gray_));
+//            TStatus=context.getResources().getString(R.string.cashed);
+//        }
 
         holder.reSend.setVisibility(View.GONE);
-        if(itemsList.get(i).getTransType().equals("2")&&itemsList.get(i).getStatus().equals("0")){
-            holder.reSend.setVisibility(View.VISIBLE);
-        }else {
-            holder.reSend.setVisibility(View.GONE);
-        }
+//        if(itemsList.get(i).getTransType().equals("2")&&itemsList.get(i).getStatus().equals("0")){
+//            holder.reSend.setVisibility(View.VISIBLE);
+//        }else {
+//            holder.reSend.setVisibility(View.GONE);
+//        }
 
 
         holder.reSend.setOnClickListener(new View.OnClickListener() {

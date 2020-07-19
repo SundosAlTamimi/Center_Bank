@@ -141,4 +141,6 @@
     <string name="please_choose_gender">Please choose gender!</string>
     <string name="please_choose_account_type">Please choose account type!</string>
 
+    <string name="resend">ReSend</string>
+    <string name="cashed">Cashed</string>
 </resources>

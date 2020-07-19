@@ -48,11 +48,13 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.ContextCompat;
 
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
+import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
 import com.github.mikephil.charting.utils.FileUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -96,7 +98,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.view.View.DRAWING_CACHE_QUALITY_HIGH;
 import static android.widget.LinearLayout.VERTICAL;
-import static com.falconssoft.centerbank.LogHistoryActivity.chequeInfoReSend;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
@@ -154,6 +155,8 @@ public class EditerCheackActivity extends AppCompatActivity {
     String phoneNoUser;
     String intentReSend;
     SweetAlertDialog  pd;
+    boolean isPermition;
+    ChequeInfo chequeInfoReSendEd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,12 +253,17 @@ public class EditerCheackActivity extends AppCompatActivity {
                 flag = 0;
 //                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 //                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
-                cameraIntent();
+                isPermition= isStoragePermissionGranted();
+                if(isPermition) {
+                    cameraIntent();
+                }
 
             }
         });
 
          intentReSend=getIntent().getStringExtra("ReSend");
+        chequeInfoReSendEd = (ChequeInfo) getIntent().getSerializableExtra("ChequeInfo");
+
 
 
     }
@@ -478,8 +486,26 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
 //                new Image().execute();
 //                                   new  IsCheckPinding().execute();
+                                        if(!localPhoneNo.equals(phoneNoUser)){//no send to the same phone no
+                                            new GetAllTransaction().execute();
 
-                                    new GetAllTransaction().execute();
+                                        }else{
+                                            SweetAlertDialog sw= new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                            sw.setTitleText("***"+EditerCheackActivity.this.getResources().getString(R.string.phone_no)+"***");
+                                            sw .setContentText("Please , change Phone No ,You Can't Send The Cheque To Yourself");
+                                            sw .setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok));
+                                            sw .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @SuppressLint("WrongConstant")
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sDialog) {
+                                                            phoneNo.setError("Change");
+                                                            pushCheque.setEnabled(true);
+                                                            sDialog.dismissWithAnimation();
+                                                        }
+                                                    });
+                                            sw.show();
+                                        }
+
                                     } else {
                                         CheckPicText.setError("Required!");
                                     }
@@ -672,7 +698,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
                     //qrCode = "CHECKNO=" + arr[0] + "&BANKNO=" + arr[1] + "&BTANCHNO=" + arr[2] + "&ACCCODE=" + arr[3] + "&IBANNOo=" + arr[4] + "&CUSTOMERNM=''"  ;
 
                     if(intentReSend!=null&&intentReSend.equals("ReSend")){
-                        if (arr[0].equals(chequeInfoReSend.getChequeNo())) {
+                        if (arr[0].equals(chequeInfoReSendEd.getChequeNo())) {
                             new JSONTask().execute();
                         } else {
                             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -1369,7 +1395,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 
 
                     if (intentReSend != null && intentReSend.equals("ReSend")) {
-                        new TillerGetCheck(chequeInfoReSend).execute();
+                        new TillerGetCheck(chequeInfoReSendEd).execute();
                     } else {
 
                         ChequeInfo chequeInfo=new ChequeInfo();
@@ -1739,7 +1765,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 
                     if (foundIn) {
                         if (intentReSend != null && intentReSend.equals("ReSend")) {
-                            fillTheCheck(chequeInfoReSend);
+                            fillTheCheck(chequeInfoReSendEd);
                             linerEditing.setVisibility(View.VISIBLE);
                             linerBarcode.setVisibility(View.GONE);
                         }else{
@@ -2520,6 +2546,45 @@ private class JSONTask1 extends AsyncTask<String, String, String> {
         }
     }
 }
+
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.e("gg1","Permission is granted");
+                return true;
+            } else {
+
+                Log.e("gg2","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.e("gg3","Permission is granted");
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            Log.e("jj4","Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+//            if(flagINoUT==1){
+//                ExportDbToExternal();
+//            }else if (flagINoUT==2){
+//                ImportDbToMyApp();
+//            }
+
+            cameraIntent();
+
+        }
+    }
+
+
+
 
 
 }

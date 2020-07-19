@@ -125,6 +125,8 @@
     <string name="individual">شخصي</string>
     <string name="corporate">شركة</string>
     <string name="join_account">شخصي و شركة</string>
+    <string name="resend">اعادة ارسال</string>
+    <string name="cashed">Cashed</string>
 
     <string name="gender">الجنس</string>
     <string name="male">ذكر</string>

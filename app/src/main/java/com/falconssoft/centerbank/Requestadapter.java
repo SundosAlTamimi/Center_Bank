@@ -310,7 +310,6 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
-
                     Intent i=new Intent(context,EditerCheackActivity.class);
                     context.startActivity(i);
 

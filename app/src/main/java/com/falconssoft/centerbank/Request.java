@@ -144,6 +144,7 @@ public class Request extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent i=new Intent( Request.this,MainActivity.class);
                 startActivity(i);
 

@@ -1,6 +1,7 @@
 package com.falconssoft.centerbank;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -88,11 +90,14 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     EditText resonText;
     String reson_reject="";
     private ProgressDialog progressDialog;
+    AlertScreen contextAlert;
+
 
     public NotificatioAdapter(Context context, List<notification> notifications) {
         this.context = context;
         this.notificationList = notifications;
 //        progressDialog = new ProgressDialog(context);
+        this. contextAlert= (AlertScreen) context;
     }
 
     @NonNull
@@ -233,7 +238,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
         public void showDetails() {
             Log.e("checkState", "" + checkState);
-
+            progressDialog = new ProgressDialog(context);
             final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
@@ -249,13 +254,14 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             }
             TextView textAmouWord, textAmountNo, textViewMain, textResonReject,
-                    textToOrder, texChequNo, amountPhilis, textPhoneNo, texDate, binificary, textCompanyname, note, textFirstPinificry, textCo;
+                    textToOrder, texChequNo, amountPhilis, textPhoneNo, texDate, binificary, textCompanyname, note, textFirstPinificry, textCo,reSend;
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
             LinearLayout resonLayout, linearButn;
 
             final Button reject = (Button) dialog.findViewById(R.id.RejectButton);
             final Button accept = (Button) dialog.findViewById(R.id.AcceptButton);
+            reSend =  dialog.findViewById(R.id.reSend);
             linearButn = dialog.findViewById(R.id.linearButn);
 
             resonLayout = dialog.findViewById(R.id.resonLayout);
@@ -267,7 +273,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             textFirstPinificry = dialog.findViewById(R.id.textFirstPinificry);
             textResonReject = dialog.findViewById(R.id.textResonReject);
 
-
+            reSend.setVisibility(View.GONE);
             binificary= dialog.findViewById(R.id.binificary);
             String fullName=getFullName(checkInfoNotification.get(row_index).getToCustomerName());
             binificary.setText(fullName);
@@ -276,6 +282,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             rowNote=dialog.findViewById(R.id.rowNote);
             textCo = dialog.findViewById(R.id.textCo);
+
+            textResonReject.setMovementMethod(ScrollingMovementMethod.getInstance());
 
             if(checkInfoNotification.get(row_index).getISCO().equals("1")){
                 textCo.setVisibility(View.VISIBLE);
@@ -304,6 +312,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
                     textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
                             , ContextCompat.getDrawable(context, R.drawable.ic_do_not_disturb_alt_black_24dp), null);
+
+                    reSend.setVisibility(View.VISIBLE);
+
                 }
             }
             else {
@@ -356,6 +367,27 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 @Override
                 public void onClick(View view) {
                     showImageOfCheck(serverPicBitmap);
+
+                }
+            });
+
+
+            reSend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(checkInfoNotification.get(row_index).getTransType().equals("2")&&checkInfoNotification.get(row_index).getStatus().equals("0")){
+
+//                    Intent EditeIntent=new Intent(context,EditerCheackActivity.class);
+                        contextAlert.startEditerForReSendAlert(checkInfoNotification.get(row_index));
+                        Toast.makeText(contextAlert, "Resend "+checkInfoNotification.get(row_index).getChequeNo(), Toast.LENGTH_SHORT).show();
+
+                    }else {
+                        new SweetAlertDialog(contextAlert, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("ReSend Error!")
+                                .setContentText("This Cheque Can't Resend States is not Reject")
+                                .show();
+                    }
 
                 }
             });
@@ -462,7 +494,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     Log.e("reson_reject",""+reson_reject);
                     dialog_reson.dismiss();
 //                  requestList.get(row_index).setREASON(reson);
-                    progressDialog = new ProgressDialog(context);
+
                     progressDialog.setMessage("Please Waiting...");
                     progressDialog.show();
                     checkState = "2";

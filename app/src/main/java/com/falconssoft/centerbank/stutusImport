@@ -1,0 +1,22 @@
+TRANSSTATUS
+[
+0 -->pending
+1-->accept
+2-->reject
+3-->cashed
+
+]
+
+TRANSTYPE
+[
+0 --> SEND
+1 -->GIRO
+
+]
+
+STATUS
+[
+0 -->SEND
+1 -->RECEIVE
+
+]
