@@ -359,23 +359,30 @@ public class AlertScreen extends AppCompatActivity {
                                 //**********************************************************************
 
                                 chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
-                                chequeInfo.setRecieverNationalID(infoDetail.get("TOCUSTOMERNATID").toString());
-                                chequeInfo.setRecieverMobileNo(infoDetail.get("TOCUSTOMERMOB").toString());
+                                chequeInfo.setToCustomerNationalId(infoDetail.get("TOCUSTOMERNATID").toString());
+                                chequeInfo.setToCustomerMobel(infoDetail.get("TOCUSTOMERMOB").toString());
                                 chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
                                 chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
                                 chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
+                                chequeInfo.setQrCode(infoDetail.get("QRCODE").toString());
 
                                 chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
+                                chequeInfo.setCustomerWriteDate(infoDetail.get("CHECKWRITEDATE").toString());
                                 chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
                                 chequeInfo.setMoneyInFils(infoDetail.getString("AMTFILS"));
                                 chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
                                 chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
 
+                                chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
+                                chequeInfo.setSerialNo(infoDetail.get("SERIALNO").toString());
 
                                 chequeInfo.setBranchNo(infoDetail.get("BRANCHNO").toString());
                                 chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
                                 chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
                                 chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
+                                chequeInfo.setCheckIsSueDate(infoDetail.get("CHECKISSUEDATE").toString());
+
+                                chequeInfo.setCheckDueDate(infoDetail.get("CHECKDUEDATE").toString());
 
                                 chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
                                 chequeInfo.setStatus(infoDetail.getString("STATUS"));

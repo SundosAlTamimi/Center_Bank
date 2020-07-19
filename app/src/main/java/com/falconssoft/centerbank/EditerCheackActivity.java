@@ -168,6 +168,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");//"No name defined" is the default value.
         Log.e("editing,3 ", language);
+        chequeInfoReSendEd=new ChequeInfo();
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs.getString("link", "");

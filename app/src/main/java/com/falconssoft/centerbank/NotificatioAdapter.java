@@ -313,7 +313,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
                             , ContextCompat.getDrawable(context, R.drawable.ic_do_not_disturb_alt_black_24dp), null);
 
-                    reSend.setVisibility(View.VISIBLE);
+                    if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
+                        reSend.setVisibility(View.VISIBLE);
+                    }
+
 
                 }
             }
