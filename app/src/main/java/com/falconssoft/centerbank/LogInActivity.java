@@ -64,9 +64,13 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.falconssoft.centerbank.AlertScreen.ROW_ID_PREFERENCE;
+import static com.falconssoft.centerbank.AlertScreen.editor;
+import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
 import static com.falconssoft.centerbank.SingUpActivity.PAGE_NAME;
 
 public class LogInActivity extends AppCompatActivity {
@@ -83,7 +87,7 @@ public class LogInActivity extends AppCompatActivity {
     private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "";
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
     private Dialog barcodeDialog;
-    private SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor,edit;
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
     private LinearLayout coordinatorLayout;
@@ -95,6 +99,7 @@ public class LogInActivity extends AppCompatActivity {
     private ArrayList<String> spinnerList = new ArrayList<>();
     private ArrayAdapter<String> adapter;
     private int checkedRemember = -1;// -1 => mean not checked , 0 => not checked, 1=> checked
+    public static String ROW_ID_PREFERENCE = "ROW_ID_PREFERENCE";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -650,9 +655,12 @@ public class LogInActivity extends AppCompatActivity {
 //            checkIfIsRemember();
 
             editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
+//            compareUser(user.getUsername());
+
             editor.putString("mobile", user.getUsername());
             editor.putString("password", user.getPassword());
             editor.putString("name", user.getFirstName());
+//            clearSharedCheck();
 //          editor.putString("link", "http://10.0.0.16:8081/");
             editor.apply();
 
@@ -664,6 +672,8 @@ public class LogInActivity extends AppCompatActivity {
             showSnackbar("Please check internet connection!", false);
 
     }
+
+
 
     void addSettingButton() {
         final Dialog dialog = new Dialog(LogInActivity.this, R.style.Theme_Dialog);

@@ -233,7 +233,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
         public void showDetails() {
             Log.e("checkState", "" + checkState);
-
+            progressDialog = new ProgressDialog(context);
             final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
@@ -462,7 +462,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     Log.e("reson_reject",""+reson_reject);
                     dialog_reson.dismiss();
 //                  requestList.get(row_index).setREASON(reson);
-                    progressDialog = new ProgressDialog(context);
+
                     progressDialog.setMessage("Please Waiting...");
                     progressDialog.show();
                     checkState = "2";
