@@ -744,7 +744,7 @@ public class JeroActivity extends AppCompatActivity {
                         ChequeInfo obj = new ChequeInfo();
 
                         //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
-                        if(finalObject.getString("ISFB").equals("0")){//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
+                        if(finalObject.getString("ISFB").equals("0")&&!finalObject.getString("TOCUSTOMERMOB").equals(finalObject.getString("OWNERMOBNO"))){//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
 
                             //&&!finalObject.getString("TRANSSTATUS").equals("3")
                         obj.setRowId(finalObject.getString("ROWID"));

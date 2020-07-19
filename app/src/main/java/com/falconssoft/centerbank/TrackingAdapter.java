@@ -74,15 +74,15 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
             else
                 holder.transactionType.setText("Giro");
 
-        if (!TextUtils.isEmpty(list.get(position).getStatus()))
-            if (list.get(position).getStatus().equals("0"))
-                holder.status.setText("Pending");
-            else if (list.get(position).getStatus().equals("1"))
-                holder.status.setText("Accepted");
-            else if (list.get(position).getStatus().equals("2"))
-                holder.status.setText("Rejected");
-            else if (list.get(position).getStatus().equals("3"))
-                holder.status.setText("Cashed");
+//        if (!TextUtils.isEmpty(list.get(position).getStatus()))
+//            if (list.get(position).getStatus().equals("0"))
+//                holder.status.setText("Pending");
+//            else if (list.get(position).getStatus().equals("1"))
+//                holder.status.setText("Accepted");
+//            else if (list.get(position).getStatus().equals("2"))
+//                holder.status.setText("Rejected");
+//            else if (list.get(position).getStatus().equals("3"))
+//                holder.status.setText("Cashed");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +107,7 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
     }
 
     class TrackingViewHolder extends RecyclerView.ViewHolder {
-        TextView chequeNo, date, beneficiary, nationalNo, phone, transactionType, status, accountNo;
+        TextView chequeNo, date, beneficiary, nationalNo, phone, transactionType;//, status, accountNo;
         LinearLayout trackingLinear;
 
 //        ListItemBinding binding;
@@ -133,7 +133,7 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
             nationalNo = itemView.findViewById(R.id.tracking_raw_nationalID);
             phone = itemView.findViewById(R.id.tracking_raw_phone);
             transactionType = itemView.findViewById(R.id.tracking_raw_transactionType);
-            status = itemView.findViewById(R.id.tracking_raw_status);
+//            status = itemView.findViewById(R.id.tracking_raw_status);
 
         }
     }

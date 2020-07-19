@@ -97,15 +97,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
-            <TextView
-                android:id="@+id/tracking_raw_status"
-                android:padding="5dp"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:fontFamily="serif"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+            <!--<TextView-->
+                <!--android:id="@+id/tracking_raw_status"-->
+                <!--android:padding="5dp"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:fontFamily="serif"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"/>-->
 
         </LinearLayout>
     </LinearLayout>
