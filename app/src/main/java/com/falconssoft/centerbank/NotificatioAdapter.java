@@ -301,6 +301,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
                     textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
                             , ContextCompat.getDrawable(context, R.drawable.ic_do_not_disturb_alt_black_24dp), null);
+
                 }
             }
             else {
