@@ -33,16 +33,18 @@ public class TrackingCheque extends AppCompatActivity {
         /// get ntent
 
 
-
 // To retrieve object in second Activity
-         chequeInfoVM = (ChequeInfoVM) getIntent().getSerializableExtra("Tracking");
-         getChequeData(chequeInfoVM);
-        Log.e("getChequeData",""+chequeInfoVM.getChequeNo());
+        chequeInfoVM = (ChequeInfoVM) getIntent().getSerializableExtra("Tracking");
+        getChequeData(chequeInfoVM);
+        binding.trackingAccountNo.setText(chequeInfoVM.getAccCode());
+        binding.trackingChequeNo.setText(chequeInfoVM.getChequeNo());
+
+        Log.e("getChequeData", "" + chequeInfoVM.getChequeNo());
 
 
     }
 
-    public void getChequeData(ChequeInfoVM chequeInfoVM){
+    public void getChequeData(ChequeInfoVM chequeInfoVM) {
         new Presenter(this).trackingCheque(this, chequeInfoVM, binding);
     }
 

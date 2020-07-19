@@ -149,7 +149,7 @@ class Presenter {
 //                        chequeInfo.setChequePIc(jsonObject.getString("CHECKPICPATH"));
 //                        chequeInfo.setStatus(jsonObject.getString("TRANSSTATUS"));
 //                        chequeInfo.setOwnerID(jsonObject.getString("OWNERNATID"));
-//                        chequeInfo.setReceiverName(jsonObject.getString("TOCUSTOMERNM"));
+                        chequeInfo.setReceiverName(jsonObject.getString("TOCUSTOMERNM"));
 
                         list.add(chequeInfo);
                     }

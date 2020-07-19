@@ -1,6 +1,8 @@
 package com.falconssoft.centerbank;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,20 +45,49 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
 //
 //        ItemViewHolder itemViewHolder = (ItemViewHolder)holder;
 //        itemViewHolder.bindItem(item);
-        holder.chequeNo.setText("Cheque No: " + list.get(position).getChequeNo());
-        holder.accountNo.setText("Account No: " + list.get(position).getAccCode());
+//        holder.chequeNo.setText("Cheque No: " + list.get(position).getChequeNo());
+//        holder.accountNo.setText("Account No: " + list.get(position).getAccCode());
 
-        holder.date.setText(""+list.get(position).getBankNo());
+//        if (position % 2 == 0) {
+//            holder.date.setTextColor(Color.parseColor("#D5A000"));
+//            holder.beneficiary.setTextColor(Color.parseColor("#D5A000"));
+//            holder.nationalNo.setTextColor(Color.parseColor("#D5A000"));
+//            holder.phone.setTextColor(Color.parseColor("#D5A000"));
+//            holder.transactionType.setTextColor(Color.parseColor("#D5A000"));
+//            holder.status.setTextColor(Color.parseColor("#D5A000"));
+//        } else {
+//            holder.date.setTextColor(Color.WHITE);
+//            holder.beneficiary.setTextColor(Color.WHITE);
+//            holder.nationalNo.setTextColor(Color.WHITE);
+//            holder.phone.setTextColor(Color.WHITE);
+//            holder.transactionType.setTextColor(Color.WHITE);
+//            holder.status.setTextColor(Color.WHITE);
+//        }
+
+        holder.date.setText(list.get(position).getCheckDueDate());
         holder.beneficiary.setText(list.get(position).getReceiverName());
         holder.nationalNo.setText(list.get(position).getReceiverNationalID());
         holder.phone.setText(list.get(position).getReceiverMobileNo());
-        holder.transactionType.setText(list.get(position).getTransType());
-        holder.status.setText(list.get(position).getStatus());
+        if (!TextUtils.isEmpty(list.get(position).getTransType()))
+            if (list.get(position).getTransType().equals("0"))
+                holder.transactionType.setText("Send");
+            else
+                holder.transactionType.setText("Giro");
+
+        if (!TextUtils.isEmpty(list.get(position).getStatus()))
+            if (list.get(position).getStatus().equals("0"))
+                holder.status.setText("Pending");
+            else if (list.get(position).getStatus().equals("1"))
+                holder.status.setText("Accepted");
+            else if (list.get(position).getStatus().equals("2"))
+                holder.status.setText("Rejected");
+            else if (list.get(position).getStatus().equals("3"))
+                holder.status.setText("Cashed");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
             }
         });
 //        Log.e("showallinfo", list.get(position).getCheckDueDate()
@@ -94,8 +125,8 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
         public TrackingViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            chequeNo = itemView.findViewById(R.id.tracking_raw_chequeNo);
-            accountNo = itemView.findViewById(R.id.tracking_raw_accountNo);
+//            chequeNo = itemView.findViewById(R.id.tracking_raw_chequeNo);
+//            accountNo = itemView.findViewById(R.id.tracking_raw_accountNo);
             trackingLinear = itemView.findViewById(R.id.tracking_raw_linear);
             date = itemView.findViewById(R.id.tracking_raw_date);
             beneficiary = itemView.findViewById(R.id.tracking_raw_beneficiary);
