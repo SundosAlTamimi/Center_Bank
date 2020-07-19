@@ -76,7 +76,6 @@ import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 import static com.falconssoft.centerbank.Requestadapter.mobileNo;
 
 public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.ViewHolder> {
-    //    RecyclerView.Adapter<engineer_adapter.ViewHolder>
     Context context;
     List<notification> notificationList;
    public PhotoView photoView,photoDetail;
@@ -339,6 +338,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             textPhoneNo = dialog.findViewById(R.id.textPhoneNo);
             textPhoneNo.setText(checkInfoNotification.get(row_index).getRecieverMobileNo());
             circleImageView = (CircleImageView) dialog.findViewById(R.id.profile_image2);
+
             getPicture(checkInfoNotification.get(row_index).getAccCode(),checkInfoNotification.get(row_index).getBankNo(),checkInfoNotification.get(row_index).getBranchNo(),checkInfoNotification.get(row_index).getChequeNo());
 
             circleImageView.setOnClickListener(new View.OnClickListener() {
