@@ -86,34 +86,35 @@ import static com.falconssoft.centerbank.ShowNotifications.showNotification;
 
 public class AlertScreen extends AppCompatActivity {
     RecyclerView recyclerView;
-    public  String acc="",bankN="",branch="",cheNo="";
+    public String acc = "", bankN = "", branch = "", cheNo = "";
 
-    ArrayList <notification> notificationArrayList;
-    ArrayList <notification> notificationArrayListTest;
+    ArrayList<notification> notificationArrayList;
+    ArrayList<notification> notificationArrayListTest;
     LinearLayoutManager layoutManager;
     NotificationManager notificationManager;
     SwipeRefreshLayout swipeRefresh;
     private ProgressDialog progressDialog;
 
-    static int id=1;
-    public  static TextView mainText,textCheckstateChanger;
-    public  String userNmae="",Passowrd="";
+    static int id = 1;
+    public static TextView mainText, textCheckstateChanger;
+    public String userNmae = "", Passowrd = "";
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor editor;
-    public  static   String language="", serverLink;
-    ArrayList<String> arrayListRow=new ArrayList<>();
-    ArrayList<String> arrayListRowFirst=new ArrayList<>();
+    public static String language = "", serverLink;
+    ArrayList<String> arrayListRow = new ArrayList<>();
+    ArrayList<String> arrayListRowFirst = new ArrayList<>();
     DatabaseHandler databaseHandler;
     ArrayList<notification> notifiList1;
-    String  phoneNo="";
-    public  static  String ROW_ID_PREFERENCE="ROW_ID_PREFERENCE";
+    String phoneNo = "";
+    public static String ROW_ID_PREFERENCE = "ROW_ID_PREFERENCE";
     LoginINFO user;
     LinearLayout layout;
     Bitmap serverPicBitmap;
-    int first=0;
+    int first = 0;
     Timer timer;
-    public  static ArrayList<ChequeInfo> checkInfoNotification;
+    public static ArrayList<ChequeInfo> checkInfoNotification;
     public ArrayList<notification> notifiList;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
     @Override
@@ -125,22 +126,20 @@ public class AlertScreen extends AppCompatActivity {
         serverLink = loginPrefs.getString("link", "");
         progressDialog = new ProgressDialog(AlertScreen.this);
 
-        layout = (LinearLayout)findViewById(R.id.mainlayout);
-        first=1;
+        layout = (LinearLayout) findViewById(R.id.mainlayout);
+        first = 1;
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");//"No name defined" is the default value.
         Log.e("editing,3 ", language);
-        if(language.equals("ar"))
-        {
+        if (language.equals("ar")) {
             layout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        }
-        else {
+        } else {
             layout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
         }
 
         initialview();
-      //  dataForTest();
+        //  dataForTest();
 
         editor = sharedPreferences.edit();
         editor.clear();// just for test
@@ -173,19 +172,17 @@ public class AlertScreen extends AppCompatActivity {
         });
 
 
-
     }
 
     private void dataForTest() {
-        notification on=new notification();
+        notification on = new notification();
         on.setAmount_check("100");
         on.setDate("10/05/321");
         on.setSource("ahmed");
 //        fillListNotification(on);
     }
 
-    public void notificationShow()
-    {
+    public void notificationShow() {
 
         Notification.Builder notif;
         NotificationManager nm;
@@ -199,7 +196,7 @@ public class AlertScreen extends AppCompatActivity {
 //        Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 //        context.sendBroadcast(it);
 
-        Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS );// test
+        Intent yesReceive = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);// test
         yesReceive.setAction(YES_ACTION);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.ic_local_phone_black_24dp, "show Detail", pendingIntentYes);
@@ -211,31 +208,28 @@ public class AlertScreen extends AppCompatActivity {
         notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
 
 
-
         nm.notify(10, notif.getNotification());
     }
 
     private void initialview() {
-        databaseHandler=new DatabaseHandler(AlertScreen.this);
+        databaseHandler = new DatabaseHandler(AlertScreen.this);
         recyclerView = findViewById(R.id.recycler);
-        mainText=findViewById(R.id.textView);
-        user=new LoginINFO();
+        mainText = findViewById(R.id.textView);
+        user = new LoginINFO();
         sharedPreferences = getSharedPreferences(ROW_ID_PREFERENCE, Context.MODE_PRIVATE);
-        notifiList1=new ArrayList<>();
-        user=databaseHandler.getActiveUserInfo();
-        userNmae=user.getUsername();
-        Passowrd=user.getPassword();
+        notifiList1 = new ArrayList<>();
+        user = databaseHandler.getActiveUserInfo();
+        userNmae = user.getUsername();
+        Passowrd = user.getPassword();
         try {
             notification_btn.setVisibility(View.INVISIBLE);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
 
 
-        textCheckstateChanger=findViewById(R.id.textCheckstateChanger);
+        textCheckstateChanger = findViewById(R.id.textCheckstateChanger);
         textCheckstateChanger.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -255,7 +249,6 @@ public class AlertScreen extends AppCompatActivity {
                 }
 
 
-
             }
 
             @Override
@@ -263,11 +256,12 @@ public class AlertScreen extends AppCompatActivity {
 
             }
         });
-        notificationArrayList=new ArrayList<>();
-        notificationArrayListTest=new ArrayList<>();
-        checkInfoNotification=new ArrayList<>();
-        notifiList=new ArrayList<>();
+        notificationArrayList = new ArrayList<>();
+        notificationArrayListTest = new ArrayList<>();
+        checkInfoNotification = new ArrayList<>();
+        notifiList = new ArrayList<>();
     }
+
     // ******************************************** GET NOTIFICATION *************************************
     public class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
 
@@ -292,7 +286,7 @@ public class AlertScreen extends AppCompatActivity {
 //
                 nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));// test
                 nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 
 //                HttpResponse response = client.execute(request);
@@ -352,163 +346,153 @@ public class AlertScreen extends AppCompatActivity {
                             ChequeInfo chequeInfo = new ChequeInfo();
                             chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
                             chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
-                            Log.e("setTransType","\t"+chequeInfo.getTransType()+"\t setStatus"+chequeInfo.getStatus());
+                            Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t setStatus" + chequeInfo.getStatus());
                             if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
                                     (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")))// Pending and Reciver
                             {
+                                notification notifi = new notification();
+                                notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
+                                notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
+                                notifi.setAmount_check(infoDetail.get("AMTJD").toString());
+                                //**********************************************************************
+
+                                chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
+                                chequeInfo.setRecieverNationalID(infoDetail.get("TOCUSTOMERNATID").toString());
+                                chequeInfo.setRecieverMobileNo(infoDetail.get("TOCUSTOMERMOB").toString());
+                                chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
+                                chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
+                                chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
+
+                                chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
+                                chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
+                                chequeInfo.setMoneyInFils(infoDetail.getString("AMTFILS"));
+                                chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
+                                chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
 
 
+                                chequeInfo.setBranchNo(infoDetail.get("BRANCHNO").toString());
+                                chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
+                                chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
+                                chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
 
-                            notification notifi = new notification();
-                            notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
-                            notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
-                            notifi.setAmount_check(infoDetail.get("AMTJD").toString());
-                            //**********************************************************************
+                                chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
+                                chequeInfo.setStatus(infoDetail.getString("STATUS"));
 
-                            chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
-                            chequeInfo.setRecieverNationalID(infoDetail.get("TOCUSTOMERNATID").toString());
-                            chequeInfo.setRecieverMobileNo(infoDetail.get("TOCUSTOMERMOB").toString());
-                            chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
-                            Log.e("setCustName",""+chequeInfo.getCustName());
-                            chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
-                            chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
+                                chequeInfo.setUserName(infoDetail.getString("USERNO"));
 
-                            chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
-                            chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
-                            chequeInfo.setMoneyInFils(infoDetail.getString("AMTFILS"));
-                            chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
-                            chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
-
-
-                            chequeInfo.setBranchNo(infoDetail.get("BRANCHNO").toString());
-                            chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
-                            chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
-                            chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
-
-                            chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
-                            chequeInfo.setStatus(infoDetail.getString("STATUS"));
-
-                            chequeInfo.setUserName(infoDetail.getString("USERNO"));
-
-                            chequeInfo.setISBF(infoDetail.getString("ISFB"));
-                            chequeInfo.setISCO(infoDetail.getString("ISCO"));
+                                chequeInfo.setISBF(infoDetail.getString("ISFB"));
+                                chequeInfo.setISCO(infoDetail.getString("ISCO"));
 
                                 chequeInfo.setNoteCheck(infoDetail.getString("NOTE"));
                                 chequeInfo.setCompanyName(infoDetail.getString("COMPANY"));
                                 chequeInfo.setResonOfreject(infoDetail.getString("RJCTREASON"));
+
+
+                                chequeInfo.setTransSendOrGero(infoDetail.getString("TRANSTYPE"));
+                                Log.e("setTransSendOrGero",""+chequeInfo.getTransSendOrGero());
+
 //                            Log.e("chequeInfo",""+chequeInfo.getAccCode()+chequeInfo.getBankNo()+chequeInfo.getBranchNo()+"\t"+chequeInfo.getChequeNo());
 
-                            arrayListRow.add(chequeInfo.getRowId());
+                                arrayListRow.add(chequeInfo.getRowId());
 
-                            checkInfoNotification.add(chequeInfo);
-                            if (first == 1) {
-                                notificationArrayList.add(notifi);
+                                checkInfoNotification.add(chequeInfo);
+                                if (first == 1) {
+                                    notificationArrayList.add(notifi);
+                                }
+
+                                notificationArrayListTest.add(notifi);
+
                             }
-
-                            notificationArrayListTest.add(notifi);
-                                Log.e("notificatListTest",""+notificationArrayListTest.size());
-
                         }
-                    }
 //
-                        if(first==1)
-                        {
+                        if (first == 1) {
                             fillListNotification(notificationArrayList);
 
                         }
 
 
-
                         Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
 
-                        if(set !=null)
-                        {
+                        if (set != null) {
 //
                             set = sharedPreferences.getStringSet("DATE_LIST", null);
                             arrayListRowFirst.addAll(set);
 
-                            int countFirst=arrayListRowFirst.size();
-                                if(arrayListRow.size()<countFirst)//there are update new data is less than old data
-                                {Log.e("olddataGreater","countFirst"+countFirst);
+                            int countFirst = arrayListRowFirst.size();
+                            if (arrayListRow.size() < countFirst)//there are update new data is less than old data
+                            {
+                                Log.e("olddataGreater", "countFirst" + countFirst);
 
-                                    for( int h=0;h<arrayListRow.size();h++){
-                                        int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                        if(index==-1)
-                                        {
-                                            arrayListRowFirst.add(arrayListRow.get(h));
-                                            Log.e("arrayListRowYES",""+arrayListRow.get(h));
+                                for (int h = 0; h < arrayListRow.size(); h++) {
+                                    int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if (index == -1) {
+                                        arrayListRowFirst.add(arrayListRow.get(h));
+                                        Log.e("arrayListRowYES", "" + arrayListRow.get(h));
+
+                                    }
+
+                                }
+
+                                if (countFirst < arrayListRowFirst.size())// new data
+                                {
+                                    ShowNotifi();
+
+                                    fillListNotification(notificationArrayListTest);
+
+
+                                } else {
+
+                                    fillListNotification(notificationArrayListTest);
+                                }
+
+                            }//********************************************
+                            else {
+                                if (arrayListRow.size() > countFirst)// new data
+                                {
+                                    Log.e("NewGreater", "countFirst");
+                                    fillListNotification(notificationArrayListTest);
+                                    ShowNotifi();
+
+                                } else {
+                                    if (arrayListRow.size() == countFirst)// equal size
+                                    {
+                                        Log.e("arrayListRow", "== hereeee");
+
+                                        for (int h = 0; h < arrayListRow.size(); h++) {
+                                            int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if (index == -1) {
+                                                arrayListRowFirst.add(arrayListRow.get(h));
+
+
+                                            }
 
                                         }
 
-                                    }
-
-                                    if (countFirst < arrayListRowFirst.size())// new data
-                                    {
-                                        ShowNotifi();
-
-                                        fillListNotification(notificationArrayListTest);
-
-
-                                    }
-                                    else {
-
-                                        fillListNotification(notificationArrayListTest);
-                                    }
-
-                                }//********************************************
-                                else {
-                                    if(arrayListRow.size()>countFirst)// new data
-                                    {
-                                        Log.e("NewGreater","countFirst");
-                                        fillListNotification(notificationArrayListTest);
-                                        ShowNotifi();
-
-                                    }
-                                    else{
-                                        if(arrayListRow.size()==countFirst)// equal size
+                                        if (countFirst < arrayListRowFirst.size())// new data
                                         {
-                                            Log.e("arrayListRow","== hereeee");
+                                            ShowNotifi();
 
-                                            for( int h=0;h<arrayListRow.size();h++){
-                                                int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                                if(index==-1)
-                                                {
-                                                    arrayListRowFirst.add(arrayListRow.get(h));
+                                            fillListNotification(notificationArrayListTest);
 
-
-                                                }
-
-                                            }
-
-                                            if (countFirst < arrayListRowFirst.size())// new data
-                                            {
-                                                ShowNotifi();
-
-                                                fillListNotification(notificationArrayListTest);
-
-                                            }
-                                            else {
+                                        } else {
 
 //                                                fillListNotification(notificationArrayListTest);
-                                            }
                                         }
-
                                     }
 
-                                   }
+                                }
+
+                            }
 
 
 //                            }
 
-                        }
-                        else {//empty shared preference
-                            if(first!=1)
-                            {
+                        } else {//empty shared preference
+                            if (first != 1) {
                                 fillListNotification(notificationArrayList);
                                 ShowNotifi();
-                                Log.e("Notfirst",""+first);
+                                Log.e("Notfirst", "" + first);
                             }
-
 
 
                         }
@@ -516,12 +500,11 @@ public class AlertScreen extends AppCompatActivity {
 
                         Set<String> set_tow = new HashSet<String>();
                         set_tow.addAll(arrayListRow);
-                        Log.e("Empty",""+arrayListRow.size());
                         editor = sharedPreferences.edit();
                         editor.putStringSet("DATE_LIST", set_tow);
                         editor.apply();
 
-                        first=2;
+                        first = 2;
                         progressDialog.dismiss();
 //                        fillListNotification(notificationArrayList);
 
@@ -547,19 +530,17 @@ public class AlertScreen extends AppCompatActivity {
         String currentapiVersion = Build.VERSION.RELEASE;
 //
 
-               // Do something for 14 and above versions
+        // Do something for 14 and above versions
 
 //                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
 //                show_Notification("Check  app, Recive new Check");
-                showNotification(AlertScreen.this,"Recive new Check","details");
-            }
-            else {
-                notificationShow();
-            }
-
+            showNotification(AlertScreen.this, "Recive new Check", "details");
+        } else {
+            notificationShow();
+        }
 
 
     }
@@ -575,7 +556,7 @@ public class AlertScreen extends AppCompatActivity {
         notif.setSound(path);
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        Intent yesReceive = new Intent( );
+        Intent yesReceive = new Intent();
         yesReceive.setAction(YES_ACTION);
         PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.second_check, "show Detail", pendingIntentYes);
@@ -585,7 +566,6 @@ public class AlertScreen extends AppCompatActivity {
         yesReceive2.setAction(STOP_ACTION);
         PendingIntent pendingIntentYes2 = PendingIntent.getBroadcast(this, 12345, yesReceive2, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.addAction(R.drawable.ic_access_time_black_24dp, "cancel", pendingIntentYes2);
-
 
 
         nm.notify(10, notif.getNotification());
@@ -605,11 +585,10 @@ public class AlertScreen extends AppCompatActivity {
     }
 
     private void runAnimation(RecyclerView recyclerView, int type) {
-        Context context=recyclerView.getContext();
-        LayoutAnimationController controller=null;
-        if(type==0)
-        {
-            controller= AnimationUtils.loadLayoutAnimation(context,R.anim.layout_filldown);
+        Context context = recyclerView.getContext();
+        LayoutAnimationController controller = null;
+        if (type == 0) {
+            controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_filldown);
             NotificatioAdapter notificationAdapter = new NotificatioAdapter(AlertScreen.this, notifiList1);
             recyclerView.setAdapter(notificationAdapter);
             recyclerView.setLayoutAnimation(controller);
@@ -621,15 +600,15 @@ public class AlertScreen extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void show_Notification(String detail){
+    public void show_Notification(String detail) {
 
-        Intent intent=new Intent(AlertScreen.this,notificationReciver.class);
-        intent.putExtra("action","YES");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(AlertScreen.this,1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        String CHANNEL_ID="MYCHANNEL";
+        Intent intent = new Intent(AlertScreen.this, notificationReciver.class);
+        intent.putExtra("action", "YES");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(AlertScreen.this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        String CHANNEL_ID = "MYCHANNEL";
 
-        NotificationChannel notificationChannel=new NotificationChannel(CHANNEL_ID,"name", NotificationManager.IMPORTANCE_HIGH);
-        Notification notification=new Notification.Builder(getApplicationContext(),CHANNEL_ID)
+        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "name", NotificationManager.IMPORTANCE_HIGH);
+        Notification notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID)
                 .setContentText("show Detail ......")
                 .setContentTitle("Recive new Check, click to show detail")
                 .setStyle(new Notification.BigTextStyle()
@@ -637,7 +616,7 @@ public class AlertScreen extends AppCompatActivity {
                         .setBigContentTitle(" ")
                         .setSummaryText(""))
                 .setContentIntent(pendingIntent)
-                .addAction(android.R.drawable.sym_action_chat,"Show detail",pendingIntent)
+                .addAction(android.R.drawable.sym_action_chat, "Show detail", pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setChannelId(CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_add)
@@ -646,14 +625,14 @@ public class AlertScreen extends AppCompatActivity {
                 .build();
 
 
-        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(notificationChannel);
-        notificationManager.notify(1,notification);
+        notificationManager.notify(1, notification);
 
 
     }
 
-    private void notification_show (String detail){// this to use
+    private void notification_show(String detail) {// this to use
 //        final Intent intent = new Intent(this, MainActivity.class);
 //        intent.setData(Uri.parse("data"));
 //        intent.putExtra("key", "clicked");
@@ -665,7 +644,7 @@ public class AlertScreen extends AppCompatActivity {
 //        } catch (PendingIntent.CanceledException e) {
 //            e.printStackTrace();
 //        }
-        NotificationCompat.Builder nbuilder=new NotificationCompat.Builder(AlertScreen.this)
+        NotificationCompat.Builder nbuilder = new NotificationCompat.Builder(AlertScreen.this)
                 .setContentTitle("Check APP Notification ......")
                 .setContentText("New Check... click to show details ")
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -675,9 +654,9 @@ public class AlertScreen extends AppCompatActivity {
                         .setBigContentTitle(" New Check ").setSummaryText(""))
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE);
 
-        notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(id,nbuilder.build());
+        notificationManager.notify(id, nbuilder.build());
 
 
     }
