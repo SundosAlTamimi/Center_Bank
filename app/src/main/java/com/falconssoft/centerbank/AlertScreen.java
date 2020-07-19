@@ -225,7 +225,14 @@ public class AlertScreen extends AppCompatActivity {
         user=databaseHandler.getActiveUserInfo();
         userNmae=user.getUsername();
         Passowrd=user.getPassword();
-        notification_btn.setVisibility(View.INVISIBLE);
+        try {
+            notification_btn.setVisibility(View.INVISIBLE);
+        }
+        catch (Exception e)
+        {
+
+        }
+
 
 
         textCheckstateChanger=findViewById(R.id.textCheckstateChanger);
@@ -320,7 +327,7 @@ public class AlertScreen extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            if (s != null) {
+            if (s != null) {//No log data found
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     JSONObject jsonObject = null;
                     try {
@@ -525,8 +532,9 @@ public class AlertScreen extends AppCompatActivity {
 
 //                    INFO
                     Log.e("tag", "****Success"+s.toString());
-                } else {
-                    Log.e("tag", "****Failed to export data");
+                } else if (s.contains("\"StatusDescreption\":\"No log data found\"")) {
+                    progressDialog.dismiss();
+//                    Log.e("tag", "****Failed to export data");
                 }
             } else {
 
