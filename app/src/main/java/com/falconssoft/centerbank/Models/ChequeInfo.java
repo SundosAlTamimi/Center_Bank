@@ -6,7 +6,9 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ChequeInfo {
+import java.io.Serializable;
+
+public class ChequeInfo implements Serializable {
 
     private String chequeNo;
     private String bankNo;

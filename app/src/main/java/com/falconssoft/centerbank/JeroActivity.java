@@ -1,10 +1,12 @@
 package com.falconssoft.centerbank;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -34,6 +36,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -100,6 +103,7 @@ public class JeroActivity extends AppCompatActivity {
     int flag1=0;
     private ProgressDialog progressDialog;
     SweetAlertDialog  pd;
+    boolean isPermition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -225,7 +229,11 @@ public class JeroActivity extends AppCompatActivity {
                 flag = 0;
 //                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 //                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
-                cameraIntent();
+
+                isPermition= isStoragePermissionGranted();
+                if(isPermition) {
+                    cameraIntent();
+                }
             }
         });
 
@@ -736,7 +744,7 @@ public class JeroActivity extends AppCompatActivity {
                         ChequeInfo obj = new ChequeInfo();
 
                         //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
-                        if(finalObject.getString("ISFB").equals("0")&&!finalObject.getString("TRANSTYPE").equals("3")){//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
+                        if(finalObject.getString("ISFB").equals("0")&&!finalObject.getString("TRANSSTATUS").equals("3")){//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
                         obj.setRowId(finalObject.getString("ROWID"));
                         obj.setBankNo(finalObject.getString("BANKNO"));
                         obj.setBankName(finalObject.getString("BANKNM"));
@@ -757,7 +765,7 @@ public class JeroActivity extends AppCompatActivity {
                         obj.setToCustomerNationalId(finalObject.getString("TOCUSTOMERNATID"));
                         obj.setCustomerWriteDate(finalObject.getString("CHECKWRITEDATE"));//?
 //                        obj.setCheqPIc(finalObject.getString("CHECKPICPATH"));
-                        obj.setTransType(finalObject.getString("TRANSTYPE"));
+                        obj.setTransType(finalObject.getString("TRANSSTATUS"));
                         obj.setStatus("1");
                         obj.setUserName(finalObject.getString("USERNO"));
                         obj.setCompanyName(finalObject.getString("COMPANY"));
@@ -1421,5 +1429,44 @@ public class JeroActivity extends AppCompatActivity {
 
         }
     }
+
+
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.e("gg1","Permission is granted");
+                return true;
+            } else {
+
+                Log.e("gg2","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.e("gg3","Permission is granted");
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            Log.e("jj4","Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+//            if(flagINoUT==1){
+//                ExportDbToExternal();
+//            }else if (flagINoUT==2){
+//                ImportDbToMyApp();
+//            }
+
+            cameraIntent();
+
+        }
+    }
+
+
 
 }

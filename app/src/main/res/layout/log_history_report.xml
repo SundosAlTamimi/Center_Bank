@@ -380,7 +380,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Reject"
+                    android:text="@string/rej"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </TableRow>
@@ -407,7 +407,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Append"
+                    android:text="@string/pending"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </TableRow>
@@ -434,7 +434,34 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Accept"
+                    android:text="@string/acccept"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_arrow_upward_black_24dp"
+                    android:textColor="@color/white"
+                    app:civ_border_color="@color/gray_"
+                    app:civ_border_width="2dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/cashed"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </TableRow>
@@ -485,7 +512,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Append"
+                    android:text="@string/pending"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </TableRow>
@@ -512,7 +539,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Accept"
+                    android:text="@string/acccept"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </TableRow>
@@ -539,7 +566,34 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Reject"
+                    android:text="@string/rej"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_arrow_downward_black_24dp"
+                    android:textColor="@color/white"
+                    app:civ_border_color="@color/gray_"
+                    app:civ_border_width="2dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/cashed"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </TableRow>

@@ -114,6 +114,8 @@ public class AlertScreen extends AppCompatActivity {
     Timer timer;
     public static ArrayList<ChequeInfo> checkInfoNotification;
     public ArrayList<notification> notifiList;
+    public static ChequeInfo chequeInfoReSendAlert;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
@@ -596,6 +598,17 @@ public class AlertScreen extends AppCompatActivity {
             recyclerView.scheduleLayoutAnimation();
         }
 
+
+    }
+
+
+    public void startEditerForReSendAlert(ChequeInfo chequeInfo){
+        chequeInfoReSendAlert=chequeInfo;
+        Intent reSendIntent=new Intent(AlertScreen.this,EditerCheackActivity.class);
+        reSendIntent.putExtra("ReSend","ReSend");
+       // ChequeInfo
+        reSendIntent.putExtra("ChequeInfo",chequeInfo);
+        startActivity(reSendIntent);
 
     }
 

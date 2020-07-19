@@ -117,5 +117,7 @@
     <string name="cheque_information">Cheque Information</string>
     <string name="the_purpose_of_issuing_the_check">The Purpose Of Issuing The Check</string>
     <string name="inCh">بموجب التفويض المرفق دون تحمل اية مسؤولية من طرفكم</string>
+    <string name="resend">ReSend</string>
+    <string name="cashed">Cashed</string>
 
 </resources>
