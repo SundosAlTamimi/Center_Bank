@@ -22,85 +22,161 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bac_"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="serif"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/date"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
+                    <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="serif"
+                        android:padding="10dp"
+                        android:text="@string/cheque_no"
+                        android:layout_weight="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:id="@+id/tracking_chequeNo"
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="serif"
+                        android:padding="10dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="serif"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/beneficiary"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="serif"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/national_no"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="serif"
+                        android:padding="10dp"
+                        android:text="@string/account_no_"
+                        android:layout_weight="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="serif"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/phone"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="serif"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/transaction_type"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="serif"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/status"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
+                    <TextView
+                        android:id="@+id/tracking_accountNo"
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="serif"
+                        android:padding="10dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tracking_recyclerView"
+            <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/edit_bac_s"
-                android:padding="10dp" />
+                android:background="@drawable/edit_bac_"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/date"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/beneficiary"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/national_no"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/phone"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/transaction_type"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="serif"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/status"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@color/red"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tracking_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+            </LinearLayout>
 
         </LinearLayout>
     </RelativeLayout>
