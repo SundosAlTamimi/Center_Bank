@@ -47,8 +47,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -73,7 +77,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
     int row_index = -1;
     String checkState = "0";
     public static String languagelocalApp = "";
-    public static String acc="",bankN="",branch="",cheNo="";
+    public static String acc="",bankN="",branch="",mobileNo="";
 
 
     public Requestadapter(Context context, List<requestModel> notifications) {
@@ -82,12 +86,14 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
         Log.e("Requestadapter",""+notifications.size());
 
 
+
     }
 
     @NonNull
     @Override
     public Requestadapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_for_request, viewGroup, false);
+
 
         return new Requestadapter.ViewHolder(view);
     }
@@ -124,8 +130,27 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
             viewHolder.checkimage_state.setImageDrawable(context.getResources().getDrawable(R.drawable.request_download));
 
         }
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String date_=requestList.get(i).getINDATE();
+        try {
+            String subDate=date_.substring(0,date_.indexOf(" "));
+            Log.e("subDate",""+subDate+"\t"+date_);
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            Date date = format.parse(subDate);
+            String dateFormated=sdf.format(date);
 
-        viewHolder.date_check.setText(requestList.get(i).getINDATE());
+
+
+            viewHolder.date_check.setText(dateFormated+"");
+        }
+        catch (Exception e)
+        {
+            Log.e("date_checkException",""+e.getMessage());
+            viewHolder.date_check.setText(requestList.get(i).getINDATE());
+        }
+
+
         viewHolder.amount_check.setText(requestList.get(i).getAMOUNT()+"\tJD");
         viewHolder.cust_name.setText(requestList.get(i).getFROMUSER_name());
 
@@ -158,12 +183,14 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
         ImageView image_check;
         LinearLayout linearCheckInfo, mainLinearAdapter,divider,lineardetail,rowStatus;
         CircleImageView acceptImg,rejectImg,reciveNew,checkimage_state;
-
+        SharedPreferences loginPrefs;
         public ViewHolder(View itemView) {
             super(itemView);
+             loginPrefs = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+            mobileNo = loginPrefs.getString("mobile", "");
             cust_name = itemView.findViewById(R.id.cust_name);
             amount_check = itemView.findViewById(R.id.amount_check);
-            date_check = itemView.findViewById(R.id.date_check);
+            date_check = itemView.findViewById(R.id.dat_check);
             image_check = itemView.findViewById(R.id.image_check);
             linearCheckInfo = itemView.findViewById(R.id.linearCheckInfo);
             mainLinearAdapter = itemView.findViewById(R.id.mainLinearAdapter);
@@ -392,6 +419,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
                 nameValuePairs.add(new BasicNameValuePair("ROWID", requestList.get(row_index).getROWID()));
                 nameValuePairs.add(new BasicNameValuePair("STATUS", "1"));
                 nameValuePairs.add(new BasicNameValuePair("REASON", requestList.get(row_index).getREASON()));
+
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 

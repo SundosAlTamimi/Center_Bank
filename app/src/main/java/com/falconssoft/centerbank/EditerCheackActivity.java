@@ -315,6 +315,10 @@ public class EditerCheackActivity extends AppCompatActivity {
             Log.e("Ammount", "Jd +" + amountWord);
             AmouWord.setText(amountWord + " فقط لا غير");
 
+            if(phails.getText().toString().equals("")&&Danier.getText().toString().equals("")){
+                AmouWord.setText(amountWord + "");
+            }
+
 
         }
 
@@ -711,24 +715,22 @@ date.setText("" + chequeInfo.getCheckDueDate());
                 }
                 if (image == null && mCameraFileName != null) {
                     image = Uri.fromFile(new File(mCameraFileName));
-
-                    String dstPath =path ;
-
-
-//                CheckPic.setVisibility(View.VISIBLE);
+                    path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
+                    CheckPic.setImageBitmap(serverPicBitmap);
+                    serverPic = bitMapToString(serverPicBitmap);
+                    deleteFiles(path);
                 }
                 File file = new File(mCameraFileName);
                 if (!file.exists()) {
                     file.mkdir();
                     path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-//                serverPicBitmap = BitmapFactory.decodeFile(path, options);
                     serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
                     CheckPic.setImageBitmap(serverPicBitmap);
                     serverPic = bitMapToString(serverPicBitmap);
-                    Bitmap bitmap1 = StringToBitMap(serverPic);
-                    showImageOfCheck(bitmap1);
+                    deleteFiles(path);
+//                    Bitmap bitmap1 = StringToBitMap(serverPic);
+//                    showImageOfCheck(bitmap1);
                 }else {
 
                     path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
@@ -738,9 +740,9 @@ date.setText("" + chequeInfo.getCheckDueDate());
                     serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
                     CheckPic.setImageBitmap(serverPicBitmap);
                     serverPic = bitMapToString(serverPicBitmap);
-                Bitmap bitmap1 = StringToBitMap(serverPic);
-                showImageOfCheck(bitmap1);
-//                    new JSONTask1().execute();
+                    deleteFiles(path);
+//                Bitmap bitmap1 = StringToBitMap(serverPic);
+//                showImageOfCheck(bitmap1);
 
                 }
             }
@@ -829,11 +831,9 @@ date.setText("" + chequeInfo.getCheckDueDate());
                 @Override
                 public void onClick(View view) {
                     checkLanguage();
-//                    new  IsCheckForThisAcc().execute();
-
-                    linerBarcode.setVisibility(View.GONE);
-                    linerEditing.setVisibility(View.VISIBLE);
-
+                    new  IsCheckForThisAcc().execute();
+//                    linerEditing.setVisibility(View.VISIBLE);
+//                    linerBarcode.setVisibility(View.GONE);
                     dialog.dismiss();
                 }
             });
@@ -949,7 +949,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
         Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
         return bitmap;
     }
- 
+
 
     public static byte[] convertBitmapToByteArrayUncompressed(Bitmap bitmap){
         ByteBuffer byteBuffer = ByteBuffer.allocate(bitmap.getByteCount());
@@ -1125,7 +1125,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //
             pd = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
             pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
-            pd.setTitleText("pic Save ");
+            pd.setTitleText("Save...");
             pd.setCancelable(false);
             pd.show();
 
@@ -1685,7 +1685,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 
                         ChequeInfo obj = new ChequeInfo();
 
-                        if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNo)) {
+                        if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNo)||finalObject.getString("TOCUSTOMERMOB").equals("")) {
                             //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
 
                             obj.setRowId(finalObject.getString("ROWID"));
@@ -1748,18 +1748,33 @@ private class JSONTask extends AsyncTask<String, String, String> {
                         }
 
                     } else {
-                        new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                                .setTitleText("ReSend Cheque ")
-                                .setContentText("This check is not Yours !!!")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @SuppressLint("WrongConstant")
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        finish();
+                        if (intentReSend != null && intentReSend.equals("ReSend")) {
+                            new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("ReSend Cheque ")
+                                    .setContentText("This check is not Yours !!!")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @SuppressLint("WrongConstant")
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            finish();
 //
-                                        sDialog.dismissWithAnimation();
-                                    }
-                                }).show();
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    }).show();
+                        }else {
+                            new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("Send Cheque ")
+                                    .setContentText("This check is not Yours !!!")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @SuppressLint("WrongConstant")
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            finish();
+//
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    }).show();
+                        }
 
                     }
 

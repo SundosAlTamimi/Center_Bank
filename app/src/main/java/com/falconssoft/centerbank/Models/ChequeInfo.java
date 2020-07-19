@@ -48,6 +48,15 @@ public class ChequeInfo {
     private String noteCheck;
     private String companyName;
     private String resonOfreject;
+    private  String transSendOrGero;
+
+    public String getTransSendOrGero() {
+        return transSendOrGero;
+    }
+
+    public void setTransSendOrGero(String transSendOrGero) {
+        this.transSendOrGero = transSendOrGero;
+    }
 
     public String getResonOfreject() {
         return resonOfreject;

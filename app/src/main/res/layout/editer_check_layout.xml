@@ -420,6 +420,7 @@
                                 android:layout_margin="2dp"
                                 android:background="@drawable/edit_bac_s"
                                 android:ems="5"
+                                android:maxLength="3"
                                 android:fontFamily="serif"
                                 android:gravity="center"
                                 android:hint="@string/phils"

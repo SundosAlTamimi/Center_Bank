@@ -21,6 +21,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 class Presenter {
 
     private SingUpActivity singUpActivity;
@@ -137,17 +139,24 @@ class Presenter {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else if (response.toString().contains("\"StatusCode\":28,\"StatusDescreption\":\"This User not have checks.\""))
-                ;
+            } else if (response.toString().contains("\"StatusCode\":28,\"StatusDescreption\":\"This User not have checks.\"")) {
 //            Toast.makeText(singUpActivity, "No cheques found!", Toast.LENGTH_SHORT).show();
-        }
+            }
+            else if (response.toString().contains("\"StatusCode\":6,\"StatusDescreption\":\"Check Data not found\"")) {//{"StatusCode":6,"StatusDescreption":"Check Data not found"}
+
+                new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("**** Cheque Tracing ****")
+                                .setContentText("Check Data not found")
+                                .show();
+
+            } }
     }
 
     // **************************************** owner Cheque **************************************
     public void ownerCheque(OwnerCheques context, String phone, ActivityOwnerChequesBinding binding) {
         ownerCheques = context;
         this.binding = binding;
-        ownerChequeRequest = new JsonObjectRequest(Request.Method.GET, urlOwnerCheque + "0798899716"
+        ownerChequeRequest = new JsonObjectRequest(Request.Method.GET, urlOwnerCheque + phone
                 , null, new OwnerChequeRequestClass(), new OwnerChequeRequestClass());
         requestQueue.add(ownerChequeRequest);
     }
