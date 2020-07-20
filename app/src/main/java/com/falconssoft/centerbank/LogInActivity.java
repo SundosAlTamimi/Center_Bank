@@ -591,7 +591,7 @@ public class LogInActivity extends AppCompatActivity {
             editor.putString("mobile", user.getUsername());
             editor.putString("password", user.getPassword());
             editor.putString("name", user.getFirstName());
-//            clearSharedCheck();
+
 //          editor.putString("link", "http://10.0.0.16:8081/");
             editor.apply();
 
@@ -601,6 +601,45 @@ public class LogInActivity extends AppCompatActivity {
             showSnackbar("User not found!", false);
         else
             showSnackbar("Please check internet connection!", false);
+
+    }
+    private void compareUser(String username) {
+        SharedPreferences prefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        String preveusNo = prefs.getString("mobile", "");
+
+
+
+        String currentNo= username;
+        Log.e("preveusNo",""+ preveusNo+"\t"+currentNo);
+        SharedPreferences  sharedPreferenc = getSharedPreferences(ROW_ID_PREFERENCE, Context.MODE_PRIVATE);
+        Set<String> set = null,set1,set2;
+        set = sharedPreferenc.getStringSet("DATE_LIST", null);
+        Log.e("sharedPreferenc","DATE_LIST"+set.size());
+        set1 = sharedPreferenc.getStringSet("REQUEST_ToUser", null);
+        Log.e("sharedPreferenc","REQUEST_ToUser"+set1);
+        set2 = sharedPreferenc.getStringSet("REQUEST_ToUser", null);
+        Log.e("sharedPreferenc","REQUEST_ToUser"+set2);
+
+        if(!preveusNo.equals(currentNo))
+        {
+
+
+            edit = sharedPreferenc.edit();
+            edit.clear();// just for test
+
+            edit.putStringSet("DATE_LIST", null);
+            edit.putStringSet("REQUEST_ToUser", null);
+            edit.putStringSet("REQUEST_LIST", null);
+            edit.apply();
+        }
+        Set<String> set3 = null,set14,set25;
+        set3 = sharedPreferenc.getStringSet("DATE_LIST", null);
+        Log.e("sharedPreferenc2","DATE_LIST"+set3);
+        set14 = sharedPreferenc.getStringSet("REQUEST_ToUser", null);
+        Log.e("sharedPreferenc2","REQUEST_ToUser"+set14);
+        set25 = sharedPreferenc.getStringSet("REQUEST_ToUser", null);
+        Log.e("sharedPreferenc2","REQUEST_ToUser"+set25);
+
 
     }
 
