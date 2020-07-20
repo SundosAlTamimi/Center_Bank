@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.falconssoft.centerbank.Models.LoginINFO;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.http.HttpResponse;
@@ -75,6 +76,8 @@ public class Request extends AppCompatActivity {
     private Snackbar snackbar;
     private LinearLayout coordinatorLayout;
 
+    LoginINFO infoUser;
+    DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +123,9 @@ public class Request extends AppCompatActivity {
         amountDinar = findViewById(R.id.denier);
         company = findViewById(R.id.edit_company);
         note = findViewById(R.id.edit_notes);
+        databaseHandler=new DatabaseHandler(Request.this);
+        infoUser=databaseHandler.getActiveUserInfo();
+
         sendButton = findViewById(R.id.AcceptButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +160,8 @@ public class Request extends AppCompatActivity {
 
     private void getUserInfo() throws JSONException {
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-        FROMUSER_No = loginPrefs.getString("mobile", "");
+
+        FROMUSER_No=infoUser.getUsername();
         FROMUSER_Name = loginPrefs.getString("name", "");
         NOTE=note.getText().toString();
         COMPNAME=company.getText().toString();

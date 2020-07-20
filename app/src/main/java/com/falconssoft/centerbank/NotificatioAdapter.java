@@ -34,6 +34,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
+import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.notification;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
@@ -200,10 +201,13 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         LinearLayout linearCheckInfo, mainLinearAdapter,divider,lineardetail,rowStatus;
         LinearLayout acceptImg,rejectImg,reciveNew;
         SharedPreferences loginPrefs;
+        LoginINFO infoUser;
         public ViewHolder(View itemView) {
             super(itemView);
             loginPrefs = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-            mobile_No = loginPrefs.getString("mobile", "");
+            DatabaseHandler databaseHandler=new DatabaseHandler(context);
+             infoUser=databaseHandler.getActiveUserInfo();
+            mobile_No=infoUser.getUsername();
             source_check = itemView.findViewById(R.id.source_check);
             amount_check = itemView.findViewById(R.id.amount_check);
             date_check = itemView.findViewById(R.id.date_check);
@@ -666,7 +670,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     }
 
                 } else {
-                    Log.e("tag", "****Failed to export data");
+                    Log.e("tagImage", "****Failed to export data");
                 }
             } else {
                 Log.e("tag", "****Failed to export data Please check internet connection");

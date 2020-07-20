@@ -187,7 +187,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
              loginPrefs = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-            mobileNo = loginPrefs.getString("mobile", "");
+//            mobileNo = loginPrefs.getString("mobile", "");
             cust_name = itemView.findViewById(R.id.cust_name);
             amount_check = itemView.findViewById(R.id.amount_check);
             date_check = itemView.findViewById(R.id.dat_check);
