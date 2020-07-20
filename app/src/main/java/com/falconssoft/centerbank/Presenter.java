@@ -267,7 +267,7 @@ class Presenter {
             jsonObject.put("FATHERNM", loginINFO.getSecondName());
             jsonObject.put("GRANDNM", loginINFO.getThirdName());
             jsonObject.put("FAMILYNM", loginINFO.getFourthName());
-            jsonObject.put("DOB", "19/05/1978");
+            jsonObject.put("DOB", loginINFO.getBirthDate());
             jsonObject.put("GENDER", loginINFO.getGender());
             jsonObject.put("MOBILENO", loginINFO.getUsername());
             jsonObject.put("ADDRESS", loginINFO.getAddress());
