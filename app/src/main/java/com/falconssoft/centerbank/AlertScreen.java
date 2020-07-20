@@ -396,6 +396,12 @@ public class AlertScreen extends AppCompatActivity {
                                 chequeInfo.setCompanyName(infoDetail.getString("COMPANY"));
                                 chequeInfo.setResonOfreject(infoDetail.getString("RJCTREASON"));
 
+                                //CUSTNAME":"","CUSTFNAME":"","CUSTGNAME":"","CUSTFAMNAME":
+
+                                chequeInfo.setToCustName(infoDetail.getString("CUSTNAME"));
+                                chequeInfo.setToCustFName(infoDetail.getString("CUSTFNAME"));
+                                chequeInfo.setToCustGName(infoDetail.getString("CUSTGNAME"));
+                                chequeInfo.setToCustFamalyName(infoDetail.getString("CUSTFAMNAME"));
 
                                 chequeInfo.setTransSendOrGero(infoDetail.getString("TRANSTYPE"));
                                 Log.e("setTransSendOrGero",""+chequeInfo.getTransSendOrGero());

@@ -416,7 +416,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                 String localPhoneNo = phoneNo.getText().toString();
 //                String localSender = sender.getText().toString();
 
-                String localReciever =""+ fName.getText().toString()+"sName"+sName.getText().toString()+"tName"+tName.getText().toString()+"fName"+fourthName.getText().toString();
+                String localReciever =""+ fName.getText().toString()+" "+sName.getText().toString()+" "+tName.getText().toString()+" "+fourthName.getText().toString();
                 String localDinar = Danier.getText().toString();
                 String localFils = "" + phails.getText().toString();
                 String localMoneyInWord = AmouWord.getText().toString();
@@ -477,6 +477,10 @@ public class EditerCheackActivity extends AppCompatActivity {
                                     chequeInfo.setISCO(checkBox_C);
                                     chequeInfo.setISBF(checkBox_Fb);
                                     chequeInfo.setCompanyName(company.getText().toString());
+                                    chequeInfo.setToCustName(fName.getText().toString());
+                                    chequeInfo.setToCustFName(sName.getText().toString());
+                                    chequeInfo.setToCustGName(tName.getText().toString());
+                                    chequeInfo.setToCustFamalyName(fourthName.getText().toString());
                                     chequeInfo.setNoteCheck(notes.getText().toString());
                                     Log.e("showpic", serverPic);
 
@@ -546,6 +550,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 }
 
+@SuppressLint("SetTextI18n")
 void fillTheCheck(ChequeInfo chequeInfo){
 //if(chequeInfo.getChequeNo().equals()) {
     Danier.setText("" + chequeInfo.getMoneyInDinar());
@@ -555,11 +560,11 @@ void fillTheCheck(ChequeInfo chequeInfo){
     phoneNo.setText("" + chequeInfo.getToCustomerMobel());
     company.setText("" + chequeInfo.getCompanyName());
     notes.setText("" + chequeInfo.getNoteCheck());
-    fName.setText("" + chequeInfo.getToCustomerName().substring(0,chequeInfo.getToCustomerName().indexOf("sName")));
-    sName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("sName")+5,chequeInfo.getToCustomerName().indexOf("tName")));
-    tName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("tName")+5,chequeInfo.getToCustomerName().indexOf("fName")));
-    fourthName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("fName")+5));
-date.setText("" + chequeInfo.getCheckDueDate());
+    fName.setText("" + chequeInfo.getCustName());
+    sName.setText("" + chequeInfo.getToCustFName());
+    tName.setText("" + chequeInfo.getToCustGName());
+    fourthName.setText("" + chequeInfo.getToCustFamalyName());
+   date.setText("" + chequeInfo.getCheckDueDate());
 
     if (chequeInfo.getISCO().equals("1")) {
         checkBox_CO.setChecked(true);
@@ -1199,6 +1204,8 @@ private class JSONTask extends AsyncTask<String, String, String> {
                 httpURLConnection.disconnect();
 
                 Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+                Log.e("jsonObject.toString()", "save -->" + jsonObject.toString());
+
                 Log.e("tag", "dataSave  -->" +data);
 
                 return stringBuffer.toString();
@@ -1230,32 +1237,38 @@ private class JSONTask extends AsyncTask<String, String, String> {
                     pd.dismissWithAnimation();
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
-                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText("Successful")
-                            .setContentText("Save Successful")
-                            .setConfirmText("Ok")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    SweetAlertDialog sweet=new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                    sweet .setTitleText("Successful");
+                    sweet .setContentText("Save Successful");
+                    sweet .setCanceledOnTouchOutside(false);
+                    sweet .setConfirmText("Ok");
+                    sweet .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @SuppressLint("WrongConstant")
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     finish();
                                     sDialog.dismissWithAnimation();
                                 }
-                            }).show();
+                            });
+                    sweet.show();
                     pushCheque.setEnabled(true);
                 } else {
                     Log.e("tag", "****Failed to export data");
-                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("WARNING")
-                            .setContentText("Fail to send!")
-                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
 
+                    SweetAlertDialog sweet=new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
+                    sweet .setTitleText("WARNING");
+                    sweet .setContentText("Fail to send!"+JsonResponse.toString());
+                    sweet .setCanceledOnTouchOutside(false);
+                    sweet .setConfirmText("Close");
+                    sweet .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @SuppressLint("WrongConstant")
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
                         }
-                    })
-                            .show();
+                    });
+                    sweet.show();
+
                     pd.dismissWithAnimation();
 
                     pushCheque.setEnabled(true);
@@ -2000,6 +2013,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 
                     if (!foundIn) {
 
+                        Log.e("chequeGiro 2010","not giro"+JsonResponse.toString());
 
                     } else {
                         new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)

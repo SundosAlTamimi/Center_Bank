@@ -51,6 +51,10 @@ public class ChequeInfo implements Serializable {
     private String companyName;
     private String resonOfreject;
     private  String transSendOrGero;
+    private  String toCustName;
+    private  String toCustFName;
+    private  String toCustGName;
+    private  String toCustFamalyName;
 
     public String getTransSendOrGero() {
         return transSendOrGero;
@@ -95,7 +99,7 @@ public class ChequeInfo implements Serializable {
     public ChequeInfo() {
     }
 
-    public ChequeInfo(String chequeNo, String bankNo, String branchNo, String accCode, String ibanNo, String custName, String qrCode, String serialNo, String bankName, String chequeData, String toCustomerName, String moneyInDinar, String moneyInFils, String moneyInWord, String recieverMobileNo, String recieverNationalID, String chequeImage, String rowId, String toCustomerMobel, String toCustomerNationalId, String cheqPIc, String customerWriteDate, String checkDueDate, String checkIsSueDate, String transType, String status, String date, String ISOpen) {
+    public ChequeInfo(String chequeNo, String bankNo, String branchNo, String accCode, String ibanNo, String custName, String qrCode, String serialNo, String bankName, String chequeData, String toCustomerName, String moneyInDinar, String moneyInFils, String moneyInWord, String recieverMobileNo, String recieverNationalID, String chequeImage, String rowId, String toCustomerMobel, String toCustomerNationalId, String cheqPIc, String customerWriteDate, String checkDueDate, String checkIsSueDate, String transType, String status, String date, String userName, String ISCO, String ISBF, String ISOpen, String noteCheck, String companyName, String resonOfreject, String transSendOrGero, String toCustName, String toCustFName, String toCustGName, String toCustFamalyName) {
         this.chequeNo = chequeNo;
         this.bankNo = bankNo;
         this.branchNo = branchNo;
@@ -114,16 +118,27 @@ public class ChequeInfo implements Serializable {
         this.recieverNationalID = recieverNationalID;
         this.chequeImage = chequeImage;
         this.rowId = rowId;
-        this. ToCustomerMobel = toCustomerMobel;
-        this. ToCustomerNationalId = toCustomerNationalId;
-        this.CheqPIc = cheqPIc;
+        ToCustomerMobel = toCustomerMobel;
+        ToCustomerNationalId = toCustomerNationalId;
+        CheqPIc = cheqPIc;
         this.customerWriteDate = customerWriteDate;
         this.checkDueDate = checkDueDate;
         this.checkIsSueDate = checkIsSueDate;
         this.transType = transType;
         this.status = status;
-        this.Date = date;
+        Date = date;
+        this.userName = userName;
+        this.ISCO = ISCO;
+        this.ISBF = ISBF;
         this.ISOpen = ISOpen;
+        this.noteCheck = noteCheck;
+        this.companyName = companyName;
+        this.resonOfreject = resonOfreject;
+        this.transSendOrGero = transSendOrGero;
+        this.toCustName = toCustName;
+        this.toCustFName = toCustFName;
+        this.toCustGName = toCustGName;
+        this.toCustFamalyName = toCustFamalyName;
     }
 
     public String getBankName() {
@@ -367,6 +382,38 @@ public class ChequeInfo implements Serializable {
         this.ISBF = ISBF;
     }
 
+    public String getToCustName() {
+        return toCustName;
+    }
+
+    public void setToCustName(String toCustName) {
+        this.toCustName = toCustName;
+    }
+
+    public String getToCustFName() {
+        return toCustFName;
+    }
+
+    public void setToCustFName(String toCustFName) {
+        this.toCustFName = toCustFName;
+    }
+
+    public String getToCustGName() {
+        return toCustGName;
+    }
+
+    public void setToCustGName(String toCustGName) {
+        this.toCustGName = toCustGName;
+    }
+
+    public String getToCustFamalyName() {
+        return toCustFamalyName;
+    }
+
+    public void setToCustFamalyName(String toCustFamalyName) {
+        this.toCustFamalyName = toCustFamalyName;
+    }
+
     // CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
 // ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
 // ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
@@ -402,6 +449,10 @@ public class ChequeInfo implements Serializable {
             obj.put("ISFB",  ISBF);
             obj.put("COMPANY",  companyName);
             obj.put("NOTE",  noteCheck);
+            obj.put("CUSTNAME",toCustName);
+            obj.put("CUSTFNAME",toCustFName);
+            obj.put("CUSTGNAME",toCustGName);
+            obj.put("CUSTFAMNAME",toCustFamalyName);
 
 
 
