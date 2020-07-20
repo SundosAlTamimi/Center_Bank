@@ -143,4 +143,6 @@
 
     <string name="resend">ReSend</string>
     <string name="cashed">Cashed</string>
+    <string name="national_id">National ID</string>
+
 </resources>

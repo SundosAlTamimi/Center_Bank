@@ -275,7 +275,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             reSend.setVisibility(View.GONE);
             binificary= dialog.findViewById(R.id.binificary);
-            String fullName=getFullName(checkInfoNotification.get(row_index).getToCustomerName());
+            String fullName=checkInfoNotification.get(row_index).getToCustomerName();
             binificary.setText(fullName);
             texChequNo=dialog.findViewById(R.id.texChequNo);
             texChequNo.setText(checkInfoNotification.get(row_index).getChequeNo());
@@ -523,19 +523,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
     }
 
-    private String getFullName(String toCustomerName) {
-        String first,second,third,fourth,full;
-        int indexSecond=toCustomerName.indexOf("sName");
-        first=toCustomerName.substring(0,indexSecond);
-        int indexTherd=toCustomerName.indexOf("tName");
-        second=toCustomerName.substring(indexSecond+5,indexTherd);
-        int indexFourth=toCustomerName.indexOf("fName");
-        third=toCustomerName.substring(indexTherd+5,indexFourth);
-        fourth=toCustomerName.substring(indexFourth+5);
-        Log.e("full",""+first+"\t"+second+"\t"+third+"\t"+fourth);
-        return full=first+"\t"+second+"\t"+third+"\t"+fourth;
 
-    }
 
     public Bitmap StringToBitMap(String image) {
         try {

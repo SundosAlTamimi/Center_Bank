@@ -373,19 +373,6 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 
     }
 
-    private String getFullName(String toCustomerName) {
-        String first,second,third,fourth,full;
-        int indexSecond=toCustomerName.indexOf("sName");
-        first=toCustomerName.substring(0,indexSecond);
-        int indexTherd=toCustomerName.indexOf("tName");
-        second=toCustomerName.substring(indexSecond+5,indexTherd);
-        int indexFourth=toCustomerName.indexOf("fName");
-        third=toCustomerName.substring(indexTherd+5,indexFourth);
-        fourth=toCustomerName.substring(indexFourth+5);
-        Log.e("full",""+first+"\t"+second+"\t"+third+"\t"+fourth);
-        return full=first+"\t"+second+"\t"+third+"\t"+fourth;
-
-    }
 
 
     private void updateCheckState() {

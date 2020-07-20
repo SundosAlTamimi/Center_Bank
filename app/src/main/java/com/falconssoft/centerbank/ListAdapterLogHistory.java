@@ -114,11 +114,10 @@ CircleImageView status;
             holder.status.setBorderColor(context.getResources().getColor(R.color.blue));
             TStatus=context.getResources().getString(R.string.pending);
 
+        } else if(itemsList.get(i).getTransType().equals("3")){//OWNERMOBNO
+            holder.status.setBorderColor(context.getResources().getColor(R.color.gray_));
+            TStatus=context.getResources().getString(R.string.cashed);
         }
-//        else if(itemsList.get(i).getTransType().equals("3")){//OWNERMOBNO
-//            holder.status.setBorderColor(context.getResources().getColor(R.color.gray_));
-//            TStatus=context.getResources().getString(R.string.cashed);
-//        }
 
         holder.reSend.setVisibility(View.GONE);
 //        if(itemsList.get(i).getTransType().equals("2")&&itemsList.get(i).getStatus().equals("0")){
@@ -155,11 +154,11 @@ CircleImageView status;
         holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+TStatus);
         holder.chequNo.setText(itemsList.get(i).getChequeNo());
 
-        holder.name.setText("" + getFullName(itemsList.get(i).getCustName()));
+        holder.name.setText("" + itemsList.get(i).getCustName());
 //        holder.transType.setText("" + itemsList.get(i).getTransType());
         holder.date.setText( itemsList.get(i).getCheckDueDate());
-        holder.from.setText(context.getResources().getString(R.string.chWriter)+ getFullName(itemsList.get(i).getCustName()));
-        holder.to.setText(context.getResources().getString(R.string.chBf)+getFullName(itemsList.get(i).getToCustomerName()));
+        holder.from.setText(context.getResources().getString(R.string.chWriter)+ itemsList.get(i).getCustName());
+        holder.to.setText(context.getResources().getString(R.string.chBf)+itemsList.get(i).getToCustomerName());
         holder.bankName .setText(context.getResources().getString(R.string.bank_name)+ itemsList.get(i).getBankName());
         holder.AmountJd .setText(context.getResources().getString(R.string.amount)+" : " + itemsList.get(i).getMoneyInDinar()+"."+itemsList.get(i).getMoneyInFils()+" JD");
         holder.AmountWord .setText("("+itemsList.get(i).getMoneyInWord()+")");
@@ -249,28 +248,6 @@ CircleImageView status;
                     , null, null);
 
 
-        }
-
-    }
-    private String getFullName(String toCustomerName) {
-        try {
-            String first, second, third, fourth, full;
-            int indexSecond = toCustomerName.indexOf("sName");
-            first = toCustomerName.substring(0, indexSecond);
-            int indexTherd = toCustomerName.indexOf("tName");
-            second = toCustomerName.substring(indexSecond + 5, indexTherd);
-            int indexFourth = toCustomerName.indexOf("fName");
-            third = toCustomerName.substring(indexTherd + 5, indexFourth);
-            fourth = toCustomerName.substring(indexFourth + 5);
-            Log.e("full", "" + first + "\t" + second + "\t" + third + "\t" + fourth);
-            if(isProbablyArabic(first)){
-                return full = fourth + "\t" + third + "\t" + second + "\t" + first;
-
-            }else{
-                return full = first + "\t" + second + "\t" + third + "\t" + fourth;
-            }
-        }catch (Exception e){
-            return toCustomerName;
         }
 
     }

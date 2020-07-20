@@ -75,7 +75,7 @@ import static com.falconssoft.centerbank.EditerCheackActivity.CAMERA_PIC_REQUEST
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
 public class JeroActivity extends AppCompatActivity {
-    String mCameraFileName,path;
+    String mCameraFileName, path;
     ImageView imageView;
     Uri image;
 
@@ -100,9 +100,9 @@ public class JeroActivity extends AppCompatActivity {
     JSONObject jsonObject;
     Date currentTimeAndDate;
     SimpleDateFormat df;
-    int flag1=0;
+    int flag1 = 0;
     private ProgressDialog progressDialog;
-    SweetAlertDialog  pd;
+    SweetAlertDialog pd;
     boolean isPermition;
 
     @Override
@@ -157,7 +157,7 @@ public class JeroActivity extends AppCompatActivity {
         scanBarcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                flag1=1;//barcode
+                flag1 = 1;//barcode
                 readBarCode();
             }
         });
@@ -230,8 +230,8 @@ public class JeroActivity extends AppCompatActivity {
 //                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 //                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
 
-                isPermition= isStoragePermissionGranted();
-                if(isPermition) {
+                isPermition = isStoragePermissionGranted();
+                if (isPermition) {
                     cameraIntent();
                 }
             }
@@ -353,7 +353,7 @@ public class JeroActivity extends AppCompatActivity {
                 String localPhoneNo = phoneNos.getText().toString();
 //                String localSender = sender.getText().toString();
 
-                String localReciever = "" + fName.getText().toString() + "sName" + sName.getText().toString() + "tName" + tName.getText().toString() + "fName" + fourthName.getText().toString();
+                String localReciever = "" + fName.getText().toString() + " " + sName.getText().toString() + " " + tName.getText().toString() + " " + fourthName.getText().toString();
                 String localDinar = Danier.getText().toString();
                 String localFils = "" + phails.getText().toString();
                 String localMoneyInWord = AmouWord.getText().toString();
@@ -413,6 +413,10 @@ public class JeroActivity extends AppCompatActivity {
                                         chequeInfo.setISCO(checkBox_C);
                                         chequeInfo.setISBF(checkBox_Fb);
                                         chequeInfo.setCompanyName(company.getText().toString());
+                                        chequeInfo.setToCustName(fName.getText().toString());
+                                        chequeInfo.setToCustFName(sName.getText().toString());
+                                        chequeInfo.setToCustGName(tName.getText().toString());
+                                        chequeInfo.setToCustFamalyName(fourthName.getText().toString());
                                         chequeInfo.setNoteCheck(notes.getText().toString());
                                         Log.e("showpic", serverPic);
 
@@ -422,8 +426,26 @@ public class JeroActivity extends AppCompatActivity {
 //                                    imageSend();
 //                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
 //                new Image().execute();
+                                        if (!localPhoneNo.equals(phoneNos)) {//no send to the same phone no
+                                            new SaveGiro().execute();
 
-                                        new SaveGiro().execute();
+                                        } else {
+                                            SweetAlertDialog sw = new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                            sw.setTitleText("***" + JeroActivity.this.getResources().getString(R.string.phone_no) + "***");
+                                            sw.setContentText("Please , change Phone No ,You Can't Send The Cheque To Yourself");
+                                            sw.setConfirmText(JeroActivity.this.getResources().getString(R.string.ok));
+                                            sw.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @SuppressLint("WrongConstant")
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    phoneNos.setError("Change");
+                                                    sDialog.dismissWithAnimation();
+                                                }
+                                            });
+                                            sw.show();
+                                        }
+
+
 //                                    new GetAllTransaction().execute();
                                     } else {
                                         CheckPicText.setError("Required!");
@@ -480,11 +502,11 @@ public class JeroActivity extends AppCompatActivity {
         Date date = new Date();
         DateFormat df = new SimpleDateFormat("_mm_ss");
 
-        String newPicFile ="in" + ".png";
-        String outPath =  Environment.getExternalStorageDirectory()  + File.separator+newPicFile;
-        Log.e("InventoryDBFolder",""+outPath);
+        String newPicFile = "in" + ".png";
+        String outPath = Environment.getExternalStorageDirectory() + File.separator + newPicFile;
+        Log.e("InventoryDBFolder", "" + outPath);
         File outFile = new File(outPath);
-        path=outPath;
+        path = outPath;
         mCameraFileName = outFile.toString();
         Uri outuri = Uri.fromFile(outFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outuri);
@@ -550,7 +572,7 @@ public class JeroActivity extends AppCompatActivity {
             if (requestCode == 2) {
                 if (data != null) {
                     image = data.getData();
-                    path= Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
                     serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
                     CheckPic.setImageBitmap(serverPicBitmap);
                     serverPic = bitMapToString(serverPicBitmap);
@@ -559,7 +581,7 @@ public class JeroActivity extends AppCompatActivity {
                 }
                 if (image == null && mCameraFileName != null) {
                     image = Uri.fromFile(new File(mCameraFileName));
-                    path= Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
                     serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
                     CheckPic.setImageBitmap(serverPicBitmap);
                     serverPic = bitMapToString(serverPicBitmap);
@@ -568,16 +590,16 @@ public class JeroActivity extends AppCompatActivity {
                 File file = new File(mCameraFileName);
                 if (!file.exists()) {
                     file.mkdir();
-                    path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
                     serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png");
                     CheckPic.setImageBitmap(serverPicBitmap);
                     serverPic = bitMapToString(serverPicBitmap);
                     deleteFiles(path);
 //                    Bitmap bitmap1 = StringToBitMap(serverPic);
 //                    showImageOfCheck(bitmap1);
-                }else {
+                } else {
 
-                    path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/in.png";
 //                BitmapFactory.Options options = new BitmapFactory.Options();
 //                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 //                serverPicBitmap = BitmapFactory.decodeFile(path, options);
@@ -612,26 +634,26 @@ public class JeroActivity extends AppCompatActivity {
     }
 
     void FailGiroSave() {
-        flag1=2;
+        flag1 = 2;
         giroList.setVisibility(View.GONE);
         barcodeLiner.setVisibility(View.GONE);
         editLiner.setVisibility(View.VISIBLE);
 
-        if(chequeInfos.getISCO().equals("1")){
+        if (chequeInfos.getISCO().equals("1")) {
             checkBox_CO.setChecked(true);
-        }else{
+        } else {
             checkBox_CO.setChecked(false);
         }
-        if(chequeInfos.getISBF().equals("1")){
+        if (chequeInfos.getISBF().equals("1")) {
             checkBox_firstpinifit.setChecked(true);
-        }else{
+        } else {
             checkBox_firstpinifit.setChecked(false);
         }
 
         checkBox_CO.setEnabled(false);
         checkBox_firstpinifit.setEnabled(false);
 
-        date.setText(""+chequeInfos.getCheckDueDate());
+        date.setText("" + chequeInfos.getCheckDueDate());
         Danier.setText("" + chequeInfos.getMoneyInDinar());
         phails.setText("" + chequeInfos.getMoneyInFils());
         AmouWord.setText("" + chequeInfos.getMoneyInWord());
@@ -733,7 +755,7 @@ public class JeroActivity extends AppCompatActivity {
 //
                 try {
 
-                  JSONObject parentArray = new JSONObject(JsonResponse);
+                    JSONObject parentArray = new JSONObject(JsonResponse);
                     JSONArray parentInfo = parentArray.getJSONArray("INFO");
 
                     ChequeInfoGiro = new ArrayList<>();
@@ -744,41 +766,48 @@ public class JeroActivity extends AppCompatActivity {
                         ChequeInfo obj = new ChequeInfo();
 
                         //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
-                        if(finalObject.getString("ISFB").equals("0")&&!finalObject.getString("TOCUSTOMERMOB").equals(finalObject.getString("OWNERMOBNO"))){//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
+                        if (finalObject.getString("ISFB").equals("0") && !finalObject.getString("TOCUSTOMERMOB").equals(finalObject.getString("OWNERMOBNO"))) {//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
 
                             //&&!finalObject.getString("TRANSSTATUS").equals("3")
-                        obj.setRowId(finalObject.getString("ROWID"));
-                        obj.setBankNo(finalObject.getString("BANKNO"));
-                        obj.setBankName(finalObject.getString("BANKNM"));
-                        obj.setBranchNo(finalObject.getString("BRANCHNO"));
-                        obj.setChequeNo(finalObject.getString("CHECKNO"));
-                        obj.setAccCode(finalObject.getString("ACCCODE"));
-                        obj.setIbanNo(finalObject.getString("IBANNO"));
-                        obj.setCustName(finalObject.getString("CUSTOMERNM"));
-                        obj.setQrCode(finalObject.getString("QRCODE"));
-                        obj.setSerialNo(finalObject.getString("SERIALNO"));
-                        obj.setCheckIsSueDate(finalObject.getString("CHECKISSUEDATE"));//?
-                        obj.setCheckDueDate(finalObject.getString("CHECKDUEDATE"));//?
-                        obj.setToCustomerName(finalObject.getString("TOCUSTOMERNM"));
-                        obj.setMoneyInDinar(finalObject.getString("AMTJD"));
-                        obj.setMoneyInFils(finalObject.getString("AMTFILS"));
-                        obj.setMoneyInWord(finalObject.getString("AMTWORD"));
-                        obj.setToCustomerMobel(finalObject.getString("TOCUSTOMERMOB"));
-                        obj.setToCustomerNationalId(finalObject.getString("TOCUSTOMERNATID"));
-                        obj.setCustomerWriteDate(finalObject.getString("CHECKWRITEDATE"));//?
+                            obj.setRowId(finalObject.getString("ROWID"));
+                            obj.setBankNo(finalObject.getString("BANKNO"));
+                            obj.setBankName(finalObject.getString("BANKNM"));
+                            obj.setBranchNo(finalObject.getString("BRANCHNO"));
+                            obj.setChequeNo(finalObject.getString("CHECKNO"));
+                            obj.setAccCode(finalObject.getString("ACCCODE"));
+                            obj.setIbanNo(finalObject.getString("IBANNO"));
+                            obj.setCustName(finalObject.getString("CUSTOMERNM"));
+                            obj.setQrCode(finalObject.getString("QRCODE"));
+                            obj.setSerialNo(finalObject.getString("SERIALNO"));
+                            obj.setCheckIsSueDate(finalObject.getString("CHECKISSUEDATE"));//?
+                            obj.setCheckDueDate(finalObject.getString("CHECKDUEDATE"));//?
+                            obj.setToCustomerName(finalObject.getString("TOCUSTOMERNM"));
+                            obj.setMoneyInDinar(finalObject.getString("AMTJD"));
+                            obj.setMoneyInFils(finalObject.getString("AMTFILS"));
+                            obj.setMoneyInWord(finalObject.getString("AMTWORD"));
+                            obj.setToCustomerMobel(finalObject.getString("TOCUSTOMERMOB"));
+                            obj.setToCustomerNationalId(finalObject.getString("TOCUSTOMERNATID"));
+                            obj.setCustomerWriteDate(finalObject.getString("CHECKWRITEDATE"));//?
 //                        obj.setCheqPIc(finalObject.getString("CHECKPICPATH"));
-                        obj.setTransType(finalObject.getString("TRANSTYPE"));
-                        obj.setStatus("1");
-                        obj.setUserName(finalObject.getString("USERNO"));
-                        obj.setCompanyName(finalObject.getString("COMPANY"));
-                        obj.setNoteCheck(finalObject.getString("NOTE"));
-                        obj.setISBF(finalObject.getString("ISFB"));
-                        obj.setISCO(finalObject.getString("ISCO"));
+                            obj.setTransType(finalObject.getString("TRANSTYPE"));
+                            obj.setStatus("1");
+                            obj.setUserName(finalObject.getString("USERNO"));
+                            obj.setCompanyName(finalObject.getString("COMPANY"));
+                            obj.setNoteCheck(finalObject.getString("NOTE"));
+                            obj.setISBF(finalObject.getString("ISFB"));
+                            obj.setISCO(finalObject.getString("ISCO"));
+                            //CUSTNAME":"","CUSTFNAME":"","CUSTGNAME":"","CUSTFAMNAME":
 
-                        obj.setISOpen("0");
+                            obj.setToCustName(finalObject.getString("CUSTNAME"));
+                            obj.setToCustFName(finalObject.getString("CUSTFNAME"));
+                            obj.setToCustGName(finalObject.getString("CUSTGNAME"));
+                            obj.setToCustFamalyName(finalObject.getString("CUSTFAMNAME"));
 
 
-                        ChequeInfoGiro.add(obj);
+                            obj.setISOpen("0");
+
+
+                            ChequeInfoGiro.add(obj);
                         }
 
 
@@ -1003,7 +1032,7 @@ public class JeroActivity extends AppCompatActivity {
                                 .setTitleText("Giro Cheque ")
                                 .setContentText("This check is not Yours !!!")
                                 .show();
-                        flag1=1;
+                        flag1 = 1;
                     }
 
 
@@ -1020,7 +1049,7 @@ public class JeroActivity extends AppCompatActivity {
                         .setContentText("Check Data not found")
                         .show();
 
-                flag1=1;
+                flag1 = 1;
 //                if(!isAssetsIn.equals("1")) {
 //                    if (pd != null) {
 //                        pd.dismiss();
@@ -1047,13 +1076,13 @@ public class JeroActivity extends AppCompatActivity {
 
     public String bitMapToString(Bitmap bitmap) {
         if (bitmap != null) {
-            bitmap=Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+            bitmap = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] arr = baos.toByteArray();
 //            byte[] encoded = Base64.encode(arr, Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
 
-            String result = Base64.encodeToString(arr,  Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
+            String result = Base64.encodeToString(arr, Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
             return result;
         }
         return "";
@@ -1099,7 +1128,7 @@ public class JeroActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(flag1!=0) {
+        if (flag1 != 0) {
             finish();
             Intent intent = new Intent(JeroActivity.this, JeroActivity.class);
             startActivity(intent);
@@ -1139,8 +1168,8 @@ public class JeroActivity extends AppCompatActivity {
 
         ChequeInfo chequeInfo;
 
-        public IsCheckPinding( ChequeInfo chequeInfo) {
-             this.chequeInfo= chequeInfo;
+        public IsCheckPinding(ChequeInfo chequeInfo) {
+            this.chequeInfo = chequeInfo;
         }
 
         @Override
@@ -1256,7 +1285,7 @@ public class JeroActivity extends AppCompatActivity {
                         }
                     }).show();
 
-                    flag1=0;
+                    flag1 = 0;
                     barcodeLiner.setVisibility(View.GONE);
                     giroList.setVisibility(View.VISIBLE);
                     editLiner.setVisibility(View.GONE);
@@ -1433,21 +1462,20 @@ public class JeroActivity extends AppCompatActivity {
     }
 
 
-    public  boolean isStoragePermissionGranted() {
+    public boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.e("gg1","Permission is granted");
+                Log.e("gg1", "Permission is granted");
                 return true;
             } else {
 
-                Log.e("gg2","Permission is revoked");
+                Log.e("gg2", "Permission is revoked");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
             }
-        }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.e("gg3","Permission is granted");
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.e("gg3", "Permission is granted");
             return true;
         }
     }
@@ -1455,8 +1483,8 @@ public class JeroActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            Log.e("jj4","Permission: "+permissions[0]+ "was "+grantResults[0]);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.e("jj4", "Permission: " + permissions[0] + "was " + grantResults[0]);
             //resume tasks needing this permission
 //            if(flagINoUT==1){
 //                ExportDbToExternal();
@@ -1468,7 +1496,6 @@ public class JeroActivity extends AppCompatActivity {
 
         }
     }
-
 
 
 }
