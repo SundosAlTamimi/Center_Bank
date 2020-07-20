@@ -426,7 +426,7 @@ public class JeroActivity extends AppCompatActivity {
 //                                    imageSend();
 //                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
 //                new Image().execute();
-                                        if (!localPhoneNo.equals(phoneNos)) {//no send to the same phone no
+                                        if (!localPhoneNo.equals(phoneNo)) {//no send to the same phone no
                                             new SaveGiro().execute();
 
                                         } else {
@@ -1452,9 +1452,32 @@ public class JeroActivity extends AppCompatActivity {
                         }
                     })
                             .show();
+                }else if(s != null && s.contains("\"StatusDescreption\":\"Error in Saving Check Temp\"")){//
+                    new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("WARNING")
+                            .setContentText("Error in Saving Check Temp Giro!")
+                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    })
+                            .show();
                 }
             } else {
                 Log.e("tag", "****Failed to export data Please check internet connection");
+                new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("WARNING")
+                        .setContentText("Failed to export data Please check internet connection !")
+                        .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+
+                    }
+                })
+                        .show();
+
             }
             pd.dismissWithAnimation();
 

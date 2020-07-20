@@ -162,7 +162,7 @@ public class AlertScreen extends AppCompatActivity {
 
             }
 
-        }, 0, 10000);
+        }, 0, 3000);
 
 
         swipeRefresh = findViewById(R.id.swipeRefresh);

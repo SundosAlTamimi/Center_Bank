@@ -49,11 +49,18 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.4"
                 android:background="@drawable/edit_bac_s"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="3dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="3dp">
@@ -357,6 +364,7 @@
                 <!--</TableRow>-->
 
                 <TableRow
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
@@ -453,63 +461,155 @@
 
                 </TableRow>
 
-
                 <TableRow
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="2.7"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+                    android:padding="5dp"
+                    android:background="@drawable/edit_bac_s"
                     android:gravity="center"
-                    android:padding="5dp">
+                    >
+
+                    <TextView
+                        android:id="@+id/textFirstPinificry"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/left_background"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/firstbeneficiary"
+
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textSize="18sp"
+                        app:autoSizeMaxTextSize="18sp"
+                        app:autoSizeMinTextSize="16sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/textCo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/accept_background"
+
+                        android:ems="10"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="CO"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textSize="18sp"
+                        android:visibility="visible"
+                        app:autoSizeMaxTextSize="18sp"
+                        app:autoSizeMinTextSize="16sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/editorCheque_picLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/CheckPicText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:fontFamily="serif"
                         android:text="@string/check_pic"
+                        android:layout_weight="1"
                         android:textColor="@color/colorWhite"
                         android:textSize="18sp"
-                        android:textStyle="bold"
+                        android:textStyle="bold" />
 
-                        app:autoSizeMaxTextSize="18sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
-
-                    <!--                    <ImageView-->
-                    <!--                        xmlns:app="http://schemas.android.com/apk/res-auto"-->
-                    <!--                        android:id="@+id/profile_image2"-->
-                    <!--                        android:layout_width="0dp"-->
-                    <!--                        android:layout_height="70dp"-->
-                    <!--                        android:layout_weight="2"-->
-                    <!--                        android:src="@drawable/second_check"-->
-                    <!--                       />-->
-                    <!--                    <ImageView-->
-                    <!--                        android:id="@+id/profile_image2"-->
-                    <!--                        android:layout_width="100dp"-->
-                    <!--                        android:layout_height="100dp"-->
-                    <!--                        android:layout_weight="2"-->
-                    <!--                        android:src="@drawable/second_check"-->
-                    <!--                        />-->
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/profile_image2"
-                        android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:src="@drawable/second_check"
-                        app:civ_border_color="@color/yellow"
-                        app:civ_border_width="2dp" />
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:src="@drawable/bank4"
+                        app:civ_border_color="@color/colorWhiteLight"
+                        app:civ_border_width="3dp" />
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_gero"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/edit_bac_s"
+                        android:src="@drawable/bank4"
+                        app:civ_border_color="@color/colorWhiteLight"
+                        app:civ_border_width="3dp" />
 
 
                 </TableRow>
+                <!--<TableRow-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:layout_marginBottom="10dp"-->
+                    <!--android:layout_weight="2.7"-->
+                    <!--android:gravity="center"-->
+                    <!--android:padding="5dp">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/CheckPicText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="5"-->
+                        <!--android:text="@string/check_pic"-->
+                        <!--android:textColor="@color/colorWhite"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:textStyle="bold"-->
+
+                        <!--app:autoSizeMaxTextSize="18sp"-->
+                        <!--app:autoSizeMinTextSize="12sp"-->
+                        <!--app:autoSizeStepGranularity="2sp"-->
+                        <!--app:autoSizeTextType="uniform" />-->
+
+                    <!--&lt;!&ndash;                    <ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        xmlns:app="http://schemas.android.com/apk/res-auto"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        android:id="@+id/profile_image2"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        android:layout_width="0dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        android:layout_height="70dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        android:layout_weight="2"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        android:src="@drawable/second_check"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                       />&ndash;&gt;-->
+                    <!--&lt;!&ndash;                    <ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        android:id="@+id/profile_image2"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        android:layout_width="100dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        android:layout_height="100dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        android:layout_weight="2"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        android:src="@drawable/second_check"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        />&ndash;&gt;-->
+                    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                        <!--android:id="@+id/profile_image2"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="3"-->
+                        <!--android:src="@drawable/second_check"-->
+                        <!--app:civ_border_color="@color/yellow"-->
+                        <!--app:civ_border_width="2dp" />-->
+
+
+                <!--</TableRow>-->
+
+
 
             </LinearLayout>
-
+            </ScrollView>
             <LinearLayout
                 android:id="@+id/resonLayout"
                 android:layout_width="match_parent"
@@ -574,59 +674,7 @@
 
             </LinearLayout>
 
-            <TableRow
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="5"
-                android:gravity="center"
-                android:visibility="invisible">
-
-                <TextView
-                    android:id="@+id/textFirstPinificry"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/left_background"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/firstbeneficiary"
-
-                    android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:visibility="invisible"
-                    app:autoSizeMaxTextSize="18sp"
-                    app:autoSizeMinTextSize="16sp"
-                    app:autoSizeStepGranularity="2sp"
-                    app:autoSizeTextType="uniform" />
-
-                <TextView
-                    android:id="@+id/textCo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/accept_background"
-
-                    android:ems="10"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="CO"
-                    android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:visibility="invisible"
-                    app:autoSizeMaxTextSize="18sp"
-                    app:autoSizeMinTextSize="16sp"
-                    app:autoSizeStepGranularity="2sp"
-                    app:autoSizeTextType="uniform" />
-
-
-            </TableRow>
 
 
             <LinearLayout
