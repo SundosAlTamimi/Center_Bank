@@ -560,7 +560,7 @@ void fillTheCheck(ChequeInfo chequeInfo){
     phoneNo.setText("" + chequeInfo.getToCustomerMobel());
     company.setText("" + chequeInfo.getCompanyName());
     notes.setText("" + chequeInfo.getNoteCheck());
-    fName.setText("" + chequeInfo.getCustName());
+    fName.setText("" + chequeInfo.getToCustName());
     sName.setText("" + chequeInfo.getToCustFName());
     tName.setText("" + chequeInfo.getToCustGName());
     fourthName.setText("" + chequeInfo.getToCustFamalyName());
