@@ -139,4 +139,6 @@
     <string name="national_less_than_10_digit">الرقم الوطني غير صحيح!</string>
     <string name="please_choose_gender">يرجى تحديد النوع!</string>
     <string name="please_choose_account_type">يرجى تحديد نوع الحساب!</string>
+
+    <string name="national_id">الرقم الوطني</string>
 </resources>
