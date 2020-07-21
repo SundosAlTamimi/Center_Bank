@@ -12,6 +12,10 @@
         <item>@string/gender</item>
         <item>@string/male</item>
         <item>@string/female</item>
+    </string-array>
 
+    <string-array name="document_type">
+        <item>@string/national_id</item>
+        <item>@string/passport</item>
     </string-array>
 </resources>

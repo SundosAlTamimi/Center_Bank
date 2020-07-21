@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
     <data>
+        <import type="android.view.View"/>
+        <variable
+            name="error"
+            type="String" />
+
         <variable
             name="loginModel"
             type="com.falconssoft.centerbank.viewmodel.SignupVM" />
@@ -138,33 +143,43 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/LogInUserName"
-                android:text="@{loginModel.username}"
+            <LinearLayout
+                android:id="@+id/login_phone_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:textCursorDrawable="@null"
-                android:background="@drawable/edit_bac_s"
-                android:hint="@string/phone_number"
-                android:inputType="phone"
-                android:drawablePadding="5dp"
-                android:padding="15dp"
-                android:fontFamily="serif"
-                android:singleLine="true"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp" />
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_s">
 
-<!--            <Spinner-->
-<!--                android:id="@+id/logInSpinner"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:visibility="visible"-->
-<!--                android:background="@color/white"-->
-<!--                android:layout_marginHorizontal="10dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                />-->
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/login_ccp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:gravity="center"
+                    app:ccp_contentColor="@color/white"
+                    app:ccp_defaultNameCode="JO"
+                    />
+
+                <EditText
+                    android:id="@+id/LogInUserName"
+                    android:text="@{loginModel.username}"
+                    app:seterrormessage="@{error}"
+                    android:layout_weight="1"
+                    android:hint="771122334"
+                    android:nextFocusDown="@id/signUp_address"
+                    android:inputType="phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textCursorDrawable="@null"
+                    android:drawablePadding="5dp"
+                    android:padding="15dp"
+                    android:fontFamily="serif"
+                    android:singleLine="true"
+                    android:textColor="@color/colorWhiteLight"
+                    android:textColorHint="@color/colorWhiteLight"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/login_search"
@@ -173,7 +188,7 @@
                 android:background="@color/white"
                 android:onClick="@{clickHandler::onClickSearchPhone}"
                 android:text="@{loginModel.searchPhone}"
-                android:layout_marginHorizontal="15dp"
+                android:layout_marginHorizontal="100dp"
                 android:paddingVertical="7dp"
                 android:paddingHorizontal="20dp"
                 android:layout_width="wrap_content"

@@ -36,7 +36,7 @@
     <string name="notes_optional">Notes (optional)</string>
     <string name="amount">$ amount</string>
     <string name="dinar">Dinar</string>
-    <string name="phils">Qirsh</string>
+    <string name="phils">Fils</string>
     <string name="amount_in_word">Amount in word</string>
     <string name="check_pic">Check Pic</string>
     <string name="send">Send</string>
@@ -143,6 +143,8 @@
 
     <string name="resend">ReSend</string>
     <string name="cashed">Cashed</string>
+
     <string name="national_id">National ID</string>
+    <string name="passport">Passport ID</string>
 
 </resources>
