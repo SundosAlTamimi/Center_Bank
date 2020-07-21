@@ -470,8 +470,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                                     chequeInfo.setMoneyInDinar(localDinar);
                                     chequeInfo.setMoneyInFils(localFils);
                                     chequeInfo.setMoneyInWord(localMoneyInWord);
-                                    chequeInfo.setRecieverMobileNo(localPhoneNo);
-                                    chequeInfo.setRecieverNationalID(localNationlNo);
+                                    chequeInfo.setToCustomerMobel(localPhoneNo);
+                                    chequeInfo.setToCustomerNationalId(localNationlNo);
                                     chequeInfo.setChequeImage(serverPic);
                                     chequeInfo.setUserName(phoneNo1);
                                     chequeInfo.setISCO(checkBox_C);
@@ -705,6 +705,7 @@ void fillTheCheck(ChequeInfo chequeInfo){
 
                     if(intentReSend!=null&&intentReSend.equals("ReSend")){
                         if (arr[0].equals(chequeInfoReSendEd.getChequeNo())) {
+                            Log.e("ReSend 708", "" + "JSONTask");
                             new JSONTask().execute();
                         } else {
                             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -720,11 +721,13 @@ void fillTheCheck(ChequeInfo chequeInfo){
                                             sDialog.dismissWithAnimation();
                                         }
                                     }).show();
+                            Log.e("SweetAlertDialog 724", "" + "JSONTask");
                         }
 
 
 
                     }else{
+                        Log.e("SweetAlertDialog 730", "" + "JSONTask");
                         new JSONTask().execute();
                     }
 
@@ -843,7 +846,10 @@ void fillTheCheck(ChequeInfo chequeInfo){
     }
 
     void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+        Log.e("VerifyCheck 849", "" + "JSONTask dialog");
         if (check) {
+            Log.e("VerifyCheck 851" , "JSONTask dialog in ");
+
             final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_after_validation);
@@ -881,6 +887,7 @@ void fillTheCheck(ChequeInfo chequeInfo){
             Window window = dialog.getWindow();
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         } else {
+            Log.e("VerifyCheck 890" , "JSONTask dialog in ");
             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("WARNING")
                     .setContentText("Invalidate cheque!")
@@ -1061,6 +1068,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
         try {
+            Log.e("VerifyCheck 1067", "" + "JSONTask");
 
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
@@ -1105,10 +1113,11 @@ private class JSONTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-
+        Log.e("VerifyCheck 1112", "" + "JSONTask"+s.toString());
         if (s != null) {
             if (s.contains("\"StatusDescreption\":\"OK\"")) {
                 Log.e("tag", "****Success");
+                Log.e("VerifyCheck 1116", "" + "JSONTask"+s.toString());
                 try {
                     JSONObject jsonObject = new JSONObject(s);
 
@@ -1313,6 +1322,8 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
+                Log.e("Edit_1494" , "JSONTask dialog in ");
+
                 String link =serverLink +"IsCheckPinding";
 
 //ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
@@ -1374,6 +1385,8 @@ private class JSONTask extends AsyncTask<String, String, String> {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e("editorChequeActivity/", "saved//" + s);
+            Log.e("Edit_1388" , "JSONTask dialog in "+ s.toString());
+
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
 //                    linerEditing.setVisibility(View.GONE);
@@ -1482,6 +1495,7 @@ private class JSONTask extends AsyncTask<String, String, String> {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
+                Log.e("IsCheckForThisAcc 1494" , "JSONTask dialog in ");
                 String link =serverLink +"IsCheckForThisAcc";
 
 //                ACCCODE=0014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390105&USERNO=0798899716
@@ -1545,6 +1559,8 @@ private class JSONTask extends AsyncTask<String, String, String> {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e("editorChequeActivity/", "saved//" + s);
+            Log.e("IsCheckForThisAcc 1558" , "JSONTask dialog in "+s.toString());
+
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
 
@@ -1583,7 +1599,20 @@ private class JSONTask extends AsyncTask<String, String, String> {
                     pushCheque.setEnabled(true);
 
 
-                }}else {
+                }else{
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.warning))
+                            .setContentText(EditerCheackActivity.this.getResources().getString(R.string.failtoSend)+s)
+                            .setCancelText(EditerCheackActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+
+                        }
+                    }).show();
+                    pushCheque.setEnabled(true);
+                }
+            }else {
                 Log.e("tag", "****Failed to export data");
                 new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.warning))

@@ -194,7 +194,7 @@
             android:layout_weight="1.7"
             android:layout_margin="5dp"
 
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/sendGiro"
@@ -203,6 +203,21 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/two_colors_frame"
                 android:text="@string/send"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:fontFamily="sans-serif-light"
+                android:drawableLeft="@drawable/ic_send_black_24dp"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/lostSteal"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:background="@drawable/two_colors_frame"
+                android:text="Lost OR Steal"
                 android:fontFamily="sans-serif-light"
                 android:drawableLeft="@drawable/ic_send_black_24dp"
                 android:textColor="@color/white" />

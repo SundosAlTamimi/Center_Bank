@@ -101,7 +101,7 @@ public class JeroActivity extends AppCompatActivity {
     Date currentTimeAndDate;
     SimpleDateFormat df;
     int flag1 = 0;
-    private ProgressDialog progressDialog;
+//    private ProgressDialog progressDialog;
     SweetAlertDialog pd;
     boolean isPermition;
 
@@ -141,8 +141,8 @@ public class JeroActivity extends AppCompatActivity {
         nationalNo = findViewById(R.id.editorCheque_nationalNo);
         scanBarcode = findViewById(R.id.scanBarcode);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please waiting...");
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setMessage("Please waiting...");
 
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
@@ -406,8 +406,8 @@ public class JeroActivity extends AppCompatActivity {
                                         chequeInfo.setMoneyInDinar(localDinar);
                                         chequeInfo.setMoneyInFils(localFils);
                                         chequeInfo.setMoneyInWord(localMoneyInWord);
-                                        chequeInfo.setRecieverMobileNo(localPhoneNo);
-                                        chequeInfo.setRecieverNationalID(localNationlNo);
+                                        chequeInfo.setToCustomerMobel(localPhoneNo);
+                                        chequeInfo.setToCustomerNationalId(localNationlNo);
                                         chequeInfo.setChequeImage(serverPic);
                                         chequeInfo.setUserName(phoneNo1);
                                         chequeInfo.setISCO(checkBox_C);
@@ -419,6 +419,8 @@ public class JeroActivity extends AppCompatActivity {
                                         chequeInfo.setToCustFamalyName(fourthName.getText().toString());
                                         chequeInfo.setNoteCheck(notes.getText().toString());
                                         Log.e("showpic", serverPic);
+
+                                        Log.e("jero_save", chequeInfo.getToCustomerMobel()+"  "+chequeInfo.getToCustomerNationalId());
 
                                         jsonObject = new JSONObject();
                                         jsonObject = chequeInfo.getJSONObject();
@@ -1184,7 +1186,7 @@ public class JeroActivity extends AppCompatActivity {
 
 //            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
 //            pd.setTitleText(context.getResources().getString(R.string.importstor));
-            progressDialog.show();
+//            progressDialog.show();
 
 
         }
@@ -1271,7 +1273,7 @@ public class JeroActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e("editorChequeActivity/", "saved//" + s);
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -1429,7 +1431,7 @@ public class JeroActivity extends AppCompatActivity {
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("Successful")
-                            .setContentText("Save Successful")
+                            .setContentText("Processing ... ")
                             .setConfirmText("Ok")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @SuppressLint("WrongConstant")
@@ -1452,10 +1454,21 @@ public class JeroActivity extends AppCompatActivity {
                         }
                     })
                             .show();
-                }else if(s != null && s.contains("\"StatusDescreption\":\"Error in Saving Check Temp\"")){//
+                }else if(s != null && s.contains("\"StatusCode\" : 4,\"StatusDescreption\":\"Error in Saving Check Temp.\"")){//
                     new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("WARNING")
                             .setContentText("Error in Saving Check Temp Giro!")
+                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    })
+                            .show();
+                }else{
+                    new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("WARNING")
+                            .setContentText("Error in Saving Giro "+s)
                             .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {

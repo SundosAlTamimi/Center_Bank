@@ -141,4 +141,5 @@
     <string name="please_choose_account_type">يرجى تحديد نوع الحساب!</string>
 
     <string name="national_id">الرقم الوطني</string>
+    <string name="notforYou">Accoount Not for you</string>
 </resources>
