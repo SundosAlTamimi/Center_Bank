@@ -27,13 +27,13 @@ public class CashierCheque extends AppCompatActivity {
     TextView AmouWord, Date;
     RadioButton radioButton_PER, radioButton_MASTER;
     LinearLayout toMasterLiner;
-    Spinner bankNameSpinner, bankNoSpinner;
+    Spinner bankNameSpinner, bankNoSpinner,relationSpinner;
     Date currentTimeAndDate;
     SimpleDateFormat df;
     String today;
-    List<String> bankName;
+    List<String> bankName,relationList;
     List<String> branchName;
-    ArrayAdapter<String> arrayAdapterBank,arrayAdapterBranch;
+    ArrayAdapter<String> arrayAdapterBank,arrayAdapterBranch,arrayAdapterRelation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +57,13 @@ public class CashierCheque extends AppCompatActivity {
         arrayAdapterBranch = new ArrayAdapter(this, R.layout.spinner_layout, branchName);
         arrayAdapterBranch.setDropDownViewResource(R.layout.spinner_drop_down_layout);
         bankNoSpinner.setAdapter(arrayAdapterBranch);
+
+        relationList.add(getResources().getString(R.string.consanguinity));
+        relationList.add(getResources().getString(R.string.Business));
+        relationList.add(getResources().getString(R.string.other));
+        arrayAdapterRelation= new ArrayAdapter(this, R.layout.spinner_layout, relationList);
+        arrayAdapterRelation.setDropDownViewResource(R.layout.spinner_drop_down_layout);
+        relationSpinner.setAdapter(arrayAdapterRelation);
 
 
         radioButton_PER.setOnClickListener(new View.OnClickListener() {
@@ -166,10 +173,12 @@ public class CashierCheque extends AppCompatActivity {
         toMasterLiner = findViewById(R.id.toMasterLiner);
         bankNameSpinner = findViewById(R.id.bankNameSpinner);
         bankNoSpinner = findViewById(R.id.bankNoSpinner);
+        relationSpinner= findViewById(R.id.relationSpinner);
         toMasterLiner.setVisibility(View.GONE);
 
         bankName=new ArrayList<>();
         branchName=new ArrayList<>();
+        relationList=new ArrayList<>();
 
 
         currentTimeAndDate = Calendar.getInstance().getTime();

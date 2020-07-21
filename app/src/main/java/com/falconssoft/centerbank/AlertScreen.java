@@ -279,6 +279,8 @@ public class AlertScreen extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try {
+                infoUser=databaseHandler.getActiveUserInfo();
+                phoneNo=infoUser.getUsername();
 
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
