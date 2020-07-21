@@ -113,7 +113,7 @@ public class LogInActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
         editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
-//        editor.putString("link", "http://10.0.0.16:8081/");
+//        editor.putString("link", "http://10.0.0.16:8082/");
         editor.putString("link", "http://falconssoft.net/ScanChecks/APIMethods.dll/");
         editor.apply();
         if (language.equals("ar")) {
@@ -598,12 +598,10 @@ public class LogInActivity extends AppCompatActivity {
 //            checkIfIsRemember();
 
             editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
-//            compareUser(user.getUsername());
-
             editor.putString("mobile", user.getUsername());
             editor.putString("password", user.getPassword());
             editor.putString("name", user.getFirstName());
-//            clearSharedCheck();
+
 //          editor.putString("link", "http://10.0.0.16:8081/");
             editor.apply();
 
@@ -615,6 +613,8 @@ public class LogInActivity extends AppCompatActivity {
             showSnackbar("Please check internet connection!", false);
 
     }
+
+
 
 
     void addSettingButton() {
@@ -1029,7 +1029,7 @@ public class LogInActivity extends AppCompatActivity {
 
                     showValidationDialog(false, "", "", "", "");
 
-                    Log.e("tag", "****Failed to export data");
+                    Log.e("tagLogIn", "****Failed to export data");
                 }
             } else {
                 Toast.makeText(LogInActivity.this, "Please check internet connection!", Toast.LENGTH_SHORT).show();

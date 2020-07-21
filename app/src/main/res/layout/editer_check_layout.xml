@@ -382,7 +382,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:drawableLeft="@drawable/ic_attach_money_black_24dp"
                             android:fontFamily="serif"
                             android:text="@string/amount"
                             android:textColor="@color/colorWhite"
@@ -509,19 +508,20 @@
 
                         <TextView
                             android:id="@+id/CheckPicText"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="serif"
                             android:text="@string/check_pic"
+android:layout_weight="1"
                             android:textColor="@color/colorWhite"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/CheckPic"
-                            android:layout_width="0dp"
+                            android:layout_width="100dp"
                             android:layout_height="50dp"
-                            android:layout_weight="2"
+                            android:background="@drawable/edit_bac_s"
                             android:src="@drawable/bank4"
                             app:civ_border_color="@color/colorWhiteLight"
                             app:civ_border_width="3dp" />

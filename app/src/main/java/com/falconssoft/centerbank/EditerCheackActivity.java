@@ -89,6 +89,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,6 +130,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     private Animation animation;
     private TableRow picRow;
     int flag = 0;
+    boolean validDate=false;
     CircleImageView CheckPic;
     static final int CAMERA_PIC_REQUEST = 1337;
     Date currentTimeAndDate;
@@ -269,7 +271,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 
     }
-
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     private void cameraIntent() {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -439,17 +441,25 @@ public class EditerCheackActivity extends AppCompatActivity {
                 String localPhoneNo = phoneNo.getText().toString();
 //                String localSender = sender.getText().toString();
 
-                String localReciever = "" + fName.getText().toString() + "sName" + sName.getText().toString() + "tName" + tName.getText().toString() + "fName" + fourthName.getText().toString();
+                String localReciever =""+ fName.getText().toString()+" "+sName.getText().toString()+" "+tName.getText().toString()+" "+fourthName.getText().toString();
                 String localDinar = Danier.getText().toString();
                 String localFils = "" + phails.getText().toString();
                 String localMoneyInWord = AmouWord.getText().toString();
                 String localDate = date.getText().toString();
+                try {
+                    validDate=false;
+                    validDate= compareDate(localDate);
+                    Log.e("validDate",""+validDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 if (!TextUtils.isEmpty(localNationlNo) && localNationlNo.length() == 10)
                     if (!TextUtils.isEmpty(localPhoneNo) && localPhoneNo.length() == 10)
                         if (!TextUtils.isEmpty(localReciever))
                             if (!TextUtils.isEmpty(localDate))
-                                if (!TextUtils.isEmpty(localDinar)) {
+                                if(validDate)
+                                  if (!TextUtils.isEmpty(localDinar)) {
                                     if (!TextUtils.isEmpty(serverPic)) {
                                         pushCheque.setEnabled(false);
                                         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
@@ -478,30 +488,34 @@ public class EditerCheackActivity extends AppCompatActivity {
                                             checkBox_Fb = "0";
                                         }
 
-                                        ChequeInfo chequeInfo = new ChequeInfo();
-                                        chequeInfo.setBankNo(BANKNO);
-                                        chequeInfo.setBankName("Jordan Bank");
-                                        chequeInfo.setBranchNo(BRANCHNO);
-                                        chequeInfo.setChequeNo(CHECKNO);
-                                        chequeInfo.setAccCode(ACCCODE);
-                                        chequeInfo.setIbanNo(IBANNO);
-                                        chequeInfo.setCustName(CUSTOMERNM);
-                                        chequeInfo.setQrCode(QRCODE);
-                                        chequeInfo.setSerialNo(SERIALNO);
-                                        chequeInfo.setChequeData(localDate);
-                                        chequeInfo.setToCustomerName(localReciever);
-                                        chequeInfo.setMoneyInDinar(localDinar);
-                                        chequeInfo.setMoneyInFils(localFils);
-                                        chequeInfo.setMoneyInWord(localMoneyInWord);
-                                        chequeInfo.setRecieverMobileNo(localPhoneNo);
-                                        chequeInfo.setRecieverNationalID(localNationlNo);
-                                        chequeInfo.setChequeImage(serverPic);
-                                        chequeInfo.setUserName(phoneNo1);
-                                        chequeInfo.setISCO(checkBox_C);
-                                        chequeInfo.setISBF(checkBox_Fb);
-                                        chequeInfo.setCompanyName(company.getText().toString());
-                                        chequeInfo.setNoteCheck(notes.getText().toString());
-                                        Log.e("showpic", serverPic);
+                                    ChequeInfo chequeInfo = new ChequeInfo();
+                                    chequeInfo.setBankNo(BANKNO);
+                                    chequeInfo.setBankName("Jordan Bank");
+                                    chequeInfo.setBranchNo(BRANCHNO);
+                                    chequeInfo.setChequeNo(CHECKNO);
+                                    chequeInfo.setAccCode(ACCCODE);
+                                    chequeInfo.setIbanNo(IBANNO);
+                                    chequeInfo.setCustName(CUSTOMERNM);
+                                    chequeInfo.setQrCode(QRCODE);
+                                    chequeInfo.setSerialNo(SERIALNO);
+                                    chequeInfo.setChequeData(localDate);
+                                    chequeInfo.setToCustomerName(localReciever);
+                                    chequeInfo.setMoneyInDinar(localDinar);
+                                    chequeInfo.setMoneyInFils(localFils);
+                                    chequeInfo.setMoneyInWord(localMoneyInWord);
+                                    chequeInfo.setToCustomerMobel(localPhoneNo);
+                                    chequeInfo.setToCustomerNationalId(localNationlNo);
+                                    chequeInfo.setChequeImage(serverPic);
+                                    chequeInfo.setUserName(phoneNo1);
+                                    chequeInfo.setISCO(checkBox_C);
+                                    chequeInfo.setISBF(checkBox_Fb);
+                                    chequeInfo.setCompanyName(company.getText().toString());
+                                    chequeInfo.setToCustName(fName.getText().toString());
+                                    chequeInfo.setToCustFName(sName.getText().toString());
+                                    chequeInfo.setToCustGName(tName.getText().toString());
+                                    chequeInfo.setToCustFamalyName(fourthName.getText().toString());
+                                    chequeInfo.setNoteCheck(notes.getText().toString());
+                                    Log.e("showpic", serverPic);
 
                                         jsonObject = new JSONObject();
                                         jsonObject = chequeInfo.getJSONObject();
@@ -536,6 +550,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                                 } else {
                                     Danier.setError("Required!");
                                 }
+                                 else {
+                                     date.setError("Not valid Date");}
                             else {
                                 date.setError("Required!");
                             }
@@ -555,32 +571,48 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         });
 
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(EditerCheackActivity.this, openDatePickerDialog(date), myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+        date.setOnClickListener(new View.OnClickListener()
 
+    {
+        @Override
+        public void onClick (View v){
+        // TODO Auto-generated method stub
+        new DatePickerDialog(EditerCheackActivity.this, openDatePickerDialog(date), myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
+    });
+        validDate=true;
 
-    void fillTheCheck(ChequeInfo chequeInfo) {
+}
+
+    private boolean compareDate(String chequeDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+
+        currentTimeAndDate = Calendar.getInstance().getTime();
+        df = new SimpleDateFormat("dd/MM/yyyy");
+        today = df.format(currentTimeAndDate);
+
+
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+
+}
+
+void fillTheCheck(ChequeInfo chequeInfo){
 //if(chequeInfo.getChequeNo().equals()) {
-        Danier.setText("" + chequeInfo.getMoneyInDinar());
-        phails.setText("" + chequeInfo.getMoneyInFils());
-        AmouWord.setText("" + chequeInfo.getMoneyInWord());
-        nationalNo.setText("" + chequeInfo.getToCustomerNationalId());
-        phoneNo.setText("" + chequeInfo.getToCustomerMobel());
-        company.setText("" + chequeInfo.getCompanyName());
-        notes.setText("" + chequeInfo.getNoteCheck());
-        fName.setText("" + chequeInfo.getToCustomerName().substring(0, chequeInfo.getToCustomerName().indexOf("sName")));
-        sName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("sName") + 5, chequeInfo.getToCustomerName().indexOf("tName")));
-        tName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("tName") + 5, chequeInfo.getToCustomerName().indexOf("fName")));
-        fourthName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("fName") + 5));
-        date.setText("" + chequeInfo.getCheckDueDate());
+    Danier.setText("" + chequeInfo.getMoneyInDinar());
+    phails.setText("" + chequeInfo.getMoneyInFils());
+    AmouWord.setText("" + chequeInfo.getMoneyInWord());
+    nationalNo.setText("" + chequeInfo.getToCustomerNationalId());
+    phoneNo.setText("" + chequeInfo.getToCustomerMobel());
+    company.setText("" + chequeInfo.getCompanyName());
+    notes.setText("" + chequeInfo.getNoteCheck());
+    fName.setText("" + chequeInfo.getToCustomerName().substring(0,chequeInfo.getToCustomerName().indexOf("sName")));
+    sName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("sName")+5,chequeInfo.getToCustomerName().indexOf("tName")));
+    tName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("tName")+5,chequeInfo.getToCustomerName().indexOf("fName")));
+    fourthName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("fName")+5));
+date.setText("" + chequeInfo.getCheckDueDate());
 
         if (chequeInfo.getISCO().equals("1")) {
             checkBox_CO.setChecked(true);
@@ -611,13 +643,13 @@ public class EditerCheackActivity extends AppCompatActivity {
 //            reciever.setCompoundDrawablesWithIntrinsicBounds(null, null
 //                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null);
             date.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null);
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_date_range_black_24dp), null);
             company.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_https_black_24dp), null);
             notes.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_date_range_black_24dp), null);
-            amountTV.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_attach_money_black_24dp), null);
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null);
+//            amountTV.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_attach_money_black_24dp), null);
             date.setGravity(Gravity.RIGHT);
             haveAProblem.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             picRow.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -632,14 +664,14 @@ public class EditerCheackActivity extends AppCompatActivity {
                     , null, null);
 //            reciever.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null
 //                    , null, null);
-            date.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null
+            date.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_date_range_black_24dp), null
                     , null, null);
             company.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_https_black_24dp), null
                     , null, null);
-            notes.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_date_range_black_24dp), null
+            notes.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null
                     , null, null);
-            amountTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_attach_money_black_24dp), null
-                    , null, null);
+//            amountTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_attach_money_black_24dp), null
+//                    , null, null);
             date.setGravity(Gravity.LEFT);
             haveAProblem.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
             picRow.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
@@ -721,6 +753,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                     if (intentReSend != null && intentReSend.equals("ReSend")) {
                         if (arr[0].equals(chequeInfoReSendEd.getChequeNo())) {
+                            Log.e("ReSend 708", "" + "JSONTask");
                             new JSONTask().execute();
                         } else {
                             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -736,10 +769,13 @@ public class EditerCheackActivity extends AppCompatActivity {
                                             sDialog.dismissWithAnimation();
                                         }
                                     }).show();
+                            Log.e("SweetAlertDialog 724", "" + "JSONTask");
                         }
 
 
-                    } else {
+
+                    }else{
+                        Log.e("SweetAlertDialog 730", "" + "JSONTask");
                         new JSONTask().execute();
                     }
 
@@ -854,8 +890,11 @@ public class EditerCheackActivity extends AppCompatActivity {
     }
 
     void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+        Log.e("VerifyCheck 849", "" + "JSONTask dialog");
         if (check) {
-            final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
+            Log.e("VerifyCheck 851" , "JSONTask dialog in ");
+
+            final Dialog dialog = new Dialog(this,R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_after_validation);
             dialog.setCancelable(false);
@@ -892,6 +931,7 @@ public class EditerCheackActivity extends AppCompatActivity {
             Window window = dialog.getWindow();
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         } else {
+            Log.e("VerifyCheck 890" , "JSONTask dialog in ");
             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("WARNING")
                     .setContentText("Invalidate cheque!")
@@ -933,8 +973,9 @@ public class EditerCheackActivity extends AppCompatActivity {
     private void updateLabel(TextView editText) {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String dateSelected=sdf.format(myCalendar.getTime());
 
-        editText.setText(sdf.format(myCalendar.getTime()));
+        editText.setText(dateSelected);
 
     }
 
@@ -1066,9 +1107,10 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         }
 
-        @Override
-        protected String doInBackground(String... params) {
-            try {
+    @Override
+    protected String doInBackground(String... params) {
+        try {
+            Log.e("VerifyCheck 1067", "" + "JSONTask");
 
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
@@ -1110,15 +1152,16 @@ public class EditerCheackActivity extends AppCompatActivity {
             }
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            if (s != null) {
-                if (s.contains("\"StatusDescreption\":\"OK\"")) {
-                    Log.e("tag", "****Success");
-                    try {
-                        JSONObject jsonObject = new JSONObject(s);
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        Log.e("VerifyCheck 1112", "" + "JSONTask"+s.toString());
+        if (s != null) {
+            if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                Log.e("tag", "****Success");
+                Log.e("VerifyCheck 1116", "" + "JSONTask"+s.toString());
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
 
 
                         CHECKNO = jsonObject.get("CHECKNO").toString();
@@ -1212,7 +1255,9 @@ public class EditerCheackActivity extends AppCompatActivity {
                 httpURLConnection.disconnect();
 
                 Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
-                Log.e("tag", "dataSave  -->" + data);
+                Log.e("jsonObject.toString()", "save -->" + jsonObject.toString());
+
+                Log.e("tag", "dataSave  -->" +data);
 
                 return stringBuffer.toString();
 
@@ -1243,32 +1288,38 @@ public class EditerCheackActivity extends AppCompatActivity {
                     pd.dismissWithAnimation();
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
-                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText("Saved")
-                            .setContentText("Processing")
-                            .setConfirmText("Ok")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    SweetAlertDialog sweet=new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                    sweet .setTitleText("Successful");
+                    sweet .setContentText("Save Successful");
+                    sweet .setCanceledOnTouchOutside(false);
+                    sweet .setConfirmText("Ok");
+                    sweet .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @SuppressLint("WrongConstant")
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     finish();
                                     sDialog.dismissWithAnimation();
                                 }
-                            }).show();
+                            });
+                    sweet.show();
                     pushCheque.setEnabled(true);
                 } else {
                     Log.e("tag", "****Failed to export data");
-                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("WARNING")
-                            .setContentText("Fail to send!")
-                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
 
+                    SweetAlertDialog sweet=new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
+                    sweet .setTitleText("WARNING");
+                    sweet .setContentText("Fail to send!"+JsonResponse.toString());
+                    sweet .setCanceledOnTouchOutside(false);
+                    sweet .setConfirmText("Close");
+                    sweet .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @SuppressLint("WrongConstant")
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
                         }
-                    })
-                            .show();
+                    });
+                    sweet.show();
+
                     pd.dismissWithAnimation();
 
                     pushCheque.setEnabled(true);
@@ -1313,15 +1364,17 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
-                String link = serverLink + "IsCheckPinding";
+                Log.e("Edit_1494" , "JSONTask dialog in ");
+
+                String link =serverLink +"IsCheckPinding";
 
 //ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
                 String data = "ACCCODE=" + URLEncoder.encode(ACCCODE, "UTF-8") + "&"
-                        + "IBANNO=" + URLEncoder.encode(IBANNO, "UTF-8") + "&"
-                        + "SERIALNO=" + URLEncoder.encode(SERIALNO, "UTF-8") + "&"
-                        + "BANKNO=" + URLEncoder.encode(BANKNO, "UTF-8") + "&"
-                        + "BRANCHNO=" + URLEncoder.encode(BRANCHNO, "UTF-8") + "&"
-                        + "CHECKNO=" + URLEncoder.encode(CHECKNO, "UTF-8");
+                        +"IBANNO=" + URLEncoder.encode(IBANNO, "UTF-8") + "&"
+                        +"SERIALNO=" + URLEncoder.encode(SERIALNO, "UTF-8") + "&"
+                        +"BANKNO=" + URLEncoder.encode(BANKNO, "UTF-8") + "&"
+                        +"BRANCHNO=" + URLEncoder.encode(BRANCHNO, "UTF-8") + "&"
+                        +"CHECKNO=" + URLEncoder.encode(CHECKNO, "UTF-8");
 //
                 URL url = new URL(link);
 
@@ -1374,6 +1427,8 @@ public class EditerCheackActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e("editorChequeActivity/", "saved//" + s);
+            Log.e("Edit_1388" , "JSONTask dialog in "+ s.toString());
+
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
 //                    linerEditing.setVisibility(View.GONE);
@@ -1482,7 +1537,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
-                String link = serverLink + "IsCheckForThisAcc";
+                Log.e("IsCheckForThisAcc 1494" , "JSONTask dialog in ");
+                String link =serverLink +"IsCheckForThisAcc";
 
 //                ACCCODE=0014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390105&USERNO=0798899716
 
@@ -1545,6 +1601,8 @@ public class EditerCheackActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e("editorChequeActivity/", "saved//" + s);
+            Log.e("IsCheckForThisAcc 1558" , "JSONTask dialog in "+s.toString());
+
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
 
@@ -1582,8 +1640,20 @@ public class EditerCheackActivity extends AppCompatActivity {
                     pushCheque.setEnabled(true);
 
 
+                }else{
+                    new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.warning))
+                            .setContentText(EditerCheackActivity.this.getResources().getString(R.string.failtoSend)+s)
+                            .setCancelText(EditerCheackActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+
+                        }
+                    }).show();
+                    pushCheque.setEnabled(true);
                 }
-            } else {
+            }else {
                 Log.e("tag", "****Failed to export data");
                 new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.warning))
@@ -2013,6 +2083,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                     if (!foundIn) {
 
+                        Log.e("chequeGiro 2010","not giro"+JsonResponse.toString());
 
                     } else {
                         new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)

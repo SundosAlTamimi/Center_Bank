@@ -116,6 +116,7 @@ public class AlertScreen extends AppCompatActivity {
     public ArrayList<notification> notifiList;
     public static ChequeInfo chequeInfoReSendAlert;
 
+    LoginINFO infoUser;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
@@ -145,8 +146,10 @@ public class AlertScreen extends AppCompatActivity {
 
         editor = sharedPreferences.edit();
         editor.clear();// just for test
-        phoneNo = loginPrefs.getString("mobile", "");
-
+//        phoneNo = loginPrefs.getString("mobile", "");
+        infoUser=databaseHandler.getActiveUserInfo();
+        phoneNo=infoUser.getUsername();
+        Log.e("phoneNoAlertScreen",""+phoneNo);
         progressDialog.show();
         progressDialog.setMessage("Loading...");
         new GetAllCheck_JSONTask().execute();
@@ -159,7 +162,7 @@ public class AlertScreen extends AppCompatActivity {
 
             }
 
-        }, 0, 10000);
+        }, 0, 3000);
 
 
         swipeRefresh = findViewById(R.id.swipeRefresh);
@@ -276,6 +279,8 @@ public class AlertScreen extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try {
+                infoUser=databaseHandler.getActiveUserInfo();
+                phoneNo=infoUser.getUsername();
 
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
@@ -396,6 +401,12 @@ public class AlertScreen extends AppCompatActivity {
                                 chequeInfo.setCompanyName(infoDetail.getString("COMPANY"));
                                 chequeInfo.setResonOfreject(infoDetail.getString("RJCTREASON"));
 
+                                //CUSTNAME":"","CUSTFNAME":"","CUSTGNAME":"","CUSTFAMNAME":
+
+                                chequeInfo.setToCustName(infoDetail.getString("CUSTNAME"));
+                                chequeInfo.setToCustFName(infoDetail.getString("CUSTFNAME"));
+                                chequeInfo.setToCustGName(infoDetail.getString("CUSTGNAME"));
+                                chequeInfo.setToCustFamalyName(infoDetail.getString("CUSTFAMNAME"));
 
                                 chequeInfo.setTransSendOrGero(infoDetail.getString("TRANSTYPE"));
                                 Log.e("setTransSendOrGero",""+chequeInfo.getTransSendOrGero());
@@ -418,13 +429,15 @@ public class AlertScreen extends AppCompatActivity {
                             fillListNotification(notificationArrayList);
 
                         }
+                        Set<String> set_tow = new HashSet<String>();
+                        set_tow.addAll(arrayListRow);
 
 
-                        Set<String> set = sharedPreferences.getStringSet("DATE_LIST", null);
+                        Set<String> set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
 
                         if (set != null) {
 //
-                            set = sharedPreferences.getStringSet("DATE_LIST", null);
+                            set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
                             arrayListRowFirst.addAll(set);
 
                             int countFirst = arrayListRowFirst.size();
@@ -465,7 +478,7 @@ public class AlertScreen extends AppCompatActivity {
                                 } else {
                                     if (arrayListRow.size() == countFirst)// equal size
                                     {
-                                        Log.e("arrayListRow", "== hereeee");
+                                        Log.e("arrayListRowAlert", "== hereeee");
 
                                         for (int h = 0; h < arrayListRow.size(); h++) {
                                             int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
@@ -507,8 +520,7 @@ public class AlertScreen extends AppCompatActivity {
                         }
 
 
-                        Set<String> set_tow = new HashSet<String>();
-                        set_tow.addAll(arrayListRow);
+
                         editor = sharedPreferences.edit();
                         editor.putStringSet("DATE_LIST", set_tow);
                         editor.apply();

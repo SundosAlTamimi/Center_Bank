@@ -434,6 +434,14 @@ public class LogHistoryActivity extends AppCompatActivity {
                         obj.setISCO(finalObject.getString("ISCO"));
                         obj.setCompanyName(finalObject.getString("COMPANY"));
                         obj.setNoteCheck(finalObject.getString("NOTE"));
+
+                        //CUSTNAME":"","CUSTFNAME":"","CUSTGNAME":"","CUSTFAMNAME":
+
+                        obj.setToCustName(finalObject.getString("CUSTNAME"));
+                        obj.setToCustFName(finalObject.getString("CUSTFNAME"));
+                        obj.setToCustGName(finalObject.getString("CUSTGNAME"));
+                        obj.setToCustFamalyName(finalObject.getString("CUSTFAMNAME"));
+
                         obj.setISOpen("0");
                         ChequeInfoLogHistoryMain.add(obj);
                     }

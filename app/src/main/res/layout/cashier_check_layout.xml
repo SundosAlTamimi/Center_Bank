@@ -362,6 +362,37 @@
                         app:autoSizeMinTextSize="12sp"
                         app:autoSizeStepGranularity="2sp"
                         app:autoSizeTextType="uniform" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+                        android:orientation="horizontal"
+                        android:padding="3dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:fontFamily="sans-serif-light"
+                            android:padding="2dp"
+                            android:text="@string/relation"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="16sp"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="15sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform"
+                            app:fontFamily="sans-serif-smallcaps" />
+
+                        <Spinner
+                            android:id="@+id/relationSpinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="3dp"
+                            android:padding="2dp" />
+                    </LinearLayout>
 
                     <EditText
                         android:id="@+id/cashier_customerName"

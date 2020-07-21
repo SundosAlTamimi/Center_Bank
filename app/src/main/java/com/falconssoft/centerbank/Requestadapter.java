@@ -187,7 +187,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
              loginPrefs = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-            mobileNo = loginPrefs.getString("mobile", "");
+//            mobileNo = loginPrefs.getString("mobile", "");
             cust_name = itemView.findViewById(R.id.cust_name);
             amount_check = itemView.findViewById(R.id.amount_check);
             date_check = itemView.findViewById(R.id.dat_check);
@@ -373,19 +373,6 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 
     }
 
-    private String getFullName(String toCustomerName) {
-        String first,second,third,fourth,full;
-        int indexSecond=toCustomerName.indexOf("sName");
-        first=toCustomerName.substring(0,indexSecond);
-        int indexTherd=toCustomerName.indexOf("tName");
-        second=toCustomerName.substring(indexSecond+5,indexTherd);
-        int indexFourth=toCustomerName.indexOf("fName");
-        third=toCustomerName.substring(indexTherd+5,indexFourth);
-        fourth=toCustomerName.substring(indexFourth+5);
-        Log.e("full",""+first+"\t"+second+"\t"+third+"\t"+fourth);
-        return full=first+"\t"+second+"\t"+third+"\t"+fourth;
-
-    }
 
 
     private void updateCheckState() {

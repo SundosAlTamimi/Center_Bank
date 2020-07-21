@@ -112,6 +112,7 @@ public class RequestCheque extends AppCompatActivity {
     FloatingActionButton floa_add;
     public  String WHICH="0";
     private ProgressDialog progressDialog;
+    LoginINFO infoUser;
     public  static   String language="", serverLink="http://falconssoft.net/ScanChecks/APIMethods.dll/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +145,9 @@ public class RequestCheque extends AppCompatActivity {
 
         editor = sharedPreferences.edit();
         editor.clear();// just for test
-        phoneNo = loginPrefs.getString("mobile", "");
+
+        infoUser=databaseHandler.getActiveUserInfo();
+        phoneNo=infoUser.getUsername();
 
         progressDialog.show();
         progressDialog.setMessage("Loading...");

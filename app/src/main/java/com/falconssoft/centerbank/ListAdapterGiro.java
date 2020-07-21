@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -74,7 +75,7 @@ public class ListAdapterGiro extends BaseAdapter {
         TextView name, transType, date, detail, from, to, TranseType, bankName, AmountJd, AmountWord, branchNo, cheqNo, chequNo;//, price
 //CircleImageView status;
 
-        Button send;
+        Button send,lostSteal;
 
 
     }
@@ -101,6 +102,8 @@ public class ListAdapterGiro extends BaseAdapter {
         holder.AmountWord = view.findViewById(R.id.AmountWord);
         holder.branchNo = view.findViewById(R.id.branchNo);
         holder.send = view.findViewById(R.id.sendGiro);
+        holder.lostSteal= view.findViewById(R.id.lostSteal);
+
         String TStatus = "";
         checkLanguage(holder);
         if(itemsList.get(i).getTransType().equals("2")){
@@ -123,11 +126,11 @@ public class ListAdapterGiro extends BaseAdapter {
         holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+"  " + TStatus);
         holder.chequNo.setText(itemsList.get(i).getChequeNo());
 
-        holder.name.setText("" +getFullName(itemsList.get(i).getCustName()));
+        holder.name.setText("" +itemsList.get(i).getCustName());
 //        holder.transType.setText("" + itemsList.get(i).getTransType());
         holder.date.setText(itemsList.get(i).getCheckDueDate());
-        holder.from.setText(context.getResources().getString(R.string.chWriter)+"  "  + getFullName(itemsList.get(i).getCustName()));
-        holder.to.setText(context.getResources().getString(R.string.chBf) +"  " + getFullName(itemsList.get(i).getToCustomerName()) );
+        holder.from.setText(context.getResources().getString(R.string.chWriter)+"  "  + itemsList.get(i).getCustName());
+        holder.to.setText(context.getResources().getString(R.string.chBf) +"  " + itemsList.get(i).getToCustomerName());
         holder.bankName.setText(context.getResources().getString(R.string.bank_name) +"  " +  itemsList.get(i).getBankName());
         holder.AmountJd.setText(context.getResources().getString(R.string.amount) + "  :  " + itemsList.get(i).getMoneyInDinar() + "." + itemsList.get(i).getMoneyInFils() + " JD");
         holder.AmountWord.setText("(" + itemsList.get(i).getMoneyInWord() + ")");
@@ -171,6 +174,16 @@ public class ListAdapterGiro extends BaseAdapter {
                 context.checkIfBending();
 //                holder.send.setEnabled(false);
 
+
+            }
+        });
+
+
+        holder.lostSteal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(context, "lost/stealing", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -240,28 +253,6 @@ public class ListAdapterGiro extends BaseAdapter {
 
     }
 
-    private String getFullName(String toCustomerName) {
-        try {
-            String first, second, third, fourth, full;
-            int indexSecond = toCustomerName.indexOf("sName");
-            first = toCustomerName.substring(0, indexSecond);
-            int indexTherd = toCustomerName.indexOf("tName");
-            second = toCustomerName.substring(indexSecond + 5, indexTherd);
-            int indexFourth = toCustomerName.indexOf("fName");
-            third = toCustomerName.substring(indexTherd + 5, indexFourth);
-            fourth = toCustomerName.substring(indexFourth + 5);
-            Log.e("full", "" + first + "\t" + second + "\t" + third + "\t" + fourth);
-            if(isProbablyArabic(first)){
-                return full = fourth + "\t" + third + "\t" + second + "\t" + first;
-
-            }else{
-                return full = first + "\t" + second + "\t" + third + "\t" + fourth;
-            }
-        }catch (Exception e){
-            return toCustomerName;
-        }
-
-    }
     public static boolean isProbablyArabic(String s) {
         for (int i = 0; i < s.length();) {
             int c = s.codePointAt(i);

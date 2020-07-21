@@ -47,6 +47,7 @@ import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.falconssoft.centerbank.Models.ChequeInfo;
+import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.NewAccount;
 import com.falconssoft.centerbank.Models.notification;
 import com.falconssoft.centerbank.Models.requestModel;
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String LOGIN_FLAG = "LOGIN_FLAG";
     public  static  TextView  notification_btn,button_request;
     RelativeLayout notifyLayout,requestLayout;
-
+    LoginINFO infoUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,9 +152,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         username = loginPrefs.getString("name", "");
         serverLink = loginPrefs.getString("link", "");
 
-        Log.e("editing,main ", language);
+
         init();
-        phoneNo = loginPrefs.getString("mobile", "");
+//        phoneNo = loginPrefs.getString("mobile", "");
+        infoUser=dbHandler.getActiveUserInfo();
+        phoneNo=infoUser.getUsername();
+        Log.e("editingmain ", phoneNo);
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -1231,6 +1235,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setTitleText(MainActivity.this.getResources().getString(R.string.cantSave))
                         .setContentText(MainActivity.this.getResources().getString(R.string.error_in_save))
                         .show();
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"This user not own this account.")) {
+                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("WARNING")
+                        .setContentText(MainActivity.this.getResources().getString(R.string.notforYou))//This user not own this account.
+                        .show();
             }
 
         }
@@ -1346,6 +1355,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected String doInBackground(String... params) {
             try {
+                infoUser=dbHandler.getActiveUserInfo();
+                phoneNo=infoUser.getUsername();
 
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
@@ -1357,6 +1368,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 nameValuePairs.add(new BasicNameValuePair("ACCCODE", "0"));
 
                 nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));// test
+                Log.e("editingmain ", phoneNo);
                 nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
@@ -1596,11 +1608,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    INFO
 //                    Log.e("tag", "****Success" + s.toString());
                 } else {
-                    Log.e("tag", "****Failed to export data");
+                    Log.e("tagMain", "****Failed to export data"+s.toString());
                 }
             } else {
 
-                Log.e("tag", "****Failed to export data Please check internet connection");
+                Log.e("tagMain", "****Failed to export data Please check internet connection");
             }
         }
     }
@@ -1765,7 +1777,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 } else {
                     showSweetDialog(false, "", "", "");
-                    Log.e("tag", "****Failed to export data");
+                    Log.e("tagtagMainJSONTask", "****Failed to export data");
                 }
             } else {
                 showSweetDialog(false, "", "", "");
@@ -1786,7 +1798,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         protected String doInBackground(String... params) {
             try {
               String  WHICH="0";// to user
-
+                infoUser=dbHandler.getActiveUserInfo();
+                phoneNo=infoUser.getUsername();
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
@@ -1795,6 +1808,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("MOBILENO", phoneNo));
+                Log.e("editingmain ", phoneNo);
 
                 nameValuePairs.add(new BasicNameValuePair("WHICH", "0"));// to me witch=1
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
@@ -1815,7 +1829,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 in.close();
 
                 JsonResponse = sb.toString();
-//                Log.e("tagGetRequest", "" + JsonResponse);
+                Log.e("tagGetRequest", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -1996,7 +2010,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    INFO
                     Log.e("tag", "****Success"+s.toString());
                 } else {
-                    Log.e("tag", "****Failed to export data");
+                    Log.e("tagRequest", "****Failed to export data"+s.toString());
                 }
             }
             else {
@@ -2018,7 +2032,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             try {
                 Log.e("flagMaindoInBackground","");
                String WHICH="1";
-
+                infoUser=dbHandler.getActiveUserInfo();
+                phoneNo=infoUser.getUsername();
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
@@ -2027,6 +2042,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("MOBILENO", phoneNo));
+                Log.e("editingmain ", phoneNo);
 
                 nameValuePairs.add(new BasicNameValuePair("WHICH", WHICH));// to me witch=1
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
@@ -2229,7 +2245,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    INFO
 //                    Log.e("tag", "****Success" + s.toString());
                 } else {
-                    Log.e("tag", "****Failed to export data");
+                    Log.e("tagFromUser", "****Failed to export data");
                 }
             }
             else {
