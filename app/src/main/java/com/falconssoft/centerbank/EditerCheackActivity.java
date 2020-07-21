@@ -89,6 +89,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,6 +130,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     private Animation animation;
     private TableRow picRow;
     int flag = 0;
+    boolean validDate=false;
     CircleImageView CheckPic;
     static final int CAMERA_PIC_REQUEST = 1337;
     Date currentTimeAndDate;
@@ -268,7 +270,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 
     }
-
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     private void cameraIntent() {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -421,12 +423,20 @@ public class EditerCheackActivity extends AppCompatActivity {
                 String localFils = "" + phails.getText().toString();
                 String localMoneyInWord = AmouWord.getText().toString();
                 String localDate = date.getText().toString();
+                try {
+                    validDate=false;
+                    validDate= compareDate(localDate);
+                    Log.e("validDate",""+validDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 if (!TextUtils.isEmpty(localNationlNo) && localNationlNo.length() == 10)
                     if (!TextUtils.isEmpty(localPhoneNo) && localPhoneNo.length() == 10)
                         if (!TextUtils.isEmpty(localReciever))
                             if (!TextUtils.isEmpty(localDate))
-                                if (!TextUtils.isEmpty(localDinar)) {
+                                if(validDate)
+                                  if (!TextUtils.isEmpty(localDinar)) {
                                     if (!TextUtils.isEmpty(serverPic)) {
                                         pushCheque.setEnabled(false);
                                     SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
@@ -517,6 +527,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                                 } else {
                                     Danier.setError("Required!");
                                 }
+                                 else {
+                                     date.setError("Not valid Date");}
                             else {
                                 date.setError("Required!");
                             }
@@ -547,10 +559,39 @@ public class EditerCheackActivity extends AppCompatActivity {
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
     });
+        validDate=true;
 
 }
 
-@SuppressLint("SetTextI18n")
+    private boolean compareDate(String chequeDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+
+        currentTimeAndDate = Calendar.getInstance().getTime();
+        df = new SimpleDateFormat("dd/MM/yyyy");
+        today = df.format(currentTimeAndDate);
+
+
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+
+        Date date1 = dateFormat.parse(chequeDate);
+
+        Date dateToday = dateFormat.parse(today);
+        calendar1.setTime(dateToday);
+        calendar2.setTime(date1);
+        calendar1.add(Calendar.YEAR, 5);
+        calendar1.add(Calendar.MONTH, 1);
+        if( calendar2.compareTo(calendar1) ==1)
+        {
+            return  false;
+        }
+        else {
+            return  true;
+        }
+
+    }
+
+    @SuppressLint("SetTextI18n")
 void fillTheCheck(ChequeInfo chequeInfo){
 //if(chequeInfo.getChequeNo().equals()) {
     Danier.setText("" + chequeInfo.getMoneyInDinar());
@@ -595,13 +636,13 @@ void fillTheCheck(ChequeInfo chequeInfo){
 //            reciever.setCompoundDrawablesWithIntrinsicBounds(null, null
 //                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null);
             date.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null);
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_date_range_black_24dp), null);
             company.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_https_black_24dp), null);
             notes.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_date_range_black_24dp), null);
-            amountTV.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_attach_money_black_24dp), null);
+                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null);
+//            amountTV.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_attach_money_black_24dp), null);
             date.setGravity(Gravity.RIGHT);
             haveAProblem.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             picRow.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -616,14 +657,14 @@ void fillTheCheck(ChequeInfo chequeInfo){
                     , null, null);
 //            reciever.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null
 //                    , null, null);
-            date.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null
+            date.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_date_range_black_24dp), null
                     , null, null);
             company.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_https_black_24dp), null
                     , null, null);
-            notes.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_date_range_black_24dp), null
+            notes.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_email_black_24dp), null
                     , null, null);
-            amountTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_attach_money_black_24dp), null
-                    , null, null);
+//            amountTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_attach_money_black_24dp), null
+//                    , null, null);
             date.setGravity(Gravity.LEFT);
             haveAProblem.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
             picRow.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
@@ -922,8 +963,9 @@ void fillTheCheck(ChequeInfo chequeInfo){
     private void updateLabel(TextView editText) {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String dateSelected=sdf.format(myCalendar.getTime());
 
-        editText.setText(sdf.format(myCalendar.getTime()));
+        editText.setText(dateSelected);
 
     }
 

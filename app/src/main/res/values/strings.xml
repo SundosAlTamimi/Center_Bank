@@ -34,7 +34,7 @@
     <string name="order_to">Order To</string>
     <string name="company_optional">Company (optional)</string>
     <string name="notes_optional">Notes (optional)</string>
-    <string name="amount">$ amount</string>
+    <string name="amount">JD amount</string>
     <string name="dinar">Dinar</string>
     <string name="phils">Qirsh</string>
     <string name="amount_in_word">Amount in word</string>
@@ -144,5 +144,10 @@
     <string name="resend">ReSend</string>
     <string name="cashed">Cashed</string>
     <string name="national_id">National ID</string>
+    <string name="gerocheque">Gero cheque</string>
+    <string name="relation">The Relation</string>
+    <string name="consanguinity">Consanguinity</string>
+    <string name="Business">Business</string>
+    <string name="other">Other</string>
 
 </resources>

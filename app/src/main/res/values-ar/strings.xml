@@ -141,4 +141,9 @@
     <string name="please_choose_account_type">يرجى تحديد نوع الحساب!</string>
 
     <string name="national_id">الرقم الوطني</string>
+    <string name="gerocheque">شيك محول</string>
+    <string name="relation">العلاقة</string>
+    <string name="consanguinity">قرابة</string>
+    <string name="Business">أعمال</string>
+    <string name="other">أخرى</string>
 </resources>
