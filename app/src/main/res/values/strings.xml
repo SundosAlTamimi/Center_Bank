@@ -150,5 +150,14 @@
     <string name="Business">Business</string>
     <string name="other">Other</string>
     <string name="notforYou">Accoount Not for you</string>
+    <string name="customer_no">Customer No</string>
+    <string name="branch_no">Branch No</string>
+    <string name="currency">Currency</string>
+    <string name="se_no">Se.No</string>
+    <string name="check_">check</string>
+    <string name="with_a_discount_from_our_account_you_have_a_number">With a discount from our account,you have a number:</string>
+    <string name="us_personally">Us personally</string>
+    <string name="to_the_master">To the master</string>
+    <string name="branch_name">Branch Name :</string>
 
 </resources>
