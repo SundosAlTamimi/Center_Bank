@@ -462,6 +462,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     checkState = "1";
+                                    progressDialog.setMessage("Processing...");
+                                    progressDialog.show();
                                     updateCheckState();
                                     dialog.dismiss();
                                     sDialog.dismissWithAnimation();
@@ -770,7 +772,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
                 JsonResponse = sb.toString();
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

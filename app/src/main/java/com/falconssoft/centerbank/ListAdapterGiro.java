@@ -132,7 +132,7 @@ public class ListAdapterGiro extends BaseAdapter {
         holder.from.setText(context.getResources().getString(R.string.chWriter)+"  "  + itemsList.get(i).getCustName());
         holder.to.setText(context.getResources().getString(R.string.chBf) +"  " + itemsList.get(i).getToCustomerName());
         holder.bankName.setText(context.getResources().getString(R.string.bank_name) +"  " +  itemsList.get(i).getBankName());
-        holder.AmountJd.setText(context.getResources().getString(R.string.amount) + "  :  " + itemsList.get(i).getMoneyInDinar() + "." + itemsList.get(i).getMoneyInFils() + " JD");
+        holder.AmountJd.setText(context.getResources().getString(R.string.amount_word) + "  :  " + itemsList.get(i).getMoneyInDinar() + "." + itemsList.get(i).getMoneyInFils() + " JD");
         holder.AmountWord.setText("(" + itemsList.get(i).getMoneyInWord() + ")");
         holder.cheqNo.setText(context.getResources().getString(R.string.cheque_no) +"  " + itemsList.get(i).getChequeNo() + "");
 
@@ -213,11 +213,11 @@ public class ListAdapterGiro extends BaseAdapter {
             holder.to.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(context, R.drawable.ic_date_range_black_24dp), null);
             holder.bankName.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null);
-            holder.AmountJd.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null);
+                    , ContextCompat.getDrawable(context, R.drawable.ic_account_balance_black_24dp), null);
+//            holder.AmountJd.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null);
             holder.AmountWord.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null);
+                    , ContextCompat.getDrawable(context, R.drawable.ic_notes), null);
             holder.branchNo.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(context, R.drawable.ic_account_circle_black_24dp), null);
 
@@ -234,14 +234,14 @@ public class ListAdapterGiro extends BaseAdapter {
                     , null, null);
             holder.to.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_date_range_black_24dp), null
                     , null, null);
-            holder.bankName.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null
+            holder.bankName.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_account_balance_black_24dp), null
                     , null, null);
+//
+//            holder.AmountJd.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null
+//                    , null, null);
+//
 
-            holder.AmountJd.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null
-                    , null, null);
-
-
-            holder.AmountWord.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null
+            holder.AmountWord.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_notes), null
                     , null, null);
 
 

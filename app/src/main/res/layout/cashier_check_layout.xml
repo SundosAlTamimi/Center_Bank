@@ -60,7 +60,8 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/edit_bac_s"
                     android:orientation="vertical"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    >
 
                     <TextView
                         android:layout_width="match_parent"
@@ -126,7 +127,7 @@
                             android:layout_margin="6dp"
                             android:fontFamily="sans-serif-light"
                             android:padding="2dp"
-                            android:text="Branch Name :"
+                            android:text="@string/branch_name"
                             android:textColor="@color/colorWhite"
                             android:textSize="16sp"
                             app:autoSizeMaxTextSize="16sp"
@@ -190,7 +191,7 @@
                         android:textColor="@color/colorWhiteLight"
                         android:textColorHint="@color/colorWhiteLight"
                         android:textCursorDrawable="@null"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         app:autoSizeMaxTextSize="20sp"
                         app:autoSizeMinTextSize="12sp"
                         app:autoSizeStepGranularity="2sp"
@@ -239,7 +240,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
                             android:fontFamily="serif"
-                            android:hint="@string/second_name"
+                            android:hint="@string/first_name"
                             android:nextFocusDown="@id/signUp_third_name"
                             android:padding="10dp"
                             android:singleLine="true"
@@ -394,28 +395,28 @@
                             android:padding="2dp" />
                     </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/cashier_customerName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:drawableLeft="@drawable/ic_person"
-                        android:drawablePadding="5dp"
-                        android:fontFamily="serif"
-                        android:hint="@string/customer_name"
-                        android:nextFocusDown="@id/signUp_email"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/colorWhiteLight"
-                        android:textColorHint="@color/colorWhiteLight"
-                        android:textCursorDrawable="@null"
-                        android:textSize="14sp"
-                        app:autoSizeMaxTextSize="20sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
+                    <!--<EditText-->
+                        <!--android:id="@+id/cashier_customerName"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="5dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:background="@drawable/edit_bac_s"-->
+                        <!--android:drawableLeft="@drawable/ic_person"-->
+                        <!--android:drawablePadding="5dp"-->
+                        <!--android:fontFamily="serif"-->
+                        <!--android:hint="@string/customer_name"-->
+                        <!--android:nextFocusDown="@id/signUp_email"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:textColor="@color/colorWhiteLight"-->
+                        <!--android:textColorHint="@color/colorWhiteLight"-->
+                        <!--android:textCursorDrawable="@null"-->
+                        <!--android:textSize="14sp"-->
+                        <!--app:autoSizeMaxTextSize="20sp"-->
+                        <!--app:autoSizeMinTextSize="12sp"-->
+                        <!--app:autoSizeStepGranularity="2sp"-->
+                        <!--app:autoSizeTextType="uniform" />-->
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -423,14 +424,14 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/edit_bac_s"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
 
                         <TextView
                             android:id="@+id/editorCheque_amountTV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:drawableLeft="@drawable/ic_attach_money_black_24dp"
                             android:fontFamily="serif"
                             android:text="@string/amount"
                             android:textColor="@color/colorWhite"
@@ -527,7 +528,7 @@
                             android:fontFamily="sans-serif-light"
                             android:padding="5dp"
 
-                            android:text="With a discount from our account,you have a number:"
+                            android:text="@string/with_a_discount_from_our_account_you_have_a_number"
                             android:textColor="@color/colorWhite"
                             android:textSize="18sp"
                             app:autoSizeMaxTextSize="18sp"
@@ -552,14 +553,14 @@
 
                                 <TextView
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_weight="1"
                                     android:backgroundTint="@color/white"
                                     android:drawablePadding="10dp"
                                     android:fontFamily="sans-serif-light"
                                     android:gravity="center"
                                     android:padding="3dp"
-                                    android:text="Branch No "
+                                    android:text="@string/branch_no"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="15sp"
                                     app:autoSizeMaxTextSize="18sp"
@@ -579,22 +580,23 @@
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_margin="5dp"
                                     android:layout_weight="1"
                                     android:orientation="horizontal">
 
                                     <EditText
                                         android:id="@+id/cashier_BN1"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -608,17 +610,18 @@
                                     <EditText
                                         android:id="@+id/cashier_BN2"
 
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -631,17 +634,18 @@
                                     <EditText
                                         android:id="@+id/cashier_BN3"
 
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -665,14 +669,14 @@
 
                                 <TextView
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_weight="1"
                                     android:backgroundTint="@color/white"
                                     android:drawablePadding="10dp"
                                     android:fontFamily="sans-serif-light"
                                     android:gravity="center"
                                     android:padding="3dp"
-                                    android:text="Currency"
+                                    android:text="@string/currency"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="14sp"
                                     app:autoSizeMaxTextSize="18sp"
@@ -692,7 +696,7 @@
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_margin="5dp"
                                     android:layout_weight="1"
                                     android:orientation="horizontal">
@@ -700,15 +704,16 @@
                                     <EditText
                                         android:id="@+id/cashier_CUR1"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -722,17 +727,18 @@
                                     <EditText
                                         android:id="@+id/cashier_CUR2"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -745,17 +751,18 @@
                                     <EditText
                                         android:id="@+id/cashier_CUR3"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -779,14 +786,14 @@
 
                                 <TextView
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_weight="1"
                                     android:backgroundTint="@color/white"
                                     android:drawablePadding="10dp"
                                     android:fontFamily="sans-serif-light"
                                     android:gravity="center"
                                     android:padding="3dp"
-                                    android:text="Account Type"
+                                    android:text="@string/account_type"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="15sp"
                                     app:autoSizeMaxTextSize="18sp"
@@ -806,7 +813,7 @@
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_margin="5dp"
                                     android:layout_weight="1"
                                     android:orientation="horizontal">
@@ -814,15 +821,16 @@
                                     <EditText
                                         android:id="@+id/cashier_ACC1"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -836,17 +844,18 @@
                                     <EditText
                                         android:id="@+id/cashier_ACC2"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -859,17 +868,18 @@
                                     <EditText
                                         android:id="@+id/cashier_ACC3"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -909,7 +919,7 @@
                                     android:fontFamily="sans-serif-light"
                                     android:gravity="center"
                                     android:padding="3dp"
-                                    android:text="Customer No "
+                                    android:text="@string/customer_no"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="15sp"
                                     app:autoSizeMaxTextSize="18sp"
@@ -937,15 +947,16 @@
                                     <EditText
                                         android:id="@+id/cashier_CUS1"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -959,17 +970,18 @@
                                     <EditText
                                         android:id="@+id/cashier_CUS2"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -982,17 +994,18 @@
                                     <EditText
                                         android:id="@+id/cashier_CUS3"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -1005,17 +1018,18 @@
                                     <EditText
                                         android:id="@+id/cashier_CUS4"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -1028,17 +1042,18 @@
                                     <EditText
                                         android:id="@+id/cashier_CUS5"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -1051,17 +1066,18 @@
                                     <EditText
                                         android:id="@+id/cashier_CUS6"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -1097,7 +1113,7 @@
                                         android:fontFamily="sans-serif-light"
                                         android:gravity="center"
                                         android:padding="3dp"
-                                        android:text="Se.No"
+                                        android:text="@string/se_no"
                                         android:textColor="@color/colorWhite"
                                         android:textSize="14sp"
                                         app:autoSizeMaxTextSize="18sp"
@@ -1108,16 +1124,16 @@
 
                                     <TextView
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="2"
                                         android:backgroundTint="@color/white"
                                         android:drawablePadding="10dp"
                                         android:fontFamily="sans-serif-light"
                                         android:gravity="center"
                                         android:padding="3dp"
-                                        android:text="check"
+                                        android:text="@string/check_"
                                         android:textColor="@color/colorWhite"
-                                        android:textSize="15sp"
+                                        android:textSize="12sp"
                                         app:autoSizeMaxTextSize="15sp"
                                         app:autoSizeMinTextSize="10sp"
                                         app:autoSizeStepGranularity="2sp"
@@ -1137,7 +1153,7 @@
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_margin="5dp"
                                     android:layout_weight="1"
                                     android:orientation="horizontal">
@@ -1145,15 +1161,16 @@
                                     <EditText
                                         android:id="@+id/cashier_SE1"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1167,17 +1184,18 @@
                                     <EditText
                                         android:id="@+id/cashier_SE2"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
-
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
                                         android:textCursorDrawable="@null"
@@ -1190,15 +1208,16 @@
                                     <EditText
                                         android:id="@+id/cashier_CH1"
 
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="2dp"
                                         android:layout_weight="1"
                                         android:background="@drawable/edit_bac_s_cut"
                                         android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
                                         android:maxLength="1"
                                         android:nextFocusDown="@id/signUp_second_name"
-                                        android:padding="10dp"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1355,7 +1374,8 @@
                             android:id="@+id/radioButton_PER"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Us personally"
+                            android:text="@string/us_personally"
+                            android:checked="true"
 
                             android:textColor="@color/colorWhite"
                             android:textSize="14sp"
@@ -1365,7 +1385,7 @@
                             android:id="@+id/radioButton_MASTER"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="To the master"
+                            android:text="@string/to_the_master"
 
                             android:textColor="@color/colorWhite"
                             android:textSize="14sp"
@@ -1514,7 +1534,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/signUp_save"
+                android:id="@+id/cashierCheck_send"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
