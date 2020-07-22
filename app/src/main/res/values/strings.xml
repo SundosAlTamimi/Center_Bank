@@ -35,6 +35,7 @@
     <string name="company_optional">Company (optional)</string>
     <string name="notes_optional">Notes (optional)</string>
     <string name="amount">JD amount</string>
+    <string name="amount_word">Amount</string>
     <string name="dinar">Dinar</string>
     <string name="phils">Fils</string>
     <string name="amount_in_word">Amount in word</string>

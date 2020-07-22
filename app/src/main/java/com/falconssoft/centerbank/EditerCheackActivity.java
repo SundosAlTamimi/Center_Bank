@@ -191,8 +191,8 @@ public class EditerCheackActivity extends AppCompatActivity {
         today = df.format(currentTimeAndDate);
         date.setText(convertToEnglish(today));
 
-        linerEditing.setVisibility(View.VISIBLE);
-        linerBarcode.setVisibility(View.GONE);
+        linerEditing.setVisibility(View.GONE);
+        linerBarcode.setVisibility(View.VISIBLE);
         scanBarcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
