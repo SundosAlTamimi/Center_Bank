@@ -80,13 +80,15 @@ public class LogInActivity extends AppCompatActivity {
 
     //    private EditText userName, password;
 //    private Button singIn, singUp;
-    public String language = "";
+    private String language = "";
     private ImageView SettingImage, close;//, seen;
     private DatabaseHandler databaseHandler;
     private Animation animation;
     public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
     public static final String LOGIN_INFO = "LOGIN_INFO";
     private String[] array;
+    private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = ""
+            , serialNo = "", bankNo = "", branchNo = "", countryCode = "962";
     private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "", countryCode = "962";
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
     private Dialog barcodeDialog;
@@ -94,7 +96,7 @@ public class LogInActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
     private LinearLayout coordinatorLayout;
-    boolean flag = false;
+    private boolean flag = false;
     private LinearLayout phoneLinear, emailLinear, passwordLinear;
     private LogInBinding binding;
     private SignupVM signupVM = new SignupVM();
@@ -465,8 +467,10 @@ public class LogInActivity extends AppCompatActivity {
         }
 
         public void onClickSearchPhone(View view) {
-            binding.LogInUserName.setText(binding.loginSearch.getText().toString());
+            String splitString = binding.loginSearch.getText().toString().substring(binding.loginSearch.getText().toString().length() - 9);
+            binding.LogInUserName.setText(splitString);
             binding.LogInPassword.setText(databaseHandler.getUserInfo(binding.loginSearch.getText().toString()).getPassword());
+//            Log.e("split",binding.loginSearch.getText().toString().substring(binding.loginSearch.getText().toString().length() - 9));
             binding.loginRememberMe.setChecked(true);
             binding.loginSearch.setVisibility(View.GONE);
 
