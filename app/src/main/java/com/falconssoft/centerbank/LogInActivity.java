@@ -113,8 +113,6 @@ public class LogInActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
         editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
-//        editor.putString("link", "http://10.0.0.16:8082/");
-        editor.putString("link", "http://falconssoft.net/ScanChecks/APIMethods.dll/");
         editor.putString("link", "http://10.0.0.16:8082/");
 //        editor.putString("link", "http://falconssoft.net/ScanChecks/APIMethods.dll/");
         editor.apply();
@@ -131,7 +129,6 @@ public class LogInActivity extends AppCompatActivity {
         init();
 //        databaseHandler.deleteLoginInfo();
 
-//        checkIfIsRemember();
         buttonsClickHandler = new ButtonsClickHandler(this);
         binding.setClickHandler(buttonsClickHandler);
 
@@ -616,9 +613,6 @@ public class LogInActivity extends AppCompatActivity {
             showSnackbar("Please check internet connection!", false);
 
     }
-
-
-
 
     void addSettingButton() {
         final Dialog dialog = new Dialog(LogInActivity.this, R.style.Theme_Dialog);

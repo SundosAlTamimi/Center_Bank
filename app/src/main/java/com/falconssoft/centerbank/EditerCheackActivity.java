@@ -36,12 +36,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -159,8 +162,11 @@ public class EditerCheackActivity extends AppCompatActivity {
     SweetAlertDialog pd;
     boolean isPermition;
     ChequeInfo chequeInfoReSendEd;
-    private String currencyLanguage = "en", amountWord;
+    private String currencyLanguage = "En", amountWord;
     private NumberToArabic numberToArabic;
+    private Spinner spinner;
+    private ArrayAdapter arrayAdapter;
+    private ArrayList<String> arrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,8 +191,8 @@ public class EditerCheackActivity extends AppCompatActivity {
         today = df.format(currentTimeAndDate);
         date.setText(convertToEnglish(today));
 
-        linerEditing.setVisibility(View.GONE);
-        linerBarcode.setVisibility(View.VISIBLE);
+        linerEditing.setVisibility(View.VISIBLE);
+        linerBarcode.setVisibility(View.GONE);
         scanBarcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -303,7 +309,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String amount = "", amount2 = "";
-            if (currencyLanguage.equals("en")) {
+            if (currencyLanguage.equals("En")) {
                 TafqeetEnglish tafqeetEnglish = new TafqeetEnglish();
 
                 if (!Danier.getText().toString().equals("")) {
@@ -323,7 +329,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                 }
 
                 AmouWord.setText(amountWord);
-            } else {
+            } else if (currencyLanguage.equals("ع")){
 
                 if (!Danier.getText().toString().equals("")) {
 
@@ -351,7 +357,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 
             if (phails.getText().toString().equals("") && Danier.getText().toString().equals("")) {
-                AmouWord.setText(amountWord + "");
+                AmouWord.setText("");
             }
 
 
@@ -377,6 +383,24 @@ public class EditerCheackActivity extends AppCompatActivity {
         rowDate = findViewById(R.id.rowDate);
         amountTV = findViewById(R.id.editorCheque_amountTV);
         amountTV = findViewById(R.id.editorCheque_amountTV);
+        spinner = findViewById(R.id.editorCheque_amount_lang);
+
+        arrayList.add("En");
+        arrayList.add("ع");
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, arrayList);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
+        spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                currencyLanguage = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         progressDialog = new ProgressDialog(this);
         progressDialog = new ProgressDialog(this);
