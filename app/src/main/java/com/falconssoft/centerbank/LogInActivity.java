@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 
 import com.falconssoft.centerbank.Models.LoginINFO;
@@ -48,6 +49,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.hbb20.CountryCodePicker;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -85,10 +87,10 @@ public class LogInActivity extends AppCompatActivity {
     public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
     public static final String LOGIN_INFO = "LOGIN_INFO";
     private String[] array;
-    private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "";
+    private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "", countryCode = "+962";
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
     private Dialog barcodeDialog;
-    private SharedPreferences.Editor editor,edit;
+    private SharedPreferences.Editor editor, edit;
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
     private LinearLayout coordinatorLayout;
@@ -127,7 +129,6 @@ public class LogInActivity extends AppCompatActivity {
         init();
 //        databaseHandler.deleteLoginInfo();
 
-//        checkIfIsRemember();
         buttonsClickHandler = new ButtonsClickHandler(this);
         binding.setClickHandler(buttonsClickHandler);
 
@@ -177,12 +178,11 @@ public class LogInActivity extends AppCompatActivity {
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
-        binding.LogInUserName.startAnimation(animation);//userName
+        binding.loginPhoneLinear.startAnimation(animation);//userName
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
         passwordLinear.startAnimation(animation);
-
 
         binding.LogInUserName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -193,23 +193,29 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 //                checkIfIsRemember(String.valueOf(charSequence));
-                Log.e("tracking", String.valueOf(charSequence));
-                if (!TextUtils.isEmpty(String.valueOf(charSequence)) && String.valueOf(charSequence).length() > 2) {
-                    if (!TextUtils.isEmpty(databaseHandler.getLoginInfo(String.valueOf(charSequence)).getUsername()))
+//                Log.e("tracking", countryCode + charSequence);
+                if (!TextUtils.isEmpty(String.valueOf(charSequence)) && String.valueOf(charSequence).length() > 1) {
+                    if (!TextUtils.isEmpty(databaseHandler.getLoginInfo(countryCode + charSequence).getUsername())) {
                         binding.loginSearch.setVisibility(View.VISIBLE);
-                    binding.loginSearch.setText(databaseHandler.getLoginInfo(String.valueOf(charSequence)).getUsername());
+                        binding.loginSearch.setText(databaseHandler.getLoginInfo(countryCode + charSequence).getUsername());
+                    }
                 } else {
                     binding.loginSearch.setVisibility(View.GONE);
                     binding.loginSearch.setText("");
                 }
 
-
-//                signupVM.setSearchPhone(databaseHandler.getLoginInfo(String.valueOf(charSequence)).getUsername());
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        binding.loginCcp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected() {
+                countryCode = binding.loginCcp.getSelectedCountryCode();
+
             }
         });
 
@@ -226,31 +232,31 @@ public class LogInActivity extends AppCompatActivity {
         }
 
         public void onClickLogin(View view) {
-//            Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
-            if (!TextUtils.isEmpty(binding.LogInUserName.getText()))//userName.getText().toString()))
-                if (binding.LogInUserName.length() == 10)//userName.length() == 10)
-                    if (!TextUtils.isEmpty(binding.LogInPassword.getText())) {//password.getText().toString())) {
+            Toast.makeText(context, signupVM.getUsername(), Toast.LENGTH_SHORT).show();
+            if (!TextUtils.isEmpty(binding.LogInUserName.getText().toString()))//userName.getText().toString()))// if (signupVM.getUsername().length() == 10)//userName.length() == 10)
+                if (!TextUtils.isEmpty(binding.LogInPassword.getText().toString())) {//password.getText().toString())) {
 //                            userName.setError(null);
 //                            password.setError(null);
-                        binding.LogInUserName.setError(null);
-                        binding.LogInPassword.setError(null);
+//                        binding.LogInUserName.setError(null);
+//                        binding.LogInPassword.setError(null);
+                    binding.setError(null);
 
-                        LoginINFO user = new LoginINFO();
-                        user.setUsername(binding.LogInUserName.getText().toString());//userName.getText().toString());
-                        user.setPassword(binding.LogInPassword.getText().toString());//password.getText().toString());
-                        user.setIsRemember(checkedRemember);
-                        Log.e("fromlogin", user.getUsername() + checkedRemember);
-                        user.setIsNowActive(0);
-                        showDialog();
-                        new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
-                    } else {
-                        binding.LogInPassword.setError("Required!");//password
-                    }
-                else {
-                    binding.LogInUserName.setError("Phone number not correct!");//userName
+                    LoginINFO user = new LoginINFO();
+                    user.setUsername(binding.LogInUserName.getText().toString());
+                    user.setPassword(binding.LogInPassword.getText().toString());
+                    user.setIsRemember(checkedRemember);
+                    Log.e("fromlogin", user.getUsername() + "******************" + user.getPassword());
+                    user.setIsNowActive(0);
+                    showDialog();
+                    new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
+                } else {
+                    binding.setError("Required!");
                 }
+//                else {
+//                    binding.setError("Phone number not correct!!");
+//                }
             else {
-                binding.LogInUserName.setError("Required!");//userName
+                binding.setError("Required!");
             }
         }
 
@@ -464,6 +470,12 @@ public class LogInActivity extends AppCompatActivity {
             binding.loginRememberMe.setChecked(true);
             binding.loginSearch.setVisibility(View.GONE);
 
+            Toast.makeText(context, binding.LogInUserName.getText().toString(), Toast.LENGTH_SHORT).show();
+
+//            signupVM.setUsername(signupVM.getSearchPhone());
+//            signupVM.setPassword(databaseHandler.getUserInfo(signupVM.getSearchPhone()).getPassword());
+//            binding.loginRememberMe.setChecked(true);
+//            binding.loginSearch.setVisibility(View.GONE);
         }
 
         @Override
@@ -602,9 +614,6 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
-
-
-
     void addSettingButton() {
         final Dialog dialog = new Dialog(LogInActivity.this, R.style.Theme_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -693,6 +702,7 @@ public class LogInActivity extends AppCompatActivity {
 
         if (language.equals("ar")) {
 //            binding.LogInUserName.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+//            binding.loginPhoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             binding.LogInPassword.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
 
             LinearLayout.LayoutParams checkBoxParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -704,6 +714,8 @@ public class LogInActivity extends AppCompatActivity {
 //            password.setCompoundDrawablesWithIntrinsicBounds(null, null
 //                    , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_https_black_24dp), null);
         } else {
+
+//            binding.loginPhoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 //            userName.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_person_black_24dp), null
 //                    , null, null);
 //            password.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_https_black_24dp), null

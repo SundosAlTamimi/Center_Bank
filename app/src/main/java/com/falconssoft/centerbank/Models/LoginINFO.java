@@ -17,9 +17,18 @@ public class LoginINFO {
     private  String indate;
     private  int isRemember;
     private  int isNowActive;
+    private  String personalDocType;// 0 => national ID, 1 => passport
 
 
     public LoginINFO() {
+    }
+
+    public String getPersonalDocType() {
+        return personalDocType;
+    }
+
+    public void setPersonalDocType(String personalDocType) {
+        this.personalDocType = personalDocType;
     }
 
     public int getIsNowActive() {

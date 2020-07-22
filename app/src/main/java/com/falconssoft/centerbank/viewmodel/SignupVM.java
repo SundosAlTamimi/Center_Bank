@@ -2,7 +2,10 @@ package com.falconssoft.centerbank.viewmodel;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
 
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.ObservableField;
 
 import java.util.Objects;
@@ -24,17 +27,6 @@ public class SignupVM {
     private String email;
     private String password;
     private String searchPhone;
-
-    public ObservableField<String> text = new ObservableField<>();
-
-//    public TextWatcher watcher = new TextWatcherAdapter() {
-//        @Override public void afterTextChanged(Editable s) {
-//            if (!Objects.equals(text.get(), s.toString())) {
-//                text.set(s.toString());
-//            }
-//        }
-//    };
-
 
     public String getSearchPhone() {
         return searchPhone;

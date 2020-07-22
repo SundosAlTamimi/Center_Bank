@@ -406,6 +406,7 @@ public class JeroActivity extends AppCompatActivity {
                                         chequeInfo.setMoneyInDinar(localDinar);
                                         chequeInfo.setMoneyInFils(localFils);
                                         chequeInfo.setMoneyInWord(localMoneyInWord);
+                                        Log.e("setToCustomerMobel",""+localPhoneNo);
                                         chequeInfo.setToCustomerMobel(localPhoneNo);
                                         chequeInfo.setToCustomerNationalId(localNationlNo);
                                         chequeInfo.setChequeImage(serverPic);
