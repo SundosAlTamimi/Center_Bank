@@ -33,7 +33,7 @@
     <string name="notes_optional">ملاحظه (اختياري)</string>
     <string name="amount">$المبلغ</string>
     <string name="dinar">دينار</string>
-    <string name="phils">قرش</string>
+    <string name="phils">فلس</string>
     <string name="amount_in_word">المبلغ بالكلمات</string>
     <string name="check_pic">صورة الشيك</string>
     <string name="send">ارسال</string>
@@ -92,7 +92,7 @@
     <string name="signout">خروج</string>
     <string name="profile">الملف الشخصي</string>
     <string name="giro">جيرو</string>
-    <string name="cashier_cheque">Cashier Cheque</string>
+    <string name="cashier_cheque">شيك مدير</string>
     <string name="handovew">Please hand it over :</string>
     <string name="thisusernotcheq">This user not has this check.</string>
     <string name="cheq_acc">*** CHEQUE ACCOUNT ***</string>
@@ -146,4 +146,7 @@
     <string name="consanguinity">قرابة</string>
     <string name="Business">أعمال</string>
     <string name="other">أخرى</string>
+    <string name="notforYou">Accoount Not for you</string>
+    <string name="passport">رقم جواز السفر</string>
+
 </resources>

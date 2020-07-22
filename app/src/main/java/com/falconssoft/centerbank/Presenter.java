@@ -35,9 +35,10 @@ class Presenter {
     private TrackingCheque trackingCheque;
     private ActivityTrackingChequeBinding trackingChequeBinding;
     String URL = "http://falconssoft.net/ScanChecks/APIMethods.dll/";
+    String URLLocal = "http://10.0.0.16:8082/";
 
     private JsonObjectRequest signUpRequest;
-    private String urlSignUp = URL + "RegisterUser?INFO=";
+    private String urlSignUp = URLLocal + "RegisterUser?INFO=";
 
     private JsonObjectRequest loginRequest;
     private String urlLogin = URL + "CheckUser?USERMOB=";
@@ -273,6 +274,8 @@ class Presenter {
             jsonObject.put("ADDRESS", loginINFO.getAddress());
             jsonObject.put("EMIAL", loginINFO.getEmail());
             jsonObject.put("PASSWORD", loginINFO.getPassword());
+            jsonObject.put("PASSKIND", loginINFO.getPersonalDocType());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

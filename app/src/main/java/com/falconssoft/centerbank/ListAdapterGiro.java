@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -74,7 +75,7 @@ public class ListAdapterGiro extends BaseAdapter {
         TextView name, transType, date, detail, from, to, TranseType, bankName, AmountJd, AmountWord, branchNo, cheqNo, chequNo;//, price
 //CircleImageView status;
 
-        Button send;
+        Button send,lostSteal;
 
 
     }
@@ -101,6 +102,8 @@ public class ListAdapterGiro extends BaseAdapter {
         holder.AmountWord = view.findViewById(R.id.AmountWord);
         holder.branchNo = view.findViewById(R.id.branchNo);
         holder.send = view.findViewById(R.id.sendGiro);
+        holder.lostSteal= view.findViewById(R.id.lostSteal);
+
         String TStatus = "";
         checkLanguage(holder);
         if(itemsList.get(i).getTransType().equals("2")){
@@ -171,6 +174,16 @@ public class ListAdapterGiro extends BaseAdapter {
                 context.checkIfBending();
 //                holder.send.setEnabled(false);
 
+
+            }
+        });
+
+
+        holder.lostSteal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(context, "lost/stealing", Toast.LENGTH_SHORT).show();
 
             }
         });

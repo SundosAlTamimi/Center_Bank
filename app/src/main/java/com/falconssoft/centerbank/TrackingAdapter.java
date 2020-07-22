@@ -21,10 +21,12 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
 
     private List<ChequeInfoVM> list;
     private Activity activity;
+    private String language;
 
-    public TrackingAdapter(Activity activity, List<ChequeInfoVM> list) {
+    public TrackingAdapter(Activity activity, List<ChequeInfoVM> list, String language) {
         this.list = list;
         this.activity = activity;
+        this.language = language;
     }
 
     @NonNull
@@ -48,25 +50,9 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
 //        holder.chequeNo.setText("Cheque No: " + list.get(position).getChequeNo());
 //        holder.accountNo.setText("Account No: " + list.get(position).getAccCode());
 
-//        if (position % 2 == 0) {
-//            holder.date.setTextColor(Color.parseColor("#D5A000"));
-//            holder.beneficiary.setTextColor(Color.parseColor("#D5A000"));
-//            holder.nationalNo.setTextColor(Color.parseColor("#D5A000"));
-//            holder.phone.setTextColor(Color.parseColor("#D5A000"));
-//            holder.transactionType.setTextColor(Color.parseColor("#D5A000"));
-//            holder.status.setTextColor(Color.parseColor("#D5A000"));
-//        } else {
-//            holder.date.setTextColor(Color.WHITE);
-//            holder.beneficiary.setTextColor(Color.WHITE);
-//            holder.nationalNo.setTextColor(Color.WHITE);
-//            holder.phone.setTextColor(Color.WHITE);
-//            holder.transactionType.setTextColor(Color.WHITE);
-//            holder.status.setTextColor(Color.WHITE);
-//        }
-
         holder.date.setText(list.get(position).getCheckDueDate());
         holder.beneficiary.setText(list.get(position).getReceiverName());
-        holder.nationalNo.setText(list.get(position).getReceiverNationalID());
+//        holder.nationalNo.setText(list.get(position).getReceiverNationalID());
         holder.phone.setText(list.get(position).getReceiverMobileNo());
         if (!TextUtils.isEmpty(list.get(position).getTransType()))
             if (list.get(position).getTransType().equals("0"))
@@ -90,14 +76,21 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
 
             }
         });
-//        Log.e("showallinfo", list.get(position).getCheckDueDate()
-//                + list.get(position).getReceiverName()
-//                + list.get(position).getReceiverNationalID()
-//                + list.get(position).getReceiverMobileNo()
-//                + list.get(position).getTransType()
-//                + list.get(position).getStatus()
 
-//        );
+        if (language.equals("ar")) {
+            holder.dateLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            holder.transTypeLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//            holder.nationalLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            holder.phoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            holder.beneficiaryLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        } else {
+            holder.dateLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            holder.transTypeLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+//            holder.nationalLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            holder.phoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            holder.beneficiaryLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
 
     }
 
@@ -107,8 +100,8 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
     }
 
     class TrackingViewHolder extends RecyclerView.ViewHolder {
-        TextView chequeNo, date, beneficiary, nationalNo, phone, transactionType;//, status, accountNo;
-        LinearLayout trackingLinear;
+        TextView chequeNo, date, beneficiary, phone, transactionType;//, nationalNo, status, accountNo;
+        LinearLayout trackingLinear, dateLinear, beneficiaryLinear, phoneLinear, transTypeLinear;//, nationalLinear
 
 //        ListItemBinding binding;
 //
@@ -130,9 +123,16 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
             trackingLinear = itemView.findViewById(R.id.tracking_raw_linear);
             date = itemView.findViewById(R.id.tracking_raw_date);
             beneficiary = itemView.findViewById(R.id.tracking_raw_beneficiary);
-            nationalNo = itemView.findViewById(R.id.tracking_raw_nationalID);
+//            nationalNo = itemView.findViewById(R.id.tracking_raw_nationalID);
             phone = itemView.findViewById(R.id.tracking_raw_phone);
             transactionType = itemView.findViewById(R.id.tracking_raw_transactionType);
+
+            dateLinear = itemView.findViewById(R.id.tracking_raw_linear_date);
+            beneficiaryLinear = itemView.findViewById(R.id.tracking_raw_linear_beneficiary);
+            phoneLinear = itemView.findViewById(R.id.tracking_raw_linear_phone);
+//            nationalLinear = itemView.findViewById(R.id.tracking_raw_linear_national);
+            transTypeLinear = itemView.findViewById(R.id.tracking_raw_linear_transType);
+
 //            status = itemView.findViewById(R.id.tracking_raw_status);
 
         }

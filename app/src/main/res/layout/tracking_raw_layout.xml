@@ -17,132 +17,147 @@
             android:layout_weight="2">
 
             <LinearLayout
+                android:id="@+id/tracking_raw_linear_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:text="@string/date"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:padding="5dp"
                     android:fontFamily="serif"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="0"
+                    android:textColor="@color/white"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     />
 
                 <TextView
                     android:id="@+id/tracking_raw_date"
-                    android:gravity="center"
                     android:padding="5dp"
+                    android:gravity="start"
                     android:textColor="@color/white"
                     android:fontFamily="serif"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/tracking_raw_linear_beneficiary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:text="@string/beneficiary"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:padding="5dp"
                     android:fontFamily="serif"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="0"
+                    android:textColor="@color/white"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     />
 
                 <TextView
                     android:id="@+id/tracking_raw_beneficiary"
-                    android:padding="5dp"
-                    android:gravity="center"
-                    android:textColor="@color/white"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:fontFamily="serif"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    />
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/tracking_raw_linear_national"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:text="@string/national_id"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:padding="5dp"
                     android:fontFamily="serif"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="0"
+                    android:textColor="@color/white"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     />
 
                 <TextView
                     android:id="@+id/tracking_raw_nationalID"
                     android:padding="5dp"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:textColor="@color/white"
                     android:fontFamily="serif"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/tracking_raw_linear_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:text="@string/phone_number"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:padding="5dp"
                     android:fontFamily="serif"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="0"
+                    android:textColor="@color/white"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     />
 
                 <TextView
                     android:id="@+id/tracking_raw_phone"
                     android:padding="5dp"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:textColor="@color/white"
                     android:fontFamily="serif"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/tracking_raw_linear_transType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:text="@string/transaction_type"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:padding="5dp"
                     android:fontFamily="serif"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="0"
+                    android:textColor="@color/white"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     />
 
                 <TextView
                     android:id="@+id/tracking_raw_transactionType"
                     android:padding="5dp"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:textColor="@color/white"
                     android:fontFamily="serif"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     />
             </LinearLayout>
 

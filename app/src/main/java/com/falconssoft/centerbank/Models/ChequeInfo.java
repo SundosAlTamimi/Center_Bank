@@ -25,8 +25,7 @@ public class ChequeInfo implements Serializable {
     private String moneyInDinar;
     private String moneyInFils;
     private String moneyInWord;
-    private String recieverMobileNo;
-    private String recieverNationalID;
+
     private String chequeImage;
     private String rowId;
 
@@ -114,8 +113,7 @@ public class ChequeInfo implements Serializable {
         this.moneyInDinar = moneyInDinar;
         this.moneyInFils = moneyInFils;
         this.moneyInWord = moneyInWord;
-        this.recieverMobileNo = recieverMobileNo;
-        this.recieverNationalID = recieverNationalID;
+
         this.chequeImage = chequeImage;
         this.rowId = rowId;
         ToCustomerMobel = toCustomerMobel;
@@ -187,22 +185,6 @@ public class ChequeInfo implements Serializable {
 
     public void setMoneyInWord(String moneyInWord) {
         this.moneyInWord = moneyInWord;
-    }
-
-    public String getRecieverMobileNo() {
-        return recieverMobileNo;
-    }
-
-    public void setRecieverMobileNo(String recieverMobileNo) {
-        this.recieverMobileNo = recieverMobileNo;
-    }
-
-    public String getRecieverNationalID() {
-        return recieverNationalID;
-    }
-
-    public void setRecieverNationalID(String recieverNationalID) {
-        this.recieverNationalID = recieverNationalID;
     }
 
     public String getChequeImage() {
@@ -441,8 +423,8 @@ public class ChequeInfo implements Serializable {
             obj.put("AMTJD", moneyInDinar );
             obj.put("AMTFILS", moneyInFils );
             obj.put("AMTWORD", moneyInWord );
-            obj.put("TOCUSTOMERMOB", recieverMobileNo );
-            obj.put("TOCUSTOMERNATID", recieverNationalID );
+            obj.put("TOCUSTOMERMOB", ToCustomerMobel );
+            obj.put("TOCUSTOMERNATID", ToCustomerNationalId );
             obj.put("CHECKPIC", chequeImage );
             obj.put("USERNO",  userName);
             obj.put("ISCO",  ISCO);

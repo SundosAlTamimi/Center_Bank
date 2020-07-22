@@ -384,7 +384,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
             textPhoneNo = dialog.findViewById(R.id.textPhoneNo);
-            textPhoneNo.setText(checkInfoNotification.get(row_index).getRecieverMobileNo());
+            textPhoneNo.setText(checkInfoNotification.get(row_index).getToCustomerMobel());
             circleImageView = (CircleImageView) dialog.findViewById(R.id.profile_image2);
             circleGeroImg=(CircleImageView) dialog.findViewById(R.id.profile_gero);
             if(checkInfoNotification.get(row_index).getTransSendOrGero().equals("0"))

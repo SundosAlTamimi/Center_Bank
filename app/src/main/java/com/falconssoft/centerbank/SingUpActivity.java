@@ -21,12 +21,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.falconssoft.centerbank.Models.LoginINFO;
 import com.google.android.material.snackbar.Snackbar;
+import com.hbb20.CountryCodePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,20 +47,19 @@ public class SingUpActivity extends AppCompatActivity {
     private SimpleDateFormat df;
     private Calendar myCalendar;
     private EditText natonalNo, phoneNo, address, email, password, firstName, secondName, thirdName, fourthName;
-    private String language, today, selectedAccount = "Account Type", selectedGender = "Gender";
+    private String language, today, selectedAccount = "Account Type", selectedGender = "Gender", countryCode = "+962"
+            , selectedDocument = "National ID";
     private Animation animation;
-    private LinearLayout linearLayout, coordinatorLayout, accountTypeLinear, genderLinear;
+    private LinearLayout linearLayout, coordinatorLayout, accountTypeLinear, genderLinear, phoneLinear, nationalLinear;
     private Button save;
-    private Spinner spinnerAccountType, spinnerGender;
-//    private List<String> accountTypeList = new ArrayList<>();
+    private Spinner spinnerAccountType, spinnerGender, spinnerDocumentType;
     private List<String> genderList = new ArrayList<>();
-    private ArrayAdapter arrayAdapter, genderArrayAdapter;
+    private ArrayAdapter arrayAdapter, genderArrayAdapter, documentAdapter;
     private DatabaseHandler databaseHandler;
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
     public static final String PAGE_NAME = "PAGE_NAME";
-//    private SingUpLayoutBinding binding;
-//    private SignupVM signupVM;
+    private CountryCodePicker ccp;
 
 
     @Override
@@ -69,7 +70,14 @@ public class SingUpActivity extends AppCompatActivity {
 
 //        language = getIntent().getStringExtra(LANGUAGE_FLAG);
         init();
+        ccp = (CountryCodePicker) findViewById(R.id.signUp_ccp);
+        ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected() {
+                countryCode = ccp.getSelectedCountryCodeWithPlus();
 
+            }
+        });
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
 
@@ -110,25 +118,31 @@ public class SingUpActivity extends AppCompatActivity {
                                 if (!TextUtils.isEmpty(localThirdName))
                                     if (!TextUtils.isEmpty(localFourthName))
                                         if (!TextUtils.isEmpty("" + localPhone))
-                                            if (localPhone.length() == 10)
+                                            if (localPhone.length() == 9)
                                                 if (!TextUtils.isEmpty(localAddress))
                                                     if (!TextUtils.isEmpty(localEmail))
                                                         if (Patterns.EMAIL_ADDRESS.matcher(localEmail).matches())
                                                             if (!TextUtils.isEmpty(localPassword))
                                                                 if (isValidPassword(localPassword)) {
-
+//                                                                    Log.e("username", countryCode + localPhone);
                                                                     LoginINFO loginINFO = new LoginINFO();
                                                                     loginINFO.setNationalID(localNationalID);
                                                                     loginINFO.setFirstName(localFirstName);
                                                                     loginINFO.setSecondName(localSecondName);
                                                                     loginINFO.setThirdName(localThirdName);
                                                                     loginINFO.setFourthName(localFourthName);
-                                                                    loginINFO.setUsername(localPhone);
+                                                                    loginINFO.setUsername(countryCode + localPhone);
                                                                     loginINFO.setAddress(localAddress);
                                                                     loginINFO.setEmail(localEmail);
                                                                     loginINFO.setPassword(localPassword);
                                                                     loginINFO.setBirthDate(localBirthDate);
-                                                                    if (selectedGender.equals("Male"))
+
+                                                                    if (selectedDocument.equals("National ID") || selectedDocument.equals("الرقم الوطني"))
+                                                                        loginINFO.setPersonalDocType("0");
+                                                                    else
+                                                                        loginINFO.setPersonalDocType("1");
+
+                                                                    if (selectedGender.equals("Male") || selectedDocument.equals("ذكر"))
                                                                         loginINFO.setGender("0");
                                                                     else
                                                                         loginINFO.setGender("1");
@@ -203,8 +217,11 @@ public class SingUpActivity extends AppCompatActivity {
         date_text = (TextView) findViewById(R.id.Date);
         spinnerAccountType = findViewById(R.id.signUp_accountType);
         spinnerGender = findViewById(R.id.signUp_gender);
+        spinnerDocumentType = findViewById(R.id.signUp_document_type);
         accountTypeLinear = findViewById(R.id.signUp_accountType_linear);
         genderLinear = findViewById(R.id.signUp_gender_linear);
+        phoneLinear = findViewById(R.id.signUp_phone_linear);
+        nationalLinear = findViewById(R.id.signUp_documentType_linear);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getResourceName(R.string.please_waiting));
@@ -214,7 +231,7 @@ public class SingUpActivity extends AppCompatActivity {
 //        accountTypeList.add(getResources().getResourceName(R.string.individual));
 //        accountTypeList.add(getResources().getResourceName(R.string.corporate));
 //        accountTypeList.add(getResources().getResourceName(R.string.join_account));
-        arrayAdapter = ArrayAdapter.createFromResource(this, R.array.account_type,R.layout.spinner_layout);
+        arrayAdapter = ArrayAdapter.createFromResource(this, R.array.account_type, R.layout.spinner_layout);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
         spinnerAccountType.setAdapter(arrayAdapter);
         spinnerAccountType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -248,6 +265,21 @@ public class SingUpActivity extends AppCompatActivity {
             }
         });
 
+        documentAdapter = ArrayAdapter.createFromResource(this, R.array.document_type, R.layout.spinner_layout);
+        documentAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
+        spinnerDocumentType.setAdapter(documentAdapter);
+        spinnerDocumentType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                selectedDocument = adapterView.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         myCalendar = Calendar.getInstance();
         date_text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -264,10 +296,11 @@ public class SingUpActivity extends AppCompatActivity {
         if (language.equals("ar")) {
             selectedAccount = "نوع الحساب";
             selectedGender = "الجنس";
-            natonalNo.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null);
-            phoneNo.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_local_phone_black_24dp), null);
+            selectedDocument = "الرقم الوطني";
+//            natonalNo.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null);
+//            phoneNo.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_local_phone_black_24dp), null);
             address.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_location_on_black_24dp), null);
             email.setCompoundDrawablesWithIntrinsicBounds(null, null
@@ -284,10 +317,11 @@ public class SingUpActivity extends AppCompatActivity {
         } else {
             selectedAccount = "Account Type";
             selectedGender = "Gender";
-            natonalNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null
-                    , null, null);
-            phoneNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_local_phone_black_24dp), null
-                    , null, null);
+            selectedDocument = "National ID";
+//            natonalNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_person_black_24dp), null
+//                    , null, null);
+//            phoneNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_local_phone_black_24dp), null
+//                    , null, null);
             address.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_location_on_black_24dp), null
                     , null, null);
             email.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_email_black_24dp), null
@@ -313,7 +347,7 @@ public class SingUpActivity extends AppCompatActivity {
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
-        natonalNo.startAnimation(animation);
+        nationalLinear.startAnimation(animation);
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
@@ -325,7 +359,7 @@ public class SingUpActivity extends AppCompatActivity {
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
-        phoneNo.startAnimation(animation);
+        phoneLinear.startAnimation(animation);
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);

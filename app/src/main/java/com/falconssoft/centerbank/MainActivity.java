@@ -1235,6 +1235,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setTitleText(MainActivity.this.getResources().getString(R.string.cantSave))
                         .setContentText(MainActivity.this.getResources().getString(R.string.error_in_save))
                         .show();
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"This user not own this account.")) {
+                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("WARNING")
+                        .setContentText(MainActivity.this.getResources().getString(R.string.notforYou))//This user not own this account.
+                        .show();
             }
 
         }
