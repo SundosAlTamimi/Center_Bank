@@ -856,6 +856,9 @@ date.setText("" + chequeInfo.getCheckDueDate());
         }
 
 
+
+
+
     }
 
 
@@ -1069,7 +1072,6 @@ date.setText("" + chequeInfo.getCheckDueDate());
 
     /**
      * Converts compressed byte array to bitmap
-     *
      * @param src source array
      * @return result bitmap
      */
@@ -1508,6 +1510,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
                     }
 
 
+
                     pushCheque.setEnabled(true);
 
 
@@ -1562,7 +1565,6 @@ date.setText("" + chequeInfo.getCheckDueDate());
 //                if(mainSettings.size()!=0) {
 //                    ip=mainSettings.get(0).getIP();
 //                }
-                Log.e("IsCheckForThisAcc 1494" , "JSONTask dialog in ");
                 String link =serverLink +"IsCheckForThisAcc";
 
 //                ACCCODE=0014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390105&USERNO=0798899716
@@ -1601,7 +1603,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
                 httpURLConnection.disconnect();
 
                 Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
-                Log.e("tag", "dataSave  -->" + data);
+                Log.e("tag", "dataSave  -->" +data);
 
                 return stringBuffer.toString();
 
@@ -1626,8 +1628,6 @@ date.setText("" + chequeInfo.getCheckDueDate());
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e("editorChequeActivity/", "saved//" + s);
-            Log.e("IsCheckForThisAcc 1558" , "JSONTask dialog in "+s.toString());
-
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
 
@@ -1660,6 +1660,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
                                     sDialog.dismissWithAnimation();
                                 }
                             }).show();
+
 
 
                     pushCheque.setEnabled(true);
@@ -2185,6 +2186,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
         imageView.setImageBitmap(bitmap);
 
 
+
     }
 
     public String convertResponseToString(HttpResponse response) throws IllegalStateException, IOException {
@@ -2415,6 +2417,7 @@ date.setText("" + chequeInfo.getCheckDueDate());
                     JSONObject jsonObject = null;
 
 
+
                     try {
                         jsonObject = new JSONObject(s);
 //                        saveJSONData(EditerCheackActivity.this,jsonObject.getString("CHECKPIC"));
@@ -2432,9 +2435,12 @@ date.setText("" + chequeInfo.getCheckDueDate());
                         showImageOfCheck(serverPicBitmap);
 
 
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+
 
 
 //                    linerEditing.setVisibility(View.GONE);
@@ -2678,6 +2684,9 @@ date.setText("" + chequeInfo.getCheckDueDate());
 
         }
     }
+
+
+
 
 
 }
