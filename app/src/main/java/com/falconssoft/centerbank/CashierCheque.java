@@ -25,7 +25,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.falconssoft.centerbank.Models.CashierChequeModel;
-import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.LoginINFO;
 
 import org.json.JSONObject;
@@ -60,7 +59,7 @@ public class CashierCheque extends AppCompatActivity {
     Date currentTimeAndDate;
     SimpleDateFormat df;
     String today;
-    List<String> bankName, relationList;
+    List<String> bankName, relationList, ArEnList;
     List<String> branchName;
     ArrayAdapter<String> arrayAdapterBank, arrayAdapterBranch, arrayAdapterRelation;
     Button cashierCheck_send;
@@ -71,6 +70,9 @@ public class CashierCheque extends AppCompatActivity {
     String bankNameString = "Jordan Bank", branchNameString = "Abdoun Branch", relationString = "Consanguinity";
     LoginINFO infoUser;
     DatabaseHandler databaseHandler;
+    private String currencyLanguage = "ع", amountWord;
+    Spinner spinner;
+    private ArrayAdapter arrayAdapter;
 
 
     @Override
@@ -79,6 +81,27 @@ public class CashierCheque extends AppCompatActivity {
         setContentView(R.layout.cashier_check_layout);
 
         init();
+
+
+
+        ArEnList.add("ع");
+        ArEnList.add("En");
+
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, ArEnList);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
+        spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                currencyLanguage = adapterView.getItemAtPosition(i).toString();
+                ConvertCurrency();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
@@ -507,35 +530,38 @@ public class CashierCheque extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String amount = "";
-            if (!denier.getText().toString().equals("")) {
+//            String amount = "";
+//            if (!denier.getText().toString().equals("")) {
+//
+//                if (!Phils.getText().toString().equals("")) {
+//                    amount = denier.getText().toString() + "." + Phils.getText().toString();
+//                } else {
+//                    amount = denier.getText().toString() + "." + "00";
+//                }
+//            }
+//
+//            if (!Phils.getText().toString().equals("")) {
+//
+//                if (!denier.getText().toString().equals("")) {
+//                    amount = denier.getText().toString() + "." + Phils.getText().toString();
+//                } else {
+//                    amount = "00" + "." + Phils.getText().toString();
+//                }
+//            }
+//
+//
+//            NumberToArabic numberToArabic = new NumberToArabic();
+//            String amountWord = numberToArabic.getArabicString(amount);
+//
+//            Log.e("Ammount", "Jd +" + amountWord);
+//            AmouWord.setText(amountWord + " فقط لا غير");
+//            if (Phils.getText().toString().equals("") && denier.getText().toString().equals("")) {
+//                AmouWord.setText(amountWord + "");
+//            }
 
-                if (!Phils.getText().toString().equals("")) {
-                    amount = denier.getText().toString() + "." + Phils.getText().toString();
-                } else {
-                    amount = denier.getText().toString() + "." + "00";
-                }
-            }
-
-            if (!Phils.getText().toString().equals("")) {
-
-                if (!denier.getText().toString().equals("")) {
-                    amount = denier.getText().toString() + "." + Phils.getText().toString();
-                } else {
-                    amount = "00" + "." + Phils.getText().toString();
-                }
-            }
 
 
-            NumberToArabic numberToArabic = new NumberToArabic();
-            String amountWord = numberToArabic.getArabicString(amount);
-
-            Log.e("Ammount", "Jd +" + amountWord);
-            AmouWord.setText(amountWord + " فقط لا غير");
-            if (Phils.getText().toString().equals("") && denier.getText().toString().equals("")) {
-                AmouWord.setText(amountWord + "");
-            }
-
+            ConvertCurrency();
 
         }
 
@@ -592,10 +618,11 @@ public class CashierCheque extends AppCompatActivity {
         second_name_ = findViewById(R.id.second_name_);
         thered_name_ = findViewById(R.id.thered_name_);
         fourth_name_ = findViewById(R.id.fourth_name_);
-
+        spinner = findViewById(R.id.editorCheque_amount_lang);
         bankName = new ArrayList<>();
         branchName = new ArrayList<>();
         relationList = new ArrayList<>();
+        ArEnList = new ArrayList<>();
 
 
         currentTimeAndDate = Calendar.getInstance().getTime();
@@ -669,10 +696,12 @@ public class CashierCheque extends AppCompatActivity {
                 inputStream.close();
                 httpURLConnection.disconnect();
 
-                Log.e("Save", "cashierCheque -->" + stringBuffer.toString());
+                Log.e("Save", "cashierCheque --> " + stringBuffer.toString());
+                Log.e("link", "cashierCheque --> " + link);
+                Log.e("link", "cashierCheque --> " + data);
                 Log.e("jsonObject.toString()", "save cashierCheque -->" + jsonObject.toString());
 
-                Log.e("tag", "cashierCheque   -->" + data);
+                Log.e("master", "cashierCheque   -->" + link+"?INFO="+jsonObject.toString());
 
                 return stringBuffer.toString();
 
@@ -716,7 +745,7 @@ public class CashierCheque extends AppCompatActivity {
                     });
                     sweet.show();
 //                    pushCheque.setEnabled(true);
-                } if (s != null&&s.contains("\"StatusDescreption\":\"Error in Saving Cashier Check.\""))  {
+                }else if (s != null&&s.contains("\"StatusDescreption\":\"Error in Saving Cashier Check.\""))  {
                     Log.e("tag", "****Failed to export data");
 
                     SweetAlertDialog sweet = new SweetAlertDialog(CashierCheque.this, SweetAlertDialog.ERROR_TYPE);
@@ -739,8 +768,6 @@ public class CashierCheque extends AppCompatActivity {
             } else {
                 Log.e("tag", "****Failed to export data Please check internet connection");
 
-
-
                 SweetAlertDialog sweet = new SweetAlertDialog(CashierCheque.this, SweetAlertDialog.ERROR_TYPE);
                 sweet.setTitleText("WARNING");
                 sweet.setContentText("Error in Processing Cashier Check.! \n"+ s );
@@ -760,4 +787,92 @@ public class CashierCheque extends AppCompatActivity {
             }
         }
     }
+
+
+    void ConvertCurrency(){
+        String amount = "", amount2 = "";
+        if (currencyLanguage.equals("En")) {
+            TafqeetEnglish tafqeetEnglish = new TafqeetEnglish();
+
+            if (!denier.getText().toString().equals("")) {
+                if (!Phils.getText().toString().equals("")) { // dinar and fils
+                    amount = denier.getText().toString();// + "." + phails.getText().toString();
+                    amount2 = Phils.getText().toString();
+                    amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar And " + tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
+                } else { // dinar
+                    amount = denier.getText().toString();// + "." + phails.getText().toString();
+                    amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar";
+                }
+            } else if (!Phils.getText().toString().equals("")) { //  fils
+                if (denier.getText().toString().equals("")) {
+                    amount2 = Phils.getText().toString();
+                    amountWord = tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
+                }
+            }
+
+            AmouWord.setText(amountWord);
+        } else if (currencyLanguage.equals("ع")){
+
+//            if (!Danier.getText().toString().equals("")) {
+//
+//                if (!phails.getText().toString().equals("")) {
+//                    amount = Danier.getText().toString() + "." + phails.getText().toString();
+//                } else {
+//                    amount = Danier.getText().toString() + "." + "00";
+//                }
+//            }
+//
+//            if (!phails.getText().toString().equals("")) {
+//
+//                if (!Danier.getText().toString().equals("")) {
+//                    amount = Danier.getText().toString() + "." + phails.getText().toString();
+//                } else {
+//                    amount = "00" + "." + phails.getText().toString();
+//                }
+//            }
+//            numberToArabic = new NumberToArabic();
+//            String amountWord = numberToArabic.getArabicString(amount);
+//            AmouWord.setText(amountWord + " فقط لا غير");
+
+
+            NumberToArabic numberToArabic = new NumberToArabic();
+
+            if (!denier.getText().toString().equals("")) {
+                if (!Phils.getText().toString().equals("")) { // dinar and fils
+                    amount = denier.getText().toString();// + "." + phails.getText().toString();
+                    amount2 = Phils.getText().toString();
+                    amountWord = numberToArabic.getArabicString(amount) + " و " + convertDinarToFilse(numberToArabic.getArabicString(amount2)) ;
+                } else { // dinar
+                    amount = denier.getText().toString();// + "." + phails.getText().toString();
+                    amountWord = numberToArabic.getArabicString(amount) ;
+                }
+            } else if (!Phils.getText().toString().equals("")) { //  fils
+                if (denier.getText().toString().equals("")) {
+                    amount2 = Phils.getText().toString();
+                    amountWord =convertDinarToFilse( numberToArabic.getArabicString(amount2)) ;
+                }
+            }
+
+            AmouWord.setText(amountWord);
+
+
+        }
+
+        Log.e("Ammount", "Jd +" + amountWord);
+
+
+        if (Phils.getText().toString().equals("") && denier.getText().toString().equals("")) {
+            AmouWord.setText("");
+        }
+
+    }
+    String convertDinarToFilse(String ammount){
+        String filsAmm="";
+        filsAmm=ammount.replace("ديناراً","فلس").replace("دينار","فلس").replace("دنانير","فلس");
+
+        return    filsAmm;
+
+    }
+
+
 }

@@ -87,7 +87,7 @@ public class LogInActivity extends AppCompatActivity {
     public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
     public static final String LOGIN_INFO = "LOGIN_INFO";
     private String[] array;
-    private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "", countryCode = "+962";
+    private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "", countryCode = "962";
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
     private Dialog barcodeDialog;
     private SharedPreferences.Editor editor, edit;
@@ -242,7 +242,7 @@ public class LogInActivity extends AppCompatActivity {
                     binding.setError(null);
 
                     LoginINFO user = new LoginINFO();
-                    user.setUsername(binding.LogInUserName.getText().toString());
+                    user.setUsername(countryCode + binding.LogInUserName.getText().toString());
                     user.setPassword(binding.LogInPassword.getText().toString());
                     user.setIsRemember(checkedRemember);
                     Log.e("fromlogin", user.getUsername() + "******************" + user.getPassword());
