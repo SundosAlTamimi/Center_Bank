@@ -47,7 +47,7 @@ public class SingUpActivity extends AppCompatActivity {
     private SimpleDateFormat df;
     private Calendar myCalendar;
     private EditText natonalNo, phoneNo, address, email, password, firstName, secondName, thirdName, fourthName;
-    private String language, today, selectedAccount = "Account Type", selectedGender = "Gender", countryCode = "+962"
+    private String language, today, selectedAccount = "Account Type", selectedGender = "Gender", countryCode = "962"
             , selectedDocument = "National ID";
     private Animation animation;
     private LinearLayout linearLayout, coordinatorLayout, accountTypeLinear, genderLinear, phoneLinear, nationalLinear;
@@ -74,7 +74,7 @@ public class SingUpActivity extends AppCompatActivity {
         ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
-                countryCode = ccp.getSelectedCountryCodeWithPlus();
+                countryCode = ccp.getSelectedCountryCode();
 
             }
         });
