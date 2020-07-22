@@ -592,7 +592,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-void fillTheCheck(ChequeInfo chequeInfo){
+    void fillTheCheck(ChequeInfo chequeInfo){
 //if(chequeInfo.getChequeNo().equals()) {
     Danier.setText("" + chequeInfo.getMoneyInDinar());
     phails.setText("" + chequeInfo.getMoneyInFils());
@@ -1092,7 +1092,7 @@ void fillTheCheck(ChequeInfo chequeInfo){
     }
 
 // ******************************************** CHECK QR VALIDATION *************************************
-private class JSONTask extends AsyncTask<String, String, String> {
+    private class JSONTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPreExecute() {
