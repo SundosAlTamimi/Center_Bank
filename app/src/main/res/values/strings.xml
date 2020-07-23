@@ -162,5 +162,8 @@
     <string name="to_the_master">To the master</string>
     <string name="branch_name">Branch Name :</string>
     <string name="passport">Passport ID</string>
+    <string name="beneficiary_mobile">Beneficiary mobile</string>
+
+    <string name="zero_digit">Enter phone number without zero at the beginning!</string>
 
 </resources>

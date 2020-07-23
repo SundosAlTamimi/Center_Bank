@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.falconssoft.centerbank.Models.CashierChequeModel;
 import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.LoginINFO;
+import com.hbb20.CountryCodePicker;
 
 import org.json.JSONObject;
 
@@ -59,7 +60,7 @@ public class CashierCheque extends AppCompatActivity {
     Spinner bankNameSpinner, bankNoSpinner, relationSpinner;
     Date currentTimeAndDate;
     SimpleDateFormat df;
-    String today;
+    String today, countryCode = "962";
     List<String> bankName, relationList;
     List<String> branchName;
     ArrayAdapter<String> arrayAdapterBank, arrayAdapterBranch, arrayAdapterRelation;
@@ -71,6 +72,7 @@ public class CashierCheque extends AppCompatActivity {
     String bankNameString = "Jordan Bank", branchNameString = "Abdoun Branch", relationString = "Consanguinity";
     LoginINFO infoUser;
     DatabaseHandler databaseHandler;
+    private CountryCodePicker ccp;
 
 
     @Override
@@ -177,11 +179,11 @@ public class CashierCheque extends AppCompatActivity {
         relationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                if(getResources().getString(R.string.consanguinity).equals(adapterView.getItemAtPosition(position).toString())){
+                if (getResources().getString(R.string.consanguinity).equals(adapterView.getItemAtPosition(position).toString())) {
                     relationString = "0";
-                }else  if(getResources().getString(R.string.Business).equals(adapterView.getItemAtPosition(position).toString())){
+                } else if (getResources().getString(R.string.Business).equals(adapterView.getItemAtPosition(position).toString())) {
                     relationString = "1";
-                }else  if(getResources().getString(R.string.other).equals(adapterView.getItemAtPosition(position).toString())) {
+                } else if (getResources().getString(R.string.other).equals(adapterView.getItemAtPosition(position).toString())) {
                     relationString = "2";
                 }
             }
@@ -192,6 +194,13 @@ public class CashierCheque extends AppCompatActivity {
             }
         });
 
+        ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected() {
+                countryCode = ccp.getSelectedCountryCode();
+
+            }
+        });
 
     }
 
@@ -222,17 +231,17 @@ public class CashierCheque extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(cashier_IdNo.getText().toString()) && cashier_IdNo.getText().toString().length() == 10) {
             if (!TextUtils.isEmpty(cashier_phone.getText().toString()) && cashier_phone.getText().toString().length() == 10) {
-                if (!TextUtils.isEmpty(casher_first_name.getText().toString())) {
-                    if (!TextUtils.isEmpty(cashier_second_name.getText().toString())) {
+                if (!String.valueOf(cashier_phone.getText().toString().charAt(0)).equals("0"))
+                    if (!TextUtils.isEmpty(casher_first_name.getText().toString())) {
+                        if (!TextUtils.isEmpty(cashier_second_name.getText().toString())) {
 
-                        if (!TextUtils.isEmpty(cashier_third_name.getText().toString())) {
+                            if (!TextUtils.isEmpty(cashier_third_name.getText().toString())) {
 
-                            if (!TextUtils.isEmpty(cashier_fourth_name.getText().toString())) {
+                                if (!TextUtils.isEmpty(cashier_fourth_name.getText().toString())) {
 
-                                if (!TextUtils.isEmpty(cashier_address.getText().toString())) {
+                                    if (!TextUtils.isEmpty(cashier_address.getText().toString())) {
 
-                                    if (!TextUtils.isEmpty(cashier_reson.getText().toString())) {
-
+                                        if (!TextUtils.isEmpty(cashier_reson.getText().toString())) {
 
 
                                             if (!TextUtils.isEmpty(denier.getText().toString())) {
@@ -281,7 +290,7 @@ public class CashierCheque extends AppCompatActivity {
                                                                                                                                     cashierCheque.setBANKNO("004");
                                                                                                                                     cashierCheque.setBANKNM(bankNameString);
                                                                                                                                     cashierCheque.setBRANCHNM(branchNameString);
-                                                                                                                                    cashierCheque.setTOCUSTMOB(cashier_phone.getText().toString());
+                                                                                                                                    cashierCheque.setTOCUSTMOB(countryCode + cashier_phone.getText().toString());
                                                                                                                                     cashierCheque.setTOCUSTNATID(cashier_IdNo.getText().toString());
                                                                                                                                     cashierCheque.setTOCUSTNAME(casher_first_name.getText().toString());
 
@@ -323,8 +332,8 @@ public class CashierCheque extends AppCompatActivity {
                                                                                                                                     cashierCheque.setRECIPTGNAME(thered_name_.getText().toString());
                                                                                                                                     cashierCheque.setRECIPTFAMNAME(fourth_name_.getText().toString());
 
-                                                                                                                                    jsonObject=new JSONObject();
-                                                                                                                                    jsonObject=cashierCheque.getJSONObject();
+                                                                                                                                    jsonObject = new JSONObject();
+                                                                                                                                    jsonObject = cashierCheque.getJSONObject();
                                                                                                                                     new SaveCashierCheque().execute();
 
                                                                                                                                 } else {
@@ -389,8 +398,8 @@ public class CashierCheque extends AppCompatActivity {
                                                                                                                     cashierCheque.setRECIPTGNAME(infoUser.getThirdName());
                                                                                                                     cashierCheque.setRECIPTFAMNAME(infoUser.getFourthName());
 
-                                                                                                                    jsonObject=new JSONObject();
-                                                                                                                    jsonObject=cashierCheque.getJSONObject();
+                                                                                                                    jsonObject = new JSONObject();
+                                                                                                                    jsonObject = cashierCheque.getJSONObject();
                                                                                                                     new SaveCashierCheque().execute();
 
                                                                                                                 }
@@ -465,29 +474,30 @@ public class CashierCheque extends AppCompatActivity {
                                             }
 
 
+                                        } else {
+                                            cashier_reson.setError("Required!");
+                                        }
+
                                     } else {
-                                        cashier_reson.setError("Required!");
+                                        cashier_address.setError("Required!");
                                     }
 
                                 } else {
-                                    cashier_address.setError("Required!");
+                                    cashier_fourth_name.setError("Required!");
                                 }
 
                             } else {
-                                cashier_fourth_name.setError("Required!");
+                                cashier_third_name.setError("Required!");
                             }
 
                         } else {
-                            cashier_third_name.setError("Required!");
+                            cashier_second_name.setError("Required!");
                         }
-
                     } else {
-                        cashier_second_name.setError("Required!");
+                        casher_first_name.setError("Required!");
                     }
-                } else {
-                    casher_first_name.setError("Required!");
-                }
-
+                else
+                    cashier_phone.setError(getResources().getString(R.string.zero_digit));
             } else {
                 cashier_phone.setError("Required!");
             }
@@ -592,6 +602,7 @@ public class CashierCheque extends AppCompatActivity {
         second_name_ = findViewById(R.id.second_name_);
         thered_name_ = findViewById(R.id.thered_name_);
         fourth_name_ = findViewById(R.id.fourth_name_);
+        ccp = findViewById(R.id.cashierCheck_ccp);
 
         bankName = new ArrayList<>();
         branchName = new ArrayList<>();
@@ -698,52 +709,52 @@ public class CashierCheque extends AppCompatActivity {
             super.onPostExecute(s);
             Log.e("editorChequeActivity/", "saved//" + s);
 
-                if (s != null&&s.contains("\"StatusDescreption\":\"OK\"")) {
-                    Log.e("tag", "****saved Success cashierCheque");
-                    pd.dismissWithAnimation();
-                    SweetAlertDialog sweet = new SweetAlertDialog(CashierCheque.this, SweetAlertDialog.SUCCESS_TYPE);
-                    sweet.setTitleText("Successful");
-                    sweet.setContentText("Processing ...");
-                    sweet.setCanceledOnTouchOutside(false);
-                    sweet.setConfirmText("Ok");
-                    sweet.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @SuppressLint("WrongConstant")
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            finish();
-                            sDialog.dismissWithAnimation();
-                        }
-                    });
-                    sweet.show();
+            if (s != null && s.contains("\"StatusDescreption\":\"OK\"")) {
+                Log.e("tag", "****saved Success cashierCheque");
+                pd.dismissWithAnimation();
+                SweetAlertDialog sweet = new SweetAlertDialog(CashierCheque.this, SweetAlertDialog.SUCCESS_TYPE);
+                sweet.setTitleText("Successful");
+                sweet.setContentText("Processing ...");
+                sweet.setCanceledOnTouchOutside(false);
+                sweet.setConfirmText("Ok");
+                sweet.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @SuppressLint("WrongConstant")
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        finish();
+                        sDialog.dismissWithAnimation();
+                    }
+                });
+                sweet.show();
 //                    pushCheque.setEnabled(true);
-                } if (s != null&&s.contains("\"StatusDescreption\":\"Error in Saving Cashier Check.\""))  {
-                    Log.e("tag", "****Failed to export data");
+            }
+            if (s != null && s.contains("\"StatusDescreption\":\"Error in Saving Cashier Check.\"")) {
+                Log.e("tag", "****Failed to export data");
 
-                    SweetAlertDialog sweet = new SweetAlertDialog(CashierCheque.this, SweetAlertDialog.ERROR_TYPE);
-                    sweet.setTitleText("WARNING");
-                    sweet.setContentText("Error in Processing Cashier Check.!" );
-                    sweet.setCanceledOnTouchOutside(false);
-                    sweet.setConfirmText("Close");
-                    sweet.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @SuppressLint("WrongConstant")
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sDialog.dismissWithAnimation();
-                        }
-                    });
-                    sweet.show();
+                SweetAlertDialog sweet = new SweetAlertDialog(CashierCheque.this, SweetAlertDialog.ERROR_TYPE);
+                sweet.setTitleText("WARNING");
+                sweet.setContentText("Error in Processing Cashier Check.!");
+                sweet.setCanceledOnTouchOutside(false);
+                sweet.setConfirmText("Close");
+                sweet.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @SuppressLint("WrongConstant")
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                    }
+                });
+                sweet.show();
 
-                    pd.dismissWithAnimation();
+                pd.dismissWithAnimation();
 
 //                    pushCheque.setEnabled(true);
             } else {
                 Log.e("tag", "****Failed to export data Please check internet connection");
 
 
-
                 SweetAlertDialog sweet = new SweetAlertDialog(CashierCheque.this, SweetAlertDialog.ERROR_TYPE);
                 sweet.setTitleText("WARNING");
-                sweet.setContentText("Error in Processing Cashier Check.! \n"+ s );
+                sweet.setContentText("Error in Processing Cashier Check.! \n" + s);
                 sweet.setCanceledOnTouchOutside(false);
                 sweet.setConfirmText("Close");
                 sweet.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {

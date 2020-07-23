@@ -62,6 +62,7 @@ import com.github.mikephil.charting.utils.FileUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.hbb20.CountryCodePicker;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -121,11 +122,11 @@ public class EditerCheackActivity extends AppCompatActivity {
     ImageView imageView;
     Uri image;
 
-    LinearLayout linerEditing, linerBarcode;
+    private LinearLayout linerEditing, linerBarcode, linearPhone, linearOptional, linearAmount, linearCo;
     TextView scanBarcode, AmouWord, date;
     Button pushCheque;
     TableRow reciever;
-    EditText Danier, phails, nationalNo, phoneNo, company, notes, fName, sName, tName, fourthName,rowDate;
+    EditText Danier, phails, nationalNo, phoneNo, company, notes, fName, sName, tName, fourthName, rowDate;
     private ProgressDialog progressDialog;
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
     private LinearLayout haveAProblem, serialLinear;
@@ -162,11 +163,12 @@ public class EditerCheackActivity extends AppCompatActivity {
     SweetAlertDialog pd;
     boolean isPermition;
     ChequeInfo chequeInfoReSendEd;
-    private String currencyLanguage = "En", amountWord;
+    private String currencyLanguage = "En", amountWord, countryCode = "962";
     private NumberToArabic numberToArabic;
     private Spinner spinner;
     private ArrayAdapter arrayAdapter;
     private ArrayList<String> arrayList = new ArrayList<>();
+    private CountryCodePicker ccp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,8 +193,8 @@ public class EditerCheackActivity extends AppCompatActivity {
         today = df.format(currentTimeAndDate);
         date.setText(convertToEnglish(today));
 
-        linerEditing.setVisibility(View.GONE);
-        linerBarcode.setVisibility(View.VISIBLE);
+        linerEditing.setVisibility(View.VISIBLE);
+        linerBarcode.setVisibility(View.GONE);
         scanBarcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -275,6 +277,13 @@ public class EditerCheackActivity extends AppCompatActivity {
         intentReSend = getIntent().getStringExtra("ReSend");
         chequeInfoReSendEd = (ChequeInfo) getIntent().getSerializableExtra("ChequeInfo");
 
+        ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected() {
+                countryCode = ccp.getSelectedCountryCode();
+
+            }
+        });
 
     }
 
@@ -329,7 +338,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                 }
 
                 AmouWord.setText(amountWord);
-            } else if (currencyLanguage.equals("ع")){
+            } else if (currencyLanguage.equals("ع")) {
 
                 if (!Danier.getText().toString().equals("")) {
 
@@ -384,6 +393,11 @@ public class EditerCheackActivity extends AppCompatActivity {
         amountTV = findViewById(R.id.editorCheque_amountTV);
         amountTV = findViewById(R.id.editorCheque_amountTV);
         spinner = findViewById(R.id.editorCheque_amount_lang);
+        ccp = findViewById(R.id.editorCheque_ccp);
+        linearPhone = findViewById(R.id.editorCheque_phone_linear);
+        linearOptional = findViewById(R.id.editorCheque_linear_optional);
+        linearAmount = findViewById(R.id.editorCheque_linear_amount);
+        linearCo = findViewById(R.id.editorCheque_linear_co);
 
         arrayList.add("En");
         arrayList.add("ع");
@@ -457,145 +471,8 @@ public class EditerCheackActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View view) {
-// CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
-// ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
-// ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
-// ,"AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKPIC":""}
-
-
-                localNationlNo = nationalNo.getText().toString();
-                String localPhoneNo = phoneNo.getText().toString();
-//                String localSender = sender.getText().toString();
-
-                String localReciever = "" + fName.getText().toString() + " " + sName.getText().toString() + " " + tName.getText().toString() + " " + fourthName.getText().toString();
-                String localDinar = Danier.getText().toString();
-                String localFils = "" + phails.getText().toString();
-                String localMoneyInWord = AmouWord.getText().toString();
-                String localDate = date.getText().toString();
-                try {
-                    validDate = false;
-                    validDate = compareDate(localDate);
-                    Log.e("validDate", "" + validDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                if (!TextUtils.isEmpty(localNationlNo) && localNationlNo.length() == 10)
-                    if (!TextUtils.isEmpty(localPhoneNo) && localPhoneNo.length() == 10)
-                        if (!TextUtils.isEmpty(localReciever))
-                            if (!TextUtils.isEmpty(localDate))
-                                if (validDate)
-                                    if (!TextUtils.isEmpty(localDinar)) {
-                                        if (!TextUtils.isEmpty(serverPic)) {
-                                            pushCheque.setEnabled(false);
-                                            SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-                                            String phoneNo1 = loginPrefs.getString("mobile", "");
-
-                                            Danier.setError(null);
-                                            date.setError(null);
-                                            fName.setError(null);
-                                            sName.setError(null);
-                                            tName.setError(null);
-                                            fourthName.setError(null);
-                                            phoneNo.setError(null);
-                                            nationalNo.setError(null);
-
-                                            String checkBox_C = "", checkBox_Fb = "";
-
-                                            if (checkBox_CO.isChecked()) {
-                                                checkBox_C = "1";
-                                            } else {
-                                                checkBox_C = "0";
-                                            }
-
-                                            if (checkBox_firstpinifit.isChecked()) {
-                                                checkBox_Fb = "1";
-                                            } else {
-                                                checkBox_Fb = "0";
-                                            }
-
-                                            ChequeInfo chequeInfo = new ChequeInfo();
-                                            chequeInfo.setBankNo(BANKNO);
-                                            chequeInfo.setBankName("Jordan Bank");
-                                            chequeInfo.setBranchNo(BRANCHNO);
-                                            chequeInfo.setChequeNo(CHECKNO);
-                                            chequeInfo.setAccCode(ACCCODE);
-                                            chequeInfo.setIbanNo(IBANNO);
-                                            chequeInfo.setCustName(CUSTOMERNM);
-                                            chequeInfo.setQrCode(QRCODE);
-                                            chequeInfo.setSerialNo(SERIALNO);
-                                            chequeInfo.setChequeData(localDate);
-                                            chequeInfo.setToCustomerName(localReciever);
-                                            chequeInfo.setMoneyInDinar(localDinar);
-                                            chequeInfo.setMoneyInFils(localFils);
-                                            chequeInfo.setMoneyInWord(localMoneyInWord);
-                                            chequeInfo.setToCustomerMobel(localPhoneNo);
-                                            chequeInfo.setToCustomerNationalId(localNationlNo);
-                                            chequeInfo.setChequeImage(serverPic);
-                                            chequeInfo.setUserName(phoneNo1);
-                                            chequeInfo.setISCO(checkBox_C);
-                                            chequeInfo.setISBF(checkBox_Fb);
-                                            chequeInfo.setCompanyName(company.getText().toString());
-                                            chequeInfo.setToCustName(fName.getText().toString());
-                                            chequeInfo.setToCustFName(sName.getText().toString());
-                                            chequeInfo.setToCustGName(tName.getText().toString());
-                                            chequeInfo.setToCustFamalyName(fourthName.getText().toString());
-                                            chequeInfo.setNoteCheck(notes.getText().toString());
-                                            Log.e("showpic", serverPic);
-
-                                            jsonObject = new JSONObject();
-                                            jsonObject = chequeInfo.getJSONObject();
-
-//                                    imageSend();
-//                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
-//                new Image().execute();
-//                                   new  IsCheckPinding().execute();
-                                            if (!localPhoneNo.equals(phoneNoUser)) {//no send to the same phone no
-                                                new GetAllTransaction().execute();
-
-                                            } else {
-                                                SweetAlertDialog sw = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
-                                                sw.setTitleText("***" + EditerCheackActivity.this.getResources().getString(R.string.phone_no) + "***");
-                                                sw.setContentText("Please , change Phone No ,You Can't Send The Cheque To Yourself");
-                                                sw.setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok));
-                                                sw.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                    @SuppressLint("WrongConstant")
-                                                    @Override
-                                                    public void onClick(SweetAlertDialog sDialog) {
-                                                        phoneNo.setError("Change");
-                                                        pushCheque.setEnabled(true);
-                                                        sDialog.dismissWithAnimation();
-                                                    }
-                                                });
-                                                sw.show();
-                                            }
-
-                                        } else {
-                                            CheckPicText.setError("Required!");
-                                        }
-                                    } else {
-                                        Danier.setError("Required!");
-                                    }
-                                else {
-                                    rowDate.setError("Not valid Date");
-                                }
-                            else {
-                                date.setError("Required!");
-                            }
-                        else {
-                            fName.setError("Required!");
-                            sName.setError("Required!");
-                            tName.setError("Required!");
-                            fourthName.setError("Required!");
-                        }
-                    else {
-                        phoneNo.setError("Required!");
-                    }
-                else {
-                    nationalNo.setError("Required!");
-                }
+                sendCheque();
             }
-
         });
 
         date.setOnClickListener(new View.OnClickListener() {
@@ -668,6 +545,150 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     }
 
+    void sendCheque() {
+
+// CHECKINFO={"BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000"
+// ,"IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968"
+// ,"CHECKDUEDATE":"21/12/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0"
+// ,"AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKPIC":""}
+
+
+        localNationlNo = nationalNo.getText().toString();
+        String localPhoneNo = phoneNo.getText().toString();
+//                String localSender = sender.getText().toString();
+
+        String localReciever = "" + fName.getText().toString() + " " + sName.getText().toString() + " " + tName.getText().toString() + " " + fourthName.getText().toString();
+        String localDinar = Danier.getText().toString();
+        String localFils = "" + phails.getText().toString();
+        String localMoneyInWord = AmouWord.getText().toString();
+        String localDate = date.getText().toString();
+        try {
+            validDate = false;
+            validDate = compareDate(localDate);
+            Log.e("validDate", "" + validDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (!TextUtils.isEmpty(localNationlNo) && localNationlNo.length() == 10)
+            if (!TextUtils.isEmpty(localPhoneNo) && localPhoneNo.length() == 9)
+                if (!String.valueOf(localPhoneNo.charAt(0)).equals("0"))
+                    if (!TextUtils.isEmpty(localReciever))
+                        if (!TextUtils.isEmpty(localDate))
+                            if (validDate)
+                                if (!TextUtils.isEmpty(localDinar)) {
+                                    if (!TextUtils.isEmpty(serverPic)) {
+                                        pushCheque.setEnabled(false);
+                                        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+                                        String phoneNo1 = loginPrefs.getString("mobile", "");
+
+                                        Danier.setError(null);
+                                        date.setError(null);
+                                        fName.setError(null);
+                                        sName.setError(null);
+                                        tName.setError(null);
+                                        fourthName.setError(null);
+                                        phoneNo.setError(null);
+                                        nationalNo.setError(null);
+
+                                        String checkBox_C = "", checkBox_Fb = "";
+
+                                        if (checkBox_CO.isChecked()) {
+                                            checkBox_C = "1";
+                                        } else {
+                                            checkBox_C = "0";
+                                        }
+
+                                        if (checkBox_firstpinifit.isChecked()) {
+                                            checkBox_Fb = "1";
+                                        } else {
+                                            checkBox_Fb = "0";
+                                        }
+
+                                        ChequeInfo chequeInfo = new ChequeInfo();
+                                        chequeInfo.setBankNo(BANKNO);
+                                        chequeInfo.setBankName("Jordan Bank");
+                                        chequeInfo.setBranchNo(BRANCHNO);
+                                        chequeInfo.setChequeNo(CHECKNO);
+                                        chequeInfo.setAccCode(ACCCODE);
+                                        chequeInfo.setIbanNo(IBANNO);
+                                        chequeInfo.setCustName(CUSTOMERNM);
+                                        chequeInfo.setQrCode(QRCODE);
+                                        chequeInfo.setSerialNo(SERIALNO);
+                                        chequeInfo.setChequeData(localDate);
+                                        chequeInfo.setToCustomerName(localReciever);
+                                        chequeInfo.setMoneyInDinar(localDinar);
+                                        chequeInfo.setMoneyInFils(localFils);
+                                        chequeInfo.setMoneyInWord(localMoneyInWord);
+                                        chequeInfo.setToCustomerMobel(countryCode + localPhoneNo);
+                                        chequeInfo.setToCustomerNationalId(localNationlNo);
+                                        chequeInfo.setChequeImage(serverPic);
+                                        chequeInfo.setUserName(phoneNo1);
+                                        chequeInfo.setISCO(checkBox_C);
+                                        chequeInfo.setISBF(checkBox_Fb);
+                                        chequeInfo.setCompanyName(company.getText().toString());
+                                        chequeInfo.setToCustName(fName.getText().toString());
+                                        chequeInfo.setToCustFName(sName.getText().toString());
+                                        chequeInfo.setToCustGName(tName.getText().toString());
+                                        chequeInfo.setToCustFamalyName(fourthName.getText().toString());
+                                        chequeInfo.setNoteCheck(notes.getText().toString());
+                                        Log.e("showpic", serverPic);
+
+                                        jsonObject = new JSONObject();
+                                        jsonObject = chequeInfo.getJSONObject();
+
+//                                    imageSend();
+//                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
+//                new Image().execute();
+//                                   new  IsCheckPinding().execute();
+                                        if (!localPhoneNo.equals(phoneNoUser)) {//no send to the same phone no
+                                            new GetAllTransaction().execute();
+
+                                        } else {
+                                            SweetAlertDialog sw = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                            sw.setTitleText("***" + EditerCheackActivity.this.getResources().getString(R.string.phone_no) + "***");
+                                            sw.setContentText("Please , change Phone No ,You Can't Send The Cheque To Yourself");
+                                            sw.setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok));
+                                            sw.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @SuppressLint("WrongConstant")
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    phoneNo.setError("Change");
+                                                    pushCheque.setEnabled(true);
+                                                    sDialog.dismissWithAnimation();
+                                                }
+                                            });
+                                            sw.show();
+                                        }
+
+                                    } else {
+                                        CheckPicText.setError("Required!");
+                                    }
+                                } else {
+                                    Danier.setError("Required!");
+                                }
+                            else {
+                                rowDate.setError("Not valid Date");
+                            }
+                        else {
+                            date.setError("Required!");
+                        }
+                    else {
+                        fName.setError("Required!");
+                        sName.setError("Required!");
+                        tName.setError("Required!");
+                        fourthName.setError("Required!");
+                    }
+                else
+                    phoneNo.setError(getResources().getString(R.string.zero_digit));
+            else {
+                phoneNo.setError("Required!");
+            }
+        else {
+            nationalNo.setError("Required!");
+        }
+
+    }
 
     void checkLanguage() {
         if (language.trim().equals("ar")) {
@@ -676,8 +697,6 @@ public class EditerCheackActivity extends AppCompatActivity {
 
             nationalNo.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_person_black_24dp), null);
-            phoneNo.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_local_phone_black_24dp), null);
 //            reciever.setCompoundDrawablesWithIntrinsicBounds(null, null
 //                    , ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null);
             date.setCompoundDrawablesWithIntrinsicBounds(null, null
@@ -697,8 +716,6 @@ public class EditerCheackActivity extends AppCompatActivity {
             LocaleAppUtils.setConfigChange(EditerCheackActivity.this);
 
             nationalNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_person_black_24dp), null
-                    , null, null);
-            phoneNo.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_local_phone_black_24dp), null
                     , null, null);
 //            reciever.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(EditerCheackActivity.this, R.drawable.ic_location_on_black_24dp), null
 //                    , null, null);
@@ -722,7 +739,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
-        phoneNo.startAnimation(animation);
+        linearPhone.startAnimation(animation);
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
@@ -734,11 +751,15 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
-        company.startAnimation(animation);
+        linearOptional.startAnimation(animation);
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
-        notes.startAnimation(animation);
+        linearAmount.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move_to_right);
+        linearCo.setAnimation(animation);
 
     }
 
@@ -2651,6 +2672,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
         }
+
     }
 
     public boolean isStoragePermissionGranted() {

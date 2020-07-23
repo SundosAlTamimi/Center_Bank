@@ -87,8 +87,7 @@ public class LogInActivity extends AppCompatActivity {
     public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
     public static final String LOGIN_INFO = "LOGIN_INFO";
     private String[] array;
-    private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = ""
-            , serialNo = "", bankNo = "", branchNo = "", countryCode = "962";
+    private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "", countryCode = "962", countryCodeForgetPassword = "962";
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
     private Dialog barcodeDialog;
     private SharedPreferences.Editor editor, edit;
@@ -104,6 +103,7 @@ public class LogInActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private int checkedRemember = -1;// -1 => mean not checked , 0 => not checked, 1=> checked
     public static String ROW_ID_PREFERENCE = "ROW_ID_PREFERENCE";
+    private CountryCodePicker ccp;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -233,7 +233,7 @@ public class LogInActivity extends AppCompatActivity {
         }
 
         public void onClickLogin(View view) {
-            Toast.makeText(context, signupVM.getUsername(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, signupVM.getUsername(), Toast.LENGTH_SHORT).show();
             if (!TextUtils.isEmpty(binding.LogInUserName.getText().toString()))//userName.getText().toString()))// if (signupVM.getUsername().length() == 10)//userName.length() == 10)
                 if (!TextUtils.isEmpty(binding.LogInPassword.getText().toString())) {//password.getText().toString())) {
 //                            userName.setError(null);
@@ -390,6 +390,7 @@ public class LogInActivity extends AppCompatActivity {
             RadioButton emailRB = dialog.findViewById(R.id.forgetPassword_email_rb);
             RadioGroup radioGroup = dialog.findViewById(R.id.forgetPassword_rg);
             TextView textView = dialog.findViewById(R.id.forgetPassword_tv);
+            ccp = dialog.findViewById(R.id.forgetPassword_ccp);
 
             Window window = dialog.getWindow();
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -459,6 +460,13 @@ public class LogInActivity extends AppCompatActivity {
                 }
             });
 
+            ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+                @Override
+                public void onCountrySelected() {
+                    countryCodeForgetPassword = ccp.getSelectedCountryCode();
+
+                }
+            });
 
             dialog.show();
 //            Window window = dialog.getWindow();
@@ -473,7 +481,6 @@ public class LogInActivity extends AppCompatActivity {
             binding.loginRememberMe.setChecked(true);
             binding.loginSearch.setVisibility(View.GONE);
 
-            Toast.makeText(context, binding.LogInUserName.getText().toString(), Toast.LENGTH_SHORT).show();
 
 //            signupVM.setUsername(signupVM.getSearchPhone());
 //            signupVM.setPassword(databaseHandler.getUserInfo(signupVM.getSearchPhone()).getPassword());

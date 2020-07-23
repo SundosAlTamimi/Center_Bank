@@ -384,7 +384,9 @@
 
                     </TableRow>
 
-                    <TableRow
+                    <LinearLayout
+                        android:id="@+id/giro_phone_linear"
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
@@ -392,35 +394,31 @@
                         android:background="@drawable/edit_bac_s"
                         android:gravity="center">
 
-                        <!--<TextView-->
-                        <!--android:id="@+id/textVi"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_margin="2dp"-->
-                        <!--android:text="Phone No."-->
-                        <!--android:textColor="@color/colorWhite"-->
-                        <!--android:textSize="18sp"-->
-                        <!--android:textStyle="bold" />-->
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/giro_ccp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:ccp_contentColor="@color/white"
+                            app:ccp_defaultNameCode="JO"
+                            />
 
                         <EditText
-                            android:id="@+id/editorCheque_phoneNo"
+                            android:id="@+id/giro_phoneNo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
                             android:background="@color/Nocolor"
-                            android:drawableLeft="@drawable/ic_local_phone_black_24dp"
-                            android:drawablePadding="10dp"
                             android:fontFamily="serif"
-                            android:hint="@string/phone_no"
+                            android:hint="771122334"
                             android:inputType="phone"
                             android:maxLength="10"
                             android:padding="5dp"
                             android:textColor="@color/colorWhite"
                             android:textColorHint="@color/colorWhite"
                             android:textCursorDrawable="@null"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"/>
+                    </LinearLayout>
 
-                    </TableRow>
                     <!--</LinearLayout>-->
 
                     <TableRow
