@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.falconssoft.centerbank.Models.LoginINFO;
 import com.google.android.material.snackbar.Snackbar;
+import com.hbb20.CountryCodePicker;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -75,6 +76,8 @@ public class Request extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
     private LinearLayout coordinatorLayout;
+    private CountryCodePicker ccp;
+    private String countryCode = "962";
 
     LoginINFO infoUser;
     DatabaseHandler databaseHandler;
@@ -92,7 +95,14 @@ public class Request extends AppCompatActivity {
         TOUSER_no = phoneNo.getText().toString();
         TOUSER_Name = edit_customerName.getText().toString();
         AMOUNT = amountDinar.getText().toString();
-        if(!TextUtils.isEmpty(TOUSER_no)){}
+        if(!TextUtils.isEmpty(TOUSER_no)){
+            if (!String.valueOf(TOUSER_no.charAt(0)).equals("0"));
+                else
+            {
+                phoneNo.setError(getResources().getString(R.string.zero_digit));
+                isFull=false;
+            }
+        }
         else
         {
             phoneNo.setError(getResources().getString(R.string.required));
@@ -125,6 +135,7 @@ public class Request extends AppCompatActivity {
         note = findViewById(R.id.edit_notes);
         databaseHandler=new DatabaseHandler(Request.this);
         infoUser=databaseHandler.getActiveUserInfo();
+        ccp = findViewById(R.id.edit_ccp);
 
         sendButton = findViewById(R.id.AcceptButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +167,14 @@ public class Request extends AppCompatActivity {
 
             }
         });
+
+        ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected() {
+                countryCode = ccp.getSelectedCountryCode();
+
+            }
+        });
     }
 
     private void getUserInfo() throws JSONException {
@@ -172,7 +191,7 @@ public class Request extends AppCompatActivity {
 
         obj.put("FROMUSER", FROMUSER_No);
         obj.put("FROMUSERNM", FROMUSER_Name);
-        obj.put("TOUSER", TOUSER_no);
+        obj.put("TOUSER", countryCode + TOUSER_no);
         obj.put("TOUSERNM", TOUSER_Name);
         obj.put("COMPNAME", COMPNAME);
         obj.put("NOTE", NOTE);

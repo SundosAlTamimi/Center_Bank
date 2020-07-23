@@ -29,6 +29,12 @@
             app:showAsAction="always" />
 
         <item
+            android:id="@+id/menu_lost_steal"
+            android:icon="@drawable/cheque_icon"
+            android:title="Lost/Stealing"
+            app:showAsAction="always" />
+
+        <item
             android:id="@+id/menu_verification"
             android:icon="@drawable/ic_playlist_check"
             android:title="@string/verification"
