@@ -53,6 +53,8 @@
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:hint="type here"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:background="@drawable/edit_bac_"
                 android:lines="6"/>
         </LinearLayout>

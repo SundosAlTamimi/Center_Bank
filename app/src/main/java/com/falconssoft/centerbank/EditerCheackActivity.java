@@ -13,9 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
-import android.graphics.PixelFormat;
-import android.hardware.Camera;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -30,8 +27,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -53,12 +48,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.ContextCompat;
 
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
-import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
-import com.github.mikephil.charting.utils.FileUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -82,9 +74,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -95,26 +85,19 @@ import java.nio.ByteBuffer;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import cn.pedant.SweetAlert.Constants;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static android.view.View.DRAWING_CACHE_QUALITY_HIGH;
-import static android.widget.LinearLayout.VERTICAL;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.Map;
 
-import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditerCheackActivity extends AppCompatActivity {
@@ -163,7 +146,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     SweetAlertDialog pd;
     boolean isPermition;
     ChequeInfo chequeInfoReSendEd;
-    private String currencyLanguage = "En", amountWord, countryCode = "962";
+    private String currencyLanguage = "ع", amountWord, countryCode = "962";
     private NumberToArabic numberToArabic;
     private Spinner spinner;
     private ArrayAdapter arrayAdapter;
@@ -193,8 +176,8 @@ public class EditerCheackActivity extends AppCompatActivity {
         today = df.format(currentTimeAndDate);
         date.setText(convertToEnglish(today));
 
-        linerEditing.setVisibility(View.VISIBLE);
-        linerBarcode.setVisibility(View.GONE);
+        linerEditing.setVisibility(View.GONE);
+        linerBarcode.setVisibility(View.VISIBLE);
         scanBarcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -317,57 +300,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String amount = "", amount2 = "";
-            if (currencyLanguage.equals("En")) {
-                TafqeetEnglish tafqeetEnglish = new TafqeetEnglish();
 
-                if (!Danier.getText().toString().equals("")) {
-                    if (!phails.getText().toString().equals("")) { // dinar and fils
-                        amount = Danier.getText().toString();// + "." + phails.getText().toString();
-                        amount2 = phails.getText().toString();
-                        amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar And " + tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
-                    } else { // dinar
-                        amount = Danier.getText().toString();// + "." + phails.getText().toString();
-                        amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar";
-                    }
-                } else if (!phails.getText().toString().equals("")) { //  fils
-                    if (Danier.getText().toString().equals("")) {
-                        amount2 = phails.getText().toString();
-                        amountWord = tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
-                    }
-                }
-
-                AmouWord.setText(amountWord);
-            } else if (currencyLanguage.equals("ع")) {
-
-                if (!Danier.getText().toString().equals("")) {
-
-                    if (!phails.getText().toString().equals("")) {
-                        amount = Danier.getText().toString() + "." + phails.getText().toString();
-                    } else {
-                        amount = Danier.getText().toString() + "." + "00";
-                    }
-                }
-
-                if (!phails.getText().toString().equals("")) {
-
-                    if (!Danier.getText().toString().equals("")) {
-                        amount = Danier.getText().toString() + "." + phails.getText().toString();
-                    } else {
-                        amount = "00" + "." + phails.getText().toString();
-                    }
-                }
-                numberToArabic = new NumberToArabic();
-                String amountWord = numberToArabic.getArabicString(amount);
-                AmouWord.setText(amountWord + " فقط لا غير");
-            }
-
-            Log.e("Ammount", "Jd +" + amountWord);
-
-
-            if (phails.getText().toString().equals("") && Danier.getText().toString().equals("")) {
-                AmouWord.setText("");
-            }
+            ConvertCurrency();
 
 
         }
@@ -377,6 +311,92 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         }
     };
+
+    void ConvertCurrency(){
+        String amount = "", amount2 = "";
+        if (currencyLanguage.equals("En")) {
+            TafqeetEnglish tafqeetEnglish = new TafqeetEnglish();
+
+            if (!Danier.getText().toString().equals("")) {
+                if (!phails.getText().toString().equals("")) { // dinar and fils
+                    amount = Danier.getText().toString();// + "." + phails.getText().toString();
+                    amount2 = phails.getText().toString();
+                    amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar And " + tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
+                } else { // dinar
+                    amount = Danier.getText().toString();// + "." + phails.getText().toString();
+                    amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar";
+                }
+            } else if (!phails.getText().toString().equals("")) { //  fils
+                if (Danier.getText().toString().equals("")) {
+                    amount2 = phails.getText().toString();
+                    amountWord = tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
+                }
+            }
+
+            AmouWord.setText(amountWord);
+        } else if (currencyLanguage.equals("ع")){
+
+//            if (!Danier.getText().toString().equals("")) {
+//
+//                if (!phails.getText().toString().equals("")) {
+//                    amount = Danier.getText().toString() + "." + phails.getText().toString();
+//                } else {
+//                    amount = Danier.getText().toString() + "." + "00";
+//                }
+//            }
+//
+//            if (!phails.getText().toString().equals("")) {
+//
+//                if (!Danier.getText().toString().equals("")) {
+//                    amount = Danier.getText().toString() + "." + phails.getText().toString();
+//                } else {
+//                    amount = "00" + "." + phails.getText().toString();
+//                }
+//            }
+//            numberToArabic = new NumberToArabic();
+//            String amountWord = numberToArabic.getArabicString(amount);
+//            AmouWord.setText(amountWord + " فقط لا غير");
+
+
+            NumberToArabic numberToArabic = new NumberToArabic();
+
+            if (!Danier.getText().toString().equals("")) {
+                if (!phails.getText().toString().equals("")) { // dinar and fils
+                    amount = Danier.getText().toString();// + "." + phails.getText().toString();
+                    amount2 = phails.getText().toString();
+                    amountWord = numberToArabic.getArabicString(amount) + " و " + convertDinarToFilse(numberToArabic.getArabicString(amount2)) ;
+                } else { // dinar
+                    amount = Danier.getText().toString();// + "." + phails.getText().toString();
+                    amountWord = numberToArabic.getArabicString(amount) ;
+                }
+            } else if (!phails.getText().toString().equals("")) { //  fils
+                if (Danier.getText().toString().equals("")) {
+                    amount2 = phails.getText().toString();
+                    amountWord =convertDinarToFilse( numberToArabic.getArabicString(amount2)) ;
+                }
+            }
+
+            AmouWord.setText(amountWord);
+
+
+        }
+
+        Log.e("Ammount", "Jd +" + amountWord);
+
+
+        if (phails.getText().toString().equals("") && Danier.getText().toString().equals("")) {
+            AmouWord.setText("");
+        }
+
+    }
+    String convertDinarToFilse(String ammount){
+        String filsAmm="";
+        filsAmm=ammount.replace("ديناراً","فلس").replace("دينار","فلس").replace("دنانير","فلس");
+
+             return    filsAmm;
+
+    }
+
 
     private void initi() {
         linerEditing = findViewById(R.id.linerEditing);
@@ -399,8 +419,9 @@ public class EditerCheackActivity extends AppCompatActivity {
         linearAmount = findViewById(R.id.editorCheque_linear_amount);
         linearCo = findViewById(R.id.editorCheque_linear_co);
 
-        arrayList.add("En");
         arrayList.add("ع");
+        arrayList.add("En");
+
         arrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, arrayList);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
         spinner.setAdapter(arrayAdapter);
@@ -408,6 +429,7 @@ public class EditerCheackActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 currencyLanguage = adapterView.getItemAtPosition(i).toString();
+                ConvertCurrency();
             }
 
             @Override
@@ -415,6 +437,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
             }
         });
+
 
         progressDialog = new ProgressDialog(this);
         progressDialog = new ProgressDialog(this);
@@ -642,7 +665,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                new Image().execute();
 //                                   new  IsCheckPinding().execute();
                                         if (!localPhoneNo.equals(phoneNoUser)) {//no send to the same phone no
-                                            new GetAllTransaction().execute();
+                                            new SaveCheckTemp().execute();
 
                                         } else {
                                             SweetAlertDialog sw = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
@@ -1254,7 +1277,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     }
 
     // ******************************************** SAVE *************************************
-    private class GetAllTransaction extends AsyncTask<String, String, String> {
+    private class SaveCheckTemp extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
         private BufferedReader reader = null;

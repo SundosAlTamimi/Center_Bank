@@ -33,6 +33,10 @@
             android:name=".MainActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
+            android:name=".LostAndStealing"
+            android:screenOrientation="sensorPortrait" />
+
+        <activity
             android:name=".CashierCheque"
             android:screenOrientation="sensorPortrait" />
         <activity

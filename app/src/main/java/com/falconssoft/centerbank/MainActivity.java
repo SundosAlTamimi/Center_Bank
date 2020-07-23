@@ -718,6 +718,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
             break;
+
+            case R.id.menu_lost_steal: {
+                Intent intent = new Intent(MainActivity.this, LostAndStealing.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
+            }
+            break;
         }
 
         return true;

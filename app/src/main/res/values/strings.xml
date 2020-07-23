@@ -165,5 +165,6 @@
     <string name="beneficiary_mobile">Beneficiary mobile</string>
 
     <string name="zero_digit">Enter phone number without zero at the beginning!</string>
+    <string name="lost">Lost</string>
 
 </resources>

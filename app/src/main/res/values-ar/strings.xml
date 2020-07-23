@@ -159,4 +159,5 @@
     <string name="to_the_master">To the master</string>
     <string name="branch_name">Branch Name :</string>
     <string name="beneficiary_mobile">Beneficiary mobile</string>
+    <string name="lost">Lost</string>
 </resources>
