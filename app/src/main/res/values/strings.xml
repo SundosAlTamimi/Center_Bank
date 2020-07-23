@@ -162,5 +162,6 @@
     <string name="to_the_master">To the master</string>
     <string name="branch_name">Branch Name :</string>
     <string name="passport">Passport ID</string>
+    <string name="lost">Lost</string>
 
 </resources>
