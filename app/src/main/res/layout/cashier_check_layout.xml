@@ -197,30 +197,45 @@
                         app:autoSizeStepGranularity="2sp"
                         app:autoSizeTextType="uniform" />
 
-                    <EditText
-                        android:id="@+id/cashier_phone"
+                    <LinearLayout
+                        android:id="@+id/editorCheque_phone_linear"
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/edit_bac_s"
-                        android:drawableLeft="@drawable/ic_local_phone_black_24dp"
-                        android:drawablePadding="5dp"
-                        android:fontFamily="serif"
-                        android:hint="@string/phone_number"
-                        android:inputType="phone"
-                        android:maxLength="10"
-                        android:nextFocusDown="@id/signUp_address"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/colorWhiteLight"
-                        android:textColorHint="@color/colorWhiteLight"
-                        android:textCursorDrawable="@null"
-                        android:textSize="14sp"
-                        app:autoSizeMaxTextSize="20sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
+                        android:gravity="center">
+
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/cashierCheck_ccp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:ccp_contentColor="@color/white"
+                            app:ccp_defaultNameCode="JO"
+                            />
+
+                        <EditText
+                            android:id="@+id/cashier_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="serif"
+                            android:hint="@string/phone_number"
+                            android:inputType="phone"
+                            android:maxLength="10"
+                            android:nextFocusDown="@id/signUp_address"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textColorHint="@color/colorWhiteLight"
+                            android:textCursorDrawable="@null"
+                            android:textSize="14sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform"/>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/signup_nameLinear"

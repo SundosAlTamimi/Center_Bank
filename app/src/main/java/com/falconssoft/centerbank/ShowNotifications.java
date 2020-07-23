@@ -71,7 +71,7 @@ public class ShowNotifications {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
                 /*.setLargeIcon(largeIcon)*/
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp) //needs white icon with transparent BG (For all platforms)
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                .setColor(ContextCompat.getColor(context, R.color.yellow))
                 .setVibrate(new long[]{1000, 1000})
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setContentIntent(pendingIntent)

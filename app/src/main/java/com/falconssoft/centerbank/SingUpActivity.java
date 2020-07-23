@@ -47,8 +47,7 @@ public class SingUpActivity extends AppCompatActivity {
     private SimpleDateFormat df;
     private Calendar myCalendar;
     private EditText natonalNo, phoneNo, address, email, password, firstName, secondName, thirdName, fourthName;
-    private String language, today, selectedAccount = "Account Type", selectedGender = "Gender", countryCode = "962"
-            , selectedDocument = "National ID";
+    private String language, today, selectedAccount = "Account Type", selectedGender = "Gender", countryCode = "962", selectedDocument = "National ID";
     private Animation animation;
     private LinearLayout linearLayout, coordinatorLayout, accountTypeLinear, genderLinear, phoneLinear, nationalLinear;
     private Button save;
@@ -70,7 +69,6 @@ public class SingUpActivity extends AppCompatActivity {
 
 //        language = getIntent().getStringExtra(LANGUAGE_FLAG);
         init();
-        ccp = (CountryCodePicker) findViewById(R.id.signUp_ccp);
         ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
@@ -108,70 +106,74 @@ public class SingUpActivity extends AppCompatActivity {
         String localEmail = email.getText().toString();
         String localPassword = password.getText().toString();
         String localBirthDate = date_text.getText().toString();
+//        Log.e("phone", "" + localPhone.charAt(0) + "            " + (String.valueOf(localPhone.charAt(0))).equals("0"));
 
         if (!selectedAccount.equals(getResources().getString(R.string.account_type)))
             if (!selectedGender.equals(getResources().getString(R.string.gender)))
                 if (!TextUtils.isEmpty(localNationalID))
                     if (localNationalID.length() == 10)
-                        if (!TextUtils.isEmpty(localFirstName))
-                            if (!TextUtils.isEmpty(localSecondName))
-                                if (!TextUtils.isEmpty(localThirdName))
-                                    if (!TextUtils.isEmpty(localFourthName))
-                                        if (!TextUtils.isEmpty("" + localPhone))
-                                            if (localPhone.length() == 9)
-                                                if (!TextUtils.isEmpty(localAddress))
-                                                    if (!TextUtils.isEmpty(localEmail))
-                                                        if (Patterns.EMAIL_ADDRESS.matcher(localEmail).matches())
-                                                            if (!TextUtils.isEmpty(localPassword))
-                                                                if (isValidPassword(localPassword)) {
+                        if (!TextUtils.isEmpty("" + localPhone))
+                            if (localPhone.length() == 9)
+                                if (!String.valueOf(localPhone.charAt(0)).equals("0"))
+                                    if (!TextUtils.isEmpty(localFirstName))
+                                        if (!TextUtils.isEmpty(localSecondName))
+                                            if (!TextUtils.isEmpty(localThirdName))
+                                                if (!TextUtils.isEmpty(localFourthName))
+                                                    if (!TextUtils.isEmpty(localAddress))
+                                                        if (!TextUtils.isEmpty(localEmail))
+                                                            if (Patterns.EMAIL_ADDRESS.matcher(localEmail).matches())
+                                                                if (!TextUtils.isEmpty(localPassword))
+                                                                    if (isValidPassword(localPassword)) {
 //                                                                    Log.e("username", countryCode + localPhone);
-                                                                    LoginINFO loginINFO = new LoginINFO();
-                                                                    loginINFO.setNationalID(localNationalID);
-                                                                    loginINFO.setFirstName(localFirstName);
-                                                                    loginINFO.setSecondName(localSecondName);
-                                                                    loginINFO.setThirdName(localThirdName);
-                                                                    loginINFO.setFourthName(localFourthName);
-                                                                    loginINFO.setUsername(countryCode + localPhone);
-                                                                    loginINFO.setAddress(localAddress);
-                                                                    loginINFO.setEmail(localEmail);
-                                                                    loginINFO.setPassword(localPassword);
-                                                                    loginINFO.setBirthDate(localBirthDate);
+                                                                        LoginINFO loginINFO = new LoginINFO();
+                                                                        loginINFO.setNationalID(localNationalID);
+                                                                        loginINFO.setFirstName(localFirstName);
+                                                                        loginINFO.setSecondName(localSecondName);
+                                                                        loginINFO.setThirdName(localThirdName);
+                                                                        loginINFO.setFourthName(localFourthName);
+                                                                        loginINFO.setUsername(countryCode + localPhone);
+                                                                        loginINFO.setAddress(localAddress);
+                                                                        loginINFO.setEmail(localEmail);
+                                                                        loginINFO.setPassword(localPassword);
+                                                                        loginINFO.setBirthDate(localBirthDate);
 
-                                                                    if (selectedDocument.equals("National ID") || selectedDocument.equals("الرقم الوطني"))
-                                                                        loginINFO.setPersonalDocType("0");
-                                                                    else
-                                                                        loginINFO.setPersonalDocType("1");
+                                                                        if (selectedDocument.equals("National ID") || selectedDocument.equals("الرقم الوطني"))
+                                                                            loginINFO.setPersonalDocType("0");
+                                                                        else
+                                                                            loginINFO.setPersonalDocType("1");
 
-                                                                    if (selectedGender.equals("Male") || selectedDocument.equals("ذكر"))
-                                                                        loginINFO.setGender("0");
-                                                                    else
-                                                                        loginINFO.setGender("1");
+                                                                        if (selectedGender.equals("Male") || selectedDocument.equals("ذكر"))
+                                                                            loginINFO.setGender("0");
+                                                                        else
+                                                                            loginINFO.setGender("1");
 
-                                                                    showDialog();
-                                                                    new Presenter(SingUpActivity.this).saveSignUpInfo(this, loginINFO);
+                                                                        showDialog();
+                                                                        new Presenter(SingUpActivity.this).saveSignUpInfo(this, loginINFO);
 
-                                                                } else
-                                                                    password.setError("Password must contains at least 6 digits, capital letter, number and special character");
+                                                                    } else
+                                                                        password.setError("Password must contains at least 6 digits, capital letter, number and special character");
+                                                                else
+                                                                    password.setError(getResources().getString(R.string.required));
                                                             else
-                                                                password.setError(getResources().getString(R.string.required));
+                                                                email.setError("Not valid email!");
                                                         else
-                                                            email.setError("Not valid email!");
+                                                            email.setError(getResources().getString(R.string.required));
                                                     else
-                                                        email.setError(getResources().getString(R.string.required));
+                                                        address.setError(getResources().getString(R.string.required));
                                                 else
-                                                    address.setError(getResources().getString(R.string.required));
+                                                    fourthName.setError(getResources().getString(R.string.required));
                                             else
-                                                phoneNo.setError("Phone number is less than 10 digits!");
+                                                thirdName.setError(getResources().getString(R.string.required));
                                         else
-                                            phoneNo.setError(getResources().getString(R.string.required));
+                                            secondName.setError(getResources().getString(R.string.required));
                                     else
-                                        fourthName.setError(getResources().getString(R.string.required));
+                                        firstName.setError(getResources().getString(R.string.required));
                                 else
-                                    thirdName.setError(getResources().getString(R.string.required));
+                                    phoneNo.setError("Enter phone number without zero at the beginning!");
                             else
-                                secondName.setError(getResources().getString(R.string.required));
+                                phoneNo.setError("Phone number is less than 10 digits!");
                         else
-                            firstName.setError(getResources().getString(R.string.required));
+                            phoneNo.setError(getResources().getString(R.string.required));
                     else
                         natonalNo.setError("National number is less than 10 digits!");
                 else
@@ -222,6 +224,7 @@ public class SingUpActivity extends AppCompatActivity {
         genderLinear = findViewById(R.id.signUp_gender_linear);
         phoneLinear = findViewById(R.id.signUp_phone_linear);
         nationalLinear = findViewById(R.id.signUp_documentType_linear);
+        ccp = findViewById(R.id.signUp_ccp);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getResourceName(R.string.please_waiting));
