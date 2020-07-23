@@ -89,6 +89,7 @@ public class LogInActivity extends AppCompatActivity {
     private String[] array;
     private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = ""
             , serialNo = "", bankNo = "", branchNo = "", countryCode = "962";
+    private String checkNo = "", accountCode = "", ibanNo = "", customerName = "", qrCode = "", serialNo = "", bankNo = "", branchNo = "", countryCode = "962";
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
     private Dialog barcodeDialog;
     private SharedPreferences.Editor editor, edit;
