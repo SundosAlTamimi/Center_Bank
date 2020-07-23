@@ -16,10 +16,13 @@ import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -266,7 +269,19 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.show_check_detail);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+//            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+//            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//            lp.gravity = Gravity.CENTER;
+            lp.windowAnimations = R.style.DialogAnimation;
+            dialog.getWindow().setAttributes(lp);
+
+
             dialog.show();
+
+
             LinearLayout linearLayout = dialog.findViewById(R.id.mainLinearDetail);
             if (language.equals("ar")) {
                 linearLayout.setLayoutDirection(LAYOUT_DIRECTION_RTL);
@@ -453,6 +468,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    final AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.2F);
+                    view.startAnimation(buttonClick);
                     new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText(R.string.Confirm)
                             .setContentText(context.getResources().getString(R.string.message_forAccept))
@@ -483,6 +500,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             reject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    final AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.2F);
+                    view.startAnimation(buttonClick);
                     // alertDialog + reson
 
                     new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
@@ -522,7 +541,13 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         dialog_reson.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog_reson.setContentView(R.layout.reson_dialog);
         dialog_reson.setCancelable(false);
-//        progressDialog = new ProgressDialog(context);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog_reson.getWindow().getAttributes());
+//            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+//            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//            lp.gravity = Gravity.CENTER;
+        lp.windowAnimations = R.style.DialogAnimation;
+        dialog_reson.getWindow().setAttributes(lp);
 
 
 
@@ -532,12 +557,16 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.2F);
+                v.startAnimation(buttonClick);
                 dialog_reson.dismiss();
             }
         });
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.2F);
+                v.startAnimation(buttonClick);
 
                 reson_reject=resonText.getText().toString();
                 if(!TextUtils.isEmpty(reson_reject))

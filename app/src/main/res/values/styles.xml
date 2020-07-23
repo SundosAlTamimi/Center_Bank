@@ -26,4 +26,9 @@
     <style name="DrawerIcon" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/white</item>
     </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slideup</item>
+        <item name="android:windowExitAnimation">@anim/slidebuttom</item>
+    </style>
 </resources>
