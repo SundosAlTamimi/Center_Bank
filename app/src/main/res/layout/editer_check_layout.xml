@@ -22,7 +22,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
@@ -85,45 +85,7 @@
                     <!--android:layout_margin="2dp"-->
                     <!--android:background="@drawable/edit_bac_"-->
                     <!--&gt;-->
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
 
-                        android:gravity="center">
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/ttView27"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_margin="2dp"-->
-                        <!--android:text="ID No."-->
-                        <!--android:textColor="@color/colorWhite"-->
-                        <!--android:textSize="18sp"-->
-                        <!--android:textStyle="bold" />-->
-
-                        <EditText
-                            android:id="@+id/editorCheque_nationalNo"
-                            android:nextFocusDown="@id/editorCheque_phoneNo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:background="@color/Nocolor"
-                            android:drawableStart="@drawable/ic_person"
-                            android:drawablePadding="10dp"
-                            android:fontFamily="serif"
-                            android:hint="@string/national_no"
-                            android:inputType="numberDecimal"
-                            android:textCursorDrawable="@null"
-                            android:maxLength="10"
-                            android:padding="5dp"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="15sp" />
-
-                    </TableRow>
 
                     <LinearLayout
                         android:id="@+id/editorCheque_phone_linear"
@@ -145,7 +107,7 @@
 
                         <EditText
                             android:id="@+id/editorCheque_phoneNo"
-                            android:nextFocusDown="@+id/first_name"
+                            android:nextFocusDown="@+id/editorCheque_nationalNo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
@@ -163,6 +125,46 @@
                     </LinearLayout>
 
                     <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+
+                        android:gravity="center">
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/ttView27"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="2dp"-->
+                        <!--android:text="ID No."-->
+                        <!--android:textColor="@color/colorWhite"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:textStyle="bold" />-->
+
+                        <EditText
+                            android:id="@+id/editorCheque_nationalNo"
+                            android:nextFocusDown="@id/first_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:background="@color/Nocolor"
+                            android:drawableStart="@drawable/ic_person"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="serif"
+                            android:hint="@string/national_no"
+                            android:inputType="textCapWords"
+                            android:textCursorDrawable="@null"
+                            android:maxLength="10"
+                            android:padding="5dp"
+                            android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                    </TableRow>
+
+                    <TableRow
                         android:id="@+id/editorCheque_reciever"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -174,7 +176,7 @@
                             android:id="@+id/first_name"
                             android:nextFocusDown="@+id/second_name"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
@@ -184,7 +186,7 @@
                             android:textColor="@color/colorWhiteLight"
                             android:textColorHint="@color/colorWhiteLight"
                             android:textSize="12sp"
-
+                            android:inputType="textCapWords"
                             app:autoSizeTextType="uniform" />
 
 
@@ -210,12 +212,12 @@
                             android:id="@+id/second_name"
                             android:nextFocusDown="@+id/thered_name"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:textCursorDrawable="@null"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
-
+                            android:inputType="textCapWords"
                             android:hint="@string/second_name"
                             android:padding="10dp"
                             android:textColor="@color/colorWhiteLight"
@@ -228,12 +230,12 @@
                             android:id="@+id/thered_name"
                             android:nextFocusDown="@+id/fourth_name"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:textCursorDrawable="@null"
                             android:background="@drawable/edit_bac_s"
-
+                            android:inputType="textCapWords"
                             android:hint="@string/third_name"
                             android:padding="10dp"
                             android:textColor="@color/colorWhiteLight"
@@ -246,11 +248,12 @@
                             android:id="@+id/fourth_name"
                             android:nextFocusDown="@+id/denier"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
                             android:hint="@string/fourth_name"
+                            android:inputType="textCapWords"
                             android:padding="10dp"
                             android:textCursorDrawable="@null"
                             android:textColor="@color/colorWhiteLight"
@@ -365,7 +368,7 @@
                                 android:gravity="center"
                                 android:hint="@string/dinar"
                                 android:textCursorDrawable="@null"
-                                android:inputType="numberDecimal"
+                                android:inputType="number"
                                 android:padding="5dp"
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
@@ -384,7 +387,7 @@
                                 android:gravity="center"
                                 android:hint="@string/phils"
                                 android:textCursorDrawable="@null"
-                                android:inputType="numberDecimal"
+                                android:inputType="number"
                                 android:padding="5dp"
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
@@ -427,7 +430,7 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/edit_bac_s"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TableRow
                             android:layout_width="match_parent"
@@ -450,8 +453,8 @@
                                 android:textCursorDrawable="@null"
                                 android:fontFamily="serif"
                                 android:hint="@string/company_optional"
-                                android:inputType="textPersonName"
                                 android:padding="5dp"
+                                android:inputType="textCapWords"
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
                                 android:textSize="14sp" />
@@ -478,8 +481,7 @@
                                 android:textCursorDrawable="@null"
                                 android:fontFamily="serif"
                                 android:hint="@string/notes_optional"
-                                android:inputType="textPersonName"
-                                android:padding="5dp"
+                                android:inputType="textCapWords"                                                         android:padding="5dp"
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
                                 android:textSize="14sp" />
@@ -543,6 +545,7 @@
                             android:text="@string/check_pic"
 android:layout_weight="1"
                             android:textColor="@color/colorWhite"
+                            android:inputType="textCapWords"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
