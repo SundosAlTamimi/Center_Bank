@@ -265,15 +265,15 @@
                 android:textColor="@color/colorWhite" />
 
             <Button
-                android:onClick="@{clickHandler::onClickSignup}"
-                android:background="@drawable/edit_bac_sinup2"
-                android:text="@string/sing_up"
-                android:textAllCaps="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="80dp"
                 android:layout_margin="5dp"
+                android:background="@drawable/edit_bac_sinup2"
                 android:fontFamily="serif"
+                android:onClick="@{clickHandler::onClickSignup}"
+                android:paddingHorizontal="80dp"
+                android:text="@string/sing_up"
+                android:textAllCaps="false"
                 android:textColor="@color/colorWhite" />
 
             <TextView

@@ -22,7 +22,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -39,6 +41,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
+import com.falconssoft.centerbank.Models.LoginINFO;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.hbb20.CountryCodePicker;
@@ -106,6 +109,8 @@ public class JeroActivity extends AppCompatActivity {
     SweetAlertDialog pd;
     boolean isPermition;
     private CountryCodePicker ccp;
+    boolean isInGetData = true, userFound = false;
+    LoginINFO userSend;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -378,91 +383,106 @@ public class JeroActivity extends AppCompatActivity {
                                 if (!TextUtils.isEmpty(localDate))
                                     if (!TextUtils.isEmpty(localDinar)) {
                                         if (!TextUtils.isEmpty(serverPic)) {
-                                            SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-                                            String phoneNo1 = loginPrefs.getString("mobile", "");
+                                            if (userFound) {
+                                                SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+                                                String phoneNo1 = loginPrefs.getString("mobile", "");
 
-                                            Danier.setError(null);
-                                            date.setError(null);
-                                            fName.setError(null);
-                                            sName.setError(null);
-                                            tName.setError(null);
-                                            fourthName.setError(null);
-                                            phoneNos.setError(null);
-                                            nationalNo.setError(null);
+                                                Danier.setError(null);
+                                                date.setError(null);
+                                                fName.setError(null);
+                                                sName.setError(null);
+                                                tName.setError(null);
+                                                fourthName.setError(null);
+                                                phoneNos.setError(null);
+                                                nationalNo.setError(null);
 
-                                            String checkBox_C = "", checkBox_Fb = "";
+                                                String checkBox_C = "", checkBox_Fb = "";
 
-                                            if (checkBox_CO.isChecked()) {
-                                                checkBox_C = "1";
-                                            } else {
-                                                checkBox_C = "0";
-                                            }
+                                                if (checkBox_CO.isChecked()) {
+                                                    checkBox_C = "1";
+                                                } else {
+                                                    checkBox_C = "0";
+                                                }
 
-                                            if (checkBox_firstpinifit.isChecked()) {
-                                                checkBox_Fb = "1";
-                                            } else {
-                                                checkBox_Fb = "0";
-                                            }
+                                                if (checkBox_firstpinifit.isChecked()) {
+                                                    checkBox_Fb = "1";
+                                                } else {
+                                                    checkBox_Fb = "0";
+                                                }
 
-                                            ChequeInfo chequeInfo = new ChequeInfo();
-                                            chequeInfo.setBankNo(chequeInfos.getBankNo());
-                                            chequeInfo.setBankName("Jordan Bank");
-                                            chequeInfo.setBranchNo(chequeInfos.getBranchNo());
-                                            chequeInfo.setChequeNo(chequeInfos.getChequeNo());
-                                            chequeInfo.setAccCode(chequeInfos.getAccCode());
-                                            chequeInfo.setIbanNo(chequeInfos.getIbanNo());
-                                            chequeInfo.setCustName(chequeInfos.getCustName());
-                                            chequeInfo.setQrCode(chequeInfos.getQrCode());
-                                            chequeInfo.setSerialNo(chequeInfos.getSerialNo());
-                                            chequeInfo.setChequeData(localDate);
-                                            chequeInfo.setToCustomerName(localReciever);
-                                            chequeInfo.setMoneyInDinar(localDinar);
-                                            chequeInfo.setMoneyInFils(localFils);
-                                            chequeInfo.setMoneyInWord(localMoneyInWord);
-                                            Log.e("setToCustomerMobel", "" + localPhoneNo);
-                                            chequeInfo.setToCustomerMobel(countryCode + localPhoneNo);
-                                            chequeInfo.setToCustomerNationalId(localNationlNo);
-                                            chequeInfo.setChequeImage(serverPic);
-                                            chequeInfo.setUserName(phoneNo1);
-                                            chequeInfo.setISCO(checkBox_C);
-                                            chequeInfo.setISBF(checkBox_Fb);
-                                            chequeInfo.setCompanyName(company.getText().toString());
-                                            chequeInfo.setToCustName(fName.getText().toString());
-                                            chequeInfo.setToCustFName(sName.getText().toString());
-                                            chequeInfo.setToCustGName(tName.getText().toString());
-                                            chequeInfo.setToCustFamalyName(fourthName.getText().toString());
-                                            chequeInfo.setNoteCheck(notes.getText().toString());
-                                            Log.e("showpic", serverPic);
+                                                ChequeInfo chequeInfo = new ChequeInfo();
+                                                chequeInfo.setBankNo(chequeInfos.getBankNo());
+                                                chequeInfo.setBankName("Jordan Bank");
+                                                chequeInfo.setBranchNo(chequeInfos.getBranchNo());
+                                                chequeInfo.setChequeNo(chequeInfos.getChequeNo());
+                                                chequeInfo.setAccCode(chequeInfos.getAccCode());
+                                                chequeInfo.setIbanNo(chequeInfos.getIbanNo());
+                                                chequeInfo.setCustName(chequeInfos.getCustName());
+                                                chequeInfo.setQrCode(chequeInfos.getQrCode());
+                                                chequeInfo.setSerialNo(chequeInfos.getSerialNo());
+                                                chequeInfo.setChequeData(localDate);
+                                                chequeInfo.setToCustomerName(localReciever);
+                                                chequeInfo.setMoneyInDinar(localDinar);
+                                                chequeInfo.setMoneyInFils(localFils);
+                                                chequeInfo.setMoneyInWord(localMoneyInWord);
+                                                Log.e("setToCustomerMobel", "" + localPhoneNo);
+                                                chequeInfo.setToCustomerMobel(countryCode + localPhoneNo);
+                                                chequeInfo.setToCustomerNationalId(localNationlNo);
+                                                chequeInfo.setChequeImage(serverPic);
+                                                chequeInfo.setUserName(phoneNo1);
+                                                chequeInfo.setISCO(checkBox_C);
+                                                chequeInfo.setISBF(checkBox_Fb);
+                                                chequeInfo.setCompanyName(company.getText().toString());
+                                                chequeInfo.setToCustName(fName.getText().toString());
+                                                chequeInfo.setToCustFName(sName.getText().toString());
+                                                chequeInfo.setToCustGName(tName.getText().toString());
+                                                chequeInfo.setToCustFamalyName(fourthName.getText().toString());
+                                                chequeInfo.setNoteCheck(notes.getText().toString());
+                                                Log.e("showpic", serverPic);
 
-                                            Log.e("jero_save", chequeInfo.getToCustomerMobel() + "  " + chequeInfo.getToCustomerNationalId());
+                                                Log.e("jero_save", chequeInfo.getToCustomerMobel() + "  " + chequeInfo.getToCustomerNationalId());
 
-                                            jsonObject = new JSONObject();
-                                            jsonObject = chequeInfo.getJSONObject();
+                                                jsonObject = new JSONObject();
+                                                jsonObject = chequeInfo.getJSONObject();
 
 //                                    imageSend();
 //                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
 //                new Image().execute();
-                                            if (!(countryCode+localPhoneNo).equals(phoneNo)) {//no send to the same phone no
-                                                new SaveGiro().execute();
+                                                if (!(countryCode + localPhoneNo).equals(phoneNo)) {//no send to the same phone no
+                                                    new SaveGiro().execute();
 
+                                                } else {
+                                                    SweetAlertDialog sw = new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                                    sw.setTitleText("***" + JeroActivity.this.getResources().getString(R.string.phone_no) + "***");
+                                                    sw.setContentText("Please , change Phone No ,You Can't Send The Cheque To Yourself");
+                                                    sw.setConfirmText(JeroActivity.this.getResources().getString(R.string.ok));
+                                                    sw.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @SuppressLint("WrongConstant")
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sDialog) {
+                                                            phoneNos.setError("Change");
+                                                            sDialog.dismissWithAnimation();
+                                                        }
+                                                    });
+                                                    sw.show();
+                                                }
+
+
+//                                    new GetAllTransaction().execute();
                                             } else {
                                                 SweetAlertDialog sw = new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE);
                                                 sw.setTitleText("***" + JeroActivity.this.getResources().getString(R.string.phone_no) + "***");
-                                                sw.setContentText("Please , change Phone No ,You Can't Send The Cheque To Yourself");
+                                                sw.setContentText("Cheque App not install in this Phone No  " + "+" + countryCode + localPhoneNo);
                                                 sw.setConfirmText(JeroActivity.this.getResources().getString(R.string.ok));
                                                 sw.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                                     @SuppressLint("WrongConstant")
                                                     @Override
                                                     public void onClick(SweetAlertDialog sDialog) {
-                                                        phoneNos.setError("Change");
                                                         sDialog.dismissWithAnimation();
                                                     }
                                                 });
                                                 sw.show();
                                             }
-
-
-//                                    new GetAllTransaction().execute();
                                         } else {
                                             CheckPicText.setError("Required!");
                                         }
@@ -493,6 +513,43 @@ public class JeroActivity extends AppCompatActivity {
 
         new GetGiro().execute();
 
+
+
+        phoneNos.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_NULL) {
+
+                    getInfoByCustomer();
+                }
+
+                return false;
+            }
+        });
+
+        phoneNos.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    getInfoByCustomer();
+                }
+            }
+        });
+
+    }
+
+
+    void getInfoByCustomer() {
+
+        if (isInGetData) {
+            isInGetData = false;
+            if (!phoneNos.getText().toString().equals("")) {
+                String ToPhoneNo = countryCode + phoneNos.getText().toString();
+                new GetUserInfoByMobo(ToPhoneNo).execute();
+            } else {
+                isInGetData = true;
+            }
+        }
     }
 
     public void readBarCode() {
@@ -1545,6 +1602,195 @@ public class JeroActivity extends AppCompatActivity {
 //            }
 
             cameraIntent();
+
+        }
+    }
+
+
+    public class GetUserInfoByMobo extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+        SweetAlertDialog pdaSweet;
+        String ToPhoneNo = "";
+
+        public GetUserInfoByMobo(String ToPhoneNo) {
+            this.ToPhoneNo = ToPhoneNo;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+            userFound = false;
+            pdaSweet = new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pdaSweet.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+            pdaSweet.setTitleText("Process...");
+            pdaSweet.setCancelable(false);
+            pdaSweet.show();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+
+                String link = serverLink + "GetUserInfoByMobo";
+
+
+//                ACCCODE=0014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390105
+                //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
+                String data = "MOBNO=" + URLEncoder.encode(ToPhoneNo, "UTF-8");
+
+
+                URL url = new URL(link);
+                Log.e("phoneNoUser ,3 ", serverLink + "   " + link + "   " + data + " " + ToPhoneNo);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("GetUserInfoByMobo", "tag -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String JsonResponse) {
+            super.onPostExecute(JsonResponse);
+
+
+            if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
+                Log.e("GetLogSuccess", "****Success");
+
+//
+                try {
+
+                    JSONObject parentArray = new JSONObject(JsonResponse);
+                    JSONArray parentInfo = parentArray.getJSONArray("INFO");
+
+//                    INFO":[{"ROWID":"AABX2UAAPAAAACDAA1","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الصقور للبرمجيات","QRCODE":"390144;004;0099;1014569990011000","SERIALNO":"635088CD7E6D405B","CHECKISSUEDATE":"7\/2\/2020 12:51:57 PM","CHECKDUEDATE":"","TOCUSTOMERNM":"","AMTJD":"","AMTFILS":"","AMTWORD":"","TOCUSTOMERMOB":"","TOCUSTOMERNATID":"","CHECKWRITEDATE":"","CHECKPICPATH":"","USERNO":"","ISCO":"","ISFB":"","COMPANY":"","NOTE":""}]}
+
+
+                    List<LoginINFO> chequePhone = new ArrayList<>();
+
+
+                    for (int i = 0; i < parentInfo.length(); i++) {
+                        JSONObject finalObject = parentInfo.getJSONObject(i);
+
+                        userSend = new LoginINFO();
+
+//      [{"NATID":"4236828854","FIRSTNM":"alaa","FATHERNM":"t","GRANDNM":"yg","FAMILYNM":"ug","DOB":"22\/07\/2020","GENDER":"1","MOBILENO":"962798899716","ADDRESS":"amman","EMIAL":"alaa@gmail.com","PASSWORD":"AalaaA7$","INACTIVE":"0","INDATE":"22\/07\/2020 17:36:22","PASSKIND":"0"}]}
+
+
+                        userSend.setNationalID(finalObject.getString("NATID"));
+                        userSend.setFirstName(finalObject.getString("FIRSTNM"));
+
+
+                        userSend.setSecondName(finalObject.getString("FATHERNM"));
+                        userSend.setThirdName(finalObject.getString("GRANDNM"));
+
+                        userSend.setFourthName(finalObject.getString("FAMILYNM"));
+                        userSend.setBirthDate(finalObject.getString("DOB"));
+
+                        userSend.setGender(finalObject.getString("GENDER"));
+                        userSend.setUsername(finalObject.getString("MOBILENO"));
+
+                        userSend.setAddress(finalObject.getString("ADDRESS"));
+                        userSend.setEmail(finalObject.getString("EMIAL"));
+
+                        userSend.setPassword(finalObject.getString("PASSWORD"));//?
+                        userSend.setInactive(finalObject.getString("INACTIVE"));//?
+
+                        userSend.setNationality(finalObject.getString("PASSKIND"));
+
+                        chequePhone.add(userSend);
+
+                    }
+
+                    nationalNo.setText(userSend.getNationalID());
+                    fName.setText(userSend.getFirstName());
+                    sName.setText(userSend.getSecondName());
+                    tName.setText(userSend.getThirdName());
+                    fourthName.setText(userSend.getFourthName());
+
+                    isInGetData = true;
+                    userFound = true;
+                    pdaSweet.dismissWithAnimation();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }//
+
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"User Not found.")) {
+                isInGetData = true;
+                nationalNo.setText("");
+                fName.setText("");
+                sName.setText("");
+                tName.setText("");
+                fourthName.setText("");
+
+                Log.e("StatusDescreption", "****User Not found.");
+                pdaSweet.dismissWithAnimation();
+
+                userFound = false;
+                new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Can't Send")
+                        .setContentText("Install App")
+                        .show();
+
+
+            }
 
         }
     }

@@ -442,9 +442,9 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/edit_bac_s"
+                                    android:gravity="start"
                                     android:hint="@string/dinar"
                                     android:padding="2dp"
-                                    android:gravity="start"
                                     android:textColorHint="@color/colorWhiteLight"
                                     app:hintTextColor="@color/white">
 
@@ -473,9 +473,9 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/edit_bac_s"
+                                    android:gravity="start"
                                     android:hint="@string/phils"
                                     android:padding="2dp"
-                                    android:gravity="start"
                                     android:textColorHint="@color/colorWhiteLight"
                                     app:hintTextColor="@color/white">
 

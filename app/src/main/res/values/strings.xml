@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Cheque editor</string>
-    <string name="cheque_app">Cheque App</string>
+    <string name="cheque_app">Che Cati</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
     <string name="version">Version</string>
@@ -41,8 +41,8 @@
     <string name="amount_in_word">Amount in word</string>
     <string name="check_pic">Check Pic</string>
     <string name="send">Send</string>
-    <string name="please_scan_the_barcode_to_continue_editing_the_check">Please scan the barcode to continue editing the check ...</string>
-    <string name="scan_barcode">Scan Barcode</string>
+    <string name="please_scan_the_barcode_to_continue_editing_the_check">Please Scan The QR Code To Continue Editing The Check ...</string>
+    <string name="scan_barcode">Scan QR Code</string>
     <string name="have_a_problem">have a problem !</string>
     <string name="check">Check</string>
     <string name="serial_no">Serial No</string>
@@ -174,7 +174,7 @@
     <string name="date_of_birth">Date Of Birth</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="nationality">Nationality</string>
-    <string name="id_number">Id Number</string>
+    <string name="id_number">National No.</string>
     <string name="national_no_length">National number is less than 10 digits!</string>
     <string name="password_syntax">Password must contains at least 6 digits, capital letter, number and special character</string>
     <string name="remove_zero">Enter phone number without zero at the beginning!</string>
@@ -189,6 +189,9 @@
     <string name="user_not_found">User Not Found!</string>
     <string name="check_internet_connection">Please Check Internet Connection!</string>
     <string name="new_account_saved_successfully">New Account Saved Successfully</string>
+    <string name="welcome">Welcome</string>
+    <string name="lost_stealing">Lost/Stealing</string>
+    <string name="bank_of_jordan">Bank Of Jordan</string>
 
 
 </resources>
