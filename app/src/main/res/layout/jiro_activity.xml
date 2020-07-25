@@ -345,6 +345,44 @@
                     <!--android:layout_margin="2dp"-->
                     <!--android:background="@drawable/edit_bac_"-->
                     <!--&gt;-->
+
+
+                    <LinearLayout
+                        android:id="@+id/giro_phone_linear"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+                        android:gravity="center">
+
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/giro_ccp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:ccp_contentColor="@color/white"
+                            app:ccp_defaultNameCode="JO"
+                            />
+
+                        <EditText
+                            android:id="@+id/giro_phoneNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:nextFocusDown="@+id/first_name"
+                            android:layout_margin="2dp"
+                            android:background="@color/Nocolor"
+                            android:fontFamily="serif"
+                            android:hint="@string/_7xxxxxxxx"
+                            android:inputType="phone"
+                            android:maxLength="9"
+                            android:padding="5dp"
+                            android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite"
+                            android:textCursorDrawable="@null"
+                            android:textSize="15sp"/>
+                    </LinearLayout>
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -386,42 +424,7 @@
 
                     </TableRow>
 
-                    <LinearLayout
-                        android:id="@+id/giro_phone_linear"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:gravity="center">
 
-                        <com.hbb20.CountryCodePicker
-                            android:id="@+id/giro_ccp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:ccp_contentColor="@color/white"
-                            app:ccp_defaultNameCode="JO"
-                            />
-
-                        <EditText
-                            android:id="@+id/giro_phoneNo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:nextFocusDown="@+id/first_name"
-                            android:layout_margin="2dp"
-                            android:background="@color/Nocolor"
-                            android:fontFamily="serif"
-                            android:hint="771122334"
-                            android:inputType="phone"
-                            android:maxLength="9"
-                            android:padding="5dp"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textCursorDrawable="@null"
-                            android:textSize="15sp"/>
-                    </LinearLayout>
 
                     <!--</LinearLayout>-->
 

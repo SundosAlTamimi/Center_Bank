@@ -80,6 +80,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -487,7 +488,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         dbHandler = new DatabaseHandler(MainActivity.this);
         usernameTv = findViewById(R.id.main_username);
-        usernameTv.setText("Welcome " + username);
+        usernameTv.setText(MainActivity.this.getResources().getString(R.string.welcome)+"  " + username);
         cashierCheque = findViewById(R.id.main_cashier);
         jerro = findViewById(R.id.main_jero);
         wallet = findViewById(R.id.main_wallet);
@@ -834,9 +835,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             okTV = dialog.findViewById(R.id.dialog_validation_ok);
             cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
 
-            chequeWriterTV.setText(customerName);
-            accountNoTV.setText(accountNo);
-            chequeNoTV.setText(chequeNo);
+
+            if (language.trim().equals("ar")) {
+                LocaleAppUtils.setLocale(new Locale("ar"));
+                LocaleAppUtils.setConfigChange(MainActivity.this);
+                chequeWriterTV.setText(customerName);
+                accountNoTV.setText(convertToArabic(accountNo));
+                chequeNoTV.setText(convertToArabic(chequeNo));
+            }else {
+                LocaleAppUtils.setLocale(new Locale("en"));
+                LocaleAppUtils.setConfigChange(MainActivity.this);
+                chequeWriterTV.setText(customerName);
+                accountNoTV.setText(accountNo);
+                chequeNoTV.setText(chequeNo);
+            }
             okTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -870,6 +882,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+
+
+    public String convertToArabic(String value) {
+        String newValue = (((((((((((value + "").replaceAll("1", "١")).replaceAll("2", "٢")).replaceAll("3", "٣")).replaceAll("4", "٤")).replaceAll("5", "٥")).replaceAll("6", "٦")).replaceAll("7", "٧")).replaceAll("8", "٨")).replaceAll("9", "٩")).replaceAll("0", "٠").replaceAll(".", "٫"));
+        return newValue;
+    }
+
 
     void showSweetDialog(boolean check, String customerName, String BankNo, String accountNo) {
         if (check) {

@@ -500,6 +500,15 @@ public class LogInActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+    public String convertToArabic(String value) {
+        String newValue = (((((((((((value + "").replaceAll("1", "١")).replaceAll("2", "٢")).replaceAll("3", "٣")).replaceAll("4", "٤")).replaceAll("5", "٥")).replaceAll("6", "٦")).replaceAll("7", "٧")).replaceAll("8", "٨")).replaceAll("9", "٩")).replaceAll("0", "٠").replaceAll(".", "٫"));
+        return newValue;
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -551,9 +560,20 @@ public class LogInActivity extends AppCompatActivity {
             cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
             cancelTV.setVisibility(View.GONE);
 
-            chequeNoTV.setText(chequeNo);
-            chequeWriterTV.setText(customerName);
-            accountNoTV.setText(accountNo);
+
+            if (language.trim().equals("ar")) {
+                LocaleAppUtils.setLocale(new Locale("ar"));
+                LocaleAppUtils.setConfigChange(LogInActivity.this);
+                chequeWriterTV.setText(customerName);
+                accountNoTV.setText(convertToArabic(accountNo));
+                chequeNoTV.setText(convertToArabic(chequeNo));
+            }else {
+                LocaleAppUtils.setLocale(new Locale("en"));
+                LocaleAppUtils.setConfigChange(LogInActivity.this);
+                chequeWriterTV.setText(customerName);
+                accountNoTV.setText(accountNo);
+                chequeNoTV.setText(chequeNo);
+            }
             okTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -579,6 +599,8 @@ public class LogInActivity extends AppCompatActivity {
         }
 
     }
+
+
 
     void showDialog() {
         progressDialog.show();

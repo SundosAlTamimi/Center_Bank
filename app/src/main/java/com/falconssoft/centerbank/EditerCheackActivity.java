@@ -330,7 +330,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             ConvertCurrency();
-            serverPic="";
+            serverPic = "";
             CheckPic.setImageBitmap(null);
 
         }
@@ -351,7 +351,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            serverPic="";
+            serverPic = "";
             CheckPic.setImageBitmap(null);
 
         }
@@ -362,9 +362,9 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     };
 
-    void ConvertCurrency(){
+    void ConvertCurrency() {
         String amount = "", amount2 = "";
-        amountWord="";
+        amountWord = "";
         if (currencyLanguage.equals("En")) {
             TafqeetEnglish tafqeetEnglish = new TafqeetEnglish();
 
@@ -384,7 +384,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                 }
             }
 
-            AmouWord.setText(amountWord+ " Only");
+            AmouWord.setText(amountWord + " Only");
         } else if (currencyLanguage.equals("عربي")) {
 
 //            if (!Danier.getText().toString().equals("")) {
@@ -416,16 +416,16 @@ public class EditerCheackActivity extends AppCompatActivity {
                 if (!phails.getText().toString().equals("")) {
                     amount = Danier.getText().toString();// + "." + phails.getText().toString();
                     amount2 = phails.getText().toString();
-                    if (Integer.parseInt(phails.getText().toString())!=0){// dinar and fils
+                    if (Integer.parseInt(phails.getText().toString()) != 0) {// dinar and fils
 
-                    if (Integer.parseInt(Danier.getText().toString()) != 0) {
+                        if (Integer.parseInt(Danier.getText().toString()) != 0) {
 
-                        amountWord = numberToArabic.getArabicString(amount) + " و " + convertDinarToFilse(numberToArabic.getArabicString(amount2));
+                            amountWord = numberToArabic.getArabicString(amount) + " و " + convertDinarToFilse(numberToArabic.getArabicString(amount2));
+                        } else {
+                            amountWord = convertDinarToFilse(numberToArabic.getArabicString(amount2));
+
+                        }
                     } else {
-                        amountWord = convertDinarToFilse(numberToArabic.getArabicString(amount2));
-
-                    }
-                }else {
                         if (Integer.parseInt(Danier.getText().toString()) != 0) {
 
                             amountWord = numberToArabic.getArabicString(amount);
@@ -442,17 +442,17 @@ public class EditerCheackActivity extends AppCompatActivity {
                     amount2 = phails.getText().toString();
 
                     amountWord = convertDinarToFilse(numberToArabic.getArabicString(amount2));
-                }else if(Integer.parseInt(Danier.getText().toString())==0){
+                } else if (Integer.parseInt(Danier.getText().toString()) == 0) {
                     amountWord = convertDinarToFilse(numberToArabic.getArabicString(amount2));
                 }
             }
 
-            if(amountWord.equals("")) {
+            if (amountWord.equals("")) {
                 AmouWord.setText("");
-            }else {
+            } else {
                 AmouWord.setText(amountWord + " فقط لا غير ");
             }
-        //
+            //
 
         }
 
@@ -461,18 +461,19 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         if (phails.getText().toString().equals("") && Danier.getText().toString().equals("")) {
             AmouWord.setText("");
-        }else if(!phails.getText().toString().equals("") && !Danier.getText().toString().equals("")) {
+        } else if (!phails.getText().toString().equals("") && !Danier.getText().toString().equals("")) {
             if (Integer.parseInt(Danier.getText().toString()) == 0 && Integer.parseInt(phails.getText().toString()) == 0) {
                 AmouWord.setText("");
             }
         }
 
     }
-    String convertDinarToFilse(String ammount){
-        String filsAmm="";
-        filsAmm=ammount.replace("ديناراً","فلس").replace("دينار","فلس").replace("دنانير","فلس");
 
-             return    filsAmm;
+    String convertDinarToFilse(String ammount) {
+        String filsAmm = "";
+        filsAmm = ammount.replace("ديناراً", "فلس").replace("دينار", "فلس").replace("دنانير", "فلس");
+
+        return filsAmm;
 
     }
 
@@ -609,7 +610,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         phoneNo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(!b) {
+                if (!b) {
                     getInfoByCustomer();
                 }
             }
@@ -626,15 +627,15 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     }
 
-   void  getInfoByCustomer(){
+    void getInfoByCustomer() {
 
-        if(isInGetData){
-            isInGetData=false;
-            if(!phoneNo.getText().toString().equals("")){
-                String ToPhoneNo=countryCode+phoneNo.getText().toString();
+        if (isInGetData) {
+            isInGetData = false;
+            if (!phoneNo.getText().toString().equals("")) {
+                String ToPhoneNo = countryCode + phoneNo.getText().toString();
                 new GetUserInfoByMobo(ToPhoneNo).execute();
-            }else {
-                isInGetData=true;
+            } else {
+                isInGetData = true;
             }
         }
     }
@@ -673,8 +674,8 @@ public class EditerCheackActivity extends AppCompatActivity {
         AmouWord.setText("" + chequeInfo.getMoneyInWord());
         nationalNo.setText("" + chequeInfo.getToCustomerNationalId());
         String splitString = chequeInfo.getToCustomerMobel().substring(chequeInfo.getToCustomerMobel().length() - 9);
-        Log.e("splitString",""+splitString+"    "+chequeInfo.getToCustomerMobel());
-        phoneNo.setText("" +splitString);
+        Log.e("splitString", "" + splitString + "    " + chequeInfo.getToCustomerMobel());
+        phoneNo.setText("" + splitString);
         company.setText("" + chequeInfo.getCompanyName());
         notes.setText("" + chequeInfo.getNoteCheck());
         fName.setText("" + chequeInfo.getToCustName());
@@ -732,7 +733,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                             if (validDate)
                                 if (!TextUtils.isEmpty(localDinar)) {
                                     if (!TextUtils.isEmpty(serverPic)) {
-                                        if(userFound) {
+                                        if (userFound) {
                                             pushCheque.setEnabled(false);
                                             SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
                                             String phoneNo1 = loginPrefs.getString("mobile", "");
@@ -791,7 +792,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                                             jsonObject = new JSONObject();
                                             jsonObject = chequeInfo.getJSONObject();
-                                            if (!(countryCode+localPhoneNo).equals(phoneNoUser)) {//no send to the same phone no
+                                            if (!(countryCode + localPhoneNo).equals(phoneNoUser)) {//no send to the same phone no
                                                 new SaveCheckTemp().execute();
 
                                             } else {
@@ -815,10 +816,10 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
 //                new Image().execute();
 //                                   new  IsCheckPinding().execute();
-                                        }else{
+                                        } else {
                                             SweetAlertDialog sw = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
                                             sw.setTitleText("***" + EditerCheackActivity.this.getResources().getString(R.string.phone_no) + "***");
-                                            sw.setContentText("Cheque App not install in this Phone No  "+ "+"+countryCode+localPhoneNo);
+                                            sw.setContentText("Cheque App not install in this Phone No  " + "+" + countryCode + localPhoneNo);
                                             sw.setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok));
                                             sw.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                                 @SuppressLint("WrongConstant")
@@ -1127,6 +1128,7 @@ public class EditerCheackActivity extends AppCompatActivity {
             dialog.setContentView(R.layout.dialog_after_validation);
             dialog.setCancelable(false);
 
+
             bankNameTV = dialog.findViewById(R.id.dialog_validation_bankName);
             chequeWriterTV = dialog.findViewById(R.id.dialog_validation_chequeWriter);
             chequeNoTV = dialog.findViewById(R.id.dialog_validation_chequeNo);
@@ -1134,9 +1136,21 @@ public class EditerCheackActivity extends AppCompatActivity {
             okTV = dialog.findViewById(R.id.dialog_validation_ok);
             cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
 
-            chequeWriterTV.setText(customerName);
-            accountNoTV.setText(accountNo.substring(1));
-            chequeNoTV.setText(chequeNo);
+
+            if (language.trim().equals("ar")) {
+                LocaleAppUtils.setLocale(new Locale("ar"));
+                LocaleAppUtils.setConfigChange(EditerCheackActivity.this);
+                chequeWriterTV.setText(customerName);
+                accountNoTV.setText(convertToArabic(accountNo));
+                chequeNoTV.setText(convertToArabic(chequeNo));
+            } else {
+                LocaleAppUtils.setLocale(new Locale("en"));
+                LocaleAppUtils.setConfigChange(EditerCheackActivity.this);
+                chequeWriterTV.setText(customerName);
+                accountNoTV.setText(accountNo);
+                chequeNoTV.setText(chequeNo);
+            }
+
             okTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1179,6 +1193,12 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     public String convertToEnglish(String value) {
         String newValue = (((((((((((value + "").replaceAll("١", "1")).replaceAll("٢", "2")).replaceAll("٣", "3")).replaceAll("٤", "4")).replaceAll("٥", "5")).replaceAll("٦", "6")).replaceAll("٧", "7")).replaceAll("٨", "8")).replaceAll("٩", "9")).replaceAll("٠", "0").replaceAll("٫", "."));
+        return newValue;
+    }
+
+    public String convertToArabic(String value) {
+        String newValue = (((((((((((value + "").replaceAll("1", "١")).replaceAll("2", "٢")).replaceAll("3", "٣")).replaceAll("4", "٤")).replaceAll("5", "٥")).replaceAll("6", "٦")).replaceAll("7", "٧")).replaceAll("8", "٨")).replaceAll("9", "٩")).replaceAll("0", "٠"));
+        Log.e("convertToArabic", value + "      " + newValue);
         return newValue;
     }
 
@@ -1614,7 +1634,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     SweetAlertDialog sweet = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE);
                     sweet.setTitleText("");
-                    sweet.setContentText(EditerCheackActivity.this.getResources().getString(R.string.process));
+                    sweet.setContentText(EditerCheackActivity.this.getResources().getString(R.string.save_success));
                     sweet.setCanceledOnTouchOutside(false);
                     sweet.setConfirmText("Ok");
                     sweet.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -2576,11 +2596,11 @@ public class EditerCheackActivity extends AppCompatActivity {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
         private BufferedReader reader = null;
-        SweetAlertDialog  pdaSweet;
-        String ToPhoneNo="";
+        SweetAlertDialog pdaSweet;
+        String ToPhoneNo = "";
 
         public GetUserInfoByMobo(String ToPhoneNo) {
-            this.ToPhoneNo= ToPhoneNo;
+            this.ToPhoneNo = ToPhoneNo;
         }
 
         @Override
@@ -2595,8 +2615,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 //            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
 //            pd.setTitleText(context.getResources().getString(R.string.importstor));
-            userFound=false;
-              pdaSweet = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            userFound = false;
+            pdaSweet = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
             pdaSweet.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
             pdaSweet.setTitleText("Process...");
             pdaSweet.setCancelable(false);
@@ -2620,12 +2640,11 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 //                ACCCODE=0014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390105
                 //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
-                String data = "MOBNO=" + URLEncoder.encode(ToPhoneNo, "UTF-8") ;
-
+                String data = "MOBNO=" + URLEncoder.encode(ToPhoneNo, "UTF-8");
 
 
                 URL url = new URL(link);
-                Log.e("phoneNoUser ,3 ", serverLink + "   " + link + "   " + data + " " +ToPhoneNo);
+                Log.e("phoneNoUser ,3 ", serverLink + "   " + link + "   " + data + " " + ToPhoneNo);
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
@@ -2694,7 +2713,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                     for (int i = 0; i < parentInfo.length(); i++) {
                         JSONObject finalObject = parentInfo.getJSONObject(i);
 
-                         userSend = new LoginINFO();
+                        userSend = new LoginINFO();
 
 //      [{"NATID":"4236828854","FIRSTNM":"alaa","FATHERNM":"t","GRANDNM":"yg","FAMILYNM":"ug","DOB":"22\/07\/2020","GENDER":"1","MOBILENO":"962798899716","ADDRESS":"amman","EMIAL":"alaa@gmail.com","PASSWORD":"AalaaA7$","INACTIVE":"0","INDATE":"22\/07\/2020 17:36:22","PASSKIND":"0"}]}
 
@@ -2730,8 +2749,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                     tName.setText(userSend.getThirdName());
                     fourthName.setText(userSend.getFourthName());
 
-                    isInGetData=true;
-                    userFound=true;
+                    isInGetData = true;
+                    userFound = true;
                     pdaSweet.dismissWithAnimation();
 
                 } catch (JSONException e) {
@@ -2739,7 +2758,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                 }//
 
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"User Not found.")) {
-                isInGetData=true;
+                isInGetData = true;
                 nationalNo.setText("");
                 fName.setText("");
                 sName.setText("");
@@ -2749,12 +2768,11 @@ public class EditerCheackActivity extends AppCompatActivity {
                 Log.e("StatusDescreption", "****User Not found.");
                 pdaSweet.dismissWithAnimation();
 
-                userFound=false;
+                userFound = false;
                 new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("Can't Send")
                         .setContentText("Install App")
                         .show();
-
 
 
             }
@@ -3229,7 +3247,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("")
-                            .setContentText(EditerCheackActivity.this.getResources().getString(R.string.process))
+                            .setContentText(EditerCheackActivity.this.getResources().getString(R.string.save_success))
                             .setConfirmText("Ok")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @SuppressLint("WrongConstant")
