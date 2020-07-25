@@ -126,6 +126,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/checkValidation_serial"
                 android:textColor="@color/gray_dark"
+                android:singleLine="true"
                 android:fontFamily="serif"
                 android:textSize="15sp"
                 android:layout_width="match_parent"
