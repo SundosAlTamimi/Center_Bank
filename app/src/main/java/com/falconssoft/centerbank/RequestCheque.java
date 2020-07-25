@@ -270,7 +270,7 @@ public class RequestCheque extends AppCompatActivity {
                 in.close();
 
                 JsonResponse = sb.toString();
-                Log.e("tagGetRequest", "" + JsonResponse);
+                Log.e("tagGetRequestToUser", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -466,13 +466,12 @@ public class RequestCheque extends AppCompatActivity {
                 }if (s.contains("\"StatusDescreption\":\"Request data not found.\"")) {
                     new GetAllRequestFromUser_JSONTask().execute();
 
+                    Log.e("tagFromUser", "****Failed to export data");
 
-
-                } else {
-                    Log.e("tag", "****Failed to export data");
                 }
             }
             else {
+                new GetAllRequestFromUser_JSONTask().execute();
 
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
@@ -831,6 +830,7 @@ public class RequestCheque extends AppCompatActivity {
 //                    INFO
                     Log.e("tag", "****Success"+s.toString());
                 }if (s.contains("\"StatusDescreption\":\"Request data not found.\"")) {
+                    fillListNotification(requestListMain);
                     progressDialog.dismiss();
                 }else
                 {

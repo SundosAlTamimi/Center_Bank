@@ -161,4 +161,6 @@
     <string name="beneficiary_mobile">Beneficiary mobile</string>
     <string name="lost">Lost</string>
     <string name="process">Processing</string>
+    <string name="rejectedGereo">Rejected Gero</string>
+    <string name="newGeroChecue">New Gero Checue</string>
 </resources>

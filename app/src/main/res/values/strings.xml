@@ -54,10 +54,10 @@
     <string name="new_account">New Account</string>
     <string name="account_no">Account No</string>
     <string name="add">Add</string>
-    <string name="bank_name">Bank Name :</string>
-    <string name="cheque_writer">Cheque writer :</string>
-    <string name="cheque_no">Cheque No :</string>
-    <string name="account_no_">Account No :</string>
+    <string name="bank_name">Bank Name </string>
+    <string name="cheque_writer">Cheque writer </string>
+    <string name="cheque_no">Cheque No </string>
+    <string name="account_no_">Account No </string>
     <string name="the_cheque_has_been_validated">The cheque has been validated</string>
     <string name="Accept">Accept</string>
     <string name="Reject">Reject</string>
@@ -146,7 +146,7 @@
     <string name="cashed">Cashed</string>
 
     <string name="national_id">National ID</string>
-    <string name="gerocheque">Gero cheque</string>
+    <string name="gerocheque">Accepted Gero </string>
     <string name="relation">The Relation</string>
     <string name="consanguinity">Consanguinity</string>
     <string name="Business">Business</string>
@@ -167,5 +167,7 @@
     <string name="zero_digit">Enter phone number without zero at the beginning!</string>
     <string name="lost">Lost</string>
     <string name="process">Processing</string>
+    <string name="rejectedGereo">Rejected Gero</string>
+    <string name="newGeroChecue">New Gero Checue</string>
 
 </resources>

@@ -122,7 +122,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             viewHolder.rowStatus.setLayoutDirection(LAYOUT_DIRECTION_RTL);
 //            viewHolder.lineardetail.setBackground(context.getResources().getDrawable(R.drawable.left_background));
             viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
+//            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
             viewHolder.source_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
         } else {
             viewHolder.mainLinearAdapter.setLayoutDirection(LAYOUT_DIRECTION_LTR);
@@ -130,62 +130,95 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 //            viewHolder.lineardetail.setBackground(context.getResources().getDrawable(R.drawable.accept_background));
 
             viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+//            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
             viewHolder.source_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
 
         }
 
         viewHolder.date_check.setText(notificationList.get(i).getDate());
-        viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+"\tJD");
-//        viewHolder.source_check.setText(checkInfoNotification.get(i).getCustName());
-//        viewHolder.source_check.setText(checkInfoNotification.get(i).getCustName());
+        if(!checkInfoNotification.get(i).getMoneyInFils().equals("0"))
+        {
+            viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+".");
+            viewHolder.amount_Filis.setText(checkInfoNotification.get(i).getMoneyInFils()+"\tJD");
+        }
+        else {
+            viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+"\tJD");
+
+        }
+
+
         viewHolder.image_check.setImageBitmap(notificationList.get(i).getCheck_photo());
 //        Log.e("getStatus",""+checkInfoNotification.get(i).getStatus());
-        if(checkInfoNotification.get(i).getStatus().equals("0"))
-        {
 
-            if(checkInfoNotification.get(i).getTransType().equals("1"))
-            {
-//                viewHolder.checkStateText.setText(R.string.CheckAccpted);
-//                viewHolder.divider.setBackgroundColor(R.color.RealGreen);
-                viewHolder.rejectImg.setVisibility(View.GONE);
-                viewHolder.reciveNew.setVisibility(View.GONE);
-                viewHolder.geroLinear.setVisibility(View.GONE);
-                viewHolder.acceptImg.setVisibility(View.VISIBLE);
-
-            }
-            else {
-//                viewHolder.divider.setBackgroundColor(R.color.RealRed);
-                viewHolder.rejectImg.setVisibility(View.VISIBLE);
-//                viewHolder.checkStateText.setText(R.string.checkReject);
-                viewHolder.reciveNew.setVisibility(View.GONE);
-                viewHolder.acceptImg.setVisibility(View.GONE);
-                viewHolder.geroLinear.setVisibility(View.GONE);
-
-            }
-
-        }
-        else {
-
-//            viewHolder.divider.setBackgroundColor(R.color.white);
-            viewHolder.reciveNew.setVisibility(View.VISIBLE);
-//            viewHolder.checkStateText.setText(R.string.NewCheck);
-            viewHolder.rejectImg.setVisibility(View.GONE);
-            viewHolder.acceptImg.setVisibility(View.GONE);
-            viewHolder.geroLinear.setVisibility(View.GONE);
-
-        }
         Log.e("getTransSendOrGero",""+checkInfoNotification.get(i).getTransSendOrGero());
-        if(checkInfoNotification.get(i).getTransSendOrGero().equals("0"))
+        if(checkInfoNotification.get(i).getTransSendOrGero().equals("0"))// normal cheque
         {
             Log.e("getTransSendOrGero","Send");
+            viewHolder.geroLinear_pending.setVisibility(View.GONE);
+            viewHolder.geroLinear_accep.setVisibility(View.GONE);
+            viewHolder.geroLinear_reject.setVisibility(View.GONE);
+            //****************************************************
+            if(checkInfoNotification.get(i).getStatus().equals("0"))// reciver
+            {
+
+                if(checkInfoNotification.get(i).getTransType().equals("1"))// accepted
+                {
+                    viewHolder.rejectImg.setVisibility(View.GONE);
+                    viewHolder.reciveNew.setVisibility(View.GONE);
+                    viewHolder.acceptImg.setVisibility(View.VISIBLE);
+
+                }
+                else {// rejected
+                    viewHolder.rejectImg.setVisibility(View.VISIBLE);
+                    viewHolder.reciveNew.setVisibility(View.GONE);
+                    viewHolder.acceptImg.setVisibility(View.GONE);
+                    viewHolder.geroLinear_pending.setVisibility(View.GONE);
+
+                }
+
+            }
+            else {// new cheque
+
+                viewHolder.reciveNew.setVisibility(View.VISIBLE);
+                viewHolder.rejectImg.setVisibility(View.GONE);
+                viewHolder.acceptImg.setVisibility(View.GONE);
+
+            }
         }
-        else {
+        else {// gero chequ
 
             viewHolder.reciveNew.setVisibility(View.GONE);
             viewHolder.rejectImg.setVisibility(View.GONE);
             viewHolder.acceptImg.setVisibility(View.GONE);
-            viewHolder.geroLinear.setVisibility(View.VISIBLE);
+            //****************************************************
+            if(checkInfoNotification.get(i).getStatus().equals("0"))// reciver
+            {
+
+                if(checkInfoNotification.get(i).getTransType().equals("1"))// accepted
+                {
+
+                    viewHolder.geroLinear_pending.setVisibility(View.GONE);
+                    viewHolder.geroLinear_accep.setVisibility(View.VISIBLE);
+                    viewHolder.geroLinear_reject.setVisibility(View.GONE);
+
+                }
+                else {// rejected
+
+                    viewHolder.geroLinear_pending.setVisibility(View.GONE);
+                    viewHolder.geroLinear_accep.setVisibility(View.GONE);
+                    viewHolder.geroLinear_reject.setVisibility(View.VISIBLE);
+
+                }
+
+            }
+            else {// new cheque
+
+                viewHolder.geroLinear_pending.setVisibility(View.VISIBLE);
+                viewHolder.geroLinear_accep.setVisibility(View.GONE);
+                viewHolder.geroLinear_reject.setVisibility(View.GONE);
+
+            }
+
             Log.e("getTransSendOrGero","Gero");
 
         }
@@ -216,10 +249,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView source_check, amount_check, date_check,checkStateText;
+        TextView source_check, amount_check, date_check,checkStateText,amount_Filis;
        ImageView image_check;
         LinearLayout linearCheckInfo, mainLinearAdapter,divider,lineardetail,rowStatus;
-        LinearLayout acceptImg,rejectImg,reciveNew,geroLinear;
+        LinearLayout acceptImg,rejectImg,reciveNew,geroLinear_pending,geroLinear_accep,geroLinear_reject;
         SharedPreferences loginPrefs;
         LoginINFO infoUser;
         public ViewHolder(View itemView) {
@@ -228,10 +261,12 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             DatabaseHandler databaseHandler=new DatabaseHandler(context);
              infoUser=databaseHandler.getActiveUserInfo();
             mobile_No=infoUser.getUsername();
-            geroLinear=itemView.findViewById(R.id.geroLinear);
-
+            geroLinear_pending=itemView.findViewById(R.id.geroLinear_pending);
+            geroLinear_accep=itemView.findViewById(R.id.geroLinear_accepted);
+            geroLinear_reject =itemView.findViewById(R.id.geroLinear_rejected);
             source_check = itemView.findViewById(R.id.source_check);
             amount_check = itemView.findViewById(R.id.amount_check);
+            amount_Filis= itemView.findViewById(R.id.amount_Filis);
             date_check = itemView.findViewById(R.id.date_check);
             image_check = itemView.findViewById(R.id.image_check);
             linearCheckInfo = itemView.findViewById(R.id.linearCheckInfo);
@@ -295,7 +330,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     textToOrder, texChequNo, amountPhilis, textPhoneNo, texDate, binificary, textCompanyname, note, textFirstPinificry, textCo,reSend;
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
-            LinearLayout resonLayout, linearButn;
+            LinearLayout resonLayout, linearButn,rowNote;
 
 
             final Button reject = (Button) dialog.findViewById(R.id.RejectButton);
@@ -306,7 +341,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             resonLayout = dialog.findViewById(R.id.resonLayout);
 
 
-            TableRow rowNote,rowFirst;
+            TableRow rowFirst;
             texDate = dialog.findViewById(R.id.texDate);
             texDate.setText(checkInfoNotification.get(row_index).getChequeData());
             textFirstPinificry = dialog.findViewById(R.id.textFirstPinificry);
@@ -343,33 +378,77 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 rowFirst.setVisibility(View.GONE);
             }
             textViewMain=dialog.findViewById(R.id.textViewMain);
-            if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
-                if (checkInfoNotification.get(row_index).getTransType().equals("1")) {
-                    resonLayout.setVisibility(View.GONE);
-                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
-                            , ContextCompat.getDrawable(context, R.drawable.ic_check_black_24dp), null);
 
-                }
-                if (checkInfoNotification.get(row_index).getTransType().equals("2")) {
-                    resonLayout.setVisibility(View.VISIBLE);
-                    linearButn.setVisibility(View.GONE);
-                    textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
-                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
-                            , ContextCompat.getDrawable(context, R.drawable.ic_do_not_disturb_alt_black_24dp), null);
+            if(checkInfoNotification.get(row_index).getTransSendOrGero().equals("0"))// normal cheque
+            {
+                if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
+                    if (checkInfoNotification.get(row_index).getTransType().equals("1")) {
+                        resonLayout.setVisibility(View.GONE);
+                        textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+                                , ContextCompat.getDrawable(context, R.drawable.ic_check_black_24dp), null);
 
-                    if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
-                        reSend.setVisibility(View.VISIBLE);
                     }
+                    if (checkInfoNotification.get(row_index).getTransType().equals("2")) {
+                        resonLayout.setVisibility(View.VISIBLE);
+                        linearButn.setVisibility(View.GONE);
+                        textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
+                        textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+                                , ContextCompat.getDrawable(context, R.drawable.ic_do_not_disturb_alt_black_24dp), null);
 
+                        if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
+                            reSend.setVisibility(View.VISIBLE);
+                        }
+
+
+                    }
+                }
+                else {
+                    resonLayout.setVisibility(View.GONE);
+                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_note_add_black_24dp), null
+                            , null, null);
 
                 }
             }
-            else {
-                resonLayout.setVisibility(View.GONE);
-                textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
-                        , ContextCompat.getDrawable(context, R.drawable.ic_note_add_black_24dp), null);
+            else {// gero cheque
+
+                if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
+                    if (checkInfoNotification.get(row_index).getTransType().equals("1")) {
+                        resonLayout.setVisibility(View.GONE);
+                        textViewMain.setText(context.getResources().getString(R.string.gerocheque));
+                        textViewMain.setCompoundDrawablesWithIntrinsicBounds( ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_green_24dp), null
+                                ,null, null);
+
+                    }
+                    if (checkInfoNotification.get(row_index).getTransType().equals("2")) {
+                        resonLayout.setVisibility(View.VISIBLE);
+                        linearButn.setVisibility(View.GONE);
+                        textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
+                        textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+                                , ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_red_24dp), null);
+                        textViewMain.setText(context.getResources().getString(R.string.rejectedGereo));
+                        if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
+                            reSend.setVisibility(View.VISIBLE);
+                        }
+
+
+                    }
+                }
+                else {
+                    resonLayout.setVisibility(View.GONE);
+                    textViewMain.setText(context.getResources().getString(R.string.newGeroChecue));
+                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+                            , ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_yelow_24dp), null);
+
+                }
+
+
+
+
 
             }
+
+
+
 
 
 
