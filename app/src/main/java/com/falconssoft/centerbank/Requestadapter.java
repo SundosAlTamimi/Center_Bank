@@ -25,6 +25,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.notification;
 import com.falconssoft.centerbank.Models.requestModel;
 import com.github.chrisbanes.photoview.PhotoView;
@@ -76,6 +77,8 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
     Bitmap serverPicBitmap;
     int row_index = -1;
     String checkState = "0";
+    LoginINFO infoUser;
+    DatabaseHandler databaseHandler;
     public static String languagelocalApp = "";
     public static String acc="",bankN="",branch="",mobileNo="";
 
@@ -83,6 +86,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
     public Requestadapter(Context context, List<requestModel> notifications) {
         this.context = context;
         this.requestList = notifications;
+        databaseHandler=new DatabaseHandler(context);
         Log.e("Requestadapter",""+notifications.size());
 
 
@@ -392,6 +396,8 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
         @Override
         protected String doInBackground(String... params) {
             try {
+//                infoUser=databaseHandler.getActiveUserInfo();
+//                phoneNo=infoUser.getUsername();
 
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();

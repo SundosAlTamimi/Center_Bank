@@ -410,6 +410,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         notes = findViewById(R.id.editorCheque_notes);
         picRow = findViewById(R.id.editorCheque_picLinear);
         rowDate = findViewById(R.id.rowDate);
+        rowDate.setEnabled(false);
         amountTV = findViewById(R.id.editorCheque_amountTV);
         amountTV = findViewById(R.id.editorCheque_amountTV);
         spinner = findViewById(R.id.editorCheque_amount_lang);
@@ -537,19 +538,22 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     void fillTheCheck(ChequeInfo chequeInfo) {
 //if(chequeInfo.getChequeNo().equals()) {
         Danier.setText("" + chequeInfo.getMoneyInDinar());
         phails.setText("" + chequeInfo.getMoneyInFils());
         AmouWord.setText("" + chequeInfo.getMoneyInWord());
         nationalNo.setText("" + chequeInfo.getToCustomerNationalId());
-        phoneNo.setText("" + chequeInfo.getToCustomerMobel());
+        String splitString = chequeInfo.getToCustomerMobel().substring(chequeInfo.getToCustomerMobel().length() - 9);
+        Log.e("splitString",""+splitString+"    "+chequeInfo.getToCustomerMobel());
+        phoneNo.setText("" +splitString);
         company.setText("" + chequeInfo.getCompanyName());
         notes.setText("" + chequeInfo.getNoteCheck());
-        fName.setText("" + chequeInfo.getToCustomerName().substring(0, chequeInfo.getToCustomerName().indexOf("sName")));
-        sName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("sName") + 5, chequeInfo.getToCustomerName().indexOf("tName")));
-        tName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("tName") + 5, chequeInfo.getToCustomerName().indexOf("fName")));
-        fourthName.setText("" + chequeInfo.getToCustomerName().substring(chequeInfo.getToCustomerName().indexOf("fName") + 5));
+        fName.setText("" + chequeInfo.getToCustName());
+        sName.setText("" + chequeInfo.getToCustFName());
+        tName.setText("" + chequeInfo.getToCustGName());
+        fourthName.setText("" + chequeInfo.getToCustFamalyName());
         date.setText("" + chequeInfo.getCheckDueDate());
 
         if (chequeInfo.getISCO().equals("1")) {
@@ -934,7 +938,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         if (check) {
             String message = "Cheque is validate \n" + "Customer Name :" + customerName + " \n" + "Bank Name : " + "بنك الاردن " + "\n" + "Account No : " + accountNo + "\n";
             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText("Successful")
+                    .setTitleText("")
                     .setContentText(message)
                     .setConfirmText("Next")
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -1370,8 +1374,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     SweetAlertDialog sweet = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                    sweet.setTitleText("Successful");
-                    sweet.setContentText("Save Successful");
+                    sweet.setTitleText("");
+                    sweet.setContentText(EditerCheackActivity.this.getResources().getString(R.string.process));
                     sweet.setCanceledOnTouchOutside(false);
                     sweet.setConfirmText("Ok");
                     sweet.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -2666,8 +2670,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText("Successful")
-                            .setContentText("Save Successful")
+                            .setTitleText("")
+                            .setContentText(EditerCheackActivity.this.getResources().getString(R.string.process))
                             .setConfirmText("Ok")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @SuppressLint("WrongConstant")

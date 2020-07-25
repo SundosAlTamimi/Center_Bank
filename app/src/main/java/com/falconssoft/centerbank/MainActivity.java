@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DatabaseHandler dbHandler;
     static String watch;
-    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = "", CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = "", BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "";
+    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = "", CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = "", BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "", fullUsername;
     private JSONObject addAccountOb;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean isAdd = false, isNewData = false;
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
     public static final String LOGIN_FLAG = "LOGIN_FLAG";
+    String countryCode = "962";
     public  static  TextView  notification_btn,button_request;
     RelativeLayout notifyLayout,requestLayout;
     LoginINFO infoUser;
@@ -155,8 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         init();
 //        phoneNo = loginPrefs.getString("mobile", "");
-        infoUser=dbHandler.getActiveUserInfo();
-        phoneNo=infoUser.getUsername();
+
         Log.e("editingmain ", phoneNo);
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -520,7 +520,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        View headerView = navigationView.getHeaderView(0);
 //        TextView navUsername = (TextView) headerView.findViewById(R.id.navUsername);
 //        navUsername.setText("Your Text Here");
-        usernameNavigation.setText(username);
+
+        infoUser=dbHandler.getActiveUserInfo();
+        phoneNo=infoUser.getUsername();
+        fullUsername = infoUser.getFirstName() + " " + infoUser.getFourthName();
+        usernameNavigation.setText(fullUsername);
 
     }
 
@@ -1616,10 +1620,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    INFO
 //                    Log.e("tag", "****Success" + s.toString());
                 } else {
+                    new  GetAllRequestToUser_JSONTask().execute();
                     Log.e("tagMain", "****Failed to export data"+s.toString());
                 }
             } else {
-
+                new  GetAllRequestToUser_JSONTask().execute();
                 Log.e("tagMain", "****Failed to export data Please check internet connection");
             }
         }
@@ -2019,6 +2024,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.e("tag", "****Success"+s.toString());
                 } else {
                     Log.e("tagRequest", "****Failed to export data"+s.toString());
+                    new GetAllRequestFromUser_JSONTask().execute();
+
                 }
             }
             else {
@@ -2049,6 +2056,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 request.setURI(new URI(serverLink + "GetRequest?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+
                 nameValuePairs.add(new BasicNameValuePair("MOBILENO", phoneNo));
                 Log.e("editingmain ", phoneNo);
 

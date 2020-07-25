@@ -71,7 +71,7 @@ public class ListAdapterLogHistory extends BaseAdapter {
 
     private class ViewHolder {
        LinearLayout detailRow;
-        TextView name,transType,date,detail,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo,cheqNo,chequNo,reSend ;//, price
+        TextView name,transType,date,detail,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo,cheqNo,chequNo,reSend ,bankName_text;//, price
 CircleImageView status;
 
 
@@ -85,7 +85,7 @@ CircleImageView status;
         final ViewHolder holder = new ViewHolder();
         view = View.inflate(context, R.layout.report_row_log_history, null);
 
-
+        holder.bankName_text= view.findViewById(R.id.bankName_text);
         holder.detailRow =  view.findViewById(R.id.detailRow);
         holder.reSend =  view.findViewById(R.id.reSend);
         holder.status =  view.findViewById(R.id.statuts);
@@ -160,7 +160,7 @@ CircleImageView status;
         holder.from.setText(context.getResources().getString(R.string.chWriter)+ itemsList.get(i).getCustName());
         holder.to.setText(context.getResources().getString(R.string.chBf)+itemsList.get(i).getToCustomerName());
         holder.bankName .setText(context.getResources().getString(R.string.bank_name)+ itemsList.get(i).getBankName());
-        holder.AmountJd .setText(context.getResources().getString(R.string.amount)+" : " + itemsList.get(i).getMoneyInDinar()+"."+itemsList.get(i).getMoneyInFils()+" JD");
+        holder.AmountJd .setText(context.getResources().getString(R.string.amount_word)+" : " + itemsList.get(i).getMoneyInDinar()+"."+itemsList.get(i).getMoneyInFils()+" JD");
         holder.AmountWord .setText("("+itemsList.get(i).getMoneyInWord()+")");
         holder.cheqNo. setText(context.getResources().getString(R.string.cheque_no)+itemsList.get(i).getChequeNo()+"");
 
@@ -171,10 +171,11 @@ CircleImageView status;
             holder.status.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
             holder.branchNo .setText(context.getResources().getString(R.string.account_no_)+ itemsList.get(i).getAccCode().substring(1));
             holder.branchNo .setVisibility(View.VISIBLE);
+            holder.bankName_text.setVisibility(View.VISIBLE);
         }else if(itemsList.get(i).getStatus().equals("1")){
             holder.status.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
             holder.branchNo .setVisibility(View.GONE);
-
+            holder.bankName_text.setVisibility(View.GONE);
         }
 
         holder.detail.setOnClickListener(new View.OnClickListener() {
@@ -211,11 +212,11 @@ CircleImageView status;
             holder.to.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(context, R.drawable.ic_date_range_black_24dp), null);
             holder.bankName.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null);
-            holder.AmountJd.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null);
+                    , ContextCompat.getDrawable(context, R.drawable.ic_account_balance_black_24dp), null);
+//            holder.AmountJd.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                    , ContextCompat.getDrawable(context, R.drawable.ic_account_balance_black_24dp), null);
             holder.AmountWord.setCompoundDrawablesWithIntrinsicBounds(null, null
-                    , ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null);
+                    , ContextCompat.getDrawable(context, R.drawable.ic_notes), null);
             holder.branchNo.setCompoundDrawablesWithIntrinsicBounds(null, null
                     , ContextCompat.getDrawable(context, R.drawable.ic_account_circle_black_24dp), null);
 
@@ -232,15 +233,15 @@ CircleImageView status;
                     , null, null);
             holder.to.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_date_range_black_24dp), null
                     , null, null);
-            holder.bankName.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null
+            holder.bankName.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_account_balance_black_24dp), null
                     , null, null);
 
-            holder.AmountJd.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null
-                    , null, null);
+//            holder.AmountJd.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null
+//                    , null, null);
 
 
 
-            holder.AmountWord.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_attach_money_black_24dp), null
+            holder.AmountWord.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_notes), null
                     , null, null);
 
 
