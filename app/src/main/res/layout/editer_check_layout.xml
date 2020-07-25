@@ -6,723 +6,851 @@
     android:layout_height="match_parent"
     android:background="@drawable/bank4"
     android:orientation="vertical">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/clear_buttons"
-    >
 
-    <LinearLayout
-        android:id="@+id/linerEditing"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:visibility="visible">
+        android:background="@drawable/clear_buttons">
 
         <LinearLayout
+            android:id="@+id/linerEditing"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/profile_image"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="2"
-                android:src="@drawable/bank4"
-                app:civ_border_color="@color/colorWhiteLight"
-                app:civ_border_width="3dp" />
-
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="6dp"
-                android:layout_weight="5"
-                android:fontFamily="sans-serif-light"
-                android:padding="10dp"
-                android:text="@string/editing_check"
-                android:textColor="@color/colorWhite"
-                android:textSize="30sp"
-                app:autoSizeMaxTextSize="30sp"
-                app:autoSizeMinTextSize="14sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"
-                app:fontFamily="sans-serif-smallcaps" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:background="@drawable/edit_bac_s"
-            android:gravity="center"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="10dp"
+            android:visibility="visible">
 
-            <ScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profile_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="2"
+                    android:src="@drawable/bank4"
+                    app:civ_border_color="@color/colorWhiteLight"
+                    app:civ_border_width="3dp" />
+
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="6dp"
+                    android:layout_weight="5"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="6dp"
+                    android:text="@string/editing_check"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="30sp"
+                    app:autoSizeMaxTextSize="30sp"
+                    app:autoSizeMinTextSize="14sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
+                    app:fontFamily="sans-serif-smallcaps" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:background="@drawable/edit_bac_s"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="3dp">
 
-                <LinearLayout
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:padding="5dp"-->
-                    <!--android:layout_margin="2dp"-->
-                    <!--android:background="@drawable/edit_bac_"-->
-                    <!--&gt;-->
-
+                    android:orientation="vertical"
+                    android:padding="3dp">
 
                     <LinearLayout
-                        android:id="@+id/editorCheque_phone_linear"
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:gravity="center">
-
-                        <com.hbb20.CountryCodePicker
-                            android:id="@+id/editorCheque_ccp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:ccp_contentColor="@color/white"
-                            app:ccp_defaultNameCode="JO"
-                            />
-
-                        <EditText
-                            android:id="@+id/editorCheque_phoneNo"
-                            android:nextFocusDown="@+id/editorCheque_nationalNo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:background="@color/Nocolor"
-                            android:drawablePadding="10dp"
-                            android:fontFamily="serif"
-                            android:hint="@string/beneficiary_mobile"
-                            android:inputType="phone"
-                            android:maxLength="9"
-                            android:padding="5dp"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textCursorDrawable="@null"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-
-                        android:gravity="center">
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/ttView27"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_margin="2dp"-->
-                        <!--android:text="ID No."-->
-                        <!--android:textColor="@color/colorWhite"-->
-                        <!--android:textSize="18sp"-->
-                        <!--android:textStyle="bold" />-->
-
-                        <EditText
-                            android:id="@+id/editorCheque_nationalNo"
-                            android:nextFocusDown="@id/first_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:background="@color/Nocolor"
-                            android:drawableStart="@drawable/ic_person"
-                            android:drawablePadding="10dp"
-                            android:fontFamily="serif"
-                            android:hint="@string/national_no"
-                            android:inputType="textCapWords"
-                            android:textCursorDrawable="@null"
-                            android:maxLength="10"
-                            android:padding="5dp"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="15sp" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/editorCheque_reciever"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:gravity="center">
-
-                        <EditText
-                            android:id="@+id/first_name"
-                            android:nextFocusDown="@+id/second_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_bac_s"
-                            android:hint="@string/first_name"
-                            android:textCursorDrawable="@null"
-                            android:padding="10dp"
-                            android:textColor="@color/colorWhiteLight"
-                            android:textColorHint="@color/colorWhiteLight"
-                            android:textSize="12sp"
-                            android:inputType="textCapWords"
-                            app:autoSizeTextType="uniform" />
-
-
-                        <!--                <EditText-->
-                        <!--                    android:id="@+id/editorCheque_reciever"-->
-                        <!--                    android:layout_width="match_parent"-->
-                        <!--                    android:layout_height="wrap_content"-->
-                        <!--                    android:layout_margin="2dp"-->
-                        <!--                    android:background="@color/Nocolor"-->
-                        <!--                    android:drawableLeft="@drawable/ic_border_color_black_24dp"-->
-                        <!--                    android:drawablePadding="10dp"-->
-                        <!--                    android:ems="10"-->
-                        <!--                    android:fontFamily="serif"-->
-                        <!--                    android:hint="@string/order_to"-->
-                        <!--                    android:inputType="textPersonName"-->
-                        <!--                    android:padding="5dp"-->
-                        <!--                    android:textColor="@color/colorWhite"-->
-                        <!--                    android:textColorHint="@color/colorWhite"-->
-                        <!--                    android:textSize="18sp" />-->
-
-
-                        <EditText
-                            android:id="@+id/second_name"
-                            android:nextFocusDown="@+id/thered_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textCursorDrawable="@null"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_bac_s"
-                            android:inputType="textCapWords"
-                            android:hint="@string/second_name"
-                            android:padding="10dp"
-                            android:textColor="@color/colorWhiteLight"
-                            android:textColorHint="@color/colorWhiteLight"
-                            android:textSize="12sp"
-
-                            app:autoSizeTextType="uniform" />
-
-                        <EditText
-                            android:id="@+id/thered_name"
-                            android:nextFocusDown="@+id/fourth_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:textCursorDrawable="@null"
-                            android:background="@drawable/edit_bac_s"
-                            android:inputType="textCapWords"
-                            android:hint="@string/third_name"
-                            android:padding="10dp"
-                            android:textColor="@color/colorWhiteLight"
-                            android:textColorHint="@color/colorWhiteLight"
-                            android:textSize="12sp"
-
-                            app:autoSizeTextType="uniform" />
-
-                        <EditText
-                            android:id="@+id/fourth_name"
-                            android:nextFocusDown="@+id/denier"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_bac_s"
-                            android:hint="@string/fourth_name"
-                            android:inputType="textCapWords"
-                            android:padding="10dp"
-                            android:textCursorDrawable="@null"
-                            android:textColor="@color/colorWhiteLight"
-                            android:textColorHint="@color/colorWhiteLight"
-                            android:textSize="12sp"
-                            app:autoSizeTextType="uniform" />
-
-
-                    </TableRow>
-
-                    <TableRow
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                       >
-
-                        <TextView
-                            android:id="@+id/editorCheque_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1"
-                            android:background="@color/Nocolor"
-                            android:drawableLeft="@drawable/ic_date_range_black_24dp"
-                            android:drawablePadding="10dp"
-                            android:ems="10"
-                            android:fontFamily="serif"
-                            android:hint="@string/date"
-                            android:inputType="textPersonName"
-                            android:padding="5dp"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                        <EditText
-                            android:id="@+id/rowDate"
-                            android:layout_weight="0"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-
-
-
-                            android:padding="5dp"
-                            />
-
-                    </TableRow>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-
-                        android:background="@color/colorGold" />
-
-                    <LinearLayout
-                        android:id="@+id/editorCheque_linear_amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:orientation="vertical">
+                        <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:orientation="vertical"-->
+                        <!--android:padding="5dp"-->
+                        <!--android:layout_margin="2dp"-->
+                        <!--android:background="@drawable/edit_bac_"-->
+                        <!--&gt;-->
+
 
                         <LinearLayout
+                            android:id="@+id/editorCheque_phone_linear"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="7dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:gravity="center"
                             android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/editorCheque_amountTV"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:layout_margin="2dp"
-                                android:fontFamily="serif"
-                                android:text="@string/amount"
-                                android:textColor="@color/colorWhite"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                            <Spinner
-                                android:id="@+id/editorCheque_amount_lang"
+                            <com.hbb20.CountryCodePicker
+                                android:id="@+id/editorCheque_ccp"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                />
+                                android:layout_height="wrap_content"
+                                app:ccp_contentColor="@color/white"
+                                app:ccp_defaultNameCode="JO" />
 
+                            <EditText
+                                android:id="@+id/editorCheque_phoneNo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:background="@color/Nocolor"
+                                android:drawablePadding="10dp"
+                                android:fontFamily="serif"
+                                android:hint="@string/beneficiary_mobile"
+                                android:inputType="phone"
+                                android:maxLength="9"
+                                android:nextFocusDown="@+id/editorCheque_nationalNo"
+                                android:padding="5dp"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textCursorDrawable="@null"
+                                android:textSize="15sp" />
                         </LinearLayout>
 
                         <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:padding="5dp">
+                            android:background="@drawable/edit_bac_s"
 
-                            <EditText
-                                android:id="@+id/denier"
-                                android:nextFocusDown="@+id/Phils"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="2dp"
-                                android:background="@drawable/edit_bac_s"
-                                android:ems="5"
-                                android:maxLength="7"
-                                android:fontFamily="serif"
-                                android:gravity="center"
-                                android:hint="@string/dinar"
-                                android:textCursorDrawable="@null"
-                                android:inputType="number"
-                                android:padding="5dp"
-                                android:textColor="@color/colorWhite"
-                                android:textColorHint="@color/colorWhite"
-                                android:textSize="14sp" />
+                            android:gravity="center">
 
-                            <EditText
-                                android:id="@+id/Phils"
-                                android:nextFocusDown="@+id/editorCheque_company"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="2dp"
-                                android:background="@drawable/edit_bac_s"
-                                android:ems="5"
-                                android:maxLength="3"
-                                android:fontFamily="serif"
-                                android:gravity="center"
-                                android:hint="@string/phils"
-                                android:textCursorDrawable="@null"
-                                android:inputType="number"
-                                android:padding="5dp"
-                                android:textColor="@color/colorWhite"
-                                android:textColorHint="@color/colorWhite"
-                                android:textSize="14sp" />
+                            <!--<TextView-->
+                            <!--android:id="@+id/ttView27"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_margin="2dp"-->
+                            <!--android:text="ID No."-->
+                            <!--android:textColor="@color/colorWhite"-->
+                            <!--android:textSize="18sp"-->
+                            <!--android:textStyle="bold" />-->
+                            <!--<com.wrapp.floatlabelededittext.FloatLabeledEditText-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:padding="5dp"-->
+                            <!--android:hint="@string/national_no"-->
+                            <!--android:textColorHint="@color/colorWhiteLight"-->
+                            <!--app:hintTextColor="@color/colorWhiteLight">-->
+
+                            <!--<EditText-->
+                            <!--android:id="@+id/editorCheque_nationalNo"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_margin="2dp"-->
+                            <!--android:background="@color/Nocolor"-->
+                            <!--android:drawableStart="@drawable/ic_person"-->
+                            <!--android:drawablePadding="10dp"-->
+                            <!--android:fontFamily="serif"-->
+                            <!--android:hint="@string/national_no"-->
+                            <!--android:inputType="textCapWords"-->
+                            <!--android:maxLength="10"-->
+                            <!--android:nextFocusDown="@id/first_name"-->
+                            <!--android:padding="5dp"-->
+                            <!--android:textColor="@color/colorWhite"-->
+                            <!--android:textColorHighlight="@color/colorWhite"-->
+                            <!--android:textColorHint="@color/colorWhite"-->
+                            <!--android:textCursorDrawable="@null"-->
+                            <!--android:textSize="15sp"-->
+                            <!--app:hintTextColor="@color/colorWhite" />-->
+                            <!--</com.wrapp.floatlabelededittext.FloatLabeledEditText>-->
 
 
-                        </TableRow>
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="5dp">
-
-                            <TextView
-                                android:id="@+id/AmouWord"
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/text_input_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="2dp"
-                                android:background="@drawable/edit_bac_s"
-                                android:fontFamily="serif"
-                                android:hint="@string/amount_in_word"
-                                android:lines="4"
-                                android:gravity="center"
+                                android:hint="@string/national_no"
                                 android:padding="5dp"
-                                android:scrollIndicators="top"
-                                android:textCursorDrawable="@null"
-                                android:scrollbars="horizontal"
-                                android:textColor="@color/colorWhite"
-                                android:textColorHint="@color/colorWhite"
-                                android:textSize="15sp" />
+                                android:textColorHint="@color/colorWhiteLight"
+                                app:hintTextColor="@color/white">
 
+                                <EditText
+                                    android:id="@+id/editorCheque_nationalNo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:background="@color/Nocolor"
+                                    android:drawableStart="@drawable/ic_person"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="serif"
+                                    android:inputType="textCapWords"
+                                    android:maxLength="10"
+                                    android:nextFocusDown="@id/first_name"
+                                    android:padding="5dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHighlight="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhite"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="15sp"
+                                    app:hintTextColor="@color/colorWhite" />
+                            </com.google.android.material.textfield.TextInputLayout>
                         </TableRow>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/editorCheque_linear_optional"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:orientation="vertical">
 
                         <TableRow
+                            android:id="@+id/editorCheque_reciever"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:background="@drawable/edit_bac_s"
                             android:gravity="center">
 
-                            <EditText
-                                android:id="@+id/editorCheque_company"
-                                android:nextFocusDown="@+id/editorCheque_notes"
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_margin="2dp"
-                                android:background="@color/Nocolor"
-                                android:drawableLeft="@drawable/ic_company"
-                                android:drawablePadding="10dp"
-                                android:ems="10"
-                                android:textCursorDrawable="@null"
-                                android:fontFamily="serif"
-                                android:hint="@string/company_optional"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:hint="@string/first_name"
                                 android:padding="5dp"
-                                android:inputType="textCapWords"
-                                android:textColor="@color/colorWhite"
-                                android:textColorHint="@color/colorWhite"
-                                android:textSize="14sp" />
+                                android:textColorHint="@color/colorWhiteLight"
+                                app:hintTextColor="@color/white">
 
+                                <EditText
+                                    android:id="@+id/first_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/Nocolor"
+                                    android:inputType="textCapWords"
+
+                                    android:nextFocusDown="@+id/second_name"
+                                    android:padding="2dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhiteLight"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="12sp"
+                                    app:autoSizeTextType="uniform" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <!--                <EditText-->
+                            <!--                    android:id="@+id/editorCheque_reciever"-->
+                            <!--                    android:layout_width="match_parent"-->
+                            <!--                    android:layout_height="wrap_content"-->
+                            <!--                    android:layout_margin="2dp"-->
+                            <!--                    android:background="@color/Nocolor"-->
+                            <!--                    android:drawableLeft="@drawable/ic_border_color_black_24dp"-->
+                            <!--                    android:drawablePadding="10dp"-->
+                            <!--                    android:ems="10"-->
+                            <!--                    android:fontFamily="serif"-->
+                            <!--                    android:hint="@string/order_to"-->
+                            <!--                    android:inputType="textPersonName"-->
+                            <!--                    android:padding="5dp"-->
+                            <!--                    android:textColor="@color/colorWhite"-->
+                            <!--                    android:textColorHint="@color/colorWhite"-->
+                            <!--                    android:textSize="18sp" />-->
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:hint="@string/second_name"
+                                android:padding="5dp"
+                                android:textColorHint="@color/colorWhiteLight"
+                                app:hintTextColor="@color/white">
+
+                                <EditText
+                                    android:id="@+id/second_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/Nocolor"
+                                    android:inputType="textCapWords"
+                                    android:nextFocusDown="@+id/thered_name"
+                                    android:padding="2dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhiteLight"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="12sp"
+
+                                    app:autoSizeTextType="uniform" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:hint="@string/third_name"
+                                android:padding="5dp"
+                                android:textColorHint="@color/colorWhiteLight"
+                                app:hintTextColor="@color/white">
+
+                                <EditText
+                                    android:id="@+id/thered_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/Nocolor"
+                                    android:inputType="textCapWords"
+                                    android:nextFocusDown="@+id/fourth_name"
+                                    android:padding="2dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhiteLight"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="12sp"
+                                    app:autoSizeTextType="uniform" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:hint="@string/fourth_name"
+                                android:padding="5dp"
+                                android:textColorHint="@color/colorWhiteLight"
+                                app:hintTextColor="@color/white">
+
+                                <EditText
+                                    android:id="@+id/fourth_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/Nocolor"
+                                    android:inputType="textCapWords"
+                                    android:nextFocusDown="@+id/denier"
+                                    android:padding="2dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhiteLight"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="12sp"
+                                    app:autoSizeTextType="uniform" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
                         </TableRow>
 
                         <TableRow
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:background="@drawable/edit_bac_s"
-                            android:gravity="center">
+                            android:background="@drawable/edit_bac_s">
 
-                            <EditText
-                                android:id="@+id/editorCheque_notes"
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="2dp"
+                                android:layout_weight="1"
                                 android:background="@color/Nocolor"
-                                android:drawableLeft="@drawable/ic_notes"
-                                android:drawablePadding="10dp"
-                                android:ems="10"
-                                android:textCursorDrawable="@null"
-                                android:fontFamily="serif"
-                                android:hint="@string/notes_optional"
-                                android:inputType="textCapWords"                                                         android:padding="5dp"
-                                android:textColor="@color/colorWhite"
-                                android:textColorHint="@color/colorWhite"
-                                android:textSize="14sp" />
+                                android:hint="@string/date"
+                                android:padding="5dp"
+                                android:textColorHint="@color/colorWhiteLight"
+                                app:hintTextColor="@color/white">
+
+                                <TextView
+                                    android:id="@+id/editorCheque_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/Nocolor"
+                                    android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                                    android:drawablePadding="10dp"
+                                    android:ems="10"
+                                    android:fontFamily="serif"
+                                    android:padding="5dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhite"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <EditText
+                                android:id="@+id/rowDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0"
+
+
+                                android:padding="5dp" />
 
                         </TableRow>
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-
-                        android:background="@color/colorGold" />
-
-                    <TableRow
-                        android:id="@+id/editorCheque_linear_co"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:gravity="center">
-
-                        <CheckBox
-                            android:id="@+id/checkBox_CO"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="C/O"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <CheckBox
-                            android:id="@+id/checkBox_firstpinifit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/firstbeneficiary"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/editorCheque_picLinear"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:gravity="center">
 
                         <TextView
-                            android:id="@+id/CheckPicText"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+
+                            android:background="@color/colorGold" />
+
+                        <LinearLayout
+                            android:id="@+id/editorCheque_linear_amount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="serif"
-                            android:text="@string/check_pic"
-android:layout_weight="1"
-                            android:textColor="@color/colorWhite"
-                            android:inputType="textCapWords"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/CheckPic"
-                            android:layout_width="100dp"
-                            android:layout_height="50dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
-                            android:src="@drawable/bank4"
-                            app:civ_border_color="@color/colorWhiteLight"
-                            app:civ_border_width="3dp" />
+                            android:orientation="vertical">
 
-                    </TableRow>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="7dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/editorCheque_amountTV"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="serif"
+                                    android:text="@string/amount_word"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <Spinner
+                                    android:id="@+id/editorCheque_amount_lang"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent" />
+
+                            </LinearLayout>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:padding="5dp">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/edit_bac_s"
+                                    android:hint="@string/dinar"
+                                    android:padding="2dp"
+                                    android:gravity="start"
+                                    android:textColorHint="@color/colorWhiteLight"
+                                    app:hintTextColor="@color/white">
+
+                                    <EditText
+                                        android:id="@+id/denier"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="2dp"
+                                        android:background="@color/Nocolor"
+                                        android:ems="5"
+                                        android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+                                        android:maxLength="7"
+                                        android:nextFocusDown="@+id/Phils"
+                                        android:padding="5dp"
+                                        android:textColor="@color/colorWhite"
+                                        android:textColorHint="@color/colorWhite"
+                                        android:textCursorDrawable="@null"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
 
-                </LinearLayout>
-            </ScrollView>
-        </LinearLayout>
+                                <com.google.android.material.textfield.TextInputLayout
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="clip_horizontal|center"
-            android:layout_weight="2"
-            android:orientation="vertical">
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/edit_bac_s"
+                                    android:hint="@string/phils"
+                                    android:padding="2dp"
+                                    android:gravity="start"
+                                    android:textColorHint="@color/colorWhiteLight"
+                                    app:hintTextColor="@color/white">
 
-            <Button
-                android:id="@+id/SingUpButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/edit_bac_sinup"
-                android:fontFamily="serif"
-                android:text="@string/send"
-                android:textSize="14sp"
-                android:textColor="@color/colorWhite" />
-        </LinearLayout>
+                                    <EditText
+                                        android:id="@+id/Phils"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="2dp"
+                                        android:background="@color/Nocolor"
+                                        android:ems="5"
+                                        android:fontFamily="serif"
+                                        android:gravity="center"
+                                        android:inputType="number"
+                                        android:maxLength="3"
+                                        android:nextFocusDown="@+id/editorCheque_company"
+                                        android:padding="5dp"
+                                        android:textColor="@color/colorWhite"
+                                        android:textColorHint="@color/colorWhite"
+                                        android:textCursorDrawable="@null"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
 
-    </LinearLayout>
+                            </TableRow>
 
-    <LinearLayout
-        android:id="@+id/linerBarcode"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/edit_bac_s"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-light"
-            android:gravity="bottom|center"
-            android:text="@string/please_scan_the_barcode_to_continue_editing_the_check"
-            android:textColor="@color/colorWhite"
-            android:textSize="25sp"
-            app:autoSizeMaxTextSize="30sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="3sp"
-            app:autoSizeTextType="uniform"
-            app:fontFamily="sans-serif-smallcaps" />
+                                <TextView
+                                    android:id="@+id/AmouWord"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:background="@drawable/edit_bac_s"
+                                    android:fontFamily="serif"
+                                    android:gravity="center"
+                                    android:hint="@string/amount_in_word"
+                                    android:lines="4"
+                                    android:padding="5dp"
+                                    android:scrollIndicators="top"
+                                    android:scrollbars="horizontal"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhite"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="15sp" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:layout_weight="2"
-            android:background="@color/colorWhite"
-            android:elevation="@dimen/cardview_default_elevation"
-            app:cardCornerRadius="100dp">
+                            </TableRow>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/editorCheque_linear_optional"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:orientation="vertical">
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:gravity="center">
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/company_optional"
+                                    android:padding="2dp"
+                                    android:textColorHint="@color/colorWhiteLight"
+                                    app:hintTextColor="@color/white">
+
+
+                                    <EditText
+                                        android:id="@+id/editorCheque_company"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="2dp"
+                                        android:background="@color/Nocolor"
+                                        android:drawableLeft="@drawable/ic_company"
+                                        android:drawablePadding="10dp"
+                                        android:ems="10"
+                                        android:fontFamily="serif"
+                                        android:inputType="textCapWords"
+                                        android:nextFocusDown="@+id/editorCheque_notes"
+
+                                        android:padding="5dp"
+                                        android:textColor="@color/colorWhite"
+                                        android:textColorHint="@color/colorWhite"
+                                        android:textCursorDrawable="@null"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:gravity="center">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/notes_optional"
+                                    android:padding="2dp"
+                                    android:textColorHint="@color/colorWhiteLight"
+                                    app:hintTextColor="@color/white">
+
+
+                                    <EditText
+                                        android:id="@+id/editorCheque_notes"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="2dp"
+                                        android:background="@color/Nocolor"
+                                        android:drawableLeft="@drawable/ic_notes"
+                                        android:drawablePadding="10dp"
+                                        android:ems="10"
+                                        android:fontFamily="serif"
+                                        android:inputType="textCapWords"
+
+                                        android:padding="5dp"
+                                        android:textColor="@color/colorWhite"
+                                        android:textColorHint="@color/colorWhite"
+                                        android:textCursorDrawable="@null"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+                            </TableRow>
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+
+                            android:background="@color/colorGold" />
+
+                        <TableRow
+                            android:id="@+id/editorCheque_linear_co"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:gravity="center">
+
+                            <CheckBox
+                                android:id="@+id/checkBox_CO"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="C/O"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <CheckBox
+                                android:id="@+id/checkBox_firstpinifit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/firstbeneficiary"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/editorCheque_picLinear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/CheckPicText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="serif"
+                                android:inputType="textCapWords"
+                                android:text="@string/check_pic"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/CheckPic"
+                                android:layout_width="100dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/edit_bac_s"
+                                android:src="@drawable/bank4"
+                                app:civ_border_color="@color/colorWhiteLight"
+                                app:civ_border_width="3dp" />
+
+                        </TableRow>
+
+
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="clip_horizontal|center"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
-                <pl.droidsonroids.gif.GifImageView
+                <Button
+                    android:id="@+id/SingUpButton"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/Nocolor"
-                    android:src="@drawable/rscananimation"
-                    app:civ_border_color="@color/colorWhiteLight"
-                    app:civ_border_width="3dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/edit_bac_sinup"
+                    android:fontFamily="serif"
+                    android:text="@string/send"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/scanBarcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:background="@drawable/edit_bac_sinup"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:paddingHorizontal="50dp"
-            android:paddingVertical="10dp"
-            android:text="@string/scan_barcode"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:fontFamily="sans-serif-smallcaps" />
-
-        <LinearLayout
-            android:id="@+id/editorCheque_haveAProblem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:tint="@color/white"
-                app:srcCompat="@drawable/ic_help" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="5dp"
-                android:fontFamily="serif"
-                android:text="@string/have_a_problem"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/editorCheque_serial_linear"
+            android:id="@+id/linerBarcode"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusableInTouchMode="true"
-                android:fontFamily="serif"
-                android:hint="@string/serial_no"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/red">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editorCheque_serial"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="serif"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_bac_s"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/editorCheque_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-light"
+                android:gravity="bottom|center"
+                android:text="@string/please_scan_the_barcode_to_continue_editing_the_check"
+                android:textColor="@color/colorWhite"
+                android:textSize="25sp"
+                app:autoSizeMaxTextSize="30sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="3sp"
+                app:autoSizeTextType="uniform"
+                app:fontFamily="sans-serif-smallcaps" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="2"
+                android:background="@color/colorWhite"
+                android:elevation="@dimen/cardview_default_elevation"
+                app:cardCornerRadius="100dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <pl.droidsonroids.gif.GifImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/Nocolor"
+                        android:src="@drawable/rscananimation"
+                        app:civ_border_color="@color/colorWhiteLight"
+                        app:civ_border_width="3dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/scanBarcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/edit_bac_sinup"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:paddingHorizontal="50dp"
+                android:paddingVertical="10dp"
+                android:text="@string/scan_barcode"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                app:fontFamily="sans-serif-smallcaps" />
+
+            <LinearLayout
+                android:id="@+id/editorCheque_haveAProblem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/ic_help" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="5dp"
+                    android:fontFamily="serif"
+                    android:text="@string/have_a_problem"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/editorCheque_serial_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="serif"
-                android:gravity="end"
-                android:text="@string/check"
-                android:textColor="@color/red"
-                android:textSize="18sp" />
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="serif"
+                    android:hint="@string/serial_no"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/red">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editorCheque_serial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="serif"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/editorCheque_check"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="serif"
+                    android:gravity="end"
+                    android:text="@string/check"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>
