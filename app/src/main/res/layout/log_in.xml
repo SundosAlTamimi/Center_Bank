@@ -125,7 +125,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="ع"
+                    android:text="عربي"
                     android:gravity="end|right"
                     android:textColor="@color/main_orange_light_color"
                     android:fontFamily="serif"

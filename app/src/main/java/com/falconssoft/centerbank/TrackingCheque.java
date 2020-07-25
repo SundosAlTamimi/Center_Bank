@@ -46,7 +46,7 @@ public class TrackingCheque extends AppCompatActivity {
 // To retrieve object in second Activity
         chequeInfoVM = (ChequeInfoVM) getIntent().getSerializableExtra("Tracking");
         getChequeData(chequeInfoVM);
-        binding.trackingAccountNo.setText(chequeInfoVM.getAccCode());
+        binding.trackingAccountNo.setText(chequeInfoVM.getAccCode().substring(1));
         binding.trackingChequeNo.setText(chequeInfoVM.getChequeNo());
 
         checkLanguage();
