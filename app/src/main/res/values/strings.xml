@@ -78,7 +78,7 @@
     <string name="rej">Reject</string>
     <string name="acccept">Accept</string>
     <string name="pending">pending</string>
-    <string name="save_success">Save Successfully</string>
+    <string name="save_success">Processing</string>
     <string name="cantSave">Can\'t Save</string>
     <string name="already_exist">Account already exist !</string>
     <string name="error_in_save">Error in saving Accounts!</string>
@@ -167,5 +167,23 @@
     <string name="zero_digit">Enter phone number without zero at the beginning!</string>
     <string name="lost">Lost</string>
     <string name="process">Processing</string>
+    <string name="_7xxxxxxxx">7xxxxxxxx</string>
+    <string name="name_of_fourth_syllables">Name Of Fourth Syllables</string>
+    <string name="date_of_birth">Date Of Birth</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="nationality">Nationality</string>
+    <string name="id_number">Id Number</string>
+    <string name="national_no_length">National number is less than 10 digits!</string>
+    <string name="password_syntax">Password must contains at least 6 digits, capital letter, number and special character</string>
+    <string name="remove_zero">Enter phone number without zero at the beginning!</string>
+    <string name="phone_length">Phone number is less than 10 digits!</string>
+    <string name="password_not_matched">Password Not Matched</string>
+
+    <string name="check_info_first">PLease Check Sent Information First!</string>
+    <string name="mobile_already_exist">User Mobile Already Exists!</string>
+    <string name="national_already_exist">National ID Already Exists!</string>
+    <string name="info_not_saved">"Information Not Saved!"</string>
+    <string name="id_is_not_correct">Id Number Is Not Correct!</string>
+
 
 </resources>

@@ -274,7 +274,7 @@ class Presenter {
             jsonObject.put("ADDRESS", loginINFO.getAddress());
             jsonObject.put("EMIAL", loginINFO.getEmail());
             jsonObject.put("PASSWORD", loginINFO.getPassword());
-            jsonObject.put("PASSKIND", loginINFO.getPersonalDocType());
+            jsonObject.put("PASSKIND", loginINFO.getNationality());
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -639,7 +639,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         cheNo  =chequeNo;
         if(type.equals("0"))
         {
-            new Image("0").execute();
+            new Image().execute();
         }
         else {
             new ImageGero().execute();
@@ -653,9 +653,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         private BufferedReader reader = null;
         public  String typeImg="0";
 
-        public Image(String typeImg) {
-            this.typeImg = typeImg;
-        }
+//        public Image(String typeImg) {
+//            this.typeImg = typeImg;
+//        }
 
         @Override
         protected void onPreExecute() {
@@ -728,6 +728,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 //
 //
                         serverPicBitmap = StringToBitMap(jsonObject.getString("CHECKPIC"));
+                        Log.e("serverPicBitmap",""+serverPicBitmap);
                         if(serverPicBitmap!=null)
                         {
                             circleImageView.setImageBitmap(serverPicBitmap);

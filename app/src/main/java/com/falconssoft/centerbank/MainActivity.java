@@ -499,7 +499,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         notifiList = new ArrayList<>();
         checkInfoList=new ArrayList<>();
 
-        dbHandler = new DatabaseHandler(MainActivity.this);
         recyclerViews = (RecyclerView) findViewById(R.id.res);
         setSupportActionBar(toolbar);
         setTitle("");
