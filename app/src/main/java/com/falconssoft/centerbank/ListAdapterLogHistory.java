@@ -71,7 +71,7 @@ public class ListAdapterLogHistory extends BaseAdapter {
 
     private class ViewHolder {
        LinearLayout detailRow;
-        TextView name,transType,date,detail,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo,cheqNo,chequNo,reSend ,bankName_text;//, price
+        TextView name,transType,date,detail,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo,cheqNo,chequNo,reSend ,bankName_text,phoneNo;//, price
 CircleImageView status;
 
 
@@ -86,6 +86,8 @@ CircleImageView status;
         view = View.inflate(context, R.layout.report_row_log_history, null);
 
         holder.bankName_text= view.findViewById(R.id.bankName_text);
+
+        holder.phoneNo= view.findViewById(R.id.phoneNo);
         holder.detailRow =  view.findViewById(R.id.detailRow);
         holder.reSend =  view.findViewById(R.id.reSend);
         holder.status =  view.findViewById(R.id.statuts);
@@ -153,6 +155,7 @@ CircleImageView status;
 
         holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+" " +TStatus);
         holder.chequNo.setText(itemsList.get(i).getChequeNo());
+        holder.phoneNo.setText(itemsList.get(i).getToCustomerMobel());
 
         holder.name.setText(" " + itemsList.get(i).getCustName());
 //        holder.transType.setText("" + itemsList.get(i).getTransType());
