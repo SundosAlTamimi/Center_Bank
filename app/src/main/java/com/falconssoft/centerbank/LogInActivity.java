@@ -43,6 +43,7 @@ import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.Setting;
 import com.falconssoft.centerbank.databinding.LogInBinding;
 import com.falconssoft.centerbank.mail.LongOperation;
+import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
 import com.falconssoft.centerbank.viewmodel.SignupVM;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
@@ -301,6 +302,7 @@ public class LogInActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     if (!TextUtils.isEmpty(serial.getText().toString())) {
                         serial.setError(null);
+//                        new Presenter(LogInActivity.this).checkBySerial(serial.getText().toString());
                     } else {
                         serial.setError("Required");
                     }
@@ -618,9 +620,9 @@ public class LogInActivity extends AppCompatActivity {
             Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
             startActivity(MainActivityIntent);
         } else if (message != null && message.contains("\"StatusCode\":10,\"StatusDescreption\":\"User not found.\""))
-            showSnackbar("User not found!", false);
+            showSnackbar(getResources().getString(R.string.user_not_found), false);
         else
-            showSnackbar("Please check internet connection!", false);
+            showSnackbar(getResources().getString(R.string.check_internet_connection), false);
 
     }
 
@@ -688,7 +690,7 @@ public class LogInActivity extends AppCompatActivity {
         passwordLinear = findViewById(R.id.login_password_linear);
 
         if (getIntent().getIntExtra(PAGE_NAME, 0) == 10)
-            showSnackbar("New account saved successfully", true);
+            showSnackbar(getResources().getString(R.string.new_account_saved_successfully), true);
 
     }
 

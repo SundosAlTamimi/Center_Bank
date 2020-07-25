@@ -157,7 +157,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     private ArrayList<String> arrayList = new ArrayList<>();
     private CountryCodePicker ccp;
     LoginINFO userSend ;
-    boolean isInGetData=false,userFound=false;
+    boolean isInGetData=true,userFound=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,7 +204,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         phails.addTextChangedListener(textWatcherDeletePic);
         nationalNo.addTextChangedListener(textWatcherDeletePic);
 
-        phoneNo.addTextChangedListener(textWatcherDeletePic);
+//        phoneNo.addTextChangedListener(textWatcherDeletePic);
         company.addTextChangedListener(textWatcherDeletePic);
 
         notes.addTextChangedListener(textWatcherDeletePic);
@@ -609,14 +609,14 @@ public class EditerCheackActivity extends AppCompatActivity {
             }
         });
 
-        phoneNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(phoneNo.hasFocus()) {
-                isInGetData=true;
-                }
-            }
-        });
+//        phoneNo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(phoneNo.hasFocus()) {
+//                isInGetData=true;
+//                }
+//            }
+//        });
 
     }
 
@@ -624,8 +624,12 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         if(isInGetData){
             isInGetData=false;
-            String ToPhoneNo=countryCode+phoneNo.getText().toString();
-           new GetUserInfoByMobo(ToPhoneNo).execute();
+            if(!phoneNo.getText().toString().equals("")){
+                String ToPhoneNo=countryCode+phoneNo.getText().toString();
+                new GetUserInfoByMobo(ToPhoneNo).execute();
+            }else {
+                isInGetData=true;
+            }
         }
     }
 
@@ -2484,7 +2488,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                         userSend.setPassword(finalObject.getString("PASSWORD"));//?
                         userSend.setInactive(finalObject.getString("INACTIVE"));//?
 
-                        userSend.setPersonalDocType(finalObject.getString("PASSKIND"));
+                        userSend.setNationality(finalObject.getString("PASSKIND"));
 
                         chequePhone.add(userSend);
 

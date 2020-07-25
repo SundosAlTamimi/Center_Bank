@@ -10,20 +10,30 @@ public class ChequeInfoVM implements Serializable {
     private String branchNo;
     private String accCode;
     private String ibanNo;
-    private String ownerName;
     private String qrCode;
     private String serialNo;
+
+    private String ownerName;
     private String ownerID;
     private String ownerPhone;
 
+    private String customerFirstName;
+    private String customerSecondName;
+    private String customerThirdName;
+    private String customerFourthName;
+    private String customerID;
+    private String customerPhone;
+
+    private String receiverName;
+    private String receiverMobileNo;
+    private String receiverNationalID;
+
     private String bankName;
     private String chequeData;
-    private String receiverName;
+
     private String moneyInDinar;
     private String moneyInFils;
     private String moneyInWord;
-    private String receiverMobileNo;
-    private String receiverNationalID;
     private String chequeImage;
     private String rowId;
 
@@ -44,6 +54,63 @@ public class ChequeInfoVM implements Serializable {
     private String noteCheck;
     private String companyName;
     private String rejectReason;
+    private  String transSendOrGero;
+
+    public String getCustomerSecondName() {
+        return customerSecondName;
+    }
+
+    public void setCustomerSecondName(String customerSecondName) {
+        this.customerSecondName = customerSecondName;
+    }
+
+    public String getCustomerThirdName() {
+        return customerThirdName;
+    }
+
+    public void setCustomerThirdName(String customerThirdName) {
+        this.customerThirdName = customerThirdName;
+    }
+
+    public String getCustomerFourthName() {
+        return customerFourthName;
+    }
+
+    public void setCustomerFourthName(String customerFourthName) {
+        this.customerFourthName = customerFourthName;
+    }
+
+    public String getCustomerFirstName() {
+        return customerFirstName;
+    }
+
+    public void setCustomerFirstName(String customerFirstName) {
+        this.customerFirstName = customerFirstName;
+    }
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public String getTransSendOrGero() {
+        return transSendOrGero;
+    }
+
+    public void setTransSendOrGero(String transSendOrGero) {
+        this.transSendOrGero = transSendOrGero;
+    }
 
     public String getRejectReason() {
         return rejectReason;

@@ -1,5 +1,6 @@
 package com.falconssoft.centerbank;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -48,6 +49,9 @@ class Presenter {
 
     private JsonObjectRequest ownerChequeRequest;
     private String urlOwnerCheque = URL + "GetOwnerChecks?MOBILENO=";
+
+    private JsonObjectRequest checkSerialRequest;
+    private String urlCheckSerial = URL + "VerifyCheckBySerial?SERIALNO=";
 
     private String getUranUp = "http://localhost:8081/RegisterUser?INFO={\"NATID\":\"220022\",\"FIRSTNM\":\"ALAA\"" +
             ",\"FATHERNM\":\"Salem\",\"GRANDNM\":\"M.\",\"FAMILYNM\":\"JF\",\"DOB\":\"19/05/1978\"" +
@@ -143,12 +147,12 @@ class Presenter {
                         chequeInfo.setISBF(jsonObject.getString("ISFB"));
                         chequeInfo.setCompanyName(jsonObject.getString("COMPANY"));
                         chequeInfo.setNoteCheck(jsonObject.getString("NOTE"));
-                        chequeInfo.setTransType(jsonObject.getString("TRANSTYPE"));
+                        chequeInfo.setTransSendOrGero(jsonObject.getString("TRANSTYPE"));
 
                         chequeInfo.setRejectReason(jsonObject.getString("RJCTREASON"));
 
 //                        chequeInfo.setChequePIc(jsonObject.getString("CHECKPICPATH"));
-//                        chequeInfo.setStatus(jsonObject.getString("TRANSSTATUS"));
+                        chequeInfo.setTransType(jsonObject.getString("TRANSSTATUS"));
 //                        chequeInfo.setOwnerID(jsonObject.getString("OWNERNATID"));
                         chequeInfo.setReceiverName(jsonObject.getString("TOCUSTOMERNM"));
 
@@ -379,6 +383,85 @@ class Presenter {
             }
 
             logInActivity.goToTheMainPage(response.toString(), user);
+
+        }
+    }
+
+    // **************************************** checkBySerial **************************************
+    public void checkBySerial(String serial) {
+
+        checkSerialRequest = new JsonObjectRequest(Request.Method.GET, urlCheckSerial + serial
+                , null, new CheckBySerialClass(), new CheckBySerialClass());
+        requestQueue.add(checkSerialRequest);
+    }
+
+    class CheckBySerialClass implements Response.Listener<JSONObject>, Response.ErrorListener {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.e("presenter/", "checkBySerial/error/" + error.toString());
+            logInActivity.goToTheMainPage(error.getMessage(), null);
+
+        }
+
+        @Override
+        public void onResponse(JSONObject response) {
+
+//            "INFO":[{"NATID":"1122334455","FIRSTNM":"abeer","FATHERNM":"ali","GRANDNM":"ahmad","FAMILYNM":"hiary"
+//                    ,"DOB":"19\/05\/1978","GENDER":"0","MOBILENO":"0772095887","ADDRESS":"salt"
+//                    ,"EMIAL":"hiary.abeer@yahoo.com","PASSWORD":"123","INACTIVE":"0","INDATE":"01\/07\/2020 12:34:40"}]
+
+//            response = new String(response.getBytes("ISO-8859-1"), "UTF-8");
+            Log.e("presenter/", "checkBySerial/" + response.toString());
+            if (response.toString().contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {
+                try {
+                    JSONObject jsonObject = response.getJSONArray("INFO").getJSONObject(0);
+                    ChequeInfoVM chequeInfo = new ChequeInfoVM();
+//                    Log.e("jsonobject", jsonObject.getString("NATID") + jsonObject.getString("INACTIVE") + jsonObject.getString("INDATE"));
+                    chequeInfo.setOwnerID(jsonObject.getString("OWNERNATID"));
+                    chequeInfo.setOwnerPhone(jsonObject.getString("OWNERMOBNO"));
+                    chequeInfo.setOwnerID(jsonObject.getString("OWNERNATID"));
+
+                    chequeInfo.setBankNo(jsonObject.getString("BANKNO"));
+                    chequeInfo.setBankName(jsonObject.getString("BANKNM"));
+                    chequeInfo.setBranchNo(jsonObject.getString("BRANCHNO"));
+                    chequeInfo.setChequeNo(jsonObject.getString("CHECKNO"));
+                    chequeInfo.setAccCode(jsonObject.getString("ACCCODE"));
+                    chequeInfo.setIbanNo(jsonObject.getString("IBANNO"));
+                    chequeInfo.setQrCode(jsonObject.getString("QRCODE"));
+                    chequeInfo.setSerialNo(jsonObject.getString("SERIALNO"));
+                    chequeInfo.setCheckIssueDate(jsonObject.getString("CHECKISSUEDATE"));
+                    chequeInfo.setCheckDueDate(jsonObject.getString("CHECKDUEDATE"));
+
+                    chequeInfo.setMoneyInDinar(jsonObject.getString("AMTJD"));
+                    chequeInfo.setMoneyInFils(jsonObject.getString("AMTFILS"));
+                    chequeInfo.setMoneyInWord(jsonObject.getString("AMTWORD"));
+
+                    chequeInfo.setReceiverName(jsonObject.getString("TOCUSTOMERNM"));
+                    chequeInfo.setReceiverMobileNo(jsonObject.getString("TOCUSTOMERMOB"));
+                    chequeInfo.setReceiverNationalID(jsonObject.getString("TOCUSTOMERNATID"));
+
+                    chequeInfo.setCustomerWriteDate(jsonObject.getString("CHECKWRITEDATE"));
+                    chequeInfo.setChequePIc(jsonObject.getString("CHECKPICPATH"));
+
+                    chequeInfo.setCompanyName(jsonObject.getString("COMPANY"));
+                    chequeInfo.setNoteCheck(jsonObject.getString("NOTE"));
+                    chequeInfo.setTransType(jsonObject.getString("TRANSTYPE"));
+
+                    chequeInfo.setISCO(jsonObject.getString("ISCO"));
+                    chequeInfo.setISBF(jsonObject.getString("ISFB"));
+                    chequeInfo.setISBF(jsonObject.getString("INACTIVE"));
+
+                    chequeInfo.setUserName(jsonObject.getString("CUSTOMERNM"));
+                    chequeInfo.setCustomerFirstName(jsonObject.getString("CUSTNAME"));
+                    chequeInfo.setCustomerFirstName(jsonObject.getString("CUSTFNAME"));
+                    chequeInfo.setCustomerThirdName(jsonObject.getString("CUSTGNAME"));
+                    chequeInfo.setCustomerFourthName(jsonObject.getString("CUSTFAMNAME"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
 
         }
     }
