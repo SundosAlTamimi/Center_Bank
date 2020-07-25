@@ -6,6 +6,8 @@ public class  NumberToArabic {
     }
 
     static String getArabicString(String amount) {
+        if(Integer.parseInt(amount)!=0){
+            amount=""+Integer.parseInt(amount);
         String[] st = amount.split("\\.", -1);
         String Amount = st[0];
         if (Amount.length() == 5 || Amount.length() == 2) {
@@ -66,17 +68,17 @@ public class  NumberToArabic {
                 }
             }
             if (Integer.valueOf(Amount.substring(4)).intValue() > 0) {
-                if (Integer.valueOf(Amount.substring(1,4)).intValue() > 0) {
+                if (Integer.valueOf(Amount.substring(1, 4)).intValue() > 0) {
                     amountTxt = amountTxt + "و " + get6deg(Amount.substring(1, 4)) + " و " + get3deg(Amount.substring(4));
-                }else{
-                    amountTxt = amountTxt   + " و " + get3deg(Amount.substring(4));
+                } else {
+                    amountTxt = amountTxt + " و " + get3deg(Amount.substring(4));
 
                 }
             } else {
-                if (Integer.valueOf(Amount.substring(1,4)).intValue() > 0) {
+                if (Integer.valueOf(Amount.substring(1, 4)).intValue() > 0) {
                     amountTxt = amountTxt + "و " + get6deg(Amount.substring(1, 4)) + get3deg(Amount.substring(4));
-                }else{
-                    amountTxt = amountTxt  + get3deg(Amount.substring(4));
+                } else {
+                    amountTxt = amountTxt + get3deg(Amount.substring(4));
                 }
             }
         } else if (Amount.length() == 6) {
@@ -95,7 +97,9 @@ public class  NumberToArabic {
         } catch (Exception e2) {
         }
         return amountTxt.replace("الفاً دينار", "الف دينار").replace("مئتان دينار", "مئتا دينار").replace("الفان دينار", "الفا دينار").replace("مئتان الف", "مئتا الف");
+
     }
+    return "";}
 
     private static String get3deg(String Amount) {
         String txt = "";

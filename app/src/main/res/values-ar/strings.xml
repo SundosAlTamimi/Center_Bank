@@ -163,4 +163,10 @@
     <string name="process">Processing</string>
     <string name="rejectedGereo">Rejected Gero</string>
     <string name="newGeroChecue">New Gero Checue</string>
+    <string name="_7xxxxxxxx">7xxxxxxxx</string>
+    <string name="name_of_fourth_syllables">الاسم من اربعة مقاطع كما في هوية الاحوال المدنية او جواز السفر</string>
+    <string name="date_of_birth">Date Of Birth</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="nationality">Nationality</string>
+    <string name="id_number">Id Number</string>
 </resources>

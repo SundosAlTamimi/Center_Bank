@@ -421,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
                     // TODO add account
 
-                    NewAccount acc = new NewAccount("jj", inputEditText.getText().toString(), "Jordan Bank", "0");
+                    NewAccount acc = new NewAccount("jj", inputEditText.getText().toString(), "Bank Of Jordan ", "0");
                     addAccountOb = acc.getJSONObject(userNo);
                     new AddAccount().execute();
 
@@ -499,7 +499,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         notifiList = new ArrayList<>();
         checkInfoList=new ArrayList<>();
 
-        dbHandler = new DatabaseHandler(MainActivity.this);
         recyclerViews = (RecyclerView) findViewById(R.id.res);
         setSupportActionBar(toolbar);
         setTitle("");
