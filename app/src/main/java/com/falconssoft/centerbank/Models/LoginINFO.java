@@ -17,18 +17,18 @@ public class LoginINFO {
     private  String indate;
     private  int isRemember;
     private  int isNowActive;
-    private  String personalDocType;// 0 => national ID, 1 => passport
+    private String nationality;
 
 
     public LoginINFO() {
     }
 
-    public String getPersonalDocType() {
-        return personalDocType;
+    public String getNationality() {
+        return nationality;
     }
 
-    public void setPersonalDocType(String personalDocType) {
-        this.personalDocType = personalDocType;
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 
     public int getIsNowActive() {
