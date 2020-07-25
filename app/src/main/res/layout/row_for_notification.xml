@@ -98,27 +98,33 @@
                     >
                 <TextView
                     android:id="@+id/amount_check"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="15698  JD"
-
+                    android:layout_weight="0"
+                    android:text=""
                     android:textSize="16sp"
                     android:layout_margin="2dp"
                     android:textColor="@color/alpha_black2" />
 
+                    <TextView
+                        android:id="@+id/amount_Filis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:text=""
+
+                        android:textSize="16sp"
+                        android:layout_margin="2dp"
+                        android:textColor="@color/alpha_black2" />
                 <TextView
                     android:id="@+id/date_check"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="center"
-
                     android:text="20/20/2020"
                     android:layout_margin="2dp"
-
                     android:textSize="16sp"
-
                     android:textColor="@color/alpha_black2" />
                 </LinearLayout>
                 <LinearLayout
@@ -134,10 +140,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="visible"
-                    android:layout_weight="2"
+
+                    android:layout_weight="1.8"
+                    android:padding="5dp"
                     android:drawablePadding="10dp"
                     android:gravity="center"
-                    android:drawableEnd="@drawable/ic_check_black_24dp"
+                    android:drawableEnd="@drawable/accept_mony"
 
                     android:text="@string/CheckAccpted"
 
@@ -179,10 +187,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="visible"
-                        android:layout_weight="2"
+                        android:layout_weight="1.8"
+                        android:padding="5dp"
                         android:gravity="center"
                         android:drawablePadding="10dp"
-                        android:drawableEnd="@drawable/ic_do_not_disturb_alt_black_24dp"
+                        android:drawableEnd="@drawable/reject_mony"
 
                         android:text="@string/checkReject"
 
@@ -215,7 +224,7 @@
                     android:id="@+id/pendingimage"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     >
@@ -224,10 +233,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="visible"
-                        android:layout_weight="2"
+                        android:layout_weight="1.8"
+                        android:padding="5dp"
                         android:gravity="center"
                         android:drawablePadding="10dp"
-                        android:drawableEnd="@drawable/ic_note_add_black_24dp"
+                        android:drawableEnd="@drawable/money"
 
                         android:text="@string/NewCheck"
 
@@ -258,9 +268,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/geroLinear"
+                    android:id="@+id/geroLinear_pending"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     >
@@ -272,9 +283,95 @@
                         android:layout_weight="2"
                         android:gravity="center"
                         android:drawablePadding="10dp"
-                        android:drawableEnd="@drawable/ic_swap"
+                        android:drawableEnd="@drawable/ic_swap_calls_yelow_24dp"
+
+                        android:text="@string/newGeroChecue"
+                        android:textSize="16sp"
+                        android:background="@drawable/edit_bac_log"
+
+                        android:textColor="@color/colorBlack"
+                        />
+                    <TextView
+                        android:id="@+id/ch12kj"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible"
+                        android:layout_weight="2"
+
+                        android:text="@string/CheckAccpted"
+
+                        android:layout_margin="2dp"
+                        android:padding="2dp"
+
+                        android:textSize="16sp"
+                        android:background="@drawable/accept_background"
+
+                        android:textColor="@color/colorBlack"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/geroLinear_accepted"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:id="@+id/gero_accepted"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:drawablePadding="10dp"
+                        android:drawableEnd="@drawable/ic_swap_calls_green_24dp"
 
                         android:text="@string/gerocheque"
+                        android:textSize="16sp"
+                        android:background="@drawable/edit_bac_log"
+
+                        android:textColor="@color/colorBlack"
+                        />
+                    <TextView
+                        android:id="@+id/ch12kj11"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible"
+                        android:layout_weight="2"
+
+                        android:text="@string/CheckAccpted"
+
+                        android:layout_margin="2dp"
+                        android:padding="2dp"
+
+                        android:textSize="16sp"
+                        android:background="@drawable/accept_background"
+
+                        android:textColor="@color/colorBlack"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/geroLinear_rejected"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:id="@+id/gero_rejected"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:drawablePadding="10dp"
+                        android:drawableEnd="@drawable/ic_swap_calls_red_24dp"
+
+                        android:text="@string/rejectedGereo"
 
 
                         android:textSize="16sp"
@@ -283,7 +380,7 @@
                         android:textColor="@color/colorBlack"
                         />
                     <TextView
-                        android:id="@+id/ch12kj"
+                        android:id="@+id/ch12kj2222"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="invisible"

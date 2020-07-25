@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -27,10 +28,12 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -51,6 +54,7 @@ import androidx.core.content.ContextCompat;
 
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
+import com.falconssoft.centerbank.Models.LoginINFO;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -146,13 +150,14 @@ public class EditerCheackActivity extends AppCompatActivity {
     SweetAlertDialog pd;
     boolean isPermition;
     ChequeInfo chequeInfoReSendEd;
-    private String currencyLanguage = "ع", amountWord, countryCode = "962";
+    private String currencyLanguage = "عربي", amountWord, countryCode = "962";
     private NumberToArabic numberToArabic;
     private Spinner spinner;
     private ArrayAdapter arrayAdapter;
     private ArrayList<String> arrayList = new ArrayList<>();
     private CountryCodePicker ccp;
-
+    LoginINFO userSend ;
+    boolean isInGetData=true,userFound=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,6 +195,27 @@ public class EditerCheackActivity extends AppCompatActivity {
         phails.addTextChangedListener(textWatcher);
 
         Danier.addTextChangedListener(textWatcher);
+
+//_________________________________________________________________________
+
+
+        Danier.addTextChangedListener(textWatcherDeletePic);
+
+        phails.addTextChangedListener(textWatcherDeletePic);
+        nationalNo.addTextChangedListener(textWatcherDeletePic);
+
+//        phoneNo.addTextChangedListener(textWatcherDeletePic);
+        company.addTextChangedListener(textWatcherDeletePic);
+
+        notes.addTextChangedListener(textWatcherDeletePic);
+        fName.addTextChangedListener(textWatcherDeletePic);
+
+        sName.addTextChangedListener(textWatcherDeletePic);
+        tName.addTextChangedListener(textWatcherDeletePic);
+
+        fourthName.addTextChangedListener(textWatcherDeletePic);
+        rowDate.addTextChangedListener(textWatcherDeletePic);
+
 
         CheckPic.setOnClickListener(new View.OnClickListener() {
 
@@ -302,7 +328,29 @@ public class EditerCheackActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             ConvertCurrency();
+            serverPic="";
+            CheckPic.setImageBitmap(null);
 
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
+
+    TextWatcher textWatcherDeletePic = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            serverPic="";
+            CheckPic.setImageBitmap(null);
 
         }
 
@@ -314,6 +362,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
     void ConvertCurrency(){
         String amount = "", amount2 = "";
+        amountWord="";
         if (currencyLanguage.equals("En")) {
             TafqeetEnglish tafqeetEnglish = new TafqeetEnglish();
 
@@ -333,8 +382,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                 }
             }
 
-            AmouWord.setText(amountWord);
-        } else if (currencyLanguage.equals("ع")){
+            AmouWord.setText(amountWord+ " Only");
+        } else if (currencyLanguage.equals("عربي")) {
 
 //            if (!Danier.getText().toString().equals("")) {
 //
@@ -360,24 +409,48 @@ public class EditerCheackActivity extends AppCompatActivity {
 
             NumberToArabic numberToArabic = new NumberToArabic();
 
+
             if (!Danier.getText().toString().equals("")) {
-                if (!phails.getText().toString().equals("")) { // dinar and fils
+                if (!phails.getText().toString().equals("")) {
                     amount = Danier.getText().toString();// + "." + phails.getText().toString();
                     amount2 = phails.getText().toString();
-                    amountWord = numberToArabic.getArabicString(amount) + " و " + convertDinarToFilse(numberToArabic.getArabicString(amount2)) ;
+                    if (Integer.parseInt(phails.getText().toString())!=0){// dinar and fils
+
+                    if (Integer.parseInt(Danier.getText().toString()) != 0) {
+
+                        amountWord = numberToArabic.getArabicString(amount) + " و " + convertDinarToFilse(numberToArabic.getArabicString(amount2));
+                    } else {
+                        amountWord = convertDinarToFilse(numberToArabic.getArabicString(amount2));
+
+                    }
+                }else {
+                        if (Integer.parseInt(Danier.getText().toString()) != 0) {
+
+                            amountWord = numberToArabic.getArabicString(amount);
+                        }
+                    }
+
                 } else { // dinar
+
                     amount = Danier.getText().toString();// + "." + phails.getText().toString();
-                    amountWord = numberToArabic.getArabicString(amount) ;
+                    amountWord = numberToArabic.getArabicString(amount);
                 }
             } else if (!phails.getText().toString().equals("")) { //  fils
                 if (Danier.getText().toString().equals("")) {
                     amount2 = phails.getText().toString();
-                    amountWord =convertDinarToFilse( numberToArabic.getArabicString(amount2)) ;
+
+                    amountWord = convertDinarToFilse(numberToArabic.getArabicString(amount2));
+                }else if(Integer.parseInt(Danier.getText().toString())==0){
+                    amountWord = convertDinarToFilse(numberToArabic.getArabicString(amount2));
                 }
             }
 
-            AmouWord.setText(amountWord);
-
+            if(amountWord.equals("")) {
+                AmouWord.setText("");
+            }else {
+                AmouWord.setText(amountWord + " فقط لا غير ");
+            }
+        //
 
         }
 
@@ -386,6 +459,10 @@ public class EditerCheackActivity extends AppCompatActivity {
 
         if (phails.getText().toString().equals("") && Danier.getText().toString().equals("")) {
             AmouWord.setText("");
+        }else if(!phails.getText().toString().equals("") && !Danier.getText().toString().equals("")) {
+            if (Integer.parseInt(Danier.getText().toString()) == 0 && Integer.parseInt(phails.getText().toString()) == 0) {
+                AmouWord.setText("");
+            }
         }
 
     }
@@ -420,7 +497,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         linearAmount = findViewById(R.id.editorCheque_linear_amount);
         linearCo = findViewById(R.id.editorCheque_linear_co);
 
-        arrayList.add("ع");
+        arrayList.add("عربي");
         arrayList.add("En");
 
         arrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, arrayList);
@@ -510,6 +587,50 @@ public class EditerCheackActivity extends AppCompatActivity {
         });
         validDate = true;
 
+
+        phoneNo.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_NULL) {
+
+                    getInfoByCustomer();
+                }
+
+                return false;
+            }
+        });
+
+        phoneNo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b) {
+                    getInfoByCustomer();
+                }
+            }
+        });
+
+//        phoneNo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(phoneNo.hasFocus()) {
+//                isInGetData=true;
+//                }
+//            }
+//        });
+
+    }
+
+   void  getInfoByCustomer(){
+
+        if(isInGetData){
+            isInGetData=false;
+            if(!phoneNo.getText().toString().equals("")){
+                String ToPhoneNo=countryCode+phoneNo.getText().toString();
+                new GetUserInfoByMobo(ToPhoneNo).execute();
+            }else {
+                isInGetData=true;
+            }
+        }
     }
 
     private boolean compareDate(String chequeDate) throws ParseException {
@@ -605,88 +726,104 @@ public class EditerCheackActivity extends AppCompatActivity {
                             if (validDate)
                                 if (!TextUtils.isEmpty(localDinar)) {
                                     if (!TextUtils.isEmpty(serverPic)) {
-                                        pushCheque.setEnabled(false);
-                                        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-                                        String phoneNo1 = loginPrefs.getString("mobile", "");
+                                        if(userFound) {
+                                            pushCheque.setEnabled(false);
+                                            SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+                                            String phoneNo1 = loginPrefs.getString("mobile", "");
 
-                                        Danier.setError(null);
-                                        date.setError(null);
-                                        fName.setError(null);
-                                        sName.setError(null);
-                                        tName.setError(null);
-                                        fourthName.setError(null);
-                                        phoneNo.setError(null);
-                                        nationalNo.setError(null);
+                                            Danier.setError(null);
+                                            date.setError(null);
+                                            fName.setError(null);
+                                            sName.setError(null);
+                                            tName.setError(null);
+                                            fourthName.setError(null);
+                                            phoneNo.setError(null);
+                                            nationalNo.setError(null);
 
-                                        String checkBox_C = "", checkBox_Fb = "";
+                                            String checkBox_C = "", checkBox_Fb = "";
 
-                                        if (checkBox_CO.isChecked()) {
-                                            checkBox_C = "1";
-                                        } else {
-                                            checkBox_C = "0";
-                                        }
+                                            if (checkBox_CO.isChecked()) {
+                                                checkBox_C = "1";
+                                            } else {
+                                                checkBox_C = "0";
+                                            }
 
-                                        if (checkBox_firstpinifit.isChecked()) {
-                                            checkBox_Fb = "1";
-                                        } else {
-                                            checkBox_Fb = "0";
-                                        }
+                                            if (checkBox_firstpinifit.isChecked()) {
+                                                checkBox_Fb = "1";
+                                            } else {
+                                                checkBox_Fb = "0";
+                                            }
 
-                                        ChequeInfo chequeInfo = new ChequeInfo();
-                                        chequeInfo.setBankNo(BANKNO);
-                                        chequeInfo.setBankName("Jordan Bank");
-                                        chequeInfo.setBranchNo(BRANCHNO);
-                                        chequeInfo.setChequeNo(CHECKNO);
-                                        chequeInfo.setAccCode(ACCCODE);
-                                        chequeInfo.setIbanNo(IBANNO);
-                                        chequeInfo.setCustName(CUSTOMERNM);
-                                        chequeInfo.setQrCode(QRCODE);
-                                        chequeInfo.setSerialNo(SERIALNO);
-                                        chequeInfo.setChequeData(localDate);
-                                        chequeInfo.setToCustomerName(localReciever);
-                                        chequeInfo.setMoneyInDinar(localDinar);
-                                        chequeInfo.setMoneyInFils(localFils);
-                                        chequeInfo.setMoneyInWord(localMoneyInWord);
-                                        chequeInfo.setToCustomerMobel(countryCode + localPhoneNo);
-                                        chequeInfo.setToCustomerNationalId(localNationlNo);
-                                        chequeInfo.setChequeImage(serverPic);
-                                        chequeInfo.setUserName(phoneNo1);
-                                        chequeInfo.setISCO(checkBox_C);
-                                        chequeInfo.setISBF(checkBox_Fb);
-                                        chequeInfo.setCompanyName(company.getText().toString());
-                                        chequeInfo.setToCustName(fName.getText().toString());
-                                        chequeInfo.setToCustFName(sName.getText().toString());
-                                        chequeInfo.setToCustGName(tName.getText().toString());
-                                        chequeInfo.setToCustFamalyName(fourthName.getText().toString());
-                                        chequeInfo.setNoteCheck(notes.getText().toString());
-                                        Log.e("showpic", serverPic);
+                                            ChequeInfo chequeInfo = new ChequeInfo();
+                                            chequeInfo.setBankNo(BANKNO);
+                                            chequeInfo.setBankName("Bank Of Jordan");
+                                            chequeInfo.setBranchNo(BRANCHNO);
+                                            chequeInfo.setChequeNo(CHECKNO);
+                                            chequeInfo.setAccCode(ACCCODE);
+                                            chequeInfo.setIbanNo(IBANNO);
+                                            chequeInfo.setCustName(CUSTOMERNM);
+                                            chequeInfo.setQrCode(QRCODE);
+                                            chequeInfo.setSerialNo(SERIALNO);
+                                            chequeInfo.setChequeData(localDate);
+                                            chequeInfo.setToCustomerName(localReciever);
+                                            chequeInfo.setMoneyInDinar(localDinar);
+                                            chequeInfo.setMoneyInFils(localFils);
+                                            chequeInfo.setMoneyInWord(localMoneyInWord);
+                                            chequeInfo.setToCustomerMobel(countryCode + localPhoneNo);
+                                            chequeInfo.setToCustomerNationalId(localNationlNo);
+                                            chequeInfo.setChequeImage(serverPic);
+                                            chequeInfo.setUserName(phoneNo1);
+                                            chequeInfo.setISCO(checkBox_C);
+                                            chequeInfo.setISBF(checkBox_Fb);
+                                            chequeInfo.setCompanyName(company.getText().toString());
+                                            chequeInfo.setToCustName(fName.getText().toString());
+                                            chequeInfo.setToCustFName(sName.getText().toString());
+                                            chequeInfo.setToCustGName(tName.getText().toString());
+                                            chequeInfo.setToCustFamalyName(fourthName.getText().toString());
+                                            chequeInfo.setNoteCheck(notes.getText().toString());
+                                            Log.e("showpic", serverPic);
 
-                                        jsonObject = new JSONObject();
-                                        jsonObject = chequeInfo.getJSONObject();
+                                            jsonObject = new JSONObject();
+                                            jsonObject = chequeInfo.getJSONObject();
+                                            if (!(countryCode+localPhoneNo).equals(phoneNoUser)) {//no send to the same phone no
+                                                new SaveCheckTemp().execute();
+
+                                            } else {
+                                                SweetAlertDialog sw = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                                sw.setTitleText("***" + EditerCheackActivity.this.getResources().getString(R.string.phone_no) + "***");
+                                                sw.setContentText("Please , change Phone No ,You Can't Send The Cheque To Yourself");
+                                                sw.setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok));
+                                                sw.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                    @SuppressLint("WrongConstant")
+                                                    @Override
+                                                    public void onClick(SweetAlertDialog sDialog) {
+                                                        phoneNo.setError("Change");
+                                                        pushCheque.setEnabled(true);
+                                                        sDialog.dismissWithAnimation();
+                                                    }
+                                                });
+                                                sw.show();
+                                            }
 
 //                                    imageSend();
 //                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
 //                new Image().execute();
 //                                   new  IsCheckPinding().execute();
-                                        if (!localPhoneNo.equals(phoneNoUser)) {//no send to the same phone no
-                                            new SaveCheckTemp().execute();
-
-                                        } else {
+                                        }else{
                                             SweetAlertDialog sw = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
                                             sw.setTitleText("***" + EditerCheackActivity.this.getResources().getString(R.string.phone_no) + "***");
-                                            sw.setContentText("Please , change Phone No ,You Can't Send The Cheque To Yourself");
+                                            sw.setContentText("Cheque App not install in this Phone No  "+ "+"+countryCode+localPhoneNo);
                                             sw.setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok));
                                             sw.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                                 @SuppressLint("WrongConstant")
                                                 @Override
                                                 public void onClick(SweetAlertDialog sDialog) {
-                                                    phoneNo.setError("Change");
-                                                    pushCheque.setEnabled(true);
                                                     sDialog.dismissWithAnimation();
                                                 }
                                             });
                                             sw.show();
                                         }
+
 
                                     } else {
                                         CheckPicText.setError("Required!");
@@ -992,7 +1129,7 @@ public class EditerCheackActivity extends AppCompatActivity {
             cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
 
             chequeWriterTV.setText(customerName);
-            accountNoTV.setText(accountNo);
+            accountNoTV.setText(accountNo.substring(1));
             chequeNoTV.setText(chequeNo);
             okTV.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -2197,6 +2334,197 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                        .show();
 
                 new TillerGetCheck(chequeInfo).execute();
+
+
+            }
+
+        }
+    }
+
+
+    public class GetUserInfoByMobo extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+        SweetAlertDialog  pdaSweet;
+        String ToPhoneNo="";
+
+        public GetUserInfoByMobo(String ToPhoneNo) {
+            this.ToPhoneNo= ToPhoneNo;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+            userFound=false;
+              pdaSweet = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pdaSweet.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+            pdaSweet.setTitleText("Process...");
+            pdaSweet.setCancelable(false);
+            pdaSweet.show();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+
+                String link = serverLink + "GetUserInfoByMobo";
+
+
+//                ACCCODE=0014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390105
+                //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
+                String data = "MOBNO=" + URLEncoder.encode(ToPhoneNo, "UTF-8") ;
+
+
+
+                URL url = new URL(link);
+                Log.e("phoneNoUser ,3 ", serverLink + "   " + link + "   " + data + " " +ToPhoneNo);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("GetUserInfoByMobo", "tag -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String JsonResponse) {
+            super.onPostExecute(JsonResponse);
+
+
+            if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
+                Log.e("GetLogSuccess", "****Success");
+
+//
+                try {
+
+                    JSONObject parentArray = new JSONObject(JsonResponse);
+                    JSONArray parentInfo = parentArray.getJSONArray("INFO");
+
+//                    INFO":[{"ROWID":"AABX2UAAPAAAACDAA1","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الصقور للبرمجيات","QRCODE":"390144;004;0099;1014569990011000","SERIALNO":"635088CD7E6D405B","CHECKISSUEDATE":"7\/2\/2020 12:51:57 PM","CHECKDUEDATE":"","TOCUSTOMERNM":"","AMTJD":"","AMTFILS":"","AMTWORD":"","TOCUSTOMERMOB":"","TOCUSTOMERNATID":"","CHECKWRITEDATE":"","CHECKPICPATH":"","USERNO":"","ISCO":"","ISFB":"","COMPANY":"","NOTE":""}]}
+
+
+                    List<LoginINFO> chequePhone = new ArrayList<>();
+
+
+                    for (int i = 0; i < parentInfo.length(); i++) {
+                        JSONObject finalObject = parentInfo.getJSONObject(i);
+
+                         userSend = new LoginINFO();
+
+//      [{"NATID":"4236828854","FIRSTNM":"alaa","FATHERNM":"t","GRANDNM":"yg","FAMILYNM":"ug","DOB":"22\/07\/2020","GENDER":"1","MOBILENO":"962798899716","ADDRESS":"amman","EMIAL":"alaa@gmail.com","PASSWORD":"AalaaA7$","INACTIVE":"0","INDATE":"22\/07\/2020 17:36:22","PASSKIND":"0"}]}
+
+
+                        userSend.setNationalID(finalObject.getString("NATID"));
+                        userSend.setFirstName(finalObject.getString("FIRSTNM"));
+
+
+                        userSend.setSecondName(finalObject.getString("FATHERNM"));
+                        userSend.setThirdName(finalObject.getString("GRANDNM"));
+
+                        userSend.setFourthName(finalObject.getString("FAMILYNM"));
+                        userSend.setBirthDate(finalObject.getString("DOB"));
+
+                        userSend.setGender(finalObject.getString("GENDER"));
+                        userSend.setUsername(finalObject.getString("MOBILENO"));
+
+                        userSend.setAddress(finalObject.getString("ADDRESS"));
+                        userSend.setEmail(finalObject.getString("EMIAL"));
+
+                        userSend.setPassword(finalObject.getString("PASSWORD"));//?
+                        userSend.setInactive(finalObject.getString("INACTIVE"));//?
+
+                        userSend.setNationality(finalObject.getString("PASSKIND"));
+
+                        chequePhone.add(userSend);
+
+                    }
+
+                    nationalNo.setText(userSend.getNationalID());
+                    fName.setText(userSend.getFirstName());
+                    sName.setText(userSend.getSecondName());
+                    tName.setText(userSend.getThirdName());
+                    fourthName.setText(userSend.getFourthName());
+
+                    isInGetData=true;
+                    userFound=true;
+                    pdaSweet.dismissWithAnimation();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }//
+
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"User Not found.")) {
+                isInGetData=true;
+                nationalNo.setText("");
+                fName.setText("");
+                sName.setText("");
+                tName.setText("");
+                fourthName.setText("");
+
+                Log.e("StatusDescreption", "****User Not found.");
+                pdaSweet.dismissWithAnimation();
+
+                userFound=false;
+                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Can't Send")
+                        .setContentText("Install App")
+                        .show();
+
 
 
             }

@@ -6,38 +6,38 @@ public class TafqeetEnglish {
 
     private static final String[] tensNames = {
             "",
-            " ten",
-            " twenty",
-            " thirty",
-            " forty",
-            " fifty",
-            " sixty",
-            " seventy",
-            " eighty",
-            " ninety"
+            " Ten",
+            " Twenty",
+            " Thirty",
+            " Forty",
+            " Fifty",
+            " Sixty",
+            " Seventy",
+            " Eighty",
+            " Ninety"
     };
 
     private static final String[] numNames = {
             "",
-            " one",
-            " two",
-            " three",
-            " four",
-            " five",
-            " six",
-            " seven",
-            " eight",
-            " nine",
-            " ten",
-            " eleven",
-            " twelve",
-            " thirteen",
-            " fourteen",
-            " fifteen",
-            " sixteen",
-            " seventeen",
-            " eighteen",
-            " nineteen"
+            " One",
+            " Two",
+            " Three",
+            " Four",
+            " Five",
+            " Six",
+            " Seven",
+            " Eight",
+            " Nine",
+            " Ten",
+            " Eleven",
+            " Twelve",
+            " Thirteen",
+            " Fourteen",
+            " Fifteen",
+            " Sixteen",
+            " Seventeen",
+            " Eighteen",
+            " Nineteen"
     };
 
     public TafqeetEnglish() {
@@ -57,14 +57,14 @@ public class TafqeetEnglish {
             number /= 10;
         }
         if (number == 0) return soFar;
-        return numNames[number] + " hundred" + soFar;
+        return numNames[number] + " Hundred" + soFar;
     }
 
 
     public static String convert(long number) {
         // 0 to 999 999 999 999
         if (number == 0) {
-            return "zero";
+            return "";
         }
 
         String snumber = Long.toString(number);
@@ -90,11 +90,11 @@ public class TafqeetEnglish {
                 break;
             case 1:
                 tradBillions = convertLessThanOneThousand(billions)
-                        + " billion ";
+                        + " Billion ";
                 break;
             default:
                 tradBillions = convertLessThanOneThousand(billions)
-                        + " billion ";
+                        + " Billion ";
         }
         String result = tradBillions;
 
@@ -105,11 +105,11 @@ public class TafqeetEnglish {
                 break;
             case 1:
                 tradMillions = convertLessThanOneThousand(millions)
-                        + " million ";
+                        + " Million ";
                 break;
             default:
                 tradMillions = convertLessThanOneThousand(millions)
-                        + " million ";
+                        + " Million ";
         }
         result = result + tradMillions;
 
@@ -119,11 +119,11 @@ public class TafqeetEnglish {
                 tradHundredThousands = "";
                 break;
             case 1:
-                tradHundredThousands = "one thousand ";
+                tradHundredThousands = "One Thousand ";
                 break;
             default:
                 tradHundredThousands = convertLessThanOneThousand(hundredThousands)
-                        + " thousand ";
+                        + " Thousand ";
         }
         result = result + tradHundredThousands;
 
