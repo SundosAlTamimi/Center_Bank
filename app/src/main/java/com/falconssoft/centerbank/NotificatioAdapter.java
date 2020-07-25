@@ -384,16 +384,16 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
                     if (checkInfoNotification.get(row_index).getTransType().equals("1")) {
                         resonLayout.setVisibility(View.GONE);
-                        textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
-                                , ContextCompat.getDrawable(context, R.drawable.ic_check_black_24dp), null);
+//                        textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                                , ContextCompat.getDrawable(context, R.drawable.ic_check_black_24dp), null);
 
                     }
                     if (checkInfoNotification.get(row_index).getTransType().equals("2")) {
                         resonLayout.setVisibility(View.VISIBLE);
                         linearButn.setVisibility(View.GONE);
                         textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
-                        textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
-                                , ContextCompat.getDrawable(context, R.drawable.ic_do_not_disturb_alt_black_24dp), null);
+//                        textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                                , ContextCompat.getDrawable(context, R.drawable.ic_do_not_disturb_alt_black_24dp), null);
 
                         if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
                             reSend.setVisibility(View.VISIBLE);
@@ -404,8 +404,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 }
                 else {
                     resonLayout.setVisibility(View.GONE);
-                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_note_add_black_24dp), null
-                            , null, null);
+//                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_note_add_black_24dp), null
+//                            , null, null);
 
                 }
             }
