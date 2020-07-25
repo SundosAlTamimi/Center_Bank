@@ -121,7 +121,7 @@ public class JeroActivity extends AppCompatActivity {
         giroList = findViewById(R.id.giroList);
         editLiner = findViewById(R.id.linerEditing);
         barcodeLiner = findViewById(R.id.linerBarcode);
-        phoneNos = findViewById(R.id.editorCheque_phoneNo);
+        phoneNos = findViewById(R.id.giro_phoneNo);
         fName = findViewById(R.id.first_name);
         sName = findViewById(R.id.second_name);
         tName = findViewById(R.id.thered_name);
@@ -371,9 +371,10 @@ public class JeroActivity extends AppCompatActivity {
                 String localDate = date.getText().toString();
 
                 if (!TextUtils.isEmpty(localNationlNo) && localNationlNo.length() == 10)
-                    if (!TextUtils.isEmpty(localPhoneNo) && localPhoneNo.length() == 10)
+                    if (!TextUtils.isEmpty(localPhoneNo) && localPhoneNo.length() == 9)
                         if (!String.valueOf(localPhoneNo.charAt(0)).equals("0"))
                             if (!TextUtils.isEmpty(localReciever))
+
                                 if (!TextUtils.isEmpty(localDate))
                                     if (!TextUtils.isEmpty(localDinar)) {
                                         if (!TextUtils.isEmpty(serverPic)) {
@@ -441,7 +442,7 @@ public class JeroActivity extends AppCompatActivity {
 //                                    imageSend();
 //                uploadMultipart(String.valueOf(creatFile(serverPicBitmap)));
 //                new Image().execute();
-                                            if (!localPhoneNo.equals(phoneNo)) {//no send to the same phone no
+                                            if (!(countryCode+localPhoneNo).equals(phoneNo)) {//no send to the same phone no
                                                 new SaveGiro().execute();
 
                                             } else {
@@ -1445,7 +1446,7 @@ public class JeroActivity extends AppCompatActivity {
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText("Successful")
+                            .setTitleText("")
                             .setContentText("Processing ... ")
                             .setConfirmText("Ok")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {

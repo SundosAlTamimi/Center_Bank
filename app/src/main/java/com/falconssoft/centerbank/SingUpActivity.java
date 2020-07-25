@@ -227,7 +227,7 @@ public class SingUpActivity extends AppCompatActivity {
         ccp = findViewById(R.id.signUp_ccp);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getResources().getResourceName(R.string.please_waiting));
+        progressDialog.setMessage(getResources().getString(R.string.please_waiting));
 
 //        accountTypeList.clear();
 //        accountTypeList.add(getResources().getResourceName(R.string.account_type));

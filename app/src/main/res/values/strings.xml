@@ -166,5 +166,6 @@
 
     <string name="zero_digit">Enter phone number without zero at the beginning!</string>
     <string name="lost">Lost</string>
+    <string name="process">Processing</string>
 
 </resources>

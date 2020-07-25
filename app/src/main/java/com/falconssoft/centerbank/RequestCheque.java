@@ -237,6 +237,9 @@ public class RequestCheque extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try {
+                infoUser=databaseHandler.getActiveUserInfo();
+                phoneNo=infoUser.getUsername();
+
                 WHICH="0";// to user
 
                 String JsonResponse = null;

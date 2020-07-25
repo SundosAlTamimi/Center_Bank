@@ -145,6 +145,7 @@
             android:drawableStart="@drawable/ic_account_circle_black_24dp"
             android:textColor="@color/white" />
         <TextView
+            android:id="@+id/bankName_text"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="5dp"
@@ -158,6 +159,7 @@
             android:layout_weight="1"
             android:textColor="@color/white" />
         <TextView
+
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="5dp"
