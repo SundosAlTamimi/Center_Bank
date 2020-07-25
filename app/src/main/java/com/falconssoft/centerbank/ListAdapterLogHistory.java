@@ -155,7 +155,7 @@ CircleImageView status;
 
         holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+" " +TStatus);
         holder.chequNo.setText(itemsList.get(i).getChequeNo());
-        holder.phoneNo.setText(itemsList.get(i).getToCustomerMobel());
+        holder.phoneNo.setText("+"+itemsList.get(i).getToCustomerMobel());
 
         holder.name.setText(" " + itemsList.get(i).getCustName());
 //        holder.transType.setText("" + itemsList.get(i).getTransType());
