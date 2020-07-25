@@ -54,12 +54,11 @@
     <string name="new_account">New Account</string>
     <string name="account_no">Account No</string>
     <string name="add">Add</string>
-    <string name="bank_name">Bank Name : </string>
+
     <string name="cheque_writer">Cheque Issuer : </string>
-    <string name="cheque_no">Cheque No : </string>
-    <string name="account_no_">Account No : </string>
+
     <string name="bank_name">Bank Name </string>
-    <string name="cheque_writer">Cheque writer </string>
+
     <string name="cheque_no">Cheque No </string>
     <string name="account_no_">Account No </string>
 
