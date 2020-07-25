@@ -768,6 +768,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(serial.getText().toString())) {
+                    new Presenter(MainActivity.this).checkBySerial(serial.getText().toString().toUpperCase(), null, MainActivity.this, null);
                     serial.setError(null);
                 } else {
                     serial.setError("Required");
@@ -820,7 +821,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         barcodeDialog.show();
     }
 
-    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+    public void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
             final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

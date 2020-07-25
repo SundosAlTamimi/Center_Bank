@@ -3,6 +3,7 @@ package com.falconssoft.centerbank;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,8 +25,10 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-class Presenter {
+class Presenter {//} extends CheckValidationResponse{
 
+    private EditerCheackActivity editerCheackActivity;
+    private MainActivity mainActivity;
     private SingUpActivity singUpActivity;
     private LogInActivity logInActivity;
     private Context context;
@@ -69,7 +72,7 @@ class Presenter {
         trackingRequest = new JsonObjectRequest(Request.Method.GET, urlTracking + chequeInfoVM.getAccCode()
                 + "&IBANNO=" + chequeInfoVM.getIbanNo() + "&SERIALNO=" + chequeInfoVM.getSerialNo()
                 + "&BANKNO=" + chequeInfoVM.getBankNo() + "&BRANCHNO=" + chequeInfoVM.getBranchNo()
-                + "&CHECKNO=" + chequeInfoVM.getChequeNo(),null, new TrackingRequestClass(), new TrackingRequestClass());
+                + "&CHECKNO=" + chequeInfoVM.getChequeNo(), null, new TrackingRequestClass(), new TrackingRequestClass());
 
         Log.e("trackurl", urlTracking + chequeInfoVM.getAccCode()
                 + "&IBANNO=" + chequeInfoVM.getIbanNo() + "&SERIALNO=" + chequeInfoVM.getSerialNo()
@@ -166,15 +169,15 @@ class Presenter {
                 }
             } else if (response.toString().contains("\"StatusCode\":28,\"StatusDescreption\":\"This User not have checks.\"")) {
 //            Toast.makeText(singUpActivity, "No cheques found!", Toast.LENGTH_SHORT).show();
-            }
-            else if (response.toString().contains("\"StatusCode\":6,\"StatusDescreption\":\"Check Data not found\"")) {//{"StatusCode":6,"StatusDescreption":"Check Data not found"}
+            } else if (response.toString().contains("\"StatusCode\":6,\"StatusDescreption\":\"Check Data not found\"")) {//{"StatusCode":6,"StatusDescreption":"Check Data not found"}
 
                 new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
-                                .setTitleText("**** Cheque Tracing ****")
-                                .setContentText("Check Data not found")
-                                .show();
+                        .setTitleText("**** Cheque Tracing ****")
+                        .setContentText("Check Data not found")
+                        .show();
 
-            } }
+            }
+        }
     }
 
     // **************************************** owner Cheque **************************************
@@ -388,7 +391,13 @@ class Presenter {
     }
 
     // **************************************** checkBySerial **************************************
-    public void checkBySerial(String serial) {
+    public void checkBySerial(String serial, LogInActivity logInActivity, MainActivity mainActivity, EditerCheackActivity editerCheackActivity) {
+        if (logInActivity != null)
+            this.logInActivity = logInActivity;
+        else if (mainActivity != null)
+            this.mainActivity = mainActivity;
+        else
+            this.editerCheackActivity = editerCheackActivity;
 
         checkSerialRequest = new JsonObjectRequest(Request.Method.GET, urlCheckSerial + serial
                 , null, new CheckBySerialClass(), new CheckBySerialClass());
@@ -411,11 +420,12 @@ class Presenter {
 //                    ,"EMIAL":"hiary.abeer@yahoo.com","PASSWORD":"123","INACTIVE":"0","INDATE":"01\/07\/2020 12:34:40"}]
 
 //            response = new String(response.getBytes("ISO-8859-1"), "UTF-8");
+            ChequeInfoVM chequeInfo = new ChequeInfoVM();
             Log.e("presenter/", "checkBySerial/" + response.toString());
             if (response.toString().contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {
                 try {
                     JSONObject jsonObject = response.getJSONArray("INFO").getJSONObject(0);
-                    ChequeInfoVM chequeInfo = new ChequeInfoVM();
+                    chequeInfo = new ChequeInfoVM();
 //                    Log.e("jsonobject", jsonObject.getString("NATID") + jsonObject.getString("INACTIVE") + jsonObject.getString("INDATE"));
                     chequeInfo.setOwnerID(jsonObject.getString("OWNERNATID"));
                     chequeInfo.setOwnerPhone(jsonObject.getString("OWNERMOBNO"));
@@ -461,8 +471,39 @@ class Presenter {
                     e.printStackTrace();
                 }
 
+                if (logInActivity != null) {
+                    logInActivity.showValidationDialog(true, chequeInfo.getUserName(), chequeInfo.getBankNo(), chequeInfo.getAccCode(), chequeInfo.getChequeNo());
+                } else if (mainActivity != null) {
+                    mainActivity.showValidationDialog(true, chequeInfo.getUserName(), chequeInfo.getBankNo(), chequeInfo.getAccCode(), chequeInfo.getChequeNo());
+
+                } else {
+                    editerCheackActivity.showValidationDialog(true, chequeInfo.getUserName(), chequeInfo.getBankNo(), chequeInfo.getAccCode(), chequeInfo.getChequeNo());
+
+                }
+//                showValidationDialog(true, chequeInfo.getUserName(), chequeInfo.getBankNo(), chequeInfo.getAccCode(), chequeInfo.getChequeNo());
+            } else if (response.toString().contains("\"StatusCode\":3,\"StatusDescreption\":\"Check not found.\"")) {
+                if (logInActivity != null) {
+                    logInActivity.showValidationDialog(false, "", "", "", "");
+                } else if (mainActivity != null) {
+                    mainActivity.showValidationDialog(false, "", "", "", "");
+
+                } else {
+                    editerCheackActivity.showValidationDialog(false, "", "", "", "");
+
+                }
             }
 
         }
     }
+
+//    @Override
+//    void showSnackbar(String text, boolean showImage, View coordinatorLayout) {
+//        super.showSnackbar(text, showImage, coordinatorLayout);
+//    }
+//
+//    @Override
+//    public void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+//        super.showValidationDialog(check, customerName, BankNo, accountNo, chequeNo);
+//
+//    }
 }

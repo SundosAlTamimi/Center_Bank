@@ -302,7 +302,7 @@ public class LogInActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     if (!TextUtils.isEmpty(serial.getText().toString())) {
                         serial.setError(null);
-//                        new Presenter(LogInActivity.this).checkBySerial(serial.getText().toString());
+                        new Presenter(LogInActivity.this).checkBySerial(serial.getText().toString().toUpperCase(), LogInActivity.this, null, null);
                     } else {
                         serial.setError("Required");
                     }
@@ -546,7 +546,7 @@ public class LogInActivity extends AppCompatActivity {
         }
     }
 
-    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+    public void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
             final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
