@@ -119,7 +119,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         if (language.equals("ar")) {
             viewHolder.mainLinearAdapter.setLayoutDirection(LAYOUT_DIRECTION_RTL);
             viewHolder.lineardetail.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-            viewHolder.rowStatus.setLayoutDirection(LAYOUT_DIRECTION_RTL);
+
 //            viewHolder.lineardetail.setBackground(context.getResources().getDrawable(R.drawable.left_background));
             viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
 //            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
@@ -145,6 +145,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+"\tJD");
 
         }
+        viewHolder.source_check.setText(notificationList.get(i).getSource());
 
 
         viewHolder.image_check.setImageBitmap(notificationList.get(i).getCheck_photo());

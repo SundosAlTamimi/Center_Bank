@@ -58,10 +58,8 @@
     <string name="cheque_writer">Cheque writer </string>
     <string name="cheque_no">Cheque No </string>
     <string name="account_no_">Account No </string>
-    <string name="bank_name">Bank Name :</string>
-    <string name="cheque_writer">Cheque Issuer :</string>
-    <string name="cheque_no">Cheque No :</string>
-    <string name="account_no_">Account No :</string>
+
+
     <string name="the_cheque_has_been_validated">The cheque has been validated</string>
     <string name="Accept">Accept</string>
     <string name="Reject">Reject</string>
