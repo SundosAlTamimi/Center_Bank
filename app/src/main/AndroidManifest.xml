@@ -51,6 +51,7 @@
             android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".JeroActivity"
+            android:configChanges="locale"
             android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".LogHistoryActivity"

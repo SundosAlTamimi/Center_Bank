@@ -68,7 +68,7 @@
     <string name="amount_word">المبلغ</string>
     <string name="cheque_endorsement">نقل ملكية الشيك</string>
     <string name="wallet">محفظه</string>
-    <string name="ch_status">حالة الشيك </string>
+    <string name="ch_status">حالة الشيك  : </string>
     <string name="chWriter">مصدر الشيك </string>
     <string name="chBf">المستفيد </string>
     <string name="rej">رفض</string>
