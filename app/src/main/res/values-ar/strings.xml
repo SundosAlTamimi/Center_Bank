@@ -184,4 +184,5 @@
     <string name="from">من</string>
     <string name="to">الى</string>
     <string name="age_constrict">العمر اقل من 18 سنة!</string>
+    <string name="mr_mrs">Mr. / Mrs</string>
 </resources>

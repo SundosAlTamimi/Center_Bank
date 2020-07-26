@@ -10,7 +10,8 @@
 
 <LinearLayout
     android:orientation="vertical"
-    android:layout_width="match_parent"        android:background="@drawable/clear_buttons"
+    android:layout_width="match_parent"
+    android:background="@drawable/clear_buttons"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -336,7 +337,7 @@
                         android:layout_weight="1"
 
                         android:background="@drawable/edit_bac_sinup"
-                        android:drawableLeft="@drawable/ic_grain"
+                        android:drawableLeft="@drawable/ic_swap"
                         android:drawablePadding="10dp"
 
                         android:fontFamily="sans-serif-light"

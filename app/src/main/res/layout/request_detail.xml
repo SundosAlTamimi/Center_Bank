@@ -6,6 +6,7 @@
     android:id="@+id/mainLinearDetail"
     android:background="@drawable/bank4"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4.5"
+                android:layout_weight="5.5"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -56,30 +57,26 @@
                 android:orientation="vertical"
                 android:padding="5dp">
 
-
-
-
-                <TableRow
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="3"
                     android:background="@drawable/edit_bac_s"
                     android:gravity="center"
-                    android:padding="5dp">
+                    android:padding="10dp">
 
                     <TextView
                         android:id="@+id/textView27"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
-                        android:gravity="center"
-
-                        android:layout_weight="2"
-                        android:drawableStart="@drawable/ic_person"
-                        android:text="@string/Dear"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:fontFamily="serif"
+                        android:text="@string/mr_mrs"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
                         android:textStyle="bold"
                         app:autoSizeMaxTextSize="18sp"
                         app:autoSizeMinTextSize="12sp"
@@ -90,11 +87,9 @@
                         android:id="@+id/binificary"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
                         android:layout_weight="1"
-
                         android:ems="10"
-                        android:gravity="center"
+                        android:fontFamily="serif"
                         android:hint=""
                         android:padding="1dp"
                         android:textColor="@color/colorWhite"
@@ -106,13 +101,13 @@
                         app:autoSizeTextType="uniform" />
 
 
-                </TableRow>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
-                    android:layout_weight="2.2"
+                    android:layout_weight="2.5"
                     android:background="@drawable/edit_bac_s"
                     android:orientation="vertical"
                     android:padding="5dp">
@@ -123,11 +118,11 @@
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
                         android:layout_weight="5.7"
-                        android:text="@string/amount"
-                        android:textColor="@color/colorWhite"
-
+                        android:text="@string/amount_word"
+                        android:fontFamily="serif"
+                        android:textColor="@color/red"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="15sp"
                         app:autoSizeMaxTextSize="18sp"
                         app:autoSizeMinTextSize="12sp"
                         app:autoSizeStepGranularity="2sp"
@@ -146,9 +141,9 @@
                             android:layout_height="match_parent"
                             android:layout_margin="2dp"
                             android:layout_weight="1"
+                            android:fontFamily="serif"
                             android:background="@drawable/edit_bac_s"
                             android:ems="5"
-
                             android:gravity="center"
                             android:inputType="numberDecimal"
                             android:padding="5dp"
@@ -240,7 +235,7 @@
                 </TableRow>
                 <!--</LinearLayout>-->
 
-                <TextView
+                <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginTop="5dp"
@@ -286,26 +281,26 @@
 
                 <!--</TableRow>-->
 
-                <TableRow
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="3"
                     android:background="@drawable/edit_bac_s"
                     android:gravity="center"
-                    android:padding="5dp">
+                    android:padding="10dp">
 
                     <TextView
                         android:id="@+id/textView37"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:drawableStart="@drawable/ic_person"
+                        android:layout_weight="1"
+                        android:fontFamily="serif"
                         android:text="@string/Request_From"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
                         android:textStyle="bold"
                         app:autoSizeMaxTextSize="18sp"
                         app:autoSizeMinTextSize="12sp"
@@ -315,11 +310,9 @@
                         android:id="@+id/textToOrder"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
                         android:layout_weight="1"
                         android:ems="10"
-                        android:gravity="center"
-
+                        android:fontFamily="serif"
                         android:inputType="textPersonName"
                         android:padding="1dp"
                         android:textColor="@color/colorWhite"
@@ -330,9 +323,10 @@
                         app:autoSizeStepGranularity="2sp"
                         app:autoSizeTextType="uniform" />
 
-                </TableRow>
+                </LinearLayout>
 
-                <TableRow
+                <LinearLayout
+                    android:orientation="vertical"
                     android:id="@+id/rowNote"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -340,22 +334,20 @@
                     android:layout_weight="3"
                     android:background="@drawable/edit_bac_s"
                     android:gravity="center"
-                    android:padding="5dp">
+                    android:padding="10dp">
 
                     <TextView
                         android:id="@+id/textView3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
-                        android:layout_weight="2"
-                        android:drawableStart="@drawable/ic_border_color_black_24dp"
-                        android:gravity="center"
-
+                        android:layout_weight="1"
                         android:text="Note"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp"
+                        android:fontFamily="serif"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
                         android:textStyle="bold"
-                        app:autoSizeMaxTextSize="18sp"
+                        app:autoSizeMaxTextSize="15sp"
                         app:autoSizeMinTextSize="12sp"
                         app:autoSizeStepGranularity="2sp" />
 
@@ -363,12 +355,10 @@
                         android:id="@+id/textnote"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
                         android:layout_weight="1"
                         android:ems="10"
-
-                        android:gravity="center"
                         android:padding="1dp"
+                        android:fontFamily="serif"
                         android:lines="2"
                         android:textColor="@color/colorWhite"
                         android:textColorHint="@color/colorWhite"
@@ -378,8 +368,10 @@
                         app:autoSizeStepGranularity="2sp"
                         app:autoSizeTextType="uniform" />
 
-                </TableRow>
-                <TableRow
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
                     android:id="@+id/rowcompany"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -387,20 +379,18 @@
                     android:layout_weight="3"
                     android:background="@drawable/edit_bac_s"
                     android:gravity="center"
-                    android:padding="5dp">
+                    android:padding="10dp">
 
                     <TextView
                         android:id="@+id/textView33"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
-                        android:layout_weight="2"
-                        android:drawableStart="@drawable/ic_company"
-                        android:gravity="center"
-
+                        android:layout_weight="1"
                         android:text="@string/company"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp"
+                        android:fontFamily="serif"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
                         android:textStyle="bold"
                         app:autoSizeMaxTextSize="18sp"
                         app:autoSizeMinTextSize="12sp"
@@ -410,12 +400,10 @@
                         android:id="@+id/textComp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
                         android:layout_weight="1"
                         android:ems="10"
-
-                        android:gravity="center"
                         android:padding="1dp"
+                        android:fontFamily="serif"
                         android:lines="2"
                         android:textColor="@color/colorWhite"
                         android:textColorHint="@color/colorWhite"
@@ -425,13 +413,8 @@
                         app:autoSizeStepGranularity="2sp"
                         app:autoSizeTextType="uniform" />
 
-                </TableRow>
-
-
-
-
+                </LinearLayout>
             </LinearLayout>
-
 
             <LinearLayout
                 android:id="@+id/linearresone"
@@ -488,7 +471,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/linearButtons"
                 android:layout_width="match_parent"
@@ -496,7 +478,7 @@
                 android:layout_gravity="clip_horizontal|center"
                 android:layout_marginTop="10dp"
                 android:visibility="visible"
-                android:layout_weight="4.5"
+                android:layout_weight="6"
                 android:orientation="horizontal">
 
                 <Button
@@ -505,6 +487,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
+                    android:fontFamily="serif"
                     android:background="@drawable/edit_bac_sinup"
                     android:padding="5dp"
                     android:text="@string/send"
@@ -525,7 +508,7 @@
                     android:background="@drawable/edit_bac_"
                     android:padding="5dp"
                     android:text="@string/Reject"
-
+                    android:fontFamily="serif"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -534,12 +517,7 @@
                     app:autoSizeStepGranularity="2sp"
                     app:autoSizeTextType="uniform" />
             </LinearLayout>
-
-
-
-
         </LinearLayout>
-
 
     </LinearLayout>
 </LinearLayout>
