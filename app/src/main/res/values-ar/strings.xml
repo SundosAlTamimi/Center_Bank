@@ -172,4 +172,7 @@
     <string name="welcome">اهلا </string>
     <string name="lost_stealing">تبليغ عن السرقه او الضياع</string>
     <string name="bank_of_jordan">بنك الاردن </string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="age_constrict">Your Age Is Less Than 18 Year!</string>
 </resources>

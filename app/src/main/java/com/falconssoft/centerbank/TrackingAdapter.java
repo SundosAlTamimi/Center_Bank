@@ -17,6 +17,11 @@ import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
 
 import java.util.List;
 
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.BLUE;
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.RED;
+
 class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewHolder> {
 
     private List<ChequeInfoVM> list;
@@ -54,27 +59,34 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
         holder.beneficiary.setText(list.get(position).getReceiverName());
 //        holder.nationalNo.setText(list.get(position).getReceiverNationalID());
         holder.phone.setText("+" + list.get(position).getReceiverMobileNo());
+        holder.from.setText(list.get(position).getUserName());
 
-        if (!TextUtils.isEmpty(list.get(position).getTransSendOrGero()))
-            if (list.get(position).getTransSendOrGero().equals("0"))
-                holder.transactionType.setText("Send");
-            else
-                holder.transactionType.setText("Giro");
+        String sendState = "";
 
         if (!TextUtils.isEmpty(list.get(position).getTransType()))
             if (list.get(position).getTransType().equals("0")) {
-                holder.status.setText("Pending");
-                holder.status.setTextColor(activity.getResources().getColor(R.color.blue));
+                sendState = "Pending";
+//                holder.status.setText("Pending");
+                holder.status.setTextColor(BLUE);
             } else if (list.get(position).getTransType().equals("1")) {
-                holder.status.setText("Accepted");
-                holder.status.setTextColor(activity.getResources().getColor(R.color.RealGreen));
-            } else if (list.get(position).getTransType().equals("2")){
-                holder.status.setText("Rejected");
-                holder.status.setTextColor(activity.getResources().getColor(R.color.RealRed));}
-            else if (list.get(position).getTransType().equals("3")){
-                holder.status.setText("Cashed");
-                holder.status.setTextColor(activity.getResources().getColor(R.color.colorBlack));}
+                sendState = "Accepted";
+//                holder.status.setText("Accepted");
+                holder.status.setTextColor(GREEN);
+            } else if (list.get(position).getTransType().equals("2")) {
+                sendState = "Rejected";
+//                holder.status.setText("Rejected");
+                holder.status.setTextColor(RED);
+            } else if (list.get(position).getTransType().equals("3")) {
+                sendState = "Cashed";
+//                holder.status.setText("Cashed");
+                holder.status.setTextColor(BLACK);// activity.getResources().getColor(R.color.colorBlack)
+            }
 
+        if (!TextUtils.isEmpty(list.get(position).getTransSendOrGero()))
+            if (list.get(position).getTransSendOrGero().equals("0"))
+                holder.status.setText(sendState + " / Issue");
+            else
+                holder.status.setText(sendState + " / Giro");
 //        if(itemsList.get(i).getTransType().equals("2")){
 //            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
 //            TStatus=context.getResources().getString(R.string.rej);
@@ -100,14 +112,14 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
 
         if (language.equals("ar")) {
             holder.dateLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            holder.transTypeLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            holder.fromLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 //            holder.nationalLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             holder.phoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             holder.beneficiaryLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         } else {
             holder.dateLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            holder.transTypeLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            holder.fromLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 //            holder.nationalLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
             holder.phoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
             holder.beneficiaryLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
@@ -121,8 +133,8 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
     }
 
     class TrackingViewHolder extends RecyclerView.ViewHolder {
-        TextView chequeNo, date, beneficiary, phone, transactionType, status;//, nationalNo, accountNo;
-        LinearLayout trackingLinear, dateLinear, beneficiaryLinear, phoneLinear, transTypeLinear;//, nationalLinear
+        TextView chequeNo, date, beneficiary, phone, from, status;//, nationalNo, accountNo;
+        LinearLayout trackingLinear, dateLinear, beneficiaryLinear, phoneLinear, fromLinear;//, nationalLinear
 
 //        ListItemBinding binding;
 //
@@ -146,13 +158,13 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
             beneficiary = itemView.findViewById(R.id.tracking_raw_beneficiary);
 //            nationalNo = itemView.findViewById(R.id.tracking_raw_nationalID);
             phone = itemView.findViewById(R.id.tracking_raw_phone);
-            transactionType = itemView.findViewById(R.id.tracking_raw_transactionType);
+            from = itemView.findViewById(R.id.tracking_raw_from);
 
             dateLinear = itemView.findViewById(R.id.tracking_raw_linear_date);
             beneficiaryLinear = itemView.findViewById(R.id.tracking_raw_linear_beneficiary);
             phoneLinear = itemView.findViewById(R.id.tracking_raw_linear_phone);
 //            nationalLinear = itemView.findViewById(R.id.tracking_raw_linear_national);
-            transTypeLinear = itemView.findViewById(R.id.tracking_raw_linear_transType);
+            fromLinear = itemView.findViewById(R.id.tracking_raw_linear_from);
 
             status = itemView.findViewById(R.id.tracking_raw_status);
 

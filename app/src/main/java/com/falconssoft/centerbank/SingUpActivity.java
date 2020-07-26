@@ -14,6 +14,7 @@ import android.util.Patterns;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -66,6 +67,7 @@ public class SingUpActivity extends AppCompatActivity {
     private TextInputLayout emailLinear, addressLinear, idLinear;
     private ImageView seenPassword, seenConfirmPassword;
     private TextInputEditText password, confirmPassword;
+    private int currentYear, birthYear;
 
 
     @Override
@@ -99,6 +101,8 @@ public class SingUpActivity extends AppCompatActivity {
         df = new SimpleDateFormat("dd/MM/yyyy");
         today = df.format(currentTimeAndDate);
         date_text.setText(convertToEnglish(today));
+        currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        birthYear = Calendar.getInstance().get(Calendar.YEAR);
         checkLanguage();
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -161,77 +165,80 @@ public class SingUpActivity extends AppCompatActivity {
 //        if (!selectedAccount.equals(getResources().getString(R.string.account_type)))
 //            if (!selectedGender.equals(getResources().getString(R.string.gender)))        String localPassword = password.getText().toString();
 
-        if (!TextUtils.isEmpty("" + localPhone))
-            if (localPhone.length() == 9)
-                if (!String.valueOf(localPhone.charAt(0)).equals("0"))
-                    if (!TextUtils.isEmpty(localFirstName))
-                        if (!TextUtils.isEmpty(localSecondName))
-                            if (!TextUtils.isEmpty(localThirdName))
-                                if (!TextUtils.isEmpty(localFourthName))
-                                    if (!TextUtils.isEmpty(localNationalID))
-                                        if ((selectedNationality.equals("Jordan") && (localNationalID.length() == 10))
-                                                || (!selectedNationality.equals("Jordan") && (localNationalID.length() == 9)))
-                                            if (!TextUtils.isEmpty(localAddress))
-                                                if (!TextUtils.isEmpty(localEmail))
-                                                    if (Patterns.EMAIL_ADDRESS.matcher(localEmail).matches())
-                                                        if (!TextUtils.isEmpty(localPassword))
-                                                            if (isValidPassword(localPassword))
-                                                                if (!TextUtils.isEmpty(localConfirmPassword))
-                                                                    if (localPassword.equals(localConfirmPassword)) {
+        if (currentYear - birthYear > 18 ? true : false)
+            if (!TextUtils.isEmpty("" + localPhone))
+                if (localPhone.length() == 9)
+                    if (!String.valueOf(localPhone.charAt(0)).equals("0"))
+                        if (!TextUtils.isEmpty(localFirstName))
+                            if (!TextUtils.isEmpty(localSecondName))
+                                if (!TextUtils.isEmpty(localThirdName))
+                                    if (!TextUtils.isEmpty(localFourthName))
+                                        if (!TextUtils.isEmpty(localNationalID))
+                                            if ((selectedNationality.equals("Jordan") && (localNationalID.length() == 10))
+                                                    || (!selectedNationality.equals("Jordan") && (localNationalID.length() == 9)))
+                                                if (!TextUtils.isEmpty(localAddress))
+                                                    if (!TextUtils.isEmpty(localEmail))
+                                                        if (Patterns.EMAIL_ADDRESS.matcher(localEmail).matches())
+                                                            if (!TextUtils.isEmpty(localPassword))
+                                                                if (isValidPassword(localPassword))
+                                                                    if (!TextUtils.isEmpty(localConfirmPassword))
+                                                                        if (localPassword.equals(localConfirmPassword)) {
 
-                                                                        LoginINFO loginINFO = new LoginINFO();
-                                                                        loginINFO.setNationalID(localNationalID);
-                                                                        loginINFO.setFirstName(localFirstName);
-                                                                        loginINFO.setSecondName(localSecondName);
-                                                                        loginINFO.setThirdName(localThirdName);
-                                                                        loginINFO.setFourthName(localFourthName);
-                                                                        loginINFO.setUsername(countryCode + localPhone);
-                                                                        loginINFO.setAddress(localAddress);
-                                                                        loginINFO.setEmail(localEmail);
-                                                                        loginINFO.setPassword(localPassword);
-                                                                        loginINFO.setBirthDate(localBirthDate);
-                                                                        loginINFO.setNationality(selectedNationality);
+                                                                            LoginINFO loginINFO = new LoginINFO();
+                                                                            loginINFO.setNationalID(localNationalID);
+                                                                            loginINFO.setFirstName(localFirstName);
+                                                                            loginINFO.setSecondName(localSecondName);
+                                                                            loginINFO.setThirdName(localThirdName);
+                                                                            loginINFO.setFourthName(localFourthName);
+                                                                            loginINFO.setUsername(countryCode + localPhone);
+                                                                            loginINFO.setAddress(localAddress);
+                                                                            loginINFO.setEmail(localEmail);
+                                                                            loginINFO.setPassword(localPassword);
+                                                                            loginINFO.setBirthDate(localBirthDate);
+                                                                            loginINFO.setNationality(selectedNationality);
 
-                                                                        if (selectedGender.equals("Male") || selectedNationality.equals("ذكر"))
-                                                                            loginINFO.setGender("0");
-                                                                        else
-                                                                            loginINFO.setGender("1");
+                                                                            if (selectedGender.equals("Male") || selectedNationality.equals("ذكر"))
+                                                                                loginINFO.setGender("0");
+                                                                            else
+                                                                                loginINFO.setGender("1");
 
-                                                                        showDialog();
-                                                                        new Presenter(SingUpActivity.this).saveSignUpInfo(this, loginINFO);
+                                                                            showDialog();
+                                                                            new Presenter(SingUpActivity.this).saveSignUpInfo(this, loginINFO);
 
-                                                                    } else
-                                                                        confirmPassword.setError(getResources().getString(R.string.password_not_matched));
+                                                                        } else
+                                                                            confirmPassword.setError(getResources().getString(R.string.password_not_matched));
+                                                                    else
+                                                                        confirmPassword.setError(getResources().getString(R.string.required));
                                                                 else
-                                                                    confirmPassword.setError(getResources().getString(R.string.required));
+                                                                    password.setError(getResources().getString(R.string.password_syntax));
                                                             else
-                                                                password.setError(getResources().getString(R.string.password_syntax));
+                                                                password.setError(getResources().getString(R.string.required));
                                                         else
-                                                            password.setError(getResources().getString(R.string.required));
+                                                            email.setError(getResources().getString(R.string.not_valid_email));
                                                     else
-                                                        email.setError(getResources().getString(R.string.not_valid_email));
+                                                        email.setError(getResources().getString(R.string.required));
                                                 else
-                                                    email.setError(getResources().getString(R.string.required));
+                                                    address.setError(getResources().getString(R.string.required));
                                             else
-                                                address.setError(getResources().getString(R.string.required));
+                                                natonalNo.setError(getResources().getString(R.string.id_is_not_correct));
                                         else
-                                            natonalNo.setError(getResources().getString(R.string.id_is_not_correct));
+                                            natonalNo.setError(getResources().getString(R.string.required));
                                     else
-                                        natonalNo.setError(getResources().getString(R.string.required));
+                                        fourthName.setError(getResources().getString(R.string.required));
                                 else
-                                    fourthName.setError(getResources().getString(R.string.required));
+                                    thirdName.setError(getResources().getString(R.string.required));
                             else
-                                thirdName.setError(getResources().getString(R.string.required));
+                                secondName.setError(getResources().getString(R.string.required));
                         else
-                            secondName.setError(getResources().getString(R.string.required));
+                            firstName.setError(getResources().getString(R.string.required));
                     else
-                        firstName.setError(getResources().getString(R.string.required));
+                        phoneNo.setError(getResources().getString(R.string.remove_zero));
                 else
-                    phoneNo.setError(getResources().getString(R.string.remove_zero));
+                    phoneNo.setError(getResources().getString(R.string.phone_length));
             else
-                phoneNo.setError(getResources().getString(R.string.phone_length));
+                phoneNo.setError(getResources().getString(R.string.required));
         else
-            phoneNo.setError(getResources().getString(R.string.required));
+            showSnackbar(getString(R.string.age_constrict), false);
 
 //            else
 //                showSnackbar("Please choose gender!", false);
@@ -472,11 +479,14 @@ public class SingUpActivity extends AppCompatActivity {
             View snackbarLayout = snackbar.getView();
             TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
             textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0);
+            textViewSnackbar.setCompoundDrawablePadding(5);
         } else {
             snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#D11616\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
             View snackbarLayout = snackbar.getView();
             TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
             textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_error, 0, 0, 0);
+            textViewSnackbar.setCompoundDrawablePadding(5);
+
         }
         snackbar.show();
     }
@@ -503,6 +513,7 @@ public class SingUpActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, month);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                birthYear = year;
                 updateLabel(editText);
             }
 
