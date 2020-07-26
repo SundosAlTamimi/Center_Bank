@@ -138,14 +138,14 @@ class Presenter {//} extends CheckValidationResponse{
                         chequeInfo.setSerialNo(jsonObject.getString("SERIALNO"));
                         chequeInfo.setCheckIssueDate(jsonObject.getString("CHECKISSUEDATE"));
                         chequeInfo.setCheckDueDate(jsonObject.getString("CHECKDUEDATE"));
-                        chequeInfo.setOwnerName(jsonObject.getString("CUSTOMERNM"));
+                        chequeInfo.setUserName(jsonObject.getString("CUSTOMERNM"));
                         chequeInfo.setMoneyInDinar(jsonObject.getString("AMTJD"));
                         chequeInfo.setMoneyInFils(jsonObject.getString("AMTFILS"));
                         chequeInfo.setMoneyInWord(jsonObject.getString("AMTWORD"));
                         chequeInfo.setReceiverMobileNo(jsonObject.getString("TOCUSTOMERMOB"));
                         chequeInfo.setReceiverNationalID(jsonObject.getString("TOCUSTOMERNATID"));
                         chequeInfo.setCustomerWriteDate(jsonObject.getString("CHECKWRITEDATE"));
-                        chequeInfo.setOwnerPhone(jsonObject.getString("USERNO"));
+                        chequeInfo.setCustomerPhone(jsonObject.getString("USERNO"));
                         chequeInfo.setISCO(jsonObject.getString("ISCO"));
                         chequeInfo.setISBF(jsonObject.getString("ISFB"));
                         chequeInfo.setCompanyName(jsonObject.getString("COMPANY"));

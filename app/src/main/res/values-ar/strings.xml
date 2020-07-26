@@ -14,7 +14,7 @@
     <string name="second_name">الاسم الثاني</string>
     <string name="third_name">الاسم الثالث</string>
     <string name="fourth_name">الاسم الرابع</string>
-    <string name="date">التاريخ</string>
+    <string name="date">  تاريخ الشيك</string>
     <string name="phone_number">رقم الهاتف</string>
     <string name="address">العنوان</string>
     <string name="e_mail">البريد الالكتروني</string>
@@ -50,10 +50,10 @@
     <string name="new_account">حساب جديد</string>
     <string name="account_no">رقم الحساب</string>
     <string name="add">اضافة</string>
-    <string name="bank_name">اسم البنك :</string>
-    <string name="cheque_writer">مصدر الشيك :</string>
-    <string name="cheque_no">رقم الشيك :</string>
-    <string name="account_no_">رقم الحساب :</string>
+    <string name="bank_name">اسم البنك </string>
+    <string name="cheque_writer">كاتب الشيك </string>
+    <string name="cheque_no">رقم الشيك </string>
+    <string name="account_no_">رقم الحساب </string>
     <string name="the_cheque_has_been_validated">تم التحقق من صحة الشيك</string>
     <string name="Accept">موافق</string>
     <string name="Reject">الغاء</string>
@@ -61,15 +61,16 @@
     <string name="CheckDetail">تفاصيل الشيك </string>
     <string name="customer_name">اسم العميل </string>
     <string name="cashier_check">شيك مدير </string>
-    <string name="firstbeneficiary">المستفيد الاول</string>
+    <string name="firstbeneficiary">مستفيداول</string>
     <string name="CheckAccpted">تم قبول الشيك</string>
     <string name="NewCheck">شيك جديد</string>
-    <string name="beneficiary"> المستفيد</string>
+    <string name="beneficiary"> اسم المستفيد</string>
+    <string name="amount_word">المبلغ</string>
     <string name="cheque_endorsement">نقل ملكية الشيك</string>
     <string name="wallet">محفظه</string>
-    <string name="ch_status">حالة الشيك :</string>
-    <string name="chWriter">مصدر الشيك :</string>
-    <string name="chBf">المستفيد :</string>
+    <string name="ch_status">حالة الشيك </string>
+    <string name="chWriter">مصدر الشيك </string>
+    <string name="chBf">المستفيد </string>
     <string name="rej">رفض</string>
     <string name="acccept">قبول</string>
     <string name="pending">معلق</string>
@@ -107,7 +108,7 @@
     <string name="CHEQUE_NOT_FOR_YOU">هذا الشيك ليس نفس الشيك الذي تريد ارساله !!!</string>
     <string name="requestRejected"> تم رفض الطلب للسبب </string>
     <string name="requestRejec"> تم رفض الطلب</string>
-    <string name="message_reject">Are you sure to reject cheque?</string>
+    <string name="message_reject">هل أنت متأكد أنك تريد إلغاء الشيك ?</string>
     <string name="remember_me">تذكر معلومات الدخول</string>
     <string name="about">من نحن </string>
     <string name="type">النوع</string>
@@ -141,7 +142,7 @@
     <string name="please_choose_account_type">يرجى تحديد نوع الحساب!</string>
 
     <string name="national_id">الرقم الوطني</string>
-    <string name="gerocheque">شيك محول</string>
+    <string name="gerocheque">شيك مجير مقبول</string>
     <string name="relation">العلاقة</string>
     <string name="consanguinity">قرابة</string>
     <string name="Business">أعمال</string>
@@ -160,9 +161,9 @@
     <string name="branch_name">Branch Name :</string>
     <string name="beneficiary_mobile">Beneficiary mobile</string>
     <string name="lost">Lost</string>
-    <string name="process">Processing</string>
-    <string name="rejectedGereo">Rejected Gero</string>
-    <string name="newGeroChecue">New Gero Checue</string>
+    <string name="process">تم ارسال الشيك بنجاح</string>
+    <string name="rejectedGereo">شيك مجير مرفوض </string>
+    <string name="newGeroChecue">شيك مجير </string>
     <string name="_7xxxxxxxx">7xxxxxxxx</string>
     <string name="name_of_fourth_syllables">الاسم من اربعة مقاطع كما في هوية الاحوال المدنية او جواز السفر</string>
     <string name="date_of_birth">تاريخ الميلاد</string>
@@ -172,4 +173,15 @@
     <string name="welcome">اهلا </string>
     <string name="lost_stealing">تبليغ عن السرقه او الضياع</string>
     <string name="bank_of_jordan">بنك الاردن </string>
+    <string name="PleaseWaiting">الرجاء الانتظار ...</string>
+    <string name="yes">نعم</string>
+    <string name="no">  لا</string>
+    <string name="typehere">اكتب هنا</string>
+    <string name="cancel">إالغاء</string>
+    <string name="Note">ملاحظة </string>
+    <string name="CO">بالحساب فقط</string>
+
+    <string name="from">من</string>
+    <string name="to">الى</string>
+    <string name="age_constrict">العمر اقل من 18 سنة!</string>
 </resources>
