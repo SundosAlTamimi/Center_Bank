@@ -250,7 +250,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
 
-            TableRow rowNote,rowcompany;
+            LinearLayout rowNote,rowcompany;
 //            texDate = dialog.findViewById(R.id.texDate);
 //            texDate.setText(checkInfoNotification.get(row_index).getChequeData());
 

@@ -195,7 +195,7 @@
     <string name="check_internet_connection">Please Check Internet Connection!</string>
     <string name="new_account_saved_successfully">New Account Saved Successfully</string>
     <string name="welcome">Welcome</string>
-    <string name="lost_stealing">Lost/Stealing</string>
+    <string name="lost_stealing">Lost / Stolen</string>
     <string name="bank_of_jordan">Bank Of Jordan</string>
     <string name="PleaseWaiting">Please Waiting...</string>
     <string name="yes">Yes</string>
@@ -207,6 +207,7 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="age_constrict">Your Age Is Less Than 18 Year!</string>
+    <string name="mr_mrs">Mr. / Mrs</string>
 
 
 

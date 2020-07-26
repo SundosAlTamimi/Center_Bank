@@ -30,7 +30,7 @@
 
         <item
             android:id="@+id/menu_lost_steal"
-            android:icon="@drawable/cheque_icon"
+            android:icon="@drawable/ic_gavel"
             android:title="@string/lost_stealing"
             app:showAsAction="always" />
 
