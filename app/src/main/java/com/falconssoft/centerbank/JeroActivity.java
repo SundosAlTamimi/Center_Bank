@@ -41,6 +41,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
+import com.google.android.material.textfield.TextInputEditText;
 import com.falconssoft.centerbank.Models.LoginINFO;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -111,6 +112,9 @@ public class JeroActivity extends AppCompatActivity {
     private CountryCodePicker ccp;
     boolean isInGetData = true, userFound = false;
     LoginINFO userSend;
+    TextView editorCheque_check;
+    private TextInputEditText serial;
+    private String validateBySerial = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -121,6 +125,7 @@ public class JeroActivity extends AppCompatActivity {
         SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs1.getString("link", "");
 
+        serial = findViewById(R.id.editorCheque_serial);
         listGiro = findViewById(R.id.GiroList);
         getTrial = findViewById(R.id.getTrial);
         giroList = findViewById(R.id.giroList);
@@ -131,6 +136,7 @@ public class JeroActivity extends AppCompatActivity {
         sName = findViewById(R.id.second_name);
         tName = findViewById(R.id.thered_name);
         fourthName = findViewById(R.id.fourth_name);
+        editorCheque_check=findViewById(R.id.editorCheque_check);
 
         date = findViewById(R.id.editorCheque_date);
         checkBox_CO = findViewById(R.id.checkBox_CO);
@@ -510,6 +516,31 @@ public class JeroActivity extends AppCompatActivity {
 
         });
 
+        editorCheque_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+            }
+        });
+
+
+//        editorCheque_check.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (!TextUtils.isEmpty(serial.getText().toString())) {
+//                    serial.setError(null);
+//                    validateBySerial = serial.getText().toString().toUpperCase();
+//                    new JSONTaskSerial().execute();
+////                    new Presenter(EditerCheackActivity.this).checkBySerial(serial.getText().toString().toUpperCase(), null, null, EditerCheackActivity.this);
+//
+//                } else {
+//                    serial.setError("Required");
+//                }
+//
+//            }
+//        });
+
 
         new GetGiro().execute();
 
@@ -551,6 +582,9 @@ public class JeroActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
 
     public void readBarCode() {
 
@@ -1605,6 +1639,135 @@ public class JeroActivity extends AppCompatActivity {
 
         }
     }
+
+    // ********************************************  Serial VALIDATION *************************************
+//    private class JSONTaskSerial extends AsyncTask<String, String, String> {
+//        private String JsonResponse = null;
+//        private HttpURLConnection urlConnection = null;
+//        private BufferedReader reader = null;
+//
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+////
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//
+////
+////                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+////                String ip="";
+////                if(mainSettings.size()!=0) {
+////                    ip=mainSettings.get(0).getIP();
+////                }
+//                String link = serverLink + "VerifyCheckBySerial";
+//
+//
+//                String data = "SERIALNO=" + URLEncoder.encode(validateBySerial, "UTF-8");
+////
+//                URL url = new URL(link);
+//
+//                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+//                httpURLConnection.setDoOutput(true);
+//                httpURLConnection.setDoInput(true);
+//                httpURLConnection.setRequestMethod("POST");
+//
+//                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+//                wr.writeBytes(data);
+//                wr.flush();
+//                wr.close();
+//
+//                InputStream inputStream = httpURLConnection.getInputStream();
+//                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//
+//                StringBuffer stringBuffer = new StringBuffer();
+//
+//                while ((JsonResponse = bufferedReader.readLine()) != null) {
+//                    stringBuffer.append(JsonResponse + "\n");
+//                }
+//
+//                bufferedReader.close();
+//                inputStream.close();
+//                httpURLConnection.disconnect();
+//
+//
+//
+//                return stringBuffer.toString();
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                if (urlConnection != null) {
+//                    urlConnection.disconnect();
+//                }
+//                if (reader != null) {
+//                    try {
+//                        reader.close();
+//                    } catch (final IOException e) {
+//                        Log.e("tag", "Error closing stream", e);
+//                    }
+//                }
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//            Log.e("editorChequeActivity/", "saved//" + s);
+//            if (s != null) {
+//                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+//                    Log.e("tag", "****Success");
+//                    Log.e("VerifyCheck 1116", "" + "JSONTask" + s.toString());
+//                    try {
+//
+//                        JSONObject parentArray = new JSONObject(s);
+//                        JSONArray parentInfo = parentArray.getJSONArray("INFO");
+//
+////                    INFO":[{"ROWID":"AABX2UAAPAAAACDAA1","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الصقور للبرمجيات","QRCODE":"390144;004;0099;1014569990011000","SERIALNO":"635088CD7E6D405B","CHECKISSUEDATE":"7\/2\/2020 12:51:57 PM","CHECKDUEDATE":"","TOCUSTOMERNM":"","AMTJD":"","AMTFILS":"","AMTWORD":"","TOCUSTOMERMOB":"","TOCUSTOMERNATID":"","CHECKWRITEDATE":"","CHECKPICPATH":"","USERNO":"","ISCO":"","ISFB":"","COMPANY":"","NOTE":""}]}
+//
+//
+//                        JSONObject finalObject = parentInfo.getJSONObject(0);
+//
+//
+////      [{"NATID":"4236828854","FIRSTNM":"alaa","FATHERNM":"t","GRANDNM":"yg","FAMILYNM":"ug","DOB":"22\/07\/2020","GENDER":"1","MOBILENO":"962798899716","ADDRESS":"amman","EMIAL":"alaa@gmail.com","PASSWORD":"AalaaA7$","INACTIVE":"0","INDATE":"22\/07\/2020 17:36:22","PASSKIND":"0"}]}
+//
+//
+////                            userSend.setNationalID(finalObject.getString("NATID"));
+//                        CHECKNO = finalObject.get("CHECKNO").toString();
+//                        ACCCODE = finalObject.get("ACCCODE").toString();
+//                        IBANNO = finalObject.get("IBANNO").toString();
+//                        CUSTOMERNM = finalObject.get("CUSTOMERNM").toString();
+//                        QRCODE = finalObject.get("QRCODE").toString();
+//                        SERIALNO = finalObject.get("SERIALNO").toString();
+//                        BANKNO = finalObject.get("BANKNO").toString();
+//                        BRANCHNO = finalObject.get("BRANCHNO").toString();
+//
+//
+//                        showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
+//
+//
+////                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                } else {
+//
+//                    showSweetDialog(false, "", "", "");
+//
+//                    Log.e("tag", "****Failed to export data");
+//                }
+//            } else {
+//                showSweetDialog(false, "", "", "");
+//
+//                Log.e("tag", "****Failed to export data Please check internet connection");
+//            }
+//        }
+//    }
 
 
     public class GetUserInfoByMobo extends AsyncTask<String, String, String> {

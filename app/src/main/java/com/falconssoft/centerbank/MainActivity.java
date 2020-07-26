@@ -768,6 +768,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(serial.getText().toString())) {
+                    new Presenter(MainActivity.this).checkBySerial(serial.getText().toString().toUpperCase(), null, MainActivity.this, null);
                     serial.setError(null);
                 } else {
                     serial.setError("Required");
@@ -820,7 +821,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         barcodeDialog.show();
     }
 
-    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+    public void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
             final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -884,7 +885,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public String convertToArabic(String value) {
-        String newValue = (((((((((((value + "").replaceAll("1", "١")).replaceAll("2", "٢")).replaceAll("3", "٣")).replaceAll("4", "٤")).replaceAll("5", "٥")).replaceAll("6", "٦")).replaceAll("7", "٧")).replaceAll("8", "٨")).replaceAll("9", "٩")).replaceAll("0", "٠").replaceAll(".", "٫"));
+        String newValue = (((((((((((value + "").replaceAll("1", "١")).replaceAll("2", "٢")).replaceAll("3", "٣")).replaceAll("4", "٤")).replaceAll("5", "٥")).replaceAll("6", "٦")).replaceAll("7", "٧")).replaceAll("8", "٨")).replaceAll("9", "٩")).replaceAll("0", "٠"));
+        Log.e("convertToArabic", value + "      " + newValue);
         return newValue;
     }
 

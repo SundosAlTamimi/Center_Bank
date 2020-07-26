@@ -302,7 +302,7 @@ public class LogInActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     if (!TextUtils.isEmpty(serial.getText().toString())) {
                         serial.setError(null);
-//                        new Presenter(LogInActivity.this).checkBySerial(serial.getText().toString());
+                        new Presenter(LogInActivity.this).checkBySerial(serial.getText().toString().toUpperCase(), LogInActivity.this, null, null);
                     } else {
                         serial.setError("Required");
                     }
@@ -504,7 +504,8 @@ public class LogInActivity extends AppCompatActivity {
 
 
     public String convertToArabic(String value) {
-        String newValue = (((((((((((value + "").replaceAll("1", "١")).replaceAll("2", "٢")).replaceAll("3", "٣")).replaceAll("4", "٤")).replaceAll("5", "٥")).replaceAll("6", "٦")).replaceAll("7", "٧")).replaceAll("8", "٨")).replaceAll("9", "٩")).replaceAll("0", "٠").replaceAll(".", "٫"));
+        String newValue = (((((((((((value + "").replaceAll("1", "١")).replaceAll("2", "٢")).replaceAll("3", "٣")).replaceAll("4", "٤")).replaceAll("5", "٥")).replaceAll("6", "٦")).replaceAll("7", "٧")).replaceAll("8", "٨")).replaceAll("9", "٩")).replaceAll("0", "٠"));
+        Log.e("convertToArabic", value + "      " + newValue);
         return newValue;
     }
 
@@ -545,7 +546,7 @@ public class LogInActivity extends AppCompatActivity {
         }
     }
 
-    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+    public void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
             final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

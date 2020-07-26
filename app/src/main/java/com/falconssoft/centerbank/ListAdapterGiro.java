@@ -72,7 +72,7 @@ public class ListAdapterGiro extends BaseAdapter {
 
     private class ViewHolder {
         LinearLayout detailRow;
-        TextView name, transType, date, detail, from, to, TranseType, bankName, AmountJd, AmountWord, branchNo, cheqNo, chequNo,bankName_text;//, price
+        TextView name, transType, date, detail, from, to, TranseType, bankName, AmountJd, AmountWord, branchNo, cheqNo, chequNo,bankName_text,phoneNo;//, price
 //CircleImageView status;
 
         Button send,lostSteal;
@@ -86,6 +86,7 @@ public class ListAdapterGiro extends BaseAdapter {
         final ViewHolder holder = new ViewHolder();
         view = View.inflate(context, R.layout.report_row_giro, null);
 
+        holder.phoneNo= view.findViewById(R.id.phoneNo);
         holder.bankName_text= view.findViewById(R.id.bankName_text);
         holder.detailRow = view.findViewById(R.id.detailRow);
 //        holder.status =  view.findViewById(R.id.statuts);
@@ -126,6 +127,7 @@ public class ListAdapterGiro extends BaseAdapter {
 
         holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+"  " + TStatus);
         holder.chequNo.setText(itemsList.get(i).getChequeNo());
+        holder.phoneNo.setText("+"+itemsList.get(i).getToCustomerMobel());
 
         holder.name.setText("" +itemsList.get(i).getCustName());
 //        holder.transType.setText("" + itemsList.get(i).getTransType());

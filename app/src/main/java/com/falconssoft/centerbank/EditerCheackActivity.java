@@ -156,8 +156,9 @@ public class EditerCheackActivity extends AppCompatActivity {
     private ArrayAdapter arrayAdapter;
     private ArrayList<String> arrayList = new ArrayList<>();
     private CountryCodePicker ccp;
-    LoginINFO userSend;
-    boolean isInGetData = true, userFound = false;
+    LoginINFO userSend ;
+    boolean isInGetData=true,userFound=false;
+    private String validateBySerial = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -561,6 +562,10 @@ public class EditerCheackActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(serial.getText().toString())) {
                     serial.setError(null);
+                    validateBySerial = serial.getText().toString().toUpperCase();
+                    new JSONTaskSerial().execute();
+//                    new Presenter(EditerCheackActivity.this).checkBySerial(serial.getText().toString().toUpperCase(), null, null, EditerCheackActivity.this);
+
                 } else {
                     serial.setError("Required");
                 }
@@ -1113,7 +1118,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
-    void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+    public void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         Log.e("VerifyCheck 849", "" + "JSONTask dialog");
         if (check) {
             Log.e("VerifyCheck 851", "JSONTask dialog in ");
@@ -1438,6 +1443,102 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
+    // ******************************************** Serial VALIDATION *************************************
+//    private class JSONTaskSerial extends AsyncTask<String, String, String> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//                Log.e("VerifyCheck 1067", "" + "JSONTask");
+//
+//                String JsonResponse = null;
+//                HttpClient client = new DefaultHttpClient();
+//                HttpPost request = new HttpPost();
+//                request.setURI(new URI(serverLink + "VerifyCheckBySerial?"));
+//
+//                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+//                nameValuePairs.add(new BasicNameValuePair("SERIALNO", validateBySerial));
+//
+//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+//
+//                HttpResponse response = client.execute(request);
+//
+//                BufferedReader in = new BufferedReader(new
+//                        InputStreamReader(response.getEntity().getContent()));
+//
+//                StringBuffer sb = new StringBuffer("");
+//                String line = "";
+//
+//                while ((line = in.readLine()) != null) {
+//                    sb.append(line);
+//                }
+//
+//                in.close();
+//
+//                JsonResponse = sb.toString();
+//                Log.e("tag", "" + JsonResponse);
+//
+//                return JsonResponse;
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//
+//            ///
+//
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+////        Log.e("VerifyCheck 1112", "" + "JSONTask"+s.toString());
+//            if (s != null) {
+//                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+//                    Log.e("tag", "****Success");
+//                    Log.e("VerifyCheck 1116", "" + "JSONTask" + s.toString());
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(s);
+//
+//
+//                        CHECKNO = jsonObject.get("CHECKNO").toString();
+//                        ACCCODE = jsonObject.get("ACCCODE").toString();
+//                        IBANNO = jsonObject.get("IBANNO").toString();
+//                        CUSTOMERNM = jsonObject.get("CUSTOMERNM").toString();
+//                        QRCODE = jsonObject.get("QRCODE").toString();
+//                        SERIALNO = jsonObject.get("SERIALNO").toString();
+//                        BANKNO = jsonObject.get("BANKNO").toString();
+//                        BRANCHNO = jsonObject.get("BRANCHNO").toString();
+//
+//                        showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
+//
+//
+////                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                } else {
+//
+//                    showSweetDialog(false, "", "", "");
+//
+//                    Log.e("tag", "****Failed to export data");
+//                }
+//            } else {
+//                showSweetDialog(false, "", "", "");
+//
+//                Log.e("tag", "****Failed to export data Please check internet connection");
+//            }
+//        }
+//    }
+
     // ******************************************** SAVE *************************************
     private class SaveCheckTemp extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
@@ -1575,6 +1676,134 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
+    // ********************************************  Serial VALIDATION *************************************
+    private class JSONTaskSerial extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+                String link = serverLink + "VerifyCheckBySerial";
+
+
+                String data = "SERIALNO=" + URLEncoder.encode(validateBySerial, "UTF-8");
+//
+                URL url = new URL(link);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("editorChequeActivity/", "saved//" + s);
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****Success");
+                    Log.e("VerifyCheck 1116", "" + "JSONTask" + s.toString());
+                    try {
+
+                        JSONObject parentArray = new JSONObject(s);
+                        JSONArray parentInfo = parentArray.getJSONArray("INFO");
+
+//                    INFO":[{"ROWID":"AABX2UAAPAAAACDAA1","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الصقور للبرمجيات","QRCODE":"390144;004;0099;1014569990011000","SERIALNO":"635088CD7E6D405B","CHECKISSUEDATE":"7\/2\/2020 12:51:57 PM","CHECKDUEDATE":"","TOCUSTOMERNM":"","AMTJD":"","AMTFILS":"","AMTWORD":"","TOCUSTOMERMOB":"","TOCUSTOMERNATID":"","CHECKWRITEDATE":"","CHECKPICPATH":"","USERNO":"","ISCO":"","ISFB":"","COMPANY":"","NOTE":""}]}
+
+
+                            JSONObject finalObject = parentInfo.getJSONObject(0);
+
+
+//      [{"NATID":"4236828854","FIRSTNM":"alaa","FATHERNM":"t","GRANDNM":"yg","FAMILYNM":"ug","DOB":"22\/07\/2020","GENDER":"1","MOBILENO":"962798899716","ADDRESS":"amman","EMIAL":"alaa@gmail.com","PASSWORD":"AalaaA7$","INACTIVE":"0","INDATE":"22\/07\/2020 17:36:22","PASSKIND":"0"}]}
+
+
+//                            userSend.setNationalID(finalObject.getString("NATID"));
+                            CHECKNO = finalObject.get("CHECKNO").toString();
+                            ACCCODE = finalObject.get("ACCCODE").toString();
+                            IBANNO = finalObject.get("IBANNO").toString();
+                            CUSTOMERNM = finalObject.get("CUSTOMERNM").toString();
+                            QRCODE = finalObject.get("QRCODE").toString();
+                            SERIALNO = finalObject.get("SERIALNO").toString();
+                            BANKNO = finalObject.get("BANKNO").toString();
+                            BRANCHNO = finalObject.get("BRANCHNO").toString();
+
+
+                        showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
+
+
+//                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+
+                    showSweetDialog(false, "", "", "");
+
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+                showSweetDialog(false, "", "", "");
+
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
 
     // ******************************************** Check Pending *************************************
     private class IsCheckPinding extends AsyncTask<String, String, String> {
