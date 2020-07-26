@@ -222,9 +222,9 @@
                             android:enabled="false"
                             android:fontFamily="serif"
                             android:gravity="center_vertical"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:singleLine="true"
-                            android:textColor="@color/colorWhiteLight"
+                            android:textColor="@color/red"
                             android:textColorHint="@color/colorWhiteLight"
                             android:textSize="14sp"
                             app:autoSizeMaxTextSize="20sp"
@@ -238,16 +238,6 @@
                             android:layout_weight="1"
                             android:orientation="horizontal">
 
-                            <com.google.android.material.textfield.TextInputLayout
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1"
-
-                                android:hint="@string/first_name"
-                                android:textColorHint="@color/red"
-                                app:hintTextColor="@color/colorWhiteLight">
 
                                 <EditText
                                     android:id="@+id/profile_first_name"
@@ -268,18 +258,8 @@
                                     app:autoSizeStepGranularity="2sp"
                                     app:autoSizeTextType="uniform" />
 
-                            </com.google.android.material.textfield.TextInputLayout>
 
-                            <com.google.android.material.textfield.TextInputLayout
 
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1"
-
-                                android:hint="@string/second_name"
-                                android:textColorHint="@color/red"
-                                app:hintTextColor="@color/colorWhiteLight">
 
                                 <EditText
                                     android:id="@+id/profile_second_name"
@@ -304,18 +284,6 @@
 
 
 
-                            </com.google.android.material.textfield.TextInputLayout>
-
-
-                            <com.google.android.material.textfield.TextInputLayout
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1"
-                                android:hint="@string/third_name"
-                                android:textColorHint="@color/red"
-                                app:hintTextColor="@color/colorWhiteLight">
 
                             <EditText
                                 android:id="@+id/profile_third_name"
@@ -335,17 +303,9 @@
                                 app:autoSizeMinTextSize="12sp"
                                 app:autoSizeStepGranularity="2sp"
                                 app:autoSizeTextType="uniform" />
-                            </com.google.android.material.textfield.TextInputLayout>
 
-                            <com.google.android.material.textfield.TextInputLayout
 
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1"
-                                android:hint="@string/fourth_name"
-                                android:textColorHint="@color/red"
-                                app:hintTextColor="@color/colorWhiteLight">
+
                             <EditText
                                 android:id="@+id/profile_fourth_name"
                                 android:layout_width="match_parent"
@@ -365,7 +325,7 @@
                                 app:autoSizeMinTextSize="12sp"
                                 app:autoSizeStepGranularity="2sp"
                                 app:autoSizeTextType="uniform" />
-                            </com.google.android.material.textfield.TextInputLayout>
+
                         </LinearLayout>
 
                     </LinearLayout>
