@@ -55,7 +55,7 @@
     <string name="account_no">Account No</string>
     <string name="add">Add</string>
 
-    <string name="cheque_writer">Cheque Issuer : </string>
+    <string name="cheque_writer">Cheque Issuer  </string>
 
     <string name="bank_name">Bank Name </string>
 
@@ -197,6 +197,13 @@
     <string name="welcome">Welcome</string>
     <string name="lost_stealing">Lost/Stealing</string>
     <string name="bank_of_jordan">Bank Of Jordan</string>
+    <string name="PleaseWaiting">Please Waiting...</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="typehere">Type Here</string>
+    <string name="cancel">Cancel</string>
+    <string name="Note">Note</string>
+    <string name="CO">CO</string>
 
 
 </resources>
