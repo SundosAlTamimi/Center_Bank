@@ -32,7 +32,7 @@
                 android:padding="10dp"
                 android:text="@string/lost"
                 android:textColor="@color/colorWhite"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 app:autoSizeMaxTextSize="25sp"
                 app:autoSizeMinTextSize="15sp"
                 app:autoSizeStepGranularity="2sp"
@@ -72,6 +72,12 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="One Cheque"
+                        android:textCursorDrawable="@null"
+                        android:textSize="12sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
                         android:textColor="@color/white" />
 
                     <RadioButton
@@ -80,6 +86,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Range of Cheque"
+                        android:textCursorDrawable="@null"
+                        android:textSize="12sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
                         android:textColor="@color/white" />
                 </RadioGroup>
 
@@ -146,6 +158,12 @@
                         android:layout_weight="1"
                         android:hint="upLode Lost Report "
                         android:padding="10dp"
+                        android:textCursorDrawable="@null"
+                        android:textSize="20sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
                         android:textAlignment="center"
                         android:textColor="@color/layer3"
                         android:textColorHint="@color/layer3" />
@@ -194,7 +212,7 @@
                 android:padding="5dp"
                 android:text="@string/save"
                 android:textColor="@color/colorWhite"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 app:autoSizeMaxTextSize="20sp"
                 app:autoSizeMinTextSize="14sp"
                 app:autoSizeStepGranularity="2sp"

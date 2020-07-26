@@ -125,19 +125,19 @@ public class ListAdapterGiro extends BaseAdapter {
         holder.bankName_text.setVisibility(View.GONE);
 //        holder.state.setText("" + itemsList.get(i).getStatus());
 
-        holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+"  " + TStatus);
+        holder.TranseType.setText( TStatus);
         holder.chequNo.setText(itemsList.get(i).getChequeNo());
         holder.phoneNo.setText("+"+itemsList.get(i).getToCustomerMobel());
 
         holder.name.setText("" +itemsList.get(i).getCustName());
 //        holder.transType.setText("" + itemsList.get(i).getTransType());
         holder.date.setText(itemsList.get(i).getCheckDueDate());
-        holder.from.setText(context.getResources().getString(R.string.chWriter)+"  "  + itemsList.get(i).getCustName());
-        holder.to.setText(context.getResources().getString(R.string.chBf) +"  " + itemsList.get(i).getToCustomerName());
-        holder.bankName.setText(context.getResources().getString(R.string.bank_name) +"  " +  itemsList.get(i).getBankName());
+        holder.from.setText( itemsList.get(i).getCustName());
+        holder.to.setText( itemsList.get(i).getToCustomerName());
+        holder.bankName.setText(  itemsList.get(i).getBankName());
         holder.AmountJd.setText(context.getResources().getString(R.string.amount_word) + "  :  " + itemsList.get(i).getMoneyInDinar() + "." + itemsList.get(i).getMoneyInFils() + " JD");
         holder.AmountWord.setText("(" + itemsList.get(i).getMoneyInWord() + ")");
-        holder.cheqNo.setText(context.getResources().getString(R.string.cheque_no) +"  " + itemsList.get(i).getChequeNo() + "");
+        holder.cheqNo.setText( itemsList.get(i).getChequeNo() + "");
 
 
 //

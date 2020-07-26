@@ -20,31 +20,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="6dp"
-            android:layout_weight="8"
-            android:drawableStart="@drawable/ic_monetization_on_black_24dp"
+            android:layout_weight="7"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:text="@string/request"
             android:textColor="@color/colorWhite"
             android:textSize="22sp"
+            android:textCursorDrawable="@null"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
             app:fontFamily="sans-serif-smallcaps" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_weight="3"
             android:padding="5dp"
             android:elevation="10dp"
             android:background="@drawable/back_black"
             android:gravity="center"
             android:orientation="vertical">
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
-
+                android:orientation="vertical"
                 android:gravity="center">
 
                 <TextView
@@ -57,16 +60,21 @@
                     android:drawableStart="@drawable/ic_person"
                     android:drawablePadding="10dp"
 
+                    android:gravity="center|start"
                     android:ems="10"
                     android:fontFamily="serif"
                     android:hint="@string/customer_name"
 
                     android:inputType="textPersonName"
                     android:padding="5dp"
-                    android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/colorWhite"
+                    android:textColor="@color/red"
+                    android:textColorHint="@color/red"
                     android:textCursorDrawable="@null"
-                    android:textSize="14sp" />
+                    android:textSize="20sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform" />
 
                 <EditText
                     android:id="@+id/edit_customerName"
@@ -89,17 +97,14 @@
                     android:textCursorDrawable="@null"
                     android:textSize="15sp" />
 
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
                 android:layout_weight="1"
-
+                android:orientation="vertical"
                 android:gravity="center">
-
                 <TextView
                     android:id="@+id/textVi"
                     android:layout_width="match_parent"
@@ -115,9 +120,13 @@
                     android:maxLength="10"
                     android:padding="5dp"
                     android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/colorWhite"
+                    android:textColorHint="@color/red"
                     android:textCursorDrawable="@null"
-                    android:textSize="15sp" />
+                    android:textSize="20sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"/>
 
                 <LinearLayout
                     android:id="@+id/edit_phone_linear"
@@ -154,13 +163,13 @@
                         android:textSize="15sp"/>
                 </LinearLayout>
 
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
+                android:orientation="vertical"
                 android:gravity="center">
 
                 <TextView
@@ -178,9 +187,13 @@
                     android:inputType="textPersonName"
                     android:padding="5dp"
                     android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/colorWhite"
+                    android:textColorHint="@color/red"
                     android:textCursorDrawable="@null"
-                    android:textSize="14sp" />
+                    android:textSize="20sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform" />
 
                 <EditText
                     android:id="@+id/edit_company"
@@ -200,14 +213,13 @@
                     android:textCursorDrawable="@null"
                     android:textSize="14sp" />
 
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_weight="1"
-
+                android:orientation="vertical"
                 android:gravity="center">
 
                 <TextView
@@ -224,10 +236,14 @@
                     android:hint="@string/notes_optional"
                     android:inputType="textPersonName"
                     android:padding="5dp"
-                    android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/colorWhite"
+                    android:textColor="@color/red"
+                    android:textColorHint="@color/red"
                     android:textCursorDrawable="@null"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
                     />
 
                 <EditText
@@ -250,7 +266,7 @@
                     android:textSize="14sp"
                     />
 
-            </TableRow>
+            </LinearLayout>
 
 
             <LinearLayout
@@ -282,10 +298,14 @@
                     android:hint="@string/notes_optional"
                     android:inputType="textPersonName"
                     android:padding="5dp"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/red"
                     android:textColorHint="@color/colorWhite"
                     android:textCursorDrawable="@null"
-                    android:textSize="14sp"  />
+                    android:textSize="20sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform" />
                 <EditText
                     android:id="@+id/denier"
                     android:layout_width="match_parent"

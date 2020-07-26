@@ -18,7 +18,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -36,15 +35,16 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_margin="6dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-light"
                 android:padding="10dp"
                 android:text="@string/profile"
-                android:textSize="20sp"
-                app:autoSizeMaxTextSize="20sp"
+                android:textSize="25sp"
+                app:autoSizeMaxTextSize="25sp"
                 app:autoSizeMinTextSize="15sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
@@ -60,275 +60,456 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/profile_account_type"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_credit_card"
-                android:padding="10dp"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                android:fontFamily="serif"
-                android:drawablePadding="5dp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/profile_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/gender"
-                android:padding="10dp"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                android:fontFamily="serif"
-                android:drawablePadding="5dp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/profile_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_date_range_black_24dp"
-                android:padding="10dp"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                android:fontFamily="serif"
-                android:drawablePadding="5dp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
-
-            <TextView
-                android:id="@+id/profile_national_No"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_person_black_24dp"
-                android:text="@string/national_no"
-                android:textCursorDrawable="@null"
-                android:maxLength="10"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:drawablePadding="5dp"
-                android:fontFamily="serif"
-                android:nextFocusDown="@id/signUp_first_name"
-                android:textColor="@color/colorWhiteLight"
-                android:layout_weight="1"
-                android:textSize="12sp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
-
-            <LinearLayout
-                android:id="@+id/profile_nameLinear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/profile_first_name"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    android:nextFocusDown="@id/signUp_second_name"
                     android:background="@drawable/edit_bac_s"
-                    android:hint="@string/first_name"
-                    android:fontFamily="serif"
-                    android:padding="10dp"
-                    android:textColor="@color/colorWhiteLight"
-                    android:textColorHint="@color/colorWhiteLight"
-                    android:textSize="14sp"
-                    app:autoSizeMaxTextSize="20sp"
-                    app:autoSizeMinTextSize="12sp"
-                    app:autoSizeStepGranularity="2sp"
-                    app:autoSizeTextType="uniform" />
+                    android:hint="@string/account_type"
+                    android:textColorHint="@color/red"
+                    app:hintTextColor="@color/colorWhiteLight">
+                    <EditText
+                        android:id="@+id/profile_account_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/Nocolor"
+                        android:drawableLeft="@drawable/ic_credit_card"
+                        android:drawablePadding="5dp"
+                        android:enabled="false"
+                        android:fontFamily="serif"
+                        android:gravity="center_vertical"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/profile_second_name"
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    android:nextFocusDown="@id/signUp_third_name"
                     android:background="@drawable/edit_bac_s"
-                    android:hint="@string/second_name"
-                    android:fontFamily="serif"
-                    android:padding="10dp"
-                    android:textColor="@color/colorWhiteLight"
-                    android:textColorHint="@color/colorWhiteLight"
-                    android:textSize="14sp"
-                    app:autoSizeMaxTextSize="20sp"
-                    app:autoSizeMinTextSize="12sp"
-                    app:autoSizeStepGranularity="2sp"
-                    app:autoSizeTextType="uniform"/>
+                    android:hint="@string/gender"
+                    android:textColorHint="@color/red"
+                    app:hintTextColor="@color/colorWhiteLight">
 
-                <EditText
-                    android:id="@+id/profile_third_name"
+
+                    <EditText
+                        android:id="@+id/profile_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/Nocolor"
+                        android:drawableLeft="@drawable/gender"
+                        android:drawablePadding="5dp"
+                        android:enabled="false"
+                        android:fontFamily="serif"
+                        android:gravity="center_vertical"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textColorHint="@color/colorWhiteLight"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    android:nextFocusDown="@id/signUp_fourth_name"
                     android:background="@drawable/edit_bac_s"
-                    android:hint="@string/third_name"
-                    android:fontFamily="serif"
-                    android:padding="10dp"
-                    android:textColor="@color/colorWhiteLight"
-                    android:textColorHint="@color/colorWhiteLight"
-                    android:textSize="14sp"
-                    app:autoSizeMaxTextSize="20sp"
-                    app:autoSizeMinTextSize="12sp"
-                    app:autoSizeStepGranularity="2sp"
-                    app:autoSizeTextType="uniform" />
 
-                <EditText
-                    android:id="@+id/profile_fourth_name"
+                    android:hint="@string/date_of_birth"
+                    android:textColorHint="@color/red"
+                    app:hintTextColor="@color/colorWhiteLight">
+
+                    <EditText
+                        android:id="@+id/profile_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/Nocolor"
+                        android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                        android:drawablePadding="5dp"
+                        android:enabled="false"
+                        android:fontFamily="serif"
+                        android:gravity="center_vertical"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textColorHint="@color/colorWhiteLight"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    android:nextFocusDown="@id/signUp_phone"
                     android:background="@drawable/edit_bac_s"
-                    android:hint="@string/fourth_name"
-                    android:fontFamily="serif"
-                    android:padding="10dp"
-                    android:textColor="@color/colorWhiteLight"
-                    android:textColorHint="@color/colorWhiteLight"
-                    android:textSize="14sp"
-                    app:autoSizeMaxTextSize="20sp"
-                    app:autoSizeMinTextSize="12sp"
-                    app:autoSizeStepGranularity="2sp"
-                    app:autoSizeTextType="uniform" />
+                    android:hint="@string/national_no"
+                    android:textColorHint="@color/red"
+                    app:hintTextColor="@color/colorWhiteLight">
 
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/profile_national_No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
-            <TextView
-                android:id="@+id/profile_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_local_phone_black_24dp"
-                android:text="07"
-                android:textCursorDrawable="@null"
-                android:maxLength="10"
-                android:nextFocusDown="@id/signUp_address"
-                android:padding="10dp"
-                android:drawablePadding="5dp"
-                android:fontFamily="serif"
-                android:singleLine="true"
-                android:textColor="@color/colorWhiteLight"
-                android:textSize="14sp"
-                app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"/>
+                        android:layout_weight="1"
+                        android:background="@color/Nocolor"
+                        android:drawableLeft="@drawable/ic_person_black_24dp"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="serif"
+                        android:maxLength="10"
+                        android:nextFocusDown="@id/signUp_first_name"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textCursorDrawable="@null"
+                        android:textSize="12sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
 
-            <EditText
-                android:id="@+id/profile_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:nextFocusDown="@id/signUp_email"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_location_on_black_24dp"
-                android:hint="@string/address"
-                android:padding="10dp"
-                android:textCursorDrawable="@null"
-                android:fontFamily="serif"
-                android:drawablePadding="5dp"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
 
-            <EditText
-                android:id="@+id/profile_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_email_black_24dp"
-                android:hint="@string/e_mail"
-                android:nextFocusDown="@id/signUp_password"
-                android:inputType="textEmailAddress"
-                android:padding="10dp"
-                android:textCursorDrawable="@null"
-                android:fontFamily="serif"
-                android:drawablePadding="5dp"
-                android:singleLine="true"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/profile_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_https_black_24dp"
-                android:hint="@string/password"
-                android:padding="10dp"
-                android:textCursorDrawable="@null"
-                android:textColor="@color/colorWhiteLight"
-                android:textColorHint="@color/colorWhiteLight"
-                android:textSize="14sp"
-                android:fontFamily="serif"
-                android:drawablePadding="5dp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/name_of_fourth_syllables"
+                            android:enabled="false"
+                            android:fontFamily="serif"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textColorHint="@color/colorWhiteLight"
+                            android:textSize="14sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform"/>
+                        <LinearLayout
+                            android:id="@+id/profile_nameLinear"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+
+                                android:hint="@string/first_name"
+                                android:textColorHint="@color/red"
+                                app:hintTextColor="@color/colorWhiteLight">
+
+                                <EditText
+                                    android:id="@+id/profile_first_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:fontFamily="serif"
+                                    android:nextFocusDown="@id/signUp_second_name"
+                                    android:padding="3dp"
+                                    android:singleLine="true"
+                                    android:background="@color/Nocolor"
+                                    android:textColor="@color/colorWhiteLight"
+                                    android:textColorHint="@color/colorWhiteLight"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="14sp"
+                                    app:autoSizeMaxTextSize="20sp"
+                                    app:autoSizeMinTextSize="12sp"
+                                    app:autoSizeStepGranularity="2sp"
+                                    app:autoSizeTextType="uniform" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+
+                                android:hint="@string/second_name"
+                                android:textColorHint="@color/red"
+                                app:hintTextColor="@color/colorWhiteLight">
+
+                                <EditText
+                                    android:id="@+id/profile_second_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+
+                                    android:layout_weight="1"
+                                    android:background="@color/Nocolor"
+                                    android:fontFamily="serif"
+
+                                    android:nextFocusDown="@id/signUp_third_name"
+                                    android:padding="3dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/colorWhiteLight"
+                                    android:textColorHint="@color/colorWhiteLight"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="14sp"
+                                    app:autoSizeMaxTextSize="20sp"
+                                    app:autoSizeMinTextSize="12sp"
+                                    app:autoSizeStepGranularity="2sp"
+                                    app:autoSizeTextType="uniform" />
+
+
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:hint="@string/third_name"
+                                android:textColorHint="@color/red"
+                                app:hintTextColor="@color/colorWhiteLight">
+
+                            <EditText
+                                android:id="@+id/profile_third_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@color/Nocolor"
+                                android:fontFamily="serif"
+                                android:nextFocusDown="@id/signUp_fourth_name"
+                                android:padding="3dp"
+                                android:singleLine="true"
+                                android:textColor="@color/colorWhiteLight"
+                                android:textColorHint="@color/colorWhiteLight"
+                                android:textCursorDrawable="@null"
+                                android:textSize="14sp"
+                                app:autoSizeMaxTextSize="20sp"
+                                app:autoSizeMinTextSize="12sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:hint="@string/fourth_name"
+                                android:textColorHint="@color/red"
+                                app:hintTextColor="@color/colorWhiteLight">
+                            <EditText
+                                android:id="@+id/profile_fourth_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:layout_weight="1"
+                                android:background="@color/Nocolor"
+                                android:fontFamily="serif"
+                                android:nextFocusDown="@id/signUp_phone"
+                                android:padding="3dp"
+                                android:singleLine="true"
+                                android:textColor="@color/colorWhiteLight"
+                                android:textColorHint="@color/colorWhiteLight"
+                                android:textCursorDrawable="@null"
+                                android:textSize="14sp"
+                                app:autoSizeMaxTextSize="20sp"
+                                app:autoSizeMinTextSize="12sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:hint="@string/phone_no"
+                    android:textColorHint="@color/red"
+                    app:hintTextColor="@color/colorWhiteLight">
+
+                    <EditText
+                        android:id="@+id/profile_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+                        android:background="@color/Nocolor"
+                        android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+                        android:drawablePadding="5dp"
+                        android:enabled="false"
+                        android:fontFamily="serif"
+                        android:maxLength="10"
+                        android:nextFocusDown="@id/signUp_address"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="18sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:hint="@string/address"
+                    android:textColorHint="@color/red"
+                    app:hintTextColor="@color/colorWhiteLight">
+
+                    <EditText
+                        android:id="@+id/profile_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/Nocolor"
+                        android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                        android:drawablePadding="5dp"
+
+                        android:fontFamily="serif"
+                        android:nextFocusDown="@id/signUp_email"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textColorHint="@color/colorWhiteLight"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:hint="@string/e_mail"
+                    android:textColorHint="@color/red"
+                    app:hintTextColor="@color/colorWhiteLight">
+
+                    <EditText
+                        android:id="@+id/profile_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+                        android:background="@color/Nocolor"
+                        android:drawableLeft="@drawable/ic_email_black_24dp"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="serif"
+                        android:inputType="textEmailAddress"
+                        android:nextFocusDown="@id/signUp_password"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textColorHint="@color/colorWhiteLight"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bac_s"
+                    android:hint="@string/password"
+                    android:textColorHint="@color/red"
+                    app:hintTextColor="@color/colorWhiteLight">
+                    <EditText
+                        android:id="@+id/profile_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+                        android:background="@color/Nocolor"
+                        android:drawableLeft="@drawable/ic_https_black_24dp"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="serif"
+                        android:padding="10dp"
+                        android:textColor="@color/colorWhiteLight"
+                        android:textColorHint="@color/colorWhiteLight"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
+
         </LinearLayout>
 
         <LinearLayout
