@@ -33,6 +33,7 @@ public class TrackingCheque extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_tracking_cheque);
+        new LocaleAppUtils().changeLayot(TrackingCheque.this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tracking_cheque);
 
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
