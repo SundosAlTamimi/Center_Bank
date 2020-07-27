@@ -251,6 +251,7 @@
             android:gravity="center|center_horizontal"
             android:layout_marginHorizontal="40dp"
             android:layout_weight="3"
+            android:layoutDirection="locale"
             android:orientation="vertical">
 
             <Button
@@ -261,6 +262,7 @@
                 android:background="@drawable/edit_bac_sinup2"
                 android:text="@string/sing_in"
                 android:textAllCaps="false"
+                android:drawableStart="@drawable/ic_format_shapes_black_24dp"
                 android:fontFamily="serif"
                 android:textColor="@color/colorWhite" />
 

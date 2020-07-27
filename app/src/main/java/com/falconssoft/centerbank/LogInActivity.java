@@ -128,7 +128,10 @@ public class LogInActivity extends AppCompatActivity {
 //        editor.putString("link", "http://10.0.0.16:8082/");
         editor.putString("link", "http://falconssoft.net/ScanChecks/APIMethods.dll/");
         editor.apply();
+
+        LocaleAppUtils.language=language;
         if (language.equals("ar")) {
+
             LocaleAppUtils.setLocale(new Locale("ar"));
             LocaleAppUtils.setConfigChange(LogInActivity.this);
         } else {

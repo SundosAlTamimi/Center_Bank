@@ -52,9 +52,11 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 import static com.falconssoft.centerbank.ShowNotifications.showNotification;
 
@@ -85,6 +87,9 @@ public class Request extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        new LocaleAppUtils().changeLayot(Request.this);
+
         setContentView(R.layout.activity_request);
 
            initView();
@@ -237,7 +242,7 @@ public class Request extends AppCompatActivity {
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-                StringBuffer sb = new StringBuffer("");
+                StringBuffer sb = new StringBuffer();
                 String line = "";
 
                 while ((line = bufferedReader.readLine()) != null) {
@@ -284,7 +289,7 @@ public class Request extends AppCompatActivity {
                     clearData();
 
                 } else {
-                    Log.e("tag", "****Failed to Send data"+s.toString());
+                    Log.e("tag", "****Failed to Send data"+ s);
                 }
             } else {
                 showSnackbar("Check internet connection", false);
@@ -297,12 +302,12 @@ public class Request extends AppCompatActivity {
         if (showImage) {
             snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#3167F0\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
             View snackbarLayout = snackbar.getView();
-            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
+            TextView textViewSnackbar = snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
             textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0);
         } else {
             snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#D11616\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
             View snackbarLayout = snackbar.getView();
-            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
+            TextView textViewSnackbar = snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
             textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_error, 0, 0, 0);
         }
         snackbar.show();
