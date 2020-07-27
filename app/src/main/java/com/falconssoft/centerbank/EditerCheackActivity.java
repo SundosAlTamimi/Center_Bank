@@ -294,6 +294,16 @@ public class EditerCheackActivity extends AppCompatActivity {
             }
         });
 
+       phoneNo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                {
+                    new SharedClass(EditerCheackActivity.this).showPhoneOptions(phoneNo.getText().toString());
+                    return true;
+                }
+            }
+        });
+
     }
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

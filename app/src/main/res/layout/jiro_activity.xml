@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/clear_buttons"
-        android:orientation="vertical"
         android:layoutDirection="locale"
+        android:orientation="vertical"
         android:visibility="visible">
 
 
@@ -243,13 +243,13 @@
                     android:textSize="12sp" />
 
                 <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/ic_expand_more_black_24dp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:textSize="15sp" />-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/ic_expand_more_black_24dp"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="15sp" />-->
 
             </TableRow>
 
@@ -274,9 +274,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/clear_buttons"
+        android:layoutDirection="locale"
         android:orientation="vertical"
         android:padding="10dp"
-        android:layoutDirection="locale"
         android:visibility="gone">
 
         <LinearLayout
@@ -311,6 +311,7 @@
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
                 app:fontFamily="sans-serif-smallcaps" />
+
             <TextView
                 android:id="@+id/getTrial"
                 android:layout_width="0dp"
@@ -351,42 +352,42 @@
 
                     <LinearLayout
                         android:id="@+id/giro_phone_linear"
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/edit_bac_s"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <com.hbb20.CountryCodePicker
                             android:id="@+id/giro_ccp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:ccp_contentColor="@color/white"
-                            app:ccp_defaultNameCode="JO"
-                            />
+                            app:ccp_defaultNameCode="JO" />
 
                         <EditText
                             android:id="@+id/giro_phoneNo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:autoLink="phone"
-                            android:linksClickable="true"
-                            android:nextFocusDown="@+id/editorCheque_nationalNo"
                             android:layout_margin="2dp"
+                            android:autoLink="phone"
                             android:background="@color/Nocolor"
                             android:fontFamily="serif"
                             android:hint="@string/_7xxxxxxxx"
                             android:inputType="phone"
+                            android:linksClickable="true"
                             android:maxLength="9"
+                            android:nextFocusDown="@+id/editorCheque_nationalNo"
                             android:padding="5dp"
+                            android:singleLine="true"
                             android:textColor="@color/colorWhite"
                             android:textColorHint="@color/colorWhite"
                             android:textCursorDrawable="@null"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
                     </LinearLayout>
+
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -438,7 +439,6 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
-
 
 
                     <!--</LinearLayout>-->
@@ -619,24 +619,24 @@
                             app:hintTextColor="@color/red">
 
 
-                        <EditText
-                            android:id="@+id/editorCheque_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:background="@color/Nocolor"
-                            android:drawableStart="@drawable/ic_date_range_black_24dp"
-                            android:drawablePadding="10dp"
-                            android:ems="10"
-                            android:fontFamily="serif"
-                            android:enabled="false"
-                            android:hint="@string/date"
-                            android:inputType="textPersonName"
-                            android:padding="5dp"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            <EditText
+                                android:id="@+id/editorCheque_date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:background="@color/Nocolor"
+                                android:drawableStart="@drawable/ic_date_range_black_24dp"
+                                android:drawablePadding="10dp"
+                                android:ems="10"
+                                android:enabled="false"
+                                android:fontFamily="serif"
+                                android:hint="@string/date"
+                                android:inputType="textPersonName"
+                                android:padding="5dp"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -664,8 +664,8 @@
                             android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
-                            android:orientation="vertical"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:orientation="vertical">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
@@ -678,23 +678,23 @@
                                 android:textColorHint="@color/colorWhiteLight"
                                 app:hintTextColor="@color/red">
 
-                            <EditText
-                                android:id="@+id/editorCheque_company"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="2dp"
-                                android:background="@color/Nocolor"
-                                android:drawableStart="@drawable/ic_company"
-                                android:drawablePadding="10dp"
-                                android:ems="10"
-                                android:fontFamily="serif"
+                                <EditText
+                                    android:id="@+id/editorCheque_company"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:background="@color/Nocolor"
+                                    android:drawableStart="@drawable/ic_company"
+                                    android:drawablePadding="10dp"
+                                    android:ems="10"
+                                    android:fontFamily="serif"
 
-                                android:inputType="textPersonName"
-                                android:padding="5dp"
-                                android:textColor="@color/colorWhite"
-                                android:textColorHint="@color/colorWhite"
-                                android:textCursorDrawable="@null"
-                                android:textSize="14sp" />
+                                    android:inputType="textPersonName"
+                                    android:padding="5dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhite"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="14sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </TableRow>
@@ -717,23 +717,24 @@
                                 android:padding="5dp"
                                 android:textColorHint="@color/colorWhiteLight"
                                 app:hintTextColor="@color/red">
-                            <EditText
-                                android:id="@+id/editorCheque_notes"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="2dp"
-                                android:background="@color/Nocolor"
-                                android:drawableStart="@drawable/ic_notes"
-                                android:drawablePadding="10dp"
-                                android:ems="10"
-                                android:fontFamily="serif"
 
-                                android:inputType="textPersonName"
-                                android:padding="5dp"
-                                android:textColor="@color/colorWhite"
-                                android:textColorHint="@color/colorWhite"
-                                android:textCursorDrawable="@null"
-                                android:textSize="14sp" />
+                                <EditText
+                                    android:id="@+id/editorCheque_notes"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:background="@color/Nocolor"
+                                    android:drawableStart="@drawable/ic_notes"
+                                    android:drawablePadding="10dp"
+                                    android:ems="10"
+                                    android:fontFamily="serif"
+
+                                    android:inputType="textPersonName"
+                                    android:padding="5dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhite"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="14sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </TableRow>
@@ -769,8 +770,6 @@
                                 android:id="@+id/denier"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:nextFocusDown="@+id/Phils"
                                 android:layout_margin="2dp"
                                 android:background="@drawable/edit_bac_s"
                                 android:ems="5"
@@ -778,7 +777,9 @@
                                 android:gravity="center"
                                 android:hint="@string/dinar"
                                 android:inputType="numberDecimal"
+                                android:nextFocusDown="@+id/Phils"
                                 android:padding="5dp"
+                                android:singleLine="true"
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
                                 android:textCursorDrawable="@null"
@@ -817,9 +818,9 @@
                                 android:layout_margin="2dp"
                                 android:background="@drawable/edit_bac_s"
                                 android:fontFamily="serif"
+                                android:gravity="center"
                                 android:hint="@string/amount_in_word"
                                 android:lines="4"
-                                android:gravity="center"
                                 android:padding="5dp"
                                 android:scrollIndicators="top"
                                 android:scrollbars="horizontal"
@@ -882,9 +883,9 @@
                             android:id="@+id/CheckPicText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="serif"
                             android:text="@string/check_pic"
-                            android:layout_weight="1"
                             android:textColor="@color/colorWhite"
                             android:textSize="18sp"
                             android:textStyle="bold" />
