@@ -75,6 +75,7 @@ public class LogHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new LocaleAppUtils().changeLayot(LogHistoryActivity.this);
         setContentView(R.layout.log_history_report);
 
 //        pieChart = findViewById(R.id.piechart);

@@ -80,6 +80,7 @@ public class CashierCheque extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new LocaleAppUtils().changeLayot(CashierCheque.this);
         setContentView(R.layout.cashier_check_layout);
 
         init();
