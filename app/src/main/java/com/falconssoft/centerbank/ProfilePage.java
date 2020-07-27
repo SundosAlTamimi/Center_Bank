@@ -77,16 +77,18 @@ public class ProfilePage extends AppCompatActivity {
         phoneNo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                String mobile = "tel:+" + phoneNo.getText().toString();
-                Log.e("mobile", mobile);
-                intent.setData(Uri.parse(mobile));
-                try {
-                    startActivity(intent);
+                new SharedClass(ProfilePage.this).showPhoneOptions(phoneNo.getText().toString());
 
-                } catch (Exception e) {
-                    Toast.makeText(ProfilePage.this, "No Dialer Found!", Toast.LENGTH_SHORT).show();
-                }
+//                Intent intent = new Intent(Intent.ACTION_DIAL);
+//                String mobile = "tel:+" + phoneNo.getText().toString();
+//                Log.e("mobile", mobile);
+//                intent.setData(Uri.parse(mobile));
+//                try {
+//                    startActivity(intent);
+//
+//                } catch (Exception e) {
+//                    Toast.makeText(ProfilePage.this, "No Dialer Found!", Toast.LENGTH_SHORT).show();
+//                }
                 return true;
             }
         });
