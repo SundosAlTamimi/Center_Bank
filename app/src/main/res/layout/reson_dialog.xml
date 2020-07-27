@@ -4,6 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="@drawable/bank4"
+    android:layoutDirection="locale"
+    android:textDirection="locale"
     android:layout_height="400dp">
     <LinearLayout
         android:layout_width="match_parent"

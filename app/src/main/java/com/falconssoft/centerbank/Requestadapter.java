@@ -227,7 +227,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 
         public void showDetails() {
             Log.e("checkState", "" + checkState);
-
+            new LocaleAppUtils().changeLayot(context);
             final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
@@ -237,14 +237,14 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
             LinearLayout linearLayout = dialog.findViewById(R.id.mainLinearDetail);
             linearresone = dialog.findViewById(R.id.linearresone);
             linear_buttons  = dialog.findViewById(R.id.linearButtons);
-            if (language.equals("ar")) {
-                linearLayout.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-            } else {
-                if (languagelocalApp.equals("en")) {
-                    linearLayout.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-                }
-
-            }
+//            if (language.equals("ar")) {
+//                linearLayout.setLayoutDirection(LAYOUT_DIRECTION_RTL);
+//            } else {
+//                if (languagelocalApp.equals("en")) {
+//                    linearLayout.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+//                }
+//
+//            }
             TextView textAmouWord, checkStatuseReson,
                     textToOrder, texDate,  binificary,  textCompanyname, note,textCo;
             ImageView mImageView;

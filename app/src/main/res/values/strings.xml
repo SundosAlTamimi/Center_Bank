@@ -56,11 +56,13 @@
     <string name="add">Add</string>
 
     <string name="cheque_writer">Cheque Issuer  </string>
-
+    <string name="cheque_writer_">Cheque Issuer : </string>
     <string name="bank_name">Bank Name </string>
+    <string name="bank_name_">Bank Name : </string>
 
+    <string name="cheque_no_">Cheque No : </string>
+    <string name="account_no_">Account No : </string>
     <string name="cheque_no">Cheque No </string>
-    <string name="account_no_">Account No </string>
 
 
     <string name="the_cheque_has_been_validated">The cheque has been validated</string>
@@ -216,4 +218,8 @@
     <string name="uplode_lost_report">upLode Lost Report</string>
     <string name="ex_13001_13010">ex. 13001-13010</string>
     <string name="beneficiary_phone">Beneficiary Phone</string>
+    <string name="canReceive">*** Can Receive The Cheque ***</string>
+    <string name="chequeCashed">Cheque Cashed</string>
+    <string name="chequeNotFound">Check Data not found</string>
+    <string name="edit">Edit</string>
 </resources>

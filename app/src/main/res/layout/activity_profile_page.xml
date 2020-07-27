@@ -529,7 +529,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/edit_bac_sinup"
                 android:padding="5dp"
-                android:text="Edit"
+                android:text="@string/edit"
                 android:textSize="14sp"
                 android:fontFamily="serif"
                 app:autoSizeMaxTextSize="18sp"

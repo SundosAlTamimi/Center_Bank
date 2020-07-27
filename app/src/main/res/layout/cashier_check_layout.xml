@@ -30,7 +30,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-light"
                 android:padding="10dp"
-                android:text="Cashier Cheque"
+                android:text="@string/cashier_cheque"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"
                 app:autoSizeMaxTextSize="20sp"

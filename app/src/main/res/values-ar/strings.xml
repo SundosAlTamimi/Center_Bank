@@ -54,9 +54,12 @@
     <string name="account_no">رقم الحساب</string>
     <string name="add">اضافة</string>
     <string name="bank_name">اسم البنك </string>
+    <string name="bank_name_">اسم البنك : </string>
     <string name="cheque_writer">كاتب الشيك </string>
+    <string name="cheque_writer_">كاتب الشيك : </string>
     <string name="cheque_no">رقم الشيك </string>
-    <string name="account_no_">رقم الحساب </string>
+    <string name="cheque_no_">رقم الشيك : </string>
+    <string name="account_no_">رقم الحساب : </string>
     <string name="the_cheque_has_been_validated">تم التحقق من صحة الشيك</string>
     <string name="Accept">موافق</string>
     <string name="Reject">الغاء</string>
@@ -164,7 +167,7 @@
     <string name="to_the_master">للسيد</string>
     <string name="branch_name">الفرع :</string>
     <string name="beneficiary_mobile">Beneficiary mobile</string>
-    <string name="lost">Lost</string>
+    <string name="lost">فقد شيك </string>
     <string name="process">تم ارسال الشيك بنجاح</string>
     <string name="rejectedGereo">شيك مجير مرفوض </string>
     <string name="newGeroChecue">شيك مجير </string>
@@ -188,7 +191,7 @@
     <string name="from">اسم المرسل</string>
     <string name="to">الى</string>
     <string name="age_constrict">العمر اقل من 18 سنة!</string>
-    <string name="mr_mrs">Mr. / Mrs</string>
+    <string name="mr_mrs">السيد \ السيدة </string>
     <string name="beneficiary_phone">رقم هاتف المستفيد</string>
     <string name="send_">صادر</string>
     <string name="receive_">وارد</string>
@@ -196,4 +199,8 @@
     <string name="range_of_cheque">مجموعة شكات</string>
     <string name="uplode_lost_report">تحميل صوره عن تقرير الفقد</string>
     <string name="ex_13001_13010">ex. 13001-13010</string>
+    <string name="canReceive">*** يمكن استيلام هذا الشيك  ***</string>
+    <string name="chequeCashed">*** الشيك مصروف ***</string>
+    <string name="chequeNotFound">*** لم يتم اصدار الشيك ***</string>
+    <string name="edit">تحرير</string>
 </resources>

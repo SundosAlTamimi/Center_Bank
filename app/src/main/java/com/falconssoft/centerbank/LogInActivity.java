@@ -519,6 +519,8 @@ public class LogInActivity extends AppCompatActivity {
 
     public void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
+
+            new LocaleAppUtils().changeLayot(LogInActivity.this);
             final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_after_validation);
@@ -533,15 +535,13 @@ public class LogInActivity extends AppCompatActivity {
             cancelTV.setVisibility(View.GONE);
 
 
-            if (language.trim().equals("ar")) {
-                LocaleAppUtils.setLocale(new Locale("ar"));
-                LocaleAppUtils.setConfigChange(LogInActivity.this);
+            if (LocaleAppUtils.language.trim().equals("ar")) {
+
                 chequeWriterTV.setText(customerName);
                 accountNoTV.setText(convertToArabic(accountNo));
                 chequeNoTV.setText(convertToArabic(chequeNo));
             } else {
-                LocaleAppUtils.setLocale(new Locale("en"));
-                LocaleAppUtils.setConfigChange(LogInActivity.this);
+
                 chequeWriterTV.setText(customerName);
                 accountNoTV.setText(accountNo);
                 chequeNoTV.setText(chequeNo);
@@ -559,7 +559,7 @@ public class LogInActivity extends AppCompatActivity {
             Window window = dialog.getWindow();
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         } else {
-            new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.ERROR_TYPE)
+            new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("WARNING")
                     .setContentText("Invalidate cheque!")
                     .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -1160,7 +1160,7 @@ public class LogInActivity extends AppCompatActivity {
                 }
             } else {
                 Log.e("tag", "****Failed to export data");
-                new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.ERROR_TYPE)
+                new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText(LogInActivity.this.getResources().getString(R.string.warning))
                         .setContentText(LogInActivity.this.getResources().getString(R.string.failtoSend))
                         .setCancelText(LogInActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -1192,12 +1192,7 @@ public class LogInActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
-//            progressDialog.setCancelable(false);
-//            progressDialog.setMessage("Loading...");
-//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//            progressDialog.setProgress(0);
-//            progressDialog.show();
+
 
 //            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
 //            pd.setTitleText(context.getResources().getString(R.string.importstor));
@@ -1208,19 +1203,8 @@ public class LogInActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             try {
 
-//
-//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
-//                String ip="";
-//                if(mainSettings.size()!=0) {
-//                    ip=mainSettings.get(0).getIP();
-//                }
-
                 String link = serverLink + "TillerGetCheck";
 
-
-//                ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144&USESERIAL=0
-
-                //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
                 String data = "ACCCODE=" + URLEncoder.encode(accountCode, "UTF-8") + "&" +
                         "IBANNO=" + URLEncoder.encode(ibanNo, "UTF-8") + "&" +
                         "SERIALNO=" + URLEncoder.encode(serialNo, "UTF-8") + "&" +
@@ -1300,16 +1284,16 @@ public class LogInActivity extends AppCompatActivity {
 
                         if (finalObject.getString("TOCUSTOMERMOB").equals(finalObject.getString("OWNERMOBNO"))) {
 
-                            new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.WARNING_TYPE)
                                     .setTitleText(" Cheque ")
-                                    .setContentText("Cheque Cashed")
+                                    .setContentText(LogInActivity.this.getResources().getString(R.string.chequeCashed))
                                     .show();
 
                         } else {
 
                             new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                     .setTitleText(" Cheque ")
-                                    .setContentText("*** Can Receive The Cheque ***")
+                                    .setContentText(LogInActivity.this.getResources().getString(R.string.canReceive))
                                     .show();
                         }
                     }
@@ -1325,7 +1309,7 @@ public class LogInActivity extends AppCompatActivity {
 
                 new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                         .setTitleText(" Cheque ")
-                        .setContentText("Check Data not found")
+                        .setContentText(LogInActivity.this.getResources().getString(R.string.chequeNotFound))
                         .show();
 
             }
