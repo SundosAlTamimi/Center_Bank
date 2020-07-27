@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="locale"
+    android:textDirection="locale"
     android:orientation="vertical"
     android:background="@drawable/bank4"
     tools:context=".ProfilePage">
@@ -56,14 +58,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
+            android:layout_weight="7"
             android:gravity="center"
             android:orientation="vertical">
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -72,151 +74,177 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-                    android:hint="@string/account_type"
-                    android:textColorHint="@color/red"
-                    app:hintTextColor="@color/colorWhiteLight">
-                    <EditText
-                        android:id="@+id/profile_account_type"
+                    <LinearLayout
+                        android:background="@drawable/edit_bac_s"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/Nocolor"
-                        android:drawableLeft="@drawable/ic_credit_card"
-                        android:drawablePadding="5dp"
-                        android:enabled="false"
-                        android:fontFamily="serif"
-                        android:gravity="center_vertical"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/colorWhiteLight"
-                        android:textSize="14sp"
-                        app:autoSizeMaxTextSize="20sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:drawableStart="@drawable/ic_credit_card"
+                            android:drawableTint="@color/red"
+                            android:drawablePadding="5dp"
+                            android:padding="5dp"
+                            android:text="@string/account_type"
+                            android:textColor="@color/red"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-                    android:hint="@string/gender"
-                    android:textColorHint="@color/red"
-                    app:hintTextColor="@color/colorWhiteLight">
-
-
-                    <EditText
-                        android:id="@+id/profile_gender"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/Nocolor"
-                        android:drawableLeft="@drawable/gender"
-                        android:drawablePadding="5dp"
-                        android:enabled="false"
-                        android:fontFamily="serif"
-                        android:gravity="center_vertical"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/colorWhiteLight"
-                        android:textColorHint="@color/colorWhiteLight"
-                        android:textSize="14sp"
-                        app:autoSizeMaxTextSize="20sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-
-                    android:hint="@string/date_of_birth"
-                    android:textColorHint="@color/red"
-                    app:hintTextColor="@color/colorWhiteLight">
-
-                    <EditText
-                        android:id="@+id/profile_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/Nocolor"
-                        android:drawableLeft="@drawable/ic_date_range_black_24dp"
-                        android:drawablePadding="5dp"
-                        android:enabled="false"
-                        android:fontFamily="serif"
-                        android:gravity="center_vertical"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/colorWhiteLight"
-                        android:textColorHint="@color/colorWhiteLight"
-                        android:textSize="14sp"
-                        app:autoSizeMaxTextSize="20sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-                    android:hint="@string/national_no"
-                    android:textColorHint="@color/red"
-                    app:hintTextColor="@color/colorWhiteLight">
-
-                    <EditText
-                        android:id="@+id/profile_national_No"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:layout_weight="1"
-                        android:background="@color/Nocolor"
-                        android:drawableLeft="@drawable/ic_person_black_24dp"
-                        android:drawablePadding="5dp"
-                        android:fontFamily="serif"
-                        android:maxLength="10"
-                        android:nextFocusDown="@id/signUp_first_name"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/colorWhiteLight"
-                        android:textCursorDrawable="@null"
-                        android:textSize="12sp"
-                        app:autoSizeMaxTextSize="20sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
-
-
-                </com.google.android.material.textfield.TextInputLayout>
+                        <EditText
+                            android:id="@+id/profile_account_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/Nocolor"
+                            android:drawablePadding="5dp"
+                            android:enabled="false"
+                            android:fontFamily="serif"
+                            android:gravity="center_vertical"
+                            android:padding="3dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textSize="14sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform" />
+                    </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:background="@drawable/edit_bac_s"
+                        android:paddingHorizontal="10dp"
+                        android:layout_weight="1"
                         android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:drawableStart="@drawable/gender"
+                            android:drawableTint="@color/red"
+                            android:drawablePadding="5dp"
+                            android:padding="5dp"
+                            android:text="@string/gender"
+                            android:textColor="@color/red"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/profile_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/Nocolor"
+                            android:enabled="false"
+                            android:fontFamily="serif"
+                            android:gravity="center_vertical"
+                            android:padding="3dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textColorHint="@color/colorWhiteLight"
+                            android:textSize="14sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:background="@drawable/edit_bac_s"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:drawableStart="@drawable/ic_date_range_black_24dp"
+                            android:drawableTint="@color/red"
+                            android:drawablePadding="5dp"
+                            android:padding="5dp"
+                            android:text="@string/date_of_birth"
+                            android:textColor="@color/red"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/profile_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/Nocolor"
+                            android:enabled="false"
+                            android:fontFamily="serif"
+                            android:gravity="center_vertical"
+                            android:padding="3dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textColorHint="@color/colorWhiteLight"
+                            android:textSize="14sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:background="@drawable/edit_bac_s"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:drawableStart="@drawable/ic_person_black_24dp"
+                            android:drawableTint="@color/red"
+                            android:drawablePadding="5dp"
+                            android:padding="5dp"
+                            android:text="@string/national_id"
+                            android:textColor="@color/red"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/profile_national_No"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="3dp"
+                            android:background="@color/Nocolor"
+                            android:fontFamily="serif"
+                            android:maxLength="10"
+                            android:nextFocusDown="@id/signUp_first_name"
+                            android:singleLine="true"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textCursorDrawable="@null"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:background="@drawable/edit_bac_s"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:drawableStart="@drawable/ic_edit"
+                            android:drawableTint="@color/red"
+                            android:drawablePadding="5dp"
                             android:layout_weight="1"
                             android:text="@string/name_of_fourth_syllables"
                             android:enabled="false"
@@ -227,17 +255,17 @@
                             android:textColor="@color/red"
                             android:textColorHint="@color/colorWhiteLight"
                             android:textSize="14sp"
-                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMaxTextSize="15sp"
                             app:autoSizeMinTextSize="12sp"
                             app:autoSizeStepGranularity="2sp"
                             app:autoSizeTextType="uniform"/>
+
                         <LinearLayout
                             android:id="@+id/profile_nameLinear"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:orientation="horizontal">
-
 
                                 <EditText
                                     android:id="@+id/profile_first_name"
@@ -257,9 +285,6 @@
                                     app:autoSizeMinTextSize="12sp"
                                     app:autoSizeStepGranularity="2sp"
                                     app:autoSizeTextType="uniform" />
-
-
-
 
                                 <EditText
                                     android:id="@+id/profile_second_name"
@@ -282,9 +307,6 @@
                                     app:autoSizeStepGranularity="2sp"
                                     app:autoSizeTextType="uniform" />
 
-
-
-
                             <EditText
                                 android:id="@+id/profile_third_name"
                                 android:layout_width="match_parent"
@@ -303,8 +325,6 @@
                                 app:autoSizeMinTextSize="12sp"
                                 app:autoSizeStepGranularity="2sp"
                                 app:autoSizeTextType="uniform" />
-
-
 
                             <EditText
                                 android:id="@+id/profile_fourth_name"
@@ -330,141 +350,164 @@
 
                     </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-                    android:hint="@string/phone_no"
-                    android:textColorHint="@color/red"
-                    app:hintTextColor="@color/colorWhiteLight">
-
-                    <EditText
-                        android:id="@+id/profile_phone"
+                    <LinearLayout
+                        android:background="@drawable/edit_bac_s"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:drawableStart="@drawable/ic_local_phone_black_24dp"
+                            android:drawableTint="@color/red"
+                            android:drawablePadding="5dp"
+                            android:padding="5dp"
+                            android:text="@string/phone_number"
+                            android:textColor="@color/red"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/profile_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="3dp"
+                            android:autoLink="phone"
+                            android:linksClickable="true"
+                            android:background="@color/Nocolor"
+                            android:fontFamily="serif"
+                            android:maxLength="10"
+                            android:nextFocusDown="@id/signUp_first_name"
+                            android:singleLine="true"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textCursorDrawable="@null"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:background="@drawable/edit_bac_s"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="@color/Nocolor"
-                        android:drawableLeft="@drawable/ic_local_phone_black_24dp"
-                        android:drawablePadding="5dp"
-                        android:enabled="false"
-                        android:fontFamily="serif"
-                        android:maxLength="10"
-                        android:nextFocusDown="@id/signUp_address"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/colorWhiteLight"
-                        android:textCursorDrawable="@null"
-                        android:textSize="14sp"
-                        app:autoSizeMaxTextSize="18sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
-
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-                    android:hint="@string/address"
-                    android:textColorHint="@color/red"
-                    app:hintTextColor="@color/colorWhiteLight">
-
-                    <EditText
-                        android:id="@+id/profile_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:drawableStart="@drawable/ic_location_on_black_24dp"
+                            android:drawableTint="@color/red"
+                            android:drawablePadding="5dp"
+                            android:padding="5dp"
+                            android:text="@string/address"
+                            android:textColor="@color/red"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/profile_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="3dp"
+                            android:background="@color/Nocolor"
+                            android:fontFamily="serif"
+                            android:maxLength="10"
+                            android:nextFocusDown="@id/signUp_first_name"
+                            android:singleLine="true"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textCursorDrawable="@null"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:background="@drawable/edit_bac_s"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="@color/Nocolor"
-                        android:drawableLeft="@drawable/ic_location_on_black_24dp"
-                        android:drawablePadding="5dp"
-
-                        android:fontFamily="serif"
-                        android:nextFocusDown="@id/signUp_email"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/colorWhiteLight"
-                        android:textColorHint="@color/colorWhiteLight"
-                        android:textCursorDrawable="@null"
-                        android:textSize="14sp"
-                        app:autoSizeMaxTextSize="20sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-                    android:hint="@string/e_mail"
-                    android:textColorHint="@color/red"
-                    app:hintTextColor="@color/colorWhiteLight">
-
-                    <EditText
-                        android:id="@+id/profile_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:drawableStart="@drawable/ic_email"
+                            android:drawableTint="@color/red"
+                            android:drawablePadding="5dp"
+                            android:padding="5dp"
+                            android:text="@string/e_mail"
+                            android:textColor="@color/red"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/profile_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="3dp"
+                            android:background="@color/Nocolor"
+                            android:fontFamily="serif"
+                            android:maxLength="10"
+                            android:nextFocusDown="@id/signUp_first_name"
+                            android:singleLine="true"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textCursorDrawable="@null"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:background="@drawable/edit_bac_s"
+                        android:visibility="gone"
                         android:layout_weight="1"
-                        android:background="@color/Nocolor"
-                        android:drawableLeft="@drawable/ic_email_black_24dp"
-                        android:drawablePadding="5dp"
-                        android:fontFamily="serif"
-                        android:inputType="textEmailAddress"
-                        android:nextFocusDown="@id/signUp_password"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/colorWhiteLight"
-                        android:textColorHint="@color/colorWhiteLight"
-                        android:textCursorDrawable="@null"
-                        android:textSize="14sp"
-                        app:autoSizeMaxTextSize="20sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_bac_s"
-                    android:hint="@string/password"
-                    android:textColorHint="@color/red"
-                    app:hintTextColor="@color/colorWhiteLight">
-                    <EditText
-                        android:id="@+id/profile_password"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                        android:layout_weight="1"
-                        android:background="@color/Nocolor"
-                        android:drawableLeft="@drawable/ic_https_black_24dp"
-                        android:drawablePadding="5dp"
-                        android:fontFamily="serif"
-                        android:padding="10dp"
-                        android:textColor="@color/colorWhiteLight"
-                        android:textColorHint="@color/colorWhiteLight"
-                        android:textCursorDrawable="@null"
-                        android:textSize="14sp"
-                        app:autoSizeMaxTextSize="20sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            android:drawableStart="@drawable/ic_https_black_24dp"
+                            android:drawableTint="@color/red"
+                            android:drawablePadding="5dp"
+                            android:padding="5dp"
+                            android:text="@string/national_id"
+                            android:textColor="@color/red"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/profile_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="3dp"
+                            android:background="@color/Nocolor"
+                            android:fontFamily="serif"
+                            android:maxLength="10"
+                            android:nextFocusDown="@id/signUp_first_name"
+                            android:singleLine="true"
+                            android:textColor="@color/colorWhiteLight"
+                            android:textCursorDrawable="@null"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform" />
+                    </LinearLayout>
 
                 </LinearLayout>
 

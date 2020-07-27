@@ -13,6 +13,8 @@
             android:layout_height="match_parent"
             android:background="@drawable/clear_buttons"
             android:orientation="vertical"
+            android:layoutDirection="locale"
+            android:textDirection="locale"
             android:padding="20dp">
 
             <LinearLayout
@@ -27,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="6dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:fontFamily="sans-serif-light"
                     android:padding="10dp"
                     android:text="@string/sing_up"
@@ -155,7 +157,7 @@
                                android:layout_width="match_parent"
                                android:layout_height="wrap_content"
                                android:layout_weight="1"
-                               android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                               android:drawableStart="@drawable/ic_date_range_black_24dp"
                                android:gravity="center_vertical"
                                android:singleLine="true"
                                android:padding="5dp"
@@ -197,6 +199,7 @@
                                    android:layout_height="wrap_content"
                                    app:ccp_contentColor="@color/white"
                                    app:ccp_defaultNameCode="JO"
+                                   app:ccp_showNameCode="false"
                                    />
 
                                <EditText
@@ -370,7 +373,7 @@
                                android:textColor="@color/white"
                                android:inputType="textCapWords"
                                android:fontFamily="serif"
-                               android:textSize="15sp"
+                               android:textSize="18sp"
                                android:singleLine="true"
                                android:nextFocusDown="@id/signUp_email"
                                android:backgroundTint="@color/white"
@@ -496,10 +499,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="clip_horizontal|center"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:orientation="vertical">
 
                 <Button
@@ -507,8 +510,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="@drawable/edit_bac_sinup"
-                    android:padding="5dp"
+                    android:background="@drawable/edit_bac_sinup2"
+                    android:paddingHorizontal="50dp"
                     android:text="@string/save"
                     android:textSize="14sp"
                     android:fontFamily="serif"

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Cheque editor</string>
-    <string name="cheque_app">شكاتي</string>
+    <string name="cheque_app">شيكاتي</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
+
+    <string name="version">رقم الاصدار</string>
+    <string name="developers">عن المطورين</string>
 
     <string name="user_name">اسم المستخدم (رقم الهاتف)</string>
     <string name="password">كلمة السر</string>
     <string name="sing_in">دخول</string>
-    <string name="sing_up">تسجيل</string>
+    <string name="sing_up">مستخدم جديد</string>
     <string name="national_no">الرقم الوطني</string>
     <string name="first_name">الاسم الاول</string>
     <string name="second_name">الاسم الثاني</string>
@@ -31,7 +34,7 @@
     <string name="order_to">لامر</string>
     <string name="company_optional">الشركه (اختياري)</string>
     <string name="notes_optional">ملاحظه (اختياري)</string>
-    <string name="amount">$المبلغ</string>
+    <string name="amount">المبلغ</string>
     <string name="dinar">دينار</string>
     <string name="phils">فلس</string>
     <string name="amount_in_word">المبلغ بالكلمات</string>
@@ -39,7 +42,7 @@
     <string name="send">ارسال</string>
     <string name="please_scan_the_barcode_to_continue_editing_the_check">الرجاء مسح  QR Code لاستمرار تحرير الشك ...</string>
     <string name="scan_barcode">مسح QR Code </string>
-    <string name="have_a_problem">يوجد مشكله!</string>
+    <string name="have_a_problem">مساعدة !</string>
     <string name="check">اختيار</string>
     <string name="serial_no">الرقم التسلسلي </string>
     <string name="log_history">تقرير </string>
@@ -99,7 +102,7 @@
     <string name="thisusernotcheq">This user not has this check.</string>
     <string name="cheq_acc">*** CHEQUE ACCOUNT ***</string>
     <string name="Dear">السيد</string>
-    <string name="verification">تأكيد</string>
+    <string name="verification">تاكد من صحة الشيك</string>
     <string name="required">حقل اجباري</string>
     <string name="newRequest">طلب جديد</string>
     <string name="company">الشركة</string>
@@ -182,10 +185,11 @@
     <string name="Note">ملاحظة </string>
     <string name="CO">بالحساب فقط</string>
 
-    <string name="from">من</string>
+    <string name="from">اسم المرسل</string>
     <string name="to">الى</string>
     <string name="age_constrict">العمر اقل من 18 سنة!</string>
     <string name="mr_mrs">Mr. / Mrs</string>
+    <string name="beneficiary_phone">رقم هاتف المستفيد</string>
     <string name="send_">صادر</string>
     <string name="receive_">وارد</string>
     <string name="only_cheque">شيك فقط</string>

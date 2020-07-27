@@ -62,6 +62,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -119,30 +120,43 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         if (language.equals("ar")) {
             viewHolder.mainLinearAdapter.setLayoutDirection(LAYOUT_DIRECTION_RTL);
             viewHolder.lineardetail.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-
-//            viewHolder.lineardetail.setBackground(context.getResources().getDrawable(R.drawable.left_background));
-            viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-//            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
+//            viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
             viewHolder.source_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
+            viewHolder.date_check.setText(viewHolder.convertToArabic(notificationList.get(i).getDate()));
         } else {
             viewHolder.mainLinearAdapter.setLayoutDirection(LAYOUT_DIRECTION_LTR);
             viewHolder.lineardetail.setLayoutDirection(LAYOUT_DIRECTION_LTR);
 //            viewHolder.lineardetail.setBackground(context.getResources().getDrawable(R.drawable.accept_background));
 
             viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-//            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+
             viewHolder.source_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+            viewHolder.date_check.setText(notificationList.get(i).getDate());
 
         }
 
-        viewHolder.date_check.setText(notificationList.get(i).getDate());
+
         if(!checkInfoNotification.get(i).getMoneyInFils().equals("0"))
         {
-            viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+".");
-            viewHolder.amount_Filis.setText(checkInfoNotification.get(i).getMoneyInFils()+"\tJD");
+            if (language.equals("ar")) {
+                viewHolder.amount_check.setText(viewHolder.convertToArabic(notificationList.get(i).getAmount_check())+".");
+                viewHolder.amount_Filis.setText(viewHolder.convertToArabic(checkInfoNotification.get(i).getMoneyInFils()));
+                //+"\tد.أ"
+            }
+            else {
+                viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+".");
+                viewHolder.amount_Filis.setText(checkInfoNotification.get(i).getMoneyInFils()+"\tJD");
+            }
+
         }
         else {
-            viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+"\tJD");
+            if (language.equals("ar")) {
+                viewHolder.amount_check.setText(viewHolder.convertToArabic(notificationList.get(i).getAmount_check())+"\tد.أ");
+            }
+            else {
+                viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+"\tJD");
+            }
+
 
         }
         viewHolder.source_check.setText(notificationList.get(i).getSource());
@@ -298,6 +312,11 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             dialog.show();
         }
 
+        public String convertToArabic(String value) {
+            String newValue = (((((((((((value + "").replaceAll("1", "١")).replaceAll("2", "٢")).replaceAll("3", "٣")).replaceAll("4", "٤")).replaceAll("5", "٥")).replaceAll("6", "٦")).replaceAll("7", "٧")).replaceAll("8", "٨")).replaceAll("9", "٩")).replaceAll("0", "٠"));
+            Log.e("convertToArabic", value + "      " + newValue);
+            return newValue;
+        }
         public void showDetails() {
             progressDialog = new ProgressDialog(context);
             final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);

@@ -40,5 +40,6 @@
     <color name="Alpha">#00F6F7F5</color>
     <color name="primary">#00000000</color>
     <color name="dark_gray2">#424040</color>
+    <color name="light_gray">#878383</color>
 
 </resources>

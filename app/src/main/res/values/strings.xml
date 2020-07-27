@@ -3,8 +3,8 @@
     <string name="cheque_app">ChequeAti</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
-    <string name="version">Version</string>
-    <string name="version_num"> 1</string>
+    <string name="version">App Version</string>
+    <string name="version_num"> 10</string>
     <string name="developers">Developers</string>
 
     <string name="user_name">Username (Mobile No)</string>
@@ -215,6 +215,5 @@
     <string name="range_of_cheque">Range of Cheque</string>
     <string name="uplode_lost_report">upLode Lost Report</string>
     <string name="ex_13001_13010">ex. 13001-13010</string>
-
-
+    <string name="beneficiary_phone">Beneficiary Phone</string>
 </resources>

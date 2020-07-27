@@ -10,19 +10,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.PasswordTransformationMethod;
-import android.text.method.TransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -36,7 +31,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 
 import com.falconssoft.centerbank.Models.ChequeInfo;
@@ -44,9 +38,7 @@ import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.Setting;
 import com.falconssoft.centerbank.databinding.LogInBinding;
 import com.falconssoft.centerbank.mail.LongOperation;
-import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
 import com.falconssoft.centerbank.viewmodel.SignupVM;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -76,20 +68,17 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static com.falconssoft.centerbank.AlertScreen.ROW_ID_PREFERENCE;
-import static com.falconssoft.centerbank.AlertScreen.editor;
-import static com.falconssoft.centerbank.AlertScreen.sharedPreferences;
+import static com.falconssoft.centerbank.LocaleAppUtils.language;
 import static com.falconssoft.centerbank.SingUpActivity.PAGE_NAME;
 
 public class LogInActivity extends AppCompatActivity {
 
     //    private EditText userName, password;
 //    private Button singIn, singUp;
-    private String language = "";
+//    private String language = "";
     private ImageView SettingImage, close;//, seen;
     private DatabaseHandler databaseHandler;
     private Animation animation;
@@ -113,7 +102,7 @@ public class LogInActivity extends AppCompatActivity {
     private int checkedRemember = -1;// -1 => mean not checked , 0 => not checked, 1=> checked
     public static String ROW_ID_PREFERENCE = "ROW_ID_PREFERENCE";
     private CountryCodePicker ccp;
-    String serverLink="";
+    String serverLink = "";
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -129,17 +118,12 @@ public class LogInActivity extends AppCompatActivity {
         editor.putString("link", "http://falconssoft.net/ScanChecks/APIMethods.dll/");
         editor.apply();
 
-        LocaleAppUtils.language=language;
-        if (language.equals("ar")) {
+        new LocaleAppUtils().changeLayot(LogInActivity.this);
 
-            LocaleAppUtils.setLocale(new Locale("ar"));
-            LocaleAppUtils.setConfigChange(LogInActivity.this);
-        } else {
-            LocaleAppUtils.setLocale(new Locale("en"));
-            LocaleAppUtils.setConfigChange(LogInActivity.this);
-        }
         binding = DataBindingUtil.setContentView(this, R.layout.log_in);
 //        setContentView(R.layout.log_in);//binding.getRoot()
+        if (language.equals("ar"))
+            binding.LogInPassword.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
 
         init();
 //        databaseHandler.deleteLoginInfo();
@@ -147,42 +131,10 @@ public class LogInActivity extends AppCompatActivity {
         buttonsClickHandler = new ButtonsClickHandler(this);
         binding.setClickHandler(buttonsClickHandler);
 
-        checkLanguage();
         Log.e("editing,login ", language);
-
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
-
-//        singIn.setOnClickListener(this);
-//        singUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent mainActivityIntent = new Intent(LogInActivity.this, SingUpActivity.class);
-//                startActivity(mainActivityIntent);
-//            }
-//        });
-
-//        arabic.setOnClickListener(this);
-//        english.setOnClickListener(this);
-//        checkValidation.setOnClickListener(this);
-//        forgetPassword.setOnClickListener(this);
-
-//        seen.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                if (binding.LogInPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) { //password
-//                    seen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility));
-//                    binding.LogInPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// password
-//                    binding.LogInPassword.setTransformationMethod(new PasswordTransformationMethod());// password
-//                } else {
-//                    seen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
-//                    binding.LogInPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);// password
-//                    binding.LogInPassword.setTransformationMethod(null);//password
-//                }
-//                return false;
-//            }
-//        });
 
 //        SettingImage.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -192,7 +144,7 @@ public class LogInActivity extends AppCompatActivity {
 //        });
 
         SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-         serverLink = loginPrefs1.getString("link", "");
+        serverLink = loginPrefs1.getString("link", "");
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
@@ -268,7 +220,7 @@ public class LogInActivity extends AppCompatActivity {
                     showDialog();
                     new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
                 } else {
-                    binding.setError("Required!");
+                    binding.setError(getResources().getString(R.string.required));
                 }
 //                else {
 //                    binding.setError("Phone number not correct!!");
@@ -517,8 +469,6 @@ public class LogInActivity extends AppCompatActivity {
     }
 
 
-
-
     public String convertToArabic(String value) {
         String newValue = (((((((((((value + "").replaceAll("1", "١")).replaceAll("2", "٢")).replaceAll("3", "٣")).replaceAll("4", "٤")).replaceAll("5", "٥")).replaceAll("6", "٦")).replaceAll("7", "٧")).replaceAll("8", "٨")).replaceAll("9", "٩")).replaceAll("0", "٠"));
         Log.e("convertToArabic", value + "      " + newValue);
@@ -584,7 +534,7 @@ public class LogInActivity extends AppCompatActivity {
                 chequeWriterTV.setText(customerName);
                 accountNoTV.setText(convertToArabic(accountNo));
                 chequeNoTV.setText(convertToArabic(chequeNo));
-            }else {
+            } else {
                 LocaleAppUtils.setLocale(new Locale("en"));
                 LocaleAppUtils.setConfigChange(LogInActivity.this);
                 chequeWriterTV.setText(customerName);
@@ -617,7 +567,6 @@ public class LogInActivity extends AppCompatActivity {
         }
 
     }
-
 
 
     void showDialog() {
@@ -710,7 +659,7 @@ public class LogInActivity extends AppCompatActivity {
 
         databaseHandler = new DatabaseHandler(LogInActivity.this);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please Waiting...");
+        progressDialog.setMessage(getResources().getString(R.string.please_waiting));
 //        userName = findViewById(R.id.LogInUserName);
 //        password = findViewById(R.id.LogInPassword);
 //        singIn = findViewById(R.id.LogInSingIn);
@@ -1351,7 +1300,7 @@ public class LogInActivity extends AppCompatActivity {
                                     .setContentText("Cheque Cashed")
                                     .show();
 
-                        }else {
+                        } else {
 
                             new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                     .setTitleText(" Cheque ")
@@ -1359,8 +1308,6 @@ public class LogInActivity extends AppCompatActivity {
                                     .show();
                         }
                     }
-
-
 
 
                 } catch (JSONException e) {
