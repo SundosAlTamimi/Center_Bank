@@ -568,6 +568,16 @@ public class JeroActivity extends AppCompatActivity {
             }
         });
 
+        phoneNos.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                {
+                new SharedClass(JeroActivity.this).showPhoneOptions(phoneNos.getText().toString());
+                return true;
+                }
+            }
+        });
+
     }
 
 

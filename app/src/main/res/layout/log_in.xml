@@ -166,6 +166,7 @@
                 <EditText
                     android:id="@+id/LogInUserName"
                     android:text="@{loginModel.username}"
+                    android:onLongClick="@{clickHandler::onLongClickPhone}"
                     app:seterrormessage="@{error}"
                     android:layout_weight="1"
                     android:hint="@string/_7xxxxxxxx"

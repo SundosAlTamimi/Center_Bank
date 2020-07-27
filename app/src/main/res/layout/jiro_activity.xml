@@ -372,6 +372,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
+                            android:autoLink="phone"
+                            android:linksClickable="true"
                             android:nextFocusDown="@+id/editorCheque_nationalNo"
                             android:layout_margin="2dp"
                             android:background="@color/Nocolor"
