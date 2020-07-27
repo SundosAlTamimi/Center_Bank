@@ -68,9 +68,10 @@
     <string name="amount_word">المبلغ</string>
     <string name="cheque_endorsement">نقل ملكية الشيك</string>
     <string name="wallet">محفظه</string>
-    <string name="ch_status">حالة الشيك  : </string>
+    <string name="ch_status">حالة الشيك   </string>
     <string name="chWriter">مصدر الشيك </string>
     <string name="chBf">المستفيد </string>
+    <string name="chBf_">المستفيد </string>
     <string name="rej">رفض</string>
     <string name="acccept">قبول</string>
     <string name="pending">معلق</string>
@@ -127,7 +128,7 @@
     <string name="corporate">شركات</string>
     <string name="join_account">مشترك</string>
     <string name="resend">اعادة ارسال</string>
-    <string name="cashed">Cashed</string>
+    <string name="cashed">مصروف</string>
 
     <string name="gender">الجنس</string>
     <string name="male">ذكر</string>
@@ -185,4 +186,10 @@
     <string name="to">الى</string>
     <string name="age_constrict">العمر اقل من 18 سنة!</string>
     <string name="mr_mrs">Mr. / Mrs</string>
+    <string name="send_">صادر</string>
+    <string name="receive_">وارد</string>
+    <string name="only_cheque">شيك فقط</string>
+    <string name="range_of_cheque">مجموعة شكات</string>
+    <string name="uplode_lost_report">تحميل صوره عن تقرير الفقد</string>
+    <string name="ex_13001_13010">ex. 13001-13010</string>
 </resources>

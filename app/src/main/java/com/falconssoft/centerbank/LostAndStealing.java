@@ -53,6 +53,7 @@ public class LostAndStealing extends AppCompatActivity {
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new LocaleAppUtils().changeLayot(LostAndStealing.this);
         setContentView(R.layout.lost_stealing);
 
         initial();
@@ -184,7 +185,7 @@ public class LostAndStealing extends AppCompatActivity {
         Date date = new Date();
         DateFormat df = new SimpleDateFormat("_mm_ss");
 
-        String newPicFile = "in" + ".png";
+        String newPicFile = "Lost" + ".png";
         String outPath = Environment.getExternalStorageDirectory() + File.separator + newPicFile;
         Log.e("Lost", "" + outPath);
         File outFile = new File(outPath);

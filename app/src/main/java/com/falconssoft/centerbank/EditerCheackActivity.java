@@ -163,20 +163,18 @@ public class EditerCheackActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        new LocaleAppUtils().changeLayot(EditerCheackActivity.this);
         setContentView(R.layout.editer_check_layout);
 
         initi();
-//        arr=new String[5];
-        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
-        language = prefs.getString("language", "en");//"No name defined" is the default value.
-        Log.e("editing,3 ", language);
+
         chequeInfoReSendEd = new ChequeInfo();
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs.getString("link", "");
         phoneNoUser = loginPrefs.getString("mobile", "");
 
-        checkLanguage();
 
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
@@ -1122,6 +1120,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         Log.e("VerifyCheck 849", "" + "JSONTask dialog");
         if (check) {
             Log.e("VerifyCheck 851", "JSONTask dialog in ");
+            new LocaleAppUtils().changeLayot(EditerCheackActivity.this);
 
             final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1137,15 +1136,12 @@ public class EditerCheackActivity extends AppCompatActivity {
             cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
 
 
-            if (language.trim().equals("ar")) {
-                LocaleAppUtils.setLocale(new Locale("ar"));
-                LocaleAppUtils.setConfigChange(EditerCheackActivity.this);
+            if (LocaleAppUtils.language.equals("ar")) {
                 chequeWriterTV.setText(customerName);
                 accountNoTV.setText(convertToArabic(accountNo));
                 chequeNoTV.setText(convertToArabic(chequeNo));
             } else {
-                LocaleAppUtils.setLocale(new Locale("en"));
-                LocaleAppUtils.setConfigChange(EditerCheackActivity.this);
+
                 chequeWriterTV.setText(customerName);
                 accountNoTV.setText(accountNo);
                 chequeNoTV.setText(chequeNo);
@@ -1154,7 +1150,6 @@ public class EditerCheackActivity extends AppCompatActivity {
             okTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    checkLanguage();
                     new IsCheckForThisAcc().execute();
 //                    linerEditing.setVisibility(View.VISIBLE);
 //                    linerBarcode.setVisibility(View.GONE);

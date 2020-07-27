@@ -119,6 +119,7 @@ public class JeroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new LocaleAppUtils().changeLayot(JeroActivity.this);
         setContentView(R.layout.jiro_activity);
 
 
@@ -292,12 +293,12 @@ public class JeroActivity extends AppCompatActivity {
                     listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
                     cheqNo.setTag("0");
-                    cheqNo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_upward_black_24dp, 0);
+                    cheqNo.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_arrow_upward_black_24dp, 0,0, 0);
                 } else if (cheqNo.getTag().toString().equals("0")) {
                     Collections.reverse(ChequeInfoGiro);
                     listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
-                    cheqNo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_downward_black_24dp, 0);
+                    cheqNo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_downward_black_24dp, 0, 0, 0);
 
                     cheqNo.setTag("1");
                 }
@@ -316,12 +317,12 @@ public class JeroActivity extends AppCompatActivity {
                     listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
                     dateText.setTag("0");
-                    dateText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_downward_black_24dp, 0);
+                    dateText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_downward_black_24dp, 0,0 , 0);
                 } else if (dateText.getTag().toString().equals("0")) {
                     Collections.reverse(ChequeInfoGiro);
                     listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
-                    dateText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_upward_black_24dp, 0);
+                    dateText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_upward_black_24dp, 0, 0, 0);
 
                     dateText.setTag("1");
                 }
@@ -340,13 +341,13 @@ public class JeroActivity extends AppCompatActivity {
                 if (customName.getTag().toString().equals("1")) {
                     ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
-                    customName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_upward_black_24dp, 0);
+                    customName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_upward_black_24dp, 0, 0, 0);
                     customName.setTag("0");
                 } else if (customName.getTag().toString().equals("0")) {
                     Collections.reverse(ChequeInfoGiro);
                     ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
                     listGiro.setAdapter(listAdapterLogHistory);
-                    customName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_downward_black_24dp, 0);
+                    customName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_downward_black_24dp, 0, 0, 0);
                     customName.setTag("1");
                 }
 
