@@ -21,57 +21,79 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_margin="6dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:text="@string/my_cheques"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="22sp"
+                    android:textCursorDrawable="@null"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
+                    app:fontFamily="sans-serif-smallcaps" />
 
-                    <TextView
-                        android:layout_marginEnd="1dp"
-                        android:textSize="15sp"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:fontFamily="serif"
-                        android:padding="10dp"
-                        android:text="@string/cheque_number_"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"/>
-
-                    <View
-                        android:layout_margin="5dp"
-                        android:background="@color/red"
-                        android:layout_width="1dp"
-                        android:layout_height="40dp"/>
-
-                    <TextView
-                        android:textSize="15sp"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:fontFamily="serif"
-                        android:padding="10dp"
-                        android:text="@string/account_no"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"/>
-
-
-                </LinearLayout>
-
-                <View
-                    android:visibility="gone"
-                    android:layout_margin="5dp"
-                    android:background="@color/red"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/owner_recyclerView"
-                    android:padding="5dp"
-                    android:background="@drawable/back_black"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    />
+                    android:background="@drawable/edit_bac_s"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_marginEnd="1dp"
+                            android:textSize="15sp"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:fontFamily="serif"
+                            android:padding="10dp"
+                            android:text="@string/cheque_number_"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"/>
+
+                        <View
+                            android:layout_margin="5dp"
+                            android:background="@color/red"
+                            android:layout_width="1dp"
+                            android:layout_height="40dp"/>
+
+                        <TextView
+                            android:textSize="15sp"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:fontFamily="serif"
+                            android:padding="10dp"
+                            android:text="@string/account_no"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"/>
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:background="@color/red"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/owner_recyclerView"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
 
     </RelativeLayout>

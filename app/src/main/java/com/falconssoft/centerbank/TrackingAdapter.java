@@ -1,7 +1,6 @@
 package com.falconssoft.centerbank;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.TypedArrayUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
@@ -25,13 +25,11 @@ import static android.graphics.Color.RED;
 class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewHolder> {
 
     private List<ChequeInfoVM> list;
-    private Activity activity;
-    private String language;
+    private Activity context;
 
-    public TrackingAdapter(Activity activity, List<ChequeInfoVM> list, String language) {
+    public TrackingAdapter(Activity activity, List<ChequeInfoVM> list) {
         this.list = list;
-        this.activity = activity;
-        this.language = language;
+        this.context = activity;
     }
 
     @NonNull
@@ -47,7 +45,7 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TrackingViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final TrackingViewHolder holder, final int position) {
 //        Item item = items.get(position);
 //
 //        ItemViewHolder itemViewHolder = (ItemViewHolder)holder;
@@ -58,7 +56,12 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
         holder.date.setText(list.get(position).getCheckDueDate());
         holder.beneficiary.setText(list.get(position).getReceiverName());
 //        holder.nationalNo.setText(list.get(position).getReceiverNationalID());
-        holder.phone.setText("+" + list.get(position).getReceiverMobileNo());
+
+        if (LocaleAppUtils.language.equals("en"))
+            holder.phone.setText("+" + list.get(position).getReceiverMobileNo());
+        else
+            holder.phone.setText(list.get(position).getReceiverMobileNo() + "+");
+
         holder.from.setText(list.get(position).getUserName());
 
         String sendState = "";
@@ -110,20 +113,31 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
             }
         });
 
-        if (language.equals("ar")) {
-            holder.dateLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            holder.fromLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-//            holder.nationalLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            holder.phoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            holder.beneficiaryLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        holder.phone.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                {
+                    Log.e("track/mobile", list.get(position).getReceiverMobileNo());
+                    new SharedClass(context).showPhoneOptions(list.get(position).getReceiverMobileNo());
+                    return true;
+                }
+            }
+        });
 
-        } else {
-            holder.dateLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            holder.fromLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-//            holder.nationalLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            holder.phoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            holder.beneficiaryLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-        }
+//        if (language.equals("ar")) {
+//            holder.dateLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//            holder.fromLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+////            holder.nationalLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//            holder.phoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//            holder.beneficiaryLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//
+//        } else {
+//            holder.dateLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+//            holder.fromLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+////            holder.nationalLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+//            holder.phoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+//            holder.beneficiaryLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+//        }
 
     }
 

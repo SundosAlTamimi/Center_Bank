@@ -26,7 +26,6 @@ public class TrackingCheque extends AppCompatActivity {
     private List<ChequeInfoVM> list = new ArrayList<>();
     private DatabaseHandler handler;
     private ChequeInfoVM chequeInfoVM;
-    public String language = "";
 
 
     @Override
@@ -36,8 +35,8 @@ public class TrackingCheque extends AppCompatActivity {
         new LocaleAppUtils().changeLayot(TrackingCheque.this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tracking_cheque);
 
-        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
-        language = prefs.getString("language", "en");
+//        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
+//        language = prefs.getString("language", "en");
 //        handler = new DatabaseHandler(this);
 //        new Presenter(this).trackingCheque(this, handler.getActiveUserInfo().getUsername(), binding);
 
@@ -50,7 +49,7 @@ public class TrackingCheque extends AppCompatActivity {
         binding.trackingAccountNo.setText(chequeInfoVM.getAccCode().substring(1));
         binding.trackingChequeNo.setText(chequeInfoVM.getChequeNo());
 
-        checkLanguage();
+//        checkLanguage();
         Log.e("getChequeData", "" + chequeInfoVM.getChequeNo());
 
 
@@ -62,21 +61,21 @@ public class TrackingCheque extends AppCompatActivity {
 
     public void fillAdapter(List<ChequeInfoVM> list, ActivityTrackingChequeBinding binding) {
         binding.trackingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TrackingAdapter(this, list, language);
+        adapter = new TrackingAdapter(this, list);
         binding.trackingRecyclerView.setAdapter(adapter);
     }
 
-    void checkLanguage() {
-
-        if (language.equals("ar")) {
-            binding.trackingLinearAccountNo.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            binding.trackingLinearChequeNo.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        } else {
-
-            binding.trackingLinearAccountNo.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            binding.trackingLinearChequeNo.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);        }
-
-    }
+//    void checkLanguage() {
+//
+//        if (language.equals("ar")) {
+//            binding.trackingLinearAccountNo.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//            binding.trackingLinearChequeNo.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//        } else {
+//
+//            binding.trackingLinearAccountNo.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+//            binding.trackingLinearChequeNo.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);        }
+//
+//    }
 
 
 }

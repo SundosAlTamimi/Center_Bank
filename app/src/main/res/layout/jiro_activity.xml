@@ -31,12 +31,10 @@
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/edit_bac_s"
-                android:drawableStart="@drawable/ic_swap"
-                android:drawableTint="@color/white"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:padding="5dp"
+                app:fontFamily="sans-serif-smallcaps"
                 android:text="@string/giro"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

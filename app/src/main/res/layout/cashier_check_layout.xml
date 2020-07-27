@@ -72,6 +72,7 @@
                         android:backgroundTint="@color/white"
                         android:drawableStart="@drawable/ic_bank"
                         android:drawablePadding="10dp"
+                        android:drawableTint="@color/white"
                         android:fontFamily="sans-serif-light"
                         android:padding="5dp"
                         android:text="@string/bank"

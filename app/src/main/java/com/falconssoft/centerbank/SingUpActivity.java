@@ -165,7 +165,7 @@ public class SingUpActivity extends AppCompatActivity {
 //        if (!selectedAccount.equals(getResources().getString(R.string.account_type)))
 //            if (!selectedGender.equals(getResources().getString(R.string.gender)))        String localPassword = password.getText().toString();
 
-        if (currentYear - birthYear > 18 ? true : false)
+        if (currentYear - birthYear > 17 ? true : false)
             if (!TextUtils.isEmpty("" + localPhone))
                 if (localPhone.length() == 9)
                     if (!String.valueOf(localPhone.charAt(0)).equals("0"))

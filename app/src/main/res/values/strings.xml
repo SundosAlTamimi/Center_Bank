@@ -218,6 +218,7 @@
     <string name="uplode_lost_report">upLode Lost Report</string>
     <string name="ex_13001_13010">ex. 13001-13010</string>
     <string name="beneficiary_phone">Beneficiary Phone</string>
+    <string name="my_cheques">My Cheques</string>
     <string name="canReceive">*** Can Receive The Cheque ***</string>
     <string name="chequeCashed">Cheque Cashed</string>
     <string name="chequeNotFound">Check Data not found</string>
