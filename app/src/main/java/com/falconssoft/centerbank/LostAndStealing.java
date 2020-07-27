@@ -2,6 +2,8 @@ package com.falconssoft.centerbank;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,6 +17,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +29,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -49,6 +53,9 @@ public class LostAndStealing extends AppCompatActivity {
     ListView checkList;
     RadioButton onlyCheque,RangeCheque;
     EditText RangeEdText;
+    private static final int SELECT_IMAGE = 3;
+    int flag=0;
+    private Uri fileUri;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
@@ -118,11 +125,32 @@ public class LostAndStealing extends AppCompatActivity {
 //                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
                 isPermition = isStoragePermissionGranted();
                 if (isPermition) {
+                    flag=0;
                     cameraIntent();
                 }
 
             }
         });
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                flag=1;
+                openGallery();
+
+            }
+        });
+
+imageLost.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+
+        showImageOfCheck(serverPicBitmap);
+
+    }
+});
+
 
     }
 
@@ -133,6 +161,7 @@ public class LostAndStealing extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
+        if(flag==0){
         if (requestCode == 2) {
             if (data != null) {
                 image = data.getData();
@@ -171,12 +200,35 @@ public class LostAndStealing extends AppCompatActivity {
 //                showImageOfCheck(bitmap1);
 
             }
+        }}else {
+
+
+            if (resultCode == Activity.RESULT_OK)
+            {
+                if (data != null)
+                {
+                    fileUri = data.getData(); //added this line
+                    try {
+                        serverPicBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
+                        imageLost.setImageBitmap(serverPicBitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED)
+            {
+                Toast.makeText(getApplicationContext(), "Cancelled",     Toast.LENGTH_SHORT).show();
+            }
+
         }
 
     }
 
 
     private void cameraIntent() {
+        flag=0;
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         Intent intent = new Intent();
@@ -227,7 +279,7 @@ public class LostAndStealing extends AppCompatActivity {
 //            }else if (flagINoUT==2){
 //                ImportDbToMyApp();
 //            }
-
+            flag=0;
             cameraIntent();
 
         }
@@ -262,6 +314,24 @@ public class LostAndStealing extends AppCompatActivity {
             }
         }
 
+    }
+
+
+    private void openGallery(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"),SELECT_IMAGE);
+    }
+
+    public void showImageOfCheck(Bitmap bitmap) {
+        final Dialog dialog = new Dialog(LostAndStealing.this, R.style.Theme_Dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.show_image);
+        PhotoView photoDetail=  dialog.findViewById(R.id.image_check);
+        photoDetail.setImageBitmap(bitmap);
+        dialog.show();
     }
 
     void initial(){
