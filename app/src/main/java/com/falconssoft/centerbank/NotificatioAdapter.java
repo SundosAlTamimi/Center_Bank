@@ -59,7 +59,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -96,6 +99,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     String reson_reject="";
     private ProgressDialog progressDialog;
     AlertScreen contextAlert;
+    String amountArabic="";
 
 
     public NotificatioAdapter(Context context, List<notification> notifications) {
@@ -108,6 +112,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        new LocaleAppUtils().changeLayot(context);
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_for_notification, viewGroup, false);
 
         return new NotificatioAdapter.ViewHolder(view);
@@ -116,21 +121,13 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-
+       language= new LocaleAppUtils().getLocale();
+       Log.e("onBindViewHolder",""+language);
+        Date dateToday=null;
         if (language.equals("ar")) {
-            viewHolder.mainLinearAdapter.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-            viewHolder.lineardetail.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-//            viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-            viewHolder.source_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
+
             viewHolder.date_check.setText(viewHolder.convertToArabic(notificationList.get(i).getDate()));
         } else {
-            viewHolder.mainLinearAdapter.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-            viewHolder.lineardetail.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-//            viewHolder.lineardetail.setBackground(context.getResources().getDrawable(R.drawable.accept_background));
-
-            viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-
-            viewHolder.source_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
             viewHolder.date_check.setText(notificationList.get(i).getDate());
 
         }
@@ -139,9 +136,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         if(!checkInfoNotification.get(i).getMoneyInFils().equals("0"))
         {
             if (language.equals("ar")) {
-                viewHolder.amount_check.setText(viewHolder.convertToArabic(notificationList.get(i).getAmount_check())+".");
-                viewHolder.amount_Filis.setText(viewHolder.convertToArabic(checkInfoNotification.get(i).getMoneyInFils()));
-                //+"\tد.أ"
+                amountArabic=viewHolder.convertToArabic("\tد.أ\t"+notificationList.get(i).getAmount_check())+"."+viewHolder.convertToArabic(checkInfoNotification.get(i).getMoneyInFils());
+                Log.e("amountArabic",""+amountArabic);
+                viewHolder.amount_Filis.setText(amountArabic);
+
             }
             else {
                 viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+".");
@@ -151,7 +149,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         }
         else {
             if (language.equals("ar")) {
-                viewHolder.amount_check.setText(viewHolder.convertToArabic(notificationList.get(i).getAmount_check())+"\tد.أ");
+                viewHolder.amount_check.setText("\tد.أ\t"+viewHolder.convertToArabic(notificationList.get(i).getAmount_check()));
             }
             else {
                 viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+"\tJD");

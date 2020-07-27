@@ -123,6 +123,7 @@ public class AlertScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new LocaleAppUtils().changeLayot(AlertScreen.this);
         setContentView(R.layout.alert_main_screen);
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
@@ -131,15 +132,7 @@ public class AlertScreen extends AppCompatActivity {
 
         layout = (LinearLayout) findViewById(R.id.mainlayout);
         first = 1;
-        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
-        language = prefs.getString("language", "en");//"No name defined" is the default value.
-        Log.e("editing,3 ", language);
-        if (language.equals("ar")) {
-            layout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        } else {
-            layout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
-        }
 
         initialview();
         //  dataForTest();
@@ -151,7 +144,7 @@ public class AlertScreen extends AppCompatActivity {
         phoneNo=infoUser.getUsername();
         Log.e("phoneNoAlertScreen",""+phoneNo);
         progressDialog.show();
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getResources().getString(R.string.please_waiting));
         new GetAllCheck_JSONTask().execute();
         timer = new Timer();
         timer.schedule(new TimerTask() {
