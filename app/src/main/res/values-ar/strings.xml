@@ -31,7 +31,7 @@
     <string name="order_to">لامر</string>
     <string name="company_optional">الشركه (اختياري)</string>
     <string name="notes_optional">ملاحظه (اختياري)</string>
-    <string name="amount">$المبلغ</string>
+    <string name="amount">المبلغ</string>
     <string name="dinar">دينار</string>
     <string name="phils">فلس</string>
     <string name="amount_in_word">المبلغ بالكلمات</string>

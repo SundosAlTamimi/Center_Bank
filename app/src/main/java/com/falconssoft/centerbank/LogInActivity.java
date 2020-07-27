@@ -693,7 +693,7 @@ public class LogInActivity extends AppCompatActivity {
 
         databaseHandler = new DatabaseHandler(LogInActivity.this);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please Waiting...");
+        progressDialog.setMessage(getResources().getString(R.string.please_waiting));
 //        userName = findViewById(R.id.LogInUserName);
 //        password = findViewById(R.id.LogInPassword);
 //        singIn = findViewById(R.id.LogInSingIn);
