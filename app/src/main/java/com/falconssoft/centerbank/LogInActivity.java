@@ -468,7 +468,7 @@ public class LogInActivity extends AppCompatActivity {
         }
 
         public boolean onLongClickPhone(View view){
-            new SharedClass(LogInActivity.this).showPhoneOptions(binding.LogInUserName.getText().toString());
+            new SharedClass(LogInActivity.this).showPhoneOptions(countryCode + binding.LogInUserName.getText().toString());
             return true;
         }
     }
