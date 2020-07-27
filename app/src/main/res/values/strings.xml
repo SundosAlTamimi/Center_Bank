@@ -3,8 +3,8 @@
     <string name="cheque_app">ChequeAti</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
-    <string name="version">Version</string>
-    <string name="version_num"> 1</string>
+    <string name="version">App Version</string>
+    <string name="version_num"> 10</string>
     <string name="developers">Developers</string>
 
     <string name="user_name">Username (Mobile No)</string>
@@ -77,9 +77,10 @@
     <string name="NewCheck">New Cheque</string>
     <string name="cheque_endorsement">Giro</string>
     <string name="wallet">Wallet</string>
-    <string name="ch_status">Cheque Status :</string>
+    <string name="ch_status">Cheque Status </string>
     <string name="chWriter">Cheque Writer :</string>
     <string name="chBf">Cheque Beneficiary :</string>
+    <string name="chBf_">Cheque Beneficiary </string>
     <string name="rej">Reject</string>
     <string name="acccept">Accept</string>
     <string name="pending">pending</string>
@@ -203,13 +204,16 @@
     <string name="typehere">Type Here</string>
     <string name="cancel">Cancel</string>
     <string name="Note">Note</string>
-    <string name="CO">CO</string>
+    <string name="CO">C/O</string>
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="age_constrict">Your Age Is Less Than 18 Year!</string>
     <string name="mr_mrs">Mr. / Mrs</string>
-
-
-
-
+    <string name="send_">send</string>
+    <string name="receive_">Receive</string>
+    <string name="only_cheque">Only Cheque</string>
+    <string name="range_of_cheque">Range of Cheque</string>
+    <string name="uplode_lost_report">upLode Lost Report</string>
+    <string name="ex_13001_13010">ex. 13001-13010</string>
+    <string name="beneficiary_phone">Beneficiary Phone</string>
 </resources>

@@ -3,8 +3,11 @@ package com.falconssoft.centerbank;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -12,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.falconssoft.centerbank.Models.LoginINFO;
 
@@ -21,8 +25,8 @@ public class ProfilePage extends AppCompatActivity {
 
     private DatabaseHandler databaseHandler;
     private LoginINFO loginINFO;
-    private EditText firstName, secondName, thirdName, fourthName, address, email, password;
-    private TextView nationalID, phoneNo, accountType, gender, date;
+    private EditText firstName, secondName, thirdName, fourthName, address, email, password, phoneNo;
+    private TextView nationalID, accountType, gender, date;
     private String language;
     private Animation animation;
     private LinearLayout linearLayout;
@@ -30,6 +34,8 @@ public class ProfilePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        new LocaleAppUtils().changeLayot(ProfilePage.this);
         setContentView(R.layout.activity_profile_page);
 
         databaseHandler = new DatabaseHandler(this);
@@ -68,7 +74,26 @@ public class ProfilePage extends AppCompatActivity {
             gender.setText("Female");
         date.setText(loginINFO.getBirthDate());
 
-        checkLanguage();
+        phoneNo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                new SharedClass(ProfilePage.this).showPhoneOptions(phoneNo.getText().toString());
+
+//                Intent intent = new Intent(Intent.ACTION_DIAL);
+//                String mobile = "tel:+" + phoneNo.getText().toString();
+//                Log.e("mobile", mobile);
+//                intent.setData(Uri.parse(mobile));
+//                try {
+//                    startActivity(intent);
+//
+//                } catch (Exception e) {
+//                    Toast.makeText(ProfilePage.this, "No Dialer Found!", Toast.LENGTH_SHORT).show();
+//                }
+                return true;
+            }
+        });
+
+//        checkLanguage();
     }
 
     void checkLanguage() {

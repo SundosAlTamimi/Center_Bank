@@ -3,6 +3,8 @@
     android:orientation="vertical"
     android:layout_margin="5dp"
     android:id="@+id/tracking_raw_linear"
+    android:textDirection="locale"
+    android:layoutDirection="locale"
     android:padding="5dp"
     android:background="@drawable/edit_bac_"
     android:layout_width="match_parent"
@@ -53,7 +55,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:text="@string/to"
+                    android:text="@string/beneficiary"
                     android:gravity="start"
                     android:padding="5dp"
                     android:fontFamily="serif"
@@ -172,7 +174,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:text="Beneficiary Phone"
+                    android:text="@string/beneficiary_phone"
                     android:gravity="start"
                     android:padding="5dp"
                     android:fontFamily="serif"

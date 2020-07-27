@@ -824,6 +824,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
         if (check) {
             final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
+            new LocaleAppUtils().changeLayot(MainActivity.this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_after_validation);
             dialog.setCancelable(false);

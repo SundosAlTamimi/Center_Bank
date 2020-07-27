@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bank4"
+    android:layoutDirection="locale"
     >
 
     <LinearLayout
@@ -13,7 +14,8 @@
         android:layout_height="match_parent"
         android:background="@drawable/clear_buttons"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:layoutDirection="locale"
+        android:visibility="visible">
 
 
         <LinearLayout
@@ -30,7 +32,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/edit_bac_s"
-                android:drawableLeft="@drawable/ic_swap"
+                android:drawableStart="@drawable/ic_swap"
                 android:drawableTint="@color/white"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
@@ -51,7 +53,7 @@
             <!--android:layout_margin="2dp"-->
             <!--android:layout_weight="1"-->
             <!--android:background="@drawable/edit_bac_s"-->
-            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:drawableStart="@drawable/ic_date_range_black_24dp"-->
             <!--android:gravity="center"-->
             <!--android:orientation="horizontal">-->
 
@@ -62,7 +64,7 @@
             <!--android:layout_margin="2dp"-->
             <!--android:layout_weight="1"-->
             <!--android:background="@drawable/edit_bac_s"-->
-            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:drawableStart="@drawable/ic_date_range_black_24dp"-->
             <!--android:gravity="center"-->
             <!--android:hint="@string/date"-->
             <!--android:padding="5dp"-->
@@ -77,7 +79,7 @@
             <!--android:layout_margin="2dp"-->
             <!--android:layout_weight="1"-->
             <!--android:background="@drawable/edit_bac_s"-->
-            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:drawableStart="@drawable/ic_date_range_black_24dp"-->
             <!--android:gravity="center"-->
             <!--android:orientation="horizontal">-->
 
@@ -121,7 +123,7 @@
             <!--android:layout_margin="2dp"-->
             <!--android:layout_weight="1"-->
             <!--android:background="@drawable/edit_bac_s"-->
-            <!--android:drawableLeft="@drawable/ic_date_range_black_24dp"-->
+            <!--android:drawableStart="@drawable/ic_date_range_black_24dp"-->
             <!--android:gravity="center"-->
             <!--android:orientation="horizontal">-->
 
@@ -133,7 +135,7 @@
             <!--android:layout_margin="2dp"-->
             <!--android:layout_weight="1"-->
             <!--android:background="@drawable/edit_bac_s"-->
-            <!--android:drawableLeft="@drawable/ic_autorenew_black_24dp"-->
+            <!--android:drawableStart="@drawable/ic_autorenew_black_24dp"-->
             <!--android:gravity="center"-->
             <!--android:hint="@string/transaction_type"-->
             <!--android:padding="5dp"-->
@@ -205,11 +207,11 @@
                     android:id="@+id/chNo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.8"
-                    android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
                     android:fontFamily="sans-serif-light"
-                    android:gravity="center"
 
+                    android:gravity="center"
                     android:text="CH.NO"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
@@ -218,11 +220,11 @@
                     android:id="@+id/customName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.8"
-                    android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
                     android:fontFamily="sans-serif-light"
-                    android:gravity="center"
 
+                    android:gravity="center"
                     android:text="@string/customer_name"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
@@ -231,23 +233,23 @@
                     android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.9"
-                    android:drawableRight="@drawable/ic_arrow_upward_black_24dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
-                    android:text="@string/date"
 
+                    android:text="@string/date"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/ic_expand_more_black_24dp"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/ic_expand_more_black_24dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="15sp" />-->
 
             </TableRow>
 
@@ -274,7 +276,8 @@
         android:background="@drawable/clear_buttons"
         android:orientation="vertical"
         android:padding="10dp"
-        android:visibility="visible">
+        android:layoutDirection="locale"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -369,6 +372,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
+                            android:autoLink="phone"
+                            android:linksClickable="true"
                             android:nextFocusDown="@+id/editorCheque_nationalNo"
                             android:layout_margin="2dp"
                             android:background="@color/Nocolor"
@@ -483,7 +488,7 @@
                         <!--                    android:layout_height="wrap_content"-->
                         <!--                    android:layout_margin="2dp"-->
                         <!--                    android:background="@color/Nocolor"-->
-                        <!--                    android:drawableLeft="@drawable/ic_border_color_black_24dp"-->
+                        <!--                    android:drawableStart="@drawable/ic_border_color_black_24dp"-->
                         <!--                    android:drawablePadding="10dp"-->
                         <!--                    android:ems="10"-->
                         <!--                    android:fontFamily="serif"-->
@@ -620,7 +625,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
                             android:background="@color/Nocolor"
-                            android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                            android:drawableStart="@drawable/ic_date_range_black_24dp"
                             android:drawablePadding="10dp"
                             android:ems="10"
                             android:fontFamily="serif"
@@ -679,7 +684,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="2dp"
                                 android:background="@color/Nocolor"
-                                android:drawableLeft="@drawable/ic_company"
+                                android:drawableStart="@drawable/ic_company"
                                 android:drawablePadding="10dp"
                                 android:ems="10"
                                 android:fontFamily="serif"
@@ -718,7 +723,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="2dp"
                                 android:background="@color/Nocolor"
-                                android:drawableLeft="@drawable/ic_notes"
+                                android:drawableStart="@drawable/ic_notes"
                                 android:drawablePadding="10dp"
                                 android:ems="10"
                                 android:fontFamily="serif"
@@ -930,6 +935,7 @@
         android:background="@drawable/clear_buttons"
         android:gravity="center"
         android:orientation="vertical"
+        android:layoutDirection="locale"
         android:visibility="gone">
 
         <LinearLayout

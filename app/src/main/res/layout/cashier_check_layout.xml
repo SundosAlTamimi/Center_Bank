@@ -6,14 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bank4"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layoutDirection="locale">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/clear_buttons"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,6 +62,7 @@
                     android:background="@drawable/edit_bac_s"
                     android:orientation="vertical"
                     android:padding="10dp"
+
                     >
 
                     <TextView
@@ -68,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:backgroundTint="@color/white"
-                        android:drawableLeft="@drawable/ic_bank"
+                        android:drawableStart="@drawable/ic_bank"
                         android:drawablePadding="10dp"
                         android:fontFamily="sans-serif-light"
                         android:padding="5dp"
@@ -159,7 +161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:backgroundTint="@color/white"
-                        android:drawableLeft="@drawable/ic_person"
+                        android:drawableStart="@drawable/ic_person"
                         android:drawablePadding="10dp"
                         android:fontFamily="sans-serif-light"
                         android:padding="5dp"
@@ -221,7 +223,7 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/edit_bac_s"
-                        android:drawableLeft="@drawable/ic_person_black_24dp"
+                        android:drawableStart="@drawable/ic_person_black_24dp"
                         android:drawablePadding="5dp"
                         android:fontFamily="serif"
                         android:hint="@string/national_no"
@@ -245,15 +247,12 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-
-                        android:background="@drawable/edit_bac_s"
                         android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/casher_first_name"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="2dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
                             android:fontFamily="serif"
@@ -274,7 +273,6 @@
                             android:id="@+id/cashier_second_name"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="2dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
                             android:fontFamily="serif"
@@ -295,7 +293,6 @@
                             android:id="@+id/cashier_third_name"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="2dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
                             android:fontFamily="serif"
@@ -316,7 +313,6 @@
                             android:id="@+id/cashier_fourth_name"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="2dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
                             android:fontFamily="serif"
@@ -341,7 +337,7 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/edit_bac_s"
-                        android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                        android:drawableStart="@drawable/ic_location_on_black_24dp"
                         android:drawablePadding="5dp"
                         android:fontFamily="serif"
                         android:hint="@string/address"
@@ -365,7 +361,7 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/edit_bac_s"
-                        android:drawableLeft="@drawable/ic_center_focus_weak_black_24dp"
+                        android:drawableStart="@drawable/ic_center_focus_weak_black_24dp"
                         android:drawablePadding="5dp"
                         android:fontFamily="serif"
                         android:hint="@string/the_purpose_of_issuing_the_check"
@@ -419,7 +415,7 @@
                         <!--android:layout_margin="5dp"-->
                         <!--android:layout_weight="1"-->
                         <!--android:background="@drawable/edit_bac_s"-->
-                        <!--android:drawableLeft="@drawable/ic_person"-->
+                        <!--android:drawableStart="@drawable/ic_person"-->
                         <!--android:drawablePadding="5dp"-->
                         <!--android:fontFamily="serif"-->
                         <!--android:hint="@string/customer_name"-->
@@ -497,7 +493,7 @@
                                 android:gravity="center"
                                 android:maxLength="7"
                                 android:hint="@string/dinar"
-                                android:inputType="numberDecimal"
+                                android:inputType="number"
                                 android:padding="5dp"
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
@@ -515,7 +511,7 @@
                                 android:gravity="center"
                                 android:hint="@string/phils"
                                 android:maxLength="3"
-                                android:inputType="numberDecimal"
+                                android:inputType="number"
                                 android:padding="5dp"
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
@@ -567,7 +563,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+                            android:drawableStart="@drawable/ic_account_circle_black_24dp"
                             android:drawablePadding="10dp"
                             android:fontFamily="sans-serif-light"
                             android:padding="5dp"
@@ -1375,7 +1371,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/edit_bac_s"
-                    android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                    android:drawableStart="@drawable/ic_date_range_black_24dp"
                     android:drawablePadding="5dp"
                     android:fontFamily="serif"
                     android:gravity="center_vertical"
@@ -1457,7 +1453,7 @@
                             <EditText
                                 android:id="@+id/first_name_"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_margin="5dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/edit_bac_s"
@@ -1477,7 +1473,7 @@
                             <!--                    android:layout_height="wrap_content"-->
                             <!--                    android:layout_margin="2dp"-->
                             <!--                    android:background="@color/Nocolor"-->
-                            <!--                    android:drawableLeft="@drawable/ic_border_color_black_24dp"-->
+                            <!--                    android:drawableStart="@drawable/ic_border_color_black_24dp"-->
                             <!--                    android:drawablePadding="10dp"-->
                             <!--                    android:ems="10"-->
                             <!--                    android:fontFamily="serif"-->
@@ -1492,7 +1488,7 @@
                             <EditText
                                 android:id="@+id/second_name_"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_margin="5dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/edit_bac_s"
@@ -1509,7 +1505,7 @@
                             <EditText
                                 android:id="@+id/thered_name_"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_margin="5dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/edit_bac_s"
@@ -1526,7 +1522,7 @@
                             <EditText
                                 android:id="@+id/fourth_name_"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_margin="5dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/edit_bac_s"

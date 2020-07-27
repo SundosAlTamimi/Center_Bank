@@ -74,6 +74,7 @@ public class SingUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        binding = SingUpLayoutBinding.inflate(getLayoutInflater());
+        new LocaleAppUtils().changeLayot(SingUpActivity.this);
         setContentView(R.layout.sing_up_layout);//binding.getRoot()
 
 //        language = getIntent().getStringExtra(LANGUAGE_FLAG);
@@ -103,7 +104,6 @@ public class SingUpActivity extends AppCompatActivity {
         date_text.setText(convertToEnglish(today));
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
         birthYear = Calendar.getInstance().get(Calendar.YEAR);
-        checkLanguage();
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override

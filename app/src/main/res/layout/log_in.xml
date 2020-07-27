@@ -23,6 +23,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/bank4"
         android:id="@+id/login_coordinatorLayout"
+        android:layoutDirection="locale"
         android:orientation="vertical">
 
     <LinearLayout
@@ -95,17 +96,15 @@
                 app:fontFamily="sans-serif-smallcaps" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="50dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/login_english"
                     android:onClick="@{clickHandler::onClickEnglish}"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="En"
                     android:gravity="end|right"
                     android:textColor="@color/main_orange_light_color"
@@ -122,9 +121,8 @@
                 <TextView
                     android:id="@+id/login_arabic"
                     android:onClick="@{clickHandler::onClickArabic}"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="عربي"
                     android:gravity="end|right"
                     android:textColor="@color/main_orange_light_color"
@@ -148,29 +146,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layoutDirection="locale"
+                android:textDirection="locale"
                 android:layout_margin="5dp"
                 android:background="@drawable/edit_bac_s">
 
                 <com.hbb20.CountryCodePicker
                     android:id="@+id/login_ccp"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
                     android:layout_marginHorizontal="5dp"
                     android:gravity="center"
                     app:ccp_contentColor="@color/white"
                     app:ccp_defaultNameCode="JO"
+                    app:ccp_showNameCode="false"
                     />
 
                 <EditText
                     android:id="@+id/LogInUserName"
                     android:text="@{loginModel.username}"
+                    android:onLongClick="@{clickHandler::onLongClickPhone}"
                     app:seterrormessage="@{error}"
                     android:layout_weight="1"
                     android:hint="@string/_7xxxxxxxx"
                     android:nextFocusDown="@id/signUp_address"
                     android:inputType="phone"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:textCursorDrawable="@null"
                     android:drawablePadding="5dp"
                     android:padding="15dp"
@@ -241,7 +244,7 @@
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:fontFamily="serif"
-                android:layout_gravity="left"/>
+                android:layout_gravity="start"/>
 
         </LinearLayout>
 
@@ -262,7 +265,6 @@
                 android:background="@drawable/edit_bac_sinup2"
                 android:text="@string/sing_in"
                 android:textAllCaps="false"
-                android:drawableStart="@drawable/ic_format_shapes_black_24dp"
                 android:fontFamily="serif"
                 android:textColor="@color/colorWhite" />
 

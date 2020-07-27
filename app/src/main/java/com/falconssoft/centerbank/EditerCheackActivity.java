@@ -163,20 +163,18 @@ public class EditerCheackActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        new LocaleAppUtils().changeLayot(EditerCheackActivity.this);
         setContentView(R.layout.editer_check_layout);
 
         initi();
-//        arr=new String[5];
-        SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
-        language = prefs.getString("language", "en");//"No name defined" is the default value.
-        Log.e("editing,3 ", language);
+
         chequeInfoReSendEd = new ChequeInfo();
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs.getString("link", "");
         phoneNoUser = loginPrefs.getString("mobile", "");
 
-        checkLanguage();
 
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
@@ -372,19 +370,52 @@ public class EditerCheackActivity extends AppCompatActivity {
                 if (!phails.getText().toString().equals("")) { // dinar and fils
                     amount = Danier.getText().toString();// + "." + phails.getText().toString();
                     amount2 = phails.getText().toString();
-                    amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar And " + tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
+
+                   String dinar=tafqeetEnglish.convert(Long.parseLong(amount));
+                   String philses=tafqeetEnglish.convert(Long.parseLong(amount2));
+
+//                    amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar And " + tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
+
+                    if(dinar.equals("")&&philses.equals("")){
+                        amountWord="";
+                    }else if(!dinar.equals("")&&philses.equals("")){
+                        amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar";
+                    }else if(dinar.equals("")&&!philses.equals("")) {
+                        amountWord=tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
+                    }else  if(!dinar.equals("")&&!philses.equals("")) {
+                        amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar And " + tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
+
+                    }
+
+
+
                 } else { // dinar
                     amount = Danier.getText().toString();// + "." + phails.getText().toString();
-                    amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar";
+                    if(Integer.parseInt(Danier.getText().toString())!=0) {
+                        amountWord = tafqeetEnglish.convert(Long.parseLong(amount)) + " Dinar";
+                    }else {
+                        amountWord="";
+                    }
                 }
             } else if (!phails.getText().toString().equals("")) { //  fils
                 if (Danier.getText().toString().equals("")) {
                     amount2 = phails.getText().toString();
-                    amountWord = tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
+                    if(Integer.parseInt(phails.getText().toString())!=0) {
+                        amountWord = tafqeetEnglish.convert(Long.parseLong(amount2)) + " Fils";
+                    }else{
+                        amountWord="";
+                    }
                 }
             }
 
-            AmouWord.setText(amountWord + " Only");
+
+            if (amountWord.equals("")) {
+                AmouWord.setText("");
+            } else {
+                AmouWord.setText(amountWord + " Only");
+            }
+
+
         } else if (currencyLanguage.equals("عربي")) {
 
 //            if (!Danier.getText().toString().equals("")) {
@@ -732,6 +763,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                         if (!TextUtils.isEmpty(localDate))
                             if (validDate)
                                 if (!TextUtils.isEmpty(localDinar)) {
+                                    if(Double.parseDouble(localDinar+"."+localFils)!=0){
                                     if (!TextUtils.isEmpty(serverPic)) {
                                         if (userFound) {
                                             pushCheque.setEnabled(false);
@@ -834,6 +866,9 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                                     } else {
                                         CheckPicText.setError("Required!");
+                                    }
+                                    } else {
+                                        Danier.setError("Not Correct Amount !");
                                     }
                                 } else {
                                     Danier.setError("Required!");
@@ -1122,6 +1157,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         Log.e("VerifyCheck 849", "" + "JSONTask dialog");
         if (check) {
             Log.e("VerifyCheck 851", "JSONTask dialog in ");
+            new LocaleAppUtils().changeLayot(EditerCheackActivity.this);
 
             final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1137,15 +1173,12 @@ public class EditerCheackActivity extends AppCompatActivity {
             cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
 
 
-            if (language.trim().equals("ar")) {
-                LocaleAppUtils.setLocale(new Locale("ar"));
-                LocaleAppUtils.setConfigChange(EditerCheackActivity.this);
+            if (LocaleAppUtils.language.equals("ar")) {
                 chequeWriterTV.setText(customerName);
                 accountNoTV.setText(convertToArabic(accountNo));
                 chequeNoTV.setText(convertToArabic(chequeNo));
             } else {
-                LocaleAppUtils.setLocale(new Locale("en"));
-                LocaleAppUtils.setConfigChange(EditerCheackActivity.this);
+
                 chequeWriterTV.setText(customerName);
                 accountNoTV.setText(accountNo);
                 chequeNoTV.setText(chequeNo);
@@ -1154,7 +1187,6 @@ public class EditerCheackActivity extends AppCompatActivity {
             okTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    checkLanguage();
                     new IsCheckForThisAcc().execute();
 //                    linerEditing.setVisibility(View.VISIBLE);
 //                    linerBarcode.setVisibility(View.GONE);
