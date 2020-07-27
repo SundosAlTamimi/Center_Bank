@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bank4"
     android:id="@+id/mainlayout"
+    android:layoutDirection="locale"
     android:orientation="vertical"
     >
     <LinearLayout

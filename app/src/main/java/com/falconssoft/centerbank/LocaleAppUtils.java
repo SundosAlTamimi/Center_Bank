@@ -34,6 +34,10 @@ public class LocaleAppUtils {
             ctx.getResources().updateConfiguration(configuration, displayMetrics);
         }
     }
+    public  static  String  getLocale(){
+        return String.valueOf(locale);
+
+    }
 
     public static void changeLayot(Context context){
 
