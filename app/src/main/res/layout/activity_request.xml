@@ -150,7 +150,6 @@
                        android:textDirection="locale"
                         android:drawablePadding="10dp"
                         android:elevation="2dp"
-                        android:textDirection="firstStrong"
                         android:fontFamily="serif"
                         android:inputType="phone"
                         android:maxLength="10"
