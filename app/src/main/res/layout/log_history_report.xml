@@ -276,7 +276,7 @@
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textCursorDrawable="@null"
-                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMaxTextSize="15sp"
                     app:autoSizeMinTextSize="12sp"
                     app:autoSizeStepGranularity="2sp"
                     app:autoSizeTextType="uniform"/>
@@ -294,7 +294,7 @@
                     android:textColor="@color/white"
                     android:textCursorDrawable="@null"
                     android:textSize="12sp"
-                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMaxTextSize="15sp"
                     app:autoSizeMinTextSize="12sp"
                     app:autoSizeStepGranularity="2sp"
                     app:autoSizeTextType="uniform" />
@@ -312,7 +312,7 @@
                     android:textColor="@color/white"
                     android:textCursorDrawable="@null"
                     android:textSize="12sp"
-                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMaxTextSize="15sp"
                     app:autoSizeMinTextSize="12sp"
                     app:autoSizeStepGranularity="2sp"
                     app:autoSizeTextType="uniform"/>
@@ -330,7 +330,7 @@
                     android:textColor="@color/white"
                     android:textCursorDrawable="@null"
                     android:textSize="12sp"
-                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMaxTextSize="15sp"
                     app:autoSizeMinTextSize="12sp"
                     app:autoSizeStepGranularity="2sp"
                     app:autoSizeTextType="uniform" />

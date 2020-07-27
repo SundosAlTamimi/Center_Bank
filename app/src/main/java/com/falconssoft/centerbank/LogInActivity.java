@@ -39,6 +39,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 
+import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.Setting;
 import com.falconssoft.centerbank.databinding.LogInBinding;
@@ -59,12 +60,19 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -105,6 +113,8 @@ public class LogInActivity extends AppCompatActivity {
     private int checkedRemember = -1;// -1 => mean not checked , 0 => not checked, 1=> checked
     public static String ROW_ID_PREFERENCE = "ROW_ID_PREFERENCE";
     private CountryCodePicker ccp;
+    String serverLink="";
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -118,7 +128,10 @@ public class LogInActivity extends AppCompatActivity {
 //        editor.putString("link", "http://10.0.0.16:8082/");
         editor.putString("link", "http://falconssoft.net/ScanChecks/APIMethods.dll/");
         editor.apply();
+
+        LocaleAppUtils.language=language;
         if (language.equals("ar")) {
+
             LocaleAppUtils.setLocale(new Locale("ar"));
             LocaleAppUtils.setConfigChange(LogInActivity.this);
         } else {
@@ -177,6 +190,9 @@ public class LogInActivity extends AppCompatActivity {
 //                addSettingButton();
 //            }
 //        });
+
+        SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+         serverLink = loginPrefs1.getString("link", "");
 
         animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move_to_right);
@@ -579,6 +595,7 @@ public class LogInActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
+                    new IsCheckPinding().execute();
                     barcodeDialog.dismiss();
                 }
             });
@@ -991,8 +1008,7 @@ public class LogInActivity extends AppCompatActivity {
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
-                SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-                String serverLink = loginPrefs1.getString("link", "");
+
                 request.setURI(new URI(serverLink + "VerifyCheck?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -1067,6 +1083,301 @@ public class LogInActivity extends AppCompatActivity {
                 Toast.makeText(LogInActivity.this, "Please check internet connection!", Toast.LENGTH_SHORT).show();
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
+        }
+    }
+
+    // ******************************************** CHECK QR VALIDATION *************************************
+    private class IsCheckPinding extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+                Log.e("Edit_1494", "JSONTask dialog in ");
+
+                String link = serverLink + "IsCheckPinding";
+
+//ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144
+                String data = "ACCCODE=" + URLEncoder.encode(accountCode, "UTF-8") + "&"
+                        + "IBANNO=" + URLEncoder.encode(ibanNo, "UTF-8") + "&"
+                        + "SERIALNO=" + URLEncoder.encode(serialNo, "UTF-8") + "&"
+                        + "BANKNO=" + URLEncoder.encode(bankNo, "UTF-8") + "&"
+                        + "BRANCHNO=" + URLEncoder.encode(branchNo, "UTF-8") + "&"
+                        + "CHECKNO=" + URLEncoder.encode(checkNo, "UTF-8");
+//
+                URL url = new URL(link);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();// obj.seto(finalObject.getString("OWNERMOBNO"));
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+                Log.e("tag", "dataSave  -->" + data);
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("editorChequeActivity/", "saved//" + s);
+            Log.e("Edit_1388", "JSONTask dialog in " + s.toString());
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+//                    linerEditing.setVisibility(View.GONE);
+//                   linerBarcode.setVisibility(View.VISIBLE);
+                    new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText(LogInActivity.this.getResources().getString(R.string.pending_))
+                            .setContentText(LogInActivity.this.getResources().getString(R.string.cantsendchech))
+                            .setConfirmText(LogInActivity.this.getResources().getString(R.string.ok))
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).show();
+
+                } else if (s.contains("\"StatusDescreption\":\"Check not pindding.\"")) {
+
+
+                    new TillerGetCheck().execute();
+
+                }
+            } else {
+                Log.e("tag", "****Failed to export data");
+                new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText(LogInActivity.this.getResources().getString(R.string.warning))
+                        .setContentText(LogInActivity.this.getResources().getString(R.string.failtoSend))
+                        .setCancelText(LogInActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+
+                    }
+                })
+                        .show();
+
+
+            }
+
+        }
+    }
+
+
+    public class TillerGetCheck extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+        ChequeInfo chequeInfo;
+
+//        public TillerGetCheck(ChequeInfo chequeInfo) {
+//            this.chequeInfo = chequeInfo;
+//        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+
+                String link = serverLink + "TillerGetCheck";
+
+
+//                ACCCODE=1014569990011000&IBANNO=""&SERIALNO=""&BANKNO=004&BRANCHNO=0099&CHECKNO=390144&USESERIAL=0
+
+                //?ACCCODE=4014569990011000&MOBNO=&WHICH=0
+                String data = "ACCCODE=" + URLEncoder.encode(accountCode, "UTF-8") + "&" +
+                        "IBANNO=" + URLEncoder.encode(ibanNo, "UTF-8") + "&" +
+                        "SERIALNO=" + URLEncoder.encode(serialNo, "UTF-8") + "&" +
+                        "BANKNO=" + URLEncoder.encode(bankNo, "UTF-8") + "&" +
+                        "BRANCHNO=" + URLEncoder.encode(branchNo, "UTF-8") + "&" +
+                        "CHECKNO=" + URLEncoder.encode(checkNo, "UTF-8") + "&" +
+                        "USESERIAL=" + URLEncoder.encode("0", "UTF-8");
+
+                URL url = new URL(link);
+                Log.e("link,3 ", serverLink + "   " + link + "   " + data);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String JsonResponse) {
+            super.onPostExecute(JsonResponse);
+
+
+            if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
+                Log.e("GetLogSuccess", "****Success");
+
+//
+                try {
+
+                    JSONObject parentArray = new JSONObject(JsonResponse);
+                    JSONArray parentInfo = parentArray.getJSONArray("INFO");
+
+                    List<ChequeInfo> chequeInfoTilar = new ArrayList<>();
+                    boolean foundIn = false;
+
+                    for (int i = 0; i < parentInfo.length(); i++) {
+                        JSONObject finalObject = parentInfo.getJSONObject(i);
+
+                        ChequeInfo obj = new ChequeInfo();
+
+                        if (finalObject.getString("TOCUSTOMERMOB").equals(finalObject.getString("OWNERMOBNO"))) {
+
+                            new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText(" Cheque ")
+                                    .setContentText("Cheque Cashed")
+                                    .show();
+
+                        }else {
+
+                            new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                    .setTitleText(" Cheque ")
+                                    .setContentText("*** Can Receive The Cheque ***")
+                                    .show();
+                        }
+                    }
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }//
+
+            } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Check Data not found")) {
+                Log.e("TAG_GetStor", "****Check Data not found");
+
+
+                new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText(" Cheque ")
+                        .setContentText("Check Data not found")
+                        .show();
+
+            }
+
         }
     }
 
