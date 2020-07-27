@@ -466,6 +466,11 @@ public class LogInActivity extends AppCompatActivity {
                 checkedRemember = 0;
 
         }
+
+        public boolean onLongClickPhone(View view){
+            new SharedClass(LogInActivity.this).showPhoneOptions(binding.LogInUserName.getText().toString());
+            return true;
+        }
     }
 
 

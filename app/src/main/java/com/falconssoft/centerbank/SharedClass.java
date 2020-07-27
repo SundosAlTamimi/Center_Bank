@@ -24,7 +24,7 @@ public class SharedClass {
 
     public void showPhoneOptions(final String phoneNo) {
 
-        Dialog dialog = new Dialog(context);
+        final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_dialer_copy_paste);
 
@@ -61,6 +61,7 @@ public class SharedClass {
 
                 Toast.makeText(context, "Text Copied",
                         Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
 

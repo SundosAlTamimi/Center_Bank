@@ -197,6 +197,16 @@ CircleImageView status;
             }
         });
 
+        holder.phoneNo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                {
+                    new SharedClass(context).showPhoneOptions(holder.phoneNo.getText().toString());
+                    return true;
+                }
+            }
+        });
+
         return view;
     }
 
