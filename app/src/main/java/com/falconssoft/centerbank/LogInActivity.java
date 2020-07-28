@@ -167,7 +167,11 @@ public class LogInActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(String.valueOf(charSequence)) && String.valueOf(charSequence).length() > 1) {
                     if (!TextUtils.isEmpty(databaseHandler.getLoginInfo(countryCode + charSequence).getUsername())) {
                         binding.loginSearch.setVisibility(View.VISIBLE);
-                        binding.loginSearch.setText(databaseHandler.getLoginInfo(countryCode + charSequence).getUsername());
+                        signupVM.setSearchPhone(databaseHandler.getLoginInfo(countryCode + charSequence).getUsername());
+                    }
+                    else {
+                        binding.loginSearch.setVisibility(View.GONE);
+                        binding.loginSearch.setText("");
                     }
                 } else {
                     binding.loginSearch.setVisibility(View.GONE);
@@ -202,29 +206,23 @@ public class LogInActivity extends AppCompatActivity {
         }
 
         public void onClickLogin(View view) {
-//            Toast.makeText(context, signupVM.getUsername(), Toast.LENGTH_SHORT).show();
-            if (!TextUtils.isEmpty(binding.LogInUserName.getText().toString()))//userName.getText().toString()))// if (signupVM.getUsername().length() == 10)//userName.length() == 10)
-                if (!TextUtils.isEmpty(binding.LogInPassword.getText().toString())) {//password.getText().toString())) {
-//                            userName.setError(null);
-//                            password.setError(null);
-//                        binding.LogInUserName.setError(null);
-//                        binding.LogInPassword.setError(null);
+
+            if (!TextUtils.isEmpty(signupVM.getUsername()))//userName.getText().toString()))// if (signupVM.getUsername().length() == 10)//userName.length() == 10)
+                if (!TextUtils.isEmpty(signupVM.getPassword())) {//password.getText().toString())) {
                     binding.setError(null);
+                    binding.setPasswordError(null);
 
                     LoginINFO user = new LoginINFO();
-                    user.setUsername(countryCode + binding.LogInUserName.getText().toString());
-                    user.setPassword(binding.LogInPassword.getText().toString());
+                    user.setUsername(countryCode + signupVM.getUsername());
+                    user.setPassword(signupVM.getPassword());
                     user.setIsRemember(checkedRemember);
-                    Log.e("fromlogin", user.getUsername() + "******************" + user.getPassword());
+//                    Log.e("fromlogin", user.getUsername() + "******************" + user.getPassword());
                     user.setIsNowActive(0);
                     showDialog();
                     new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
                 } else {
-                    binding.setError(getResources().getString(R.string.required));
+                    binding.setPasswordError(getResources().getString(R.string.required));
                 }
-//                else {
-//                    binding.setError("Phone number not correct!!");
-//                }
             else {
                 binding.setError("Required!");
             }
@@ -350,6 +348,8 @@ public class LogInActivity extends AppCompatActivity {
             Dialog dialog = new Dialog(LogInActivity.this);
             dialog.setContentView(R.layout.dialog_forget_password);
 
+            new LocaleAppUtils().changeLayot(LogInActivity.this);
+
             phoneLinear = dialog.findViewById(R.id.forgetPassword_phone_linear);
             final EditText phone = dialog.findViewById(R.id.forgetPassword_phone);
             final Button phoneSend = dialog.findViewById(R.id.forgetPassword_phone_send);
@@ -444,18 +444,18 @@ public class LogInActivity extends AppCompatActivity {
         }
 
         public void onClickSearchPhone(View view) {
-            String splitString = binding.loginSearch.getText().toString().substring(binding.loginSearch.getText().toString().length() - 9);
-            binding.LogInUserName.setText(splitString);
-            binding.LogInPassword.setText(databaseHandler.getUserInfo(binding.loginSearch.getText().toString()).getPassword());
-//            Log.e("split",binding.loginSearch.getText().toString().substring(binding.loginSearch.getText().toString().length() - 9));
+//            String splitString = binding.loginSearch.getText().toString().substring(binding.loginSearch.getText().toString().length() - 9);
+//            binding.LogInUserName.setText(splitString);
+//            binding.LogInPassword.setText(databaseHandler.getUserInfo(binding.loginSearch.getText().toString()).getPassword());
+////            Log.e("split",binding.loginSearch.getText().toString().substring(binding.loginSearch.getText().toString().length() - 9));
+//            binding.loginRememberMe.setChecked(true);
+//            binding.loginSearch.setVisibility(View.GONE);
+            String splitString = signupVM.getSearchPhone().substring(signupVM.getSearchPhone().length() - 9);
+            signupVM.setUsername(splitString);
+            signupVM.setPassword(databaseHandler.getUserInfo(signupVM.getSearchPhone()).getPassword());
             binding.loginRememberMe.setChecked(true);
             binding.loginSearch.setVisibility(View.GONE);
 
-
-//            signupVM.setUsername(signupVM.getSearchPhone());
-//            signupVM.setPassword(databaseHandler.getUserInfo(signupVM.getSearchPhone()).getPassword());
-//            binding.loginRememberMe.setChecked(true);
-//            binding.loginSearch.setVisibility(View.GONE);
         }
 
         @Override
@@ -467,8 +467,8 @@ public class LogInActivity extends AppCompatActivity {
 
         }
 
-        public boolean onLongClickPhone(View view){
-            new SharedClass(LogInActivity.this).showPhoneOptions(countryCode + binding.LogInUserName.getText().toString());
+        public boolean onLongClickPhone(View view) {
+            new SharedClass(LogInActivity.this).showPhoneOptions(countryCode + signupVM.getUsername());//binding.LogInUserName.getText().toString());
             return true;
         }
     }
@@ -588,8 +588,7 @@ public class LogInActivity extends AppCompatActivity {
         if (message != null && message.contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {//"StatusCode":10,"StatusDescreption":"User not found."
             DatabaseHandler databaseHandler = new DatabaseHandler(this);
             LoginINFO currentUser = databaseHandler.getUserInfo(user.getUsername());
-            Log.e("Username", "" + currentUser.getUsername());
-            Log.e("remember/Active", "" + user.getIsRemember() + user.getIsNowActive());
+//            Log.e("Username", "" + currentUser.getUsername());
 
             if (TextUtils.isEmpty(currentUser.getUsername())) {
                 databaseHandler.addLoginInfo(user);
@@ -598,10 +597,10 @@ public class LogInActivity extends AppCompatActivity {
                 databaseHandler.updateRememberState(user.getIsRemember(), user.getUsername());
 
 
-            Log.e("fromlogin22", user.getUsername() + checkedRemember);
+//            Log.e("fromlogin22", user.getUsername() + checkedRemember);
 
             databaseHandler.updateLoginActive(user.getUsername());
-//            checkIfIsRemember();
+            Log.e("remember/Active", "" + user.getIsRemember() + user.getIsNowActive());
 
             editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
             editor.putString("mobile", user.getUsername());

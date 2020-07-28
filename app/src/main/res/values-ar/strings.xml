@@ -62,7 +62,7 @@
     <string name="account_no_">رقم الحساب : </string>
     <string name="the_cheque_has_been_validated">تم التحقق من صحة الشيك</string>
     <string name="Accept">موافق</string>
-    <string name="Reject">الغاء</string>
+    <string name="Reject">رفض</string>
     <string name="checkReject">تم رفض الشيك </string>
     <string name="CheckDetail">تفاصيل الشيك </string>
     <string name="customer_name">اسم العميل </string>
@@ -191,7 +191,7 @@
     <string name="from">اسم المرسل</string>
     <string name="to">الى</string>
     <string name="age_constrict">العمر اقل من 18 سنة!</string>
-    <string name="mr_mrs">السيد \ السيدة </string>
+    <string name="mr_mrs">السيد/ ة </string>
     <string name="beneficiary_phone">رقم هاتف المستفيد</string>
     <string name="send_">صادر</string>
     <string name="receive_">وارد</string>

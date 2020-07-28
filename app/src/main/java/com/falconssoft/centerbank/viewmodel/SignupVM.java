@@ -1,16 +1,11 @@
 package com.falconssoft.centerbank.viewmodel;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.ObservableField;
+import com.falconssoft.centerbank.BR;
 
-import java.util.Objects;
-
-public class SignupVM {
+public class SignupVM extends BaseObservable {
 
     private String gender;
     private String inactive;
@@ -28,12 +23,14 @@ public class SignupVM {
     private String password;
     private String searchPhone;
 
+    @Bindable
     public String getSearchPhone() {
         return searchPhone;
     }
 
     public void setSearchPhone(String searchPhone) {
         this.searchPhone = searchPhone;
+        notifyPropertyChanged(BR.searchPhone);
     }
 
     public String getGender() {
@@ -108,12 +105,14 @@ public class SignupVM {
         this.fourthName = fourthName;
     }
 
+    @Bindable
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
+        notifyPropertyChanged(BR.username);
     }
 
     public String getAddress() {
@@ -132,11 +131,13 @@ public class SignupVM {
         this.email = email;
     }
 
+    @Bindable
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+        notifyPropertyChanged(BR.password);
     }
 }

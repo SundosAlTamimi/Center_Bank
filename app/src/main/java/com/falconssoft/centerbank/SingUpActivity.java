@@ -1,10 +1,30 @@
 package com.falconssoft.centerbank;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -14,7 +34,6 @@ import android.util.Patterns;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -28,8 +47,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.falconssoft.centerbank.Models.LoginINFO;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -47,7 +68,7 @@ import java.util.regex.Pattern;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
 public class SingUpActivity extends AppCompatActivity {
-    private TextView date_text;
+    private TextView date_text, test;
     private Date currentTimeAndDate;
     private SimpleDateFormat df;
     private Calendar myCalendar;
@@ -68,7 +89,9 @@ public class SingUpActivity extends AppCompatActivity {
     private ImageView seenPassword, seenConfirmPassword;
     private TextInputEditText password, confirmPassword;
     private int currentYear, birthYear;
-
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+//    AppLocationService appLocationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +101,33 @@ public class SingUpActivity extends AppCompatActivity {
         setContentView(R.layout.sing_up_layout);//binding.getRoot()
 
 //        language = getIntent().getStringExtra(LANGUAGE_FLAG);
+        test = findViewById(R.id.signUp_textView4);
         init();
+//        appLocationService = new AppLocationService(
+//                SingUpActivity.this);
+//        test.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Location location = appLocationService
+//                        .getLocation(LocationManager.GPS_PROVIDER);
+//
+//                //you can hard-code the lat & long if you have issues with getting it
+//                //remove the below if-condition and use the following couple of lines
+//                //double latitude = 37.422005;
+//                //double longitude = -122.084095
+//
+//                if (location != null) {
+//                    double latitude = location.getLatitude();
+//                    double longitude = location.getLongitude();
+//                    LocationAddress locationAddress = new LocationAddress();
+//                    locationAddress.getAddressFromLocation(latitude, longitude,
+//                            getApplicationContext(), new GeocoderHandler());
+//                } else {
+//
+//                }
+//            }
+//        });
+
         ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
@@ -527,5 +576,131 @@ public class SingUpActivity extends AppCompatActivity {
 
         editText.setText(sdf.format(myCalendar.getTime()));
 
+    }
+
+    public class AppLocationService extends Service implements LocationListener {
+
+        protected LocationManager locationManager;
+        Location location;
+
+        private static final long MIN_DISTANCE_FOR_UPDATE = 10;
+        private static final long MIN_TIME_FOR_UPDATE = 1000 * 60 * 2;
+
+        public AppLocationService(Context context) {
+            locationManager = (LocationManager) context
+                    .getSystemService(LOCATION_SERVICE);
+        }
+
+        public Location getLocation(String provider) {
+            if (locationManager.isProviderEnabled(provider)) {
+                if (ActivityCompat.checkSelfPermission(SingUpActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return null;
+                }
+                locationManager.requestLocationUpdates(provider,
+                        MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
+                if (locationManager != null) {
+                    location = locationManager.getLastKnownLocation(provider);
+                    return location;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public void onLocationChanged(Location location) {
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        @Override
+        public IBinder onBind(Intent arg0) {
+            return null;
+        }
+
+    }
+
+    public class LocationAddress {
+        private static final String TAG = "LocationAddress";
+
+        public void getAddressFromLocation(final double latitude, final double longitude,
+                                                  final Context context, final Handler handler) {
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+                    String result = null;
+                    try {
+                        List<Address> addressList = geocoder.getFromLocation(
+                                latitude, longitude, 1);
+                        if (addressList != null && addressList.size() > 0) {
+                            Address address = addressList.get(0);
+                            StringBuilder sb = new StringBuilder();
+                            for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                                sb.append(address.getAddressLine(i)).append("\n");
+                            }
+                            sb.append(address.getLocality()).append("\n");
+                            sb.append(address.getPostalCode()).append("\n");
+                            sb.append(address.getCountryName());
+                            result = sb.toString();
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Unable connect to Geocoder", e);
+                    } finally {
+                        Message message = Message.obtain();
+                        message.setTarget(handler);
+                        if (result != null) {
+                            message.what = 1;
+                            Bundle bundle = new Bundle();
+                            result = "Latitude: " + latitude + " Longitude: " + longitude +
+                                    "\n\nAddress:\n" + result;
+                            bundle.putString("address", result);
+                            message.setData(bundle);
+                        } else {
+                            message.what = 1;
+                            Bundle bundle = new Bundle();
+                            result = "Latitude: " + latitude + " Longitude: " + longitude +
+                                    "\n Unable to get address for this lat-long.";
+                            bundle.putString("address", result);
+                            message.setData(bundle);
+                        }
+                        message.sendToTarget();
+                    }
+                }
+            };
+            thread.start();
+        }
+    }
+
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            test.setText(locationAddress);
+        }
     }
 }

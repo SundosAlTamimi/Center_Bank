@@ -319,6 +319,7 @@ public class Request extends AppCompatActivity {
         phoneNo.setText("");
         edit_customerName.setText("");
         amountDinar.setText("");
+        edit_customerName.requestFocus();
 
 
     }
