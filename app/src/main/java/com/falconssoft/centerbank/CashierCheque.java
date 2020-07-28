@@ -68,7 +68,7 @@ public class CashierCheque extends AppCompatActivity {
     String serverLink = "http://falconssoft.net/ScanChecks/APIMethods.dll/", phoneNoUser;
     private JSONObject jsonObject;
     Calendar myCalendar;
-    String bankNameString = "Jordan Bank", branchNameString = "Abdoun Branch", relationString = "Consanguinity";
+    String bankNameString = "Bank Of Jordan", branchNameString = "Abdoun Branch", relationString = "Consanguinity";
     LoginINFO infoUser;
     DatabaseHandler databaseHandler;
     private String currencyLanguage = "عربي", amountWord="";
@@ -111,7 +111,7 @@ public class CashierCheque extends AppCompatActivity {
         serverLink = loginPrefs.getString("link", "");
         phoneNoUser = loginPrefs.getString("mobile", "");
 
-        bankName.add("Jordan Bank");
+        bankName.add("Bank Of Jordan");
 
         branchName.add("Abdoun Branch");
         branchName.add("Abu Alanda Branch");
