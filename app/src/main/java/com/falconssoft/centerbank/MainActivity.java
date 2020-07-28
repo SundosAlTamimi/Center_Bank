@@ -165,13 +165,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Log.e("isNetworkAvailable ",  ""+isNetworkAvailable());
                if( isNetworkAvailable())
                {
                    new GetAllCheck_JSONTask().execute();
-               }else {
-                   Log.e("isNetworkAvailable ",  ""+isNetworkAvailable());
-
                }
 
 

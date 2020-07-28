@@ -182,10 +182,14 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
                 }
                 else {// rejected
-                    viewHolder.rejectImg.setVisibility(View.VISIBLE);
-                    viewHolder.reciveNew.setVisibility(View.GONE);
-                    viewHolder.acceptImg.setVisibility(View.GONE);
-                    viewHolder.geroLinear_pending.setVisibility(View.GONE);
+                    if(checkInfoNotification.get(i).getTransType().equals("2"))
+                    {
+                        viewHolder.rejectImg.setVisibility(View.VISIBLE);
+                        viewHolder.reciveNew.setVisibility(View.GONE);
+                        viewHolder.acceptImg.setVisibility(View.GONE);
+                        viewHolder.geroLinear_pending.setVisibility(View.GONE);
+                    }
+
 
                 }
 
@@ -216,10 +220,14 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
                 }
                 else {// rejected
+                    if(checkInfoNotification.get(i).getTransType().equals("2"))
 
-                    viewHolder.geroLinear_pending.setVisibility(View.GONE);
-                    viewHolder.geroLinear_accep.setVisibility(View.GONE);
-                    viewHolder.geroLinear_reject.setVisibility(View.VISIBLE);
+                    {
+                        viewHolder.geroLinear_pending.setVisibility(View.GONE);
+                        viewHolder.geroLinear_accep.setVisibility(View.GONE);
+                        viewHolder.geroLinear_reject.setVisibility(View.VISIBLE);
+
+                    }
 
                 }
 
