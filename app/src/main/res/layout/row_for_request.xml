@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLinearAdapter"
-android:textDirection="locale"
+    android:textDirection="locale"
     android:layoutDirection="locale"
     android:padding="5dp"
     android:orientation="vertical">
@@ -23,6 +23,8 @@ android:textDirection="locale"
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textDirection="locale"
+        android:layoutDirection="locale"
         android:id="@+id/lineardetail"
 
         android:orientation="horizontal">
@@ -128,6 +130,7 @@ android:textDirection="locale"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:text="18-7-2020"
 
                     android:textSize="16sp"

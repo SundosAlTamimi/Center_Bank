@@ -76,7 +76,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
     CircleImageView circleImageView;
     Bitmap serverPicBitmap;
     int row_index = -1;
-    String checkState = "0";
+    String checkState = "0",amountArabic="";
     LoginINFO infoUser;
     DatabaseHandler databaseHandler;
     public static String languagelocalApp = "";
@@ -96,6 +96,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
     @NonNull
     @Override
     public Requestadapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        new LocaleAppUtils().changeLayot(context);
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_for_request, viewGroup, false);
 
 
@@ -105,25 +106,22 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull final Requestadapter.ViewHolder viewHolder, final int i) {
+        language= new LocaleAppUtils().getLocale();
+            if (language.equals("ar")) {
 
-        if (language.equals("ar")) {
-            viewHolder.mainLinearAdapter.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-            viewHolder.lineardetail.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-            viewHolder.rowStatus.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-//            viewHolder.lineardetail.setBackground(context.getResources().getDrawable(R.drawable.left_background));
-            viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-            viewHolder.cust_name.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-        } else {
-            viewHolder.mainLinearAdapter.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-            viewHolder.lineardetail.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-//            viewHolder.lineardetail.setBackground(context.getResources().getDrawable(R.drawable.accept_background));
 
-            viewHolder.date_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-            viewHolder.amount_check.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-            viewHolder.cust_name.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+                viewHolder.amount_check.setText("\tد.أ\t"+viewHolder.convertToArabic(requestList.get(i).getAMOUNT()));
+                Log.e("amount_check",""+requestList.get(i).getAMOUNT()+viewHolder.convertToArabic(requestList.get(i).getAMOUNT()));
+            }
+            else {
+                viewHolder.amount_check.setText(requestList.get(i).getAMOUNT()+"\tJD");
+            }
 
-        }
+
+
+
+
+
         if(requestList.get(i).getTRANSSTATUS().equals("1"))//for me rejected request
         {
             viewHolder.checkimage_state.setImageDrawable(context.getResources().getDrawable(R.drawable.reject_images));
@@ -155,7 +153,6 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
         }
 
 
-        viewHolder.amount_check.setText(requestList.get(i).getAMOUNT()+"\tJD");
         viewHolder.cust_name.setText(requestList.get(i).getFROMUSER_name());
 
 
@@ -213,6 +210,11 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 
 
         }
+        public String convertToArabic(String value) {
+            String newValue = (((((((((((value + "").replaceAll("1", "١")).replaceAll("2", "٢")).replaceAll("3", "٣")).replaceAll("4", "٤")).replaceAll("5", "٥")).replaceAll("6", "٦")).replaceAll("7", "٧")).replaceAll("8", "٨")).replaceAll("9", "٩")).replaceAll("0", "٠"));
+            Log.e("convertToArabic", value + "      " + newValue);
+            return newValue;
+        }
 
         public void showImageOfCheck(Bitmap bitmap) {
             final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);
@@ -251,8 +253,6 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
             PhotoViewAttacher mAttacher;
 
             LinearLayout rowNote,rowcompany;
-//            texDate = dialog.findViewById(R.id.texDate);
-//            texDate.setText(checkInfoNotification.get(row_index).getChequeData());
 
 //
             rowcompany=dialog.findViewById(R.id.rowcompany);
@@ -283,7 +283,17 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 //
 //
             textAmouWord = dialog.findViewById(R.id.textAmountNo);
-            textAmouWord.setText(requestList.get(row_index).getAMOUNT());
+            if (language.equals("ar")) {
+                textAmouWord.setText("\tد.أ\t"+convertToArabic(requestList.get(row_index).getAMOUNT()));
+
+            }
+            else {
+
+                textAmouWord.setText(requestList.get(row_index).getAMOUNT()+"\tJD");
+            }
+
+
+
 //
             Log.e("Dinar", "" + requestList.get(row_index).getAMOUNT());
             note = dialog.findViewById(R.id.textnote);

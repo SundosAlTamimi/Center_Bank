@@ -356,19 +356,46 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             TableRow rowFirst;
             texDate = dialog.findViewById(R.id.texDate);
-            texDate.setText(checkInfoNotification.get(row_index).getChequeData());
+            textViewMain=dialog.findViewById(R.id.textViewMain);
             textFirstPinificry = dialog.findViewById(R.id.textFirstPinificry);
             textResonReject = dialog.findViewById(R.id.textResonReject);
+            rowNote=dialog.findViewById(R.id.rowNote);
+            rowFirst=dialog.findViewById(R.id.rowFirst);
+            textCo = dialog.findViewById(R.id.textCo);
+            textToOrder = dialog.findViewById(R.id.textToOrder);
 
+            amountPhilis = dialog.findViewById(R.id.amountPhilis);
+
+
+
+            textPhoneNo = dialog.findViewById(R.id.textPhoneNo);
+
+            circleImageView = (CircleImageView) dialog.findViewById(R.id.profile_image2);
+            circleGeroImg=(CircleImageView) dialog.findViewById(R.id.profile_gero);
+            textAmouWord = dialog.findViewById(R.id.textAmouWord);
+
+            textAmountNo = dialog.findViewById(R.id.textAmountNo);
+
+            note = dialog.findViewById(R.id.textnote);
             reSend.setVisibility(View.GONE);
             binificary= dialog.findViewById(R.id.binificary);
             String fullName=checkInfoNotification.get(row_index).getToCustomerName();
             binificary.setText(fullName);
             texChequNo=dialog.findViewById(R.id.texChequNo);
-            texChequNo.setText(checkInfoNotification.get(row_index).getChequeNo());
-            rowNote=dialog.findViewById(R.id.rowNote);
-            rowFirst=dialog.findViewById(R.id.rowFirst);
-            textCo = dialog.findViewById(R.id.textCo);
+            if(language.equals("ar"))
+            {
+                texChequNo.setText(convertToArabic(checkInfoNotification.get(row_index).getChequeNo()));
+                texDate.setText(convertToArabic(checkInfoNotification.get(row_index).getChequeData()));
+                textAmountNo.setText(convertToArabic(checkInfoNotification.get(row_index).getMoneyInDinar()));
+                amountPhilis.setText(convertToArabic(checkInfoNotification.get(row_index).getMoneyInFils()));
+            }
+            else {texChequNo.setText(checkInfoNotification.get(row_index).getChequeNo());
+                texDate.setText(checkInfoNotification.get(row_index).getChequeData());
+                textAmountNo.setText(checkInfoNotification.get(row_index).getMoneyInDinar());
+                amountPhilis.setText(checkInfoNotification.get(row_index).getMoneyInFils());
+            }
+
+
 
             textResonReject.setMovementMethod(ScrollingMovementMethod.getInstance());
 
@@ -390,7 +417,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             {
                 rowFirst.setVisibility(View.GONE);
             }
-            textViewMain=dialog.findViewById(R.id.textViewMain);
+
 
             if(checkInfoNotification.get(row_index).getTransSendOrGero().equals("0"))// normal cheque
             {
@@ -465,11 +492,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
 
-            textAmouWord = dialog.findViewById(R.id.textAmouWord);
             textAmouWord.setText(checkInfoNotification.get(row_index).getMoneyInWord());
-            textAmountNo = dialog.findViewById(R.id.textAmountNo);
-            textAmountNo.setText(checkInfoNotification.get(row_index).getMoneyInDinar());
-            note = dialog.findViewById(R.id.textnote);
             if(!checkInfoNotification.get(row_index).getNoteCheck().equals(""))
             {
                 note.setVisibility(View.VISIBLE);
@@ -481,18 +504,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 rowNote.setVisibility(View.GONE);
             }
 
-
-
-            textToOrder = dialog.findViewById(R.id.textToOrder);
-            textToOrder.setText(checkInfoNotification.get(row_index).getCustName());
-            amountPhilis = dialog.findViewById(R.id.amountPhilis);
-            amountPhilis.setText(checkInfoNotification.get(row_index).getMoneyInFils());
-
-
-            textPhoneNo = dialog.findViewById(R.id.textPhoneNo);
             textPhoneNo.setText(checkInfoNotification.get(row_index).getToCustomerMobel());
-            circleImageView = (CircleImageView) dialog.findViewById(R.id.profile_image2);
-            circleGeroImg=(CircleImageView) dialog.findViewById(R.id.profile_gero);
+            textToOrder.setText(checkInfoNotification.get(row_index).getCustName());
             if(checkInfoNotification.get(row_index).getTransSendOrGero().equals("0"))
             {// send image
                 circleGeroImg.setVisibility(View.GONE);
