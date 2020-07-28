@@ -371,7 +371,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/clear_buttons_a"
         android:orientation="horizontal"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -518,6 +518,37 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/cashed"
+                    android:textColor="@color/white"
+                    android:textCursorDrawable="@null"
+                    android:textSize="15sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_arrow_upward_black_24dp"
+                    android:textColor="@color/white"
+                    app:civ_border_color="@color/dark_yellow"
+                    app:civ_border_width="2dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/retrieval"
                     android:textColor="@color/white"
                     android:textCursorDrawable="@null"
                     android:textSize="15sp"
@@ -675,6 +706,38 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/cashed"
+                    android:textColor="@color/white"
+                    android:textCursorDrawable="@null"
+                    android:textSize="15sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_arrow_downward_black_24dp"
+                    android:textColor="@color/white"
+                    app:civ_border_color="@color/dark_yellow"
+                    app:civ_border_width="2dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/retrieval"
                     android:textColor="@color/white"
                     android:textCursorDrawable="@null"
                     android:textSize="15sp"

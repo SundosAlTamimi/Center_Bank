@@ -68,28 +68,28 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
 
         if (!TextUtils.isEmpty(list.get(position).getTransType()))
             if (list.get(position).getTransType().equals("0")) {
-                sendState = "Pending";
+                sendState = context.getResources().getString(R.string.pending);
 //                holder.status.setText("Pending");
                 holder.status.setTextColor(BLUE);
             } else if (list.get(position).getTransType().equals("1")) {
-                sendState = "Accepted";
+                sendState = context.getResources().getString(R.string.acccept);
 //                holder.status.setText("Accepted");
                 holder.status.setTextColor(GREEN);
             } else if (list.get(position).getTransType().equals("2")) {
-                sendState = "Rejected";
+                sendState = context.getResources().getString(R.string.rej);
 //                holder.status.setText("Rejected");
                 holder.status.setTextColor(RED);
             } else if (list.get(position).getTransType().equals("3")) {
-                sendState = "Cashed";
+                sendState =context.getResources().getString(R.string.cashed);
 //                holder.status.setText("Cashed");
                 holder.status.setTextColor(BLACK);// activity.getResources().getColor(R.color.colorBlack)
             }
 
         if (!TextUtils.isEmpty(list.get(position).getTransSendOrGero()))
             if (list.get(position).getTransSendOrGero().equals("0"))
-                holder.status.setText(sendState + " / Issue");
+                holder.status.setText(sendState + " / "+ context.getResources().getString(R.string.Issue));
             else
-                holder.status.setText(sendState + " / Giro");
+                holder.status.setText(sendState + " / "+ context.getResources().getString(R.string.giro));
 //        if(itemsList.get(i).getTransType().equals("2")){
 //            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
 //            TStatus=context.getResources().getString(R.string.rej);

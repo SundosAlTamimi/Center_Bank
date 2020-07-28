@@ -223,4 +223,11 @@
     <string name="chequeCashed">Cheque Cashed</string>
     <string name="chequeNotFound">Check Data not found</string>
     <string name="edit">Edit</string>
+    <string name="isNotYour">This check is not Yours !!!</string>
+    <string name="dATAnOTfOUND">Check Data not found</string>
+    <string name="erorInSaveChequeGero">Error in Saving Check Giro !</string>
+    <string name="Issue">Issue</string>
+    <string name="retrieval">Retrieval</string>
+    <string name="reason_of_retrieval">Reason OF Retrieval</string>
+    <string name="RetrievalChequeNo">Retrieval Cheque No</string>
 </resources>

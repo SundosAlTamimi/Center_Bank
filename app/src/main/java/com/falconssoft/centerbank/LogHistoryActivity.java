@@ -1,14 +1,22 @@
 package com.falconssoft.centerbank;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -28,6 +36,13 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +54,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.Collator;
@@ -52,6 +68,7 @@ import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.falconssoft.centerbank.AlertScreen.checkInfoNotification;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 import static com.falconssoft.centerbank.MainActivity.watch;
 
@@ -68,10 +85,12 @@ public class LogHistoryActivity extends AppCompatActivity {
     TextView help, AccAccount;
     LinearLayout helpDialog;
     String AccountNo, phoneNo, serverLink;
-    TextView customName,dateText,cheqNo,SendCheque;
+    TextView customName, dateText, cheqNo, SendCheque;
     public static ChequeInfo chequeInfoReSend;
+    ChequeInfo chequeInfoRet;
     SwipeRefreshLayout swipeRefresh;
-    boolean isRefresh=false;
+    boolean isRefresh = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,10 +107,10 @@ public class LogHistoryActivity extends AppCompatActivity {
         listLogHistory = findViewById(R.id.listLogHistory);
         AccAccount = findViewById(R.id.AccAccount);
         help = findViewById(R.id.help);
-        customName=findViewById(R.id.customName);
-        dateText=findViewById(R.id.date);
-        cheqNo=findViewById(R.id.chNo);
-        SendCheque=findViewById(R.id.SendCheque);
+        customName = findViewById(R.id.customName);
+        dateText = findViewById(R.id.date);
+        cheqNo = findViewById(R.id.chNo);
+        SendCheque = findViewById(R.id.SendCheque);
         SendCheque.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,12 +129,13 @@ public class LogHistoryActivity extends AppCompatActivity {
         LogHistoryList = new ArrayList<>();
         ListState = new ArrayList<>();
         ListTrans = new ArrayList<>();
+        chequeInfoRet = new ChequeInfo();
 
         swipeRefresh = findViewById(R.id.swipeRefresh);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-               isRefresh=true;
+                isRefresh = true;
                 new GetAllTransaction().execute();
 
             }
@@ -280,13 +300,93 @@ public class LogHistoryActivity extends AppCompatActivity {
     }
 
 
-    public void startEditerForReSend(ChequeInfo chequeInfo){
-        chequeInfoReSend=chequeInfo;
-        Intent reSendIntent=new Intent(LogHistoryActivity.this,EditerCheackActivity.class);
-        reSendIntent.putExtra("ReSend","ReSend");
+    public void startEditerForReSend(ChequeInfo chequeInfo) {
+        chequeInfoReSend = chequeInfo;
+        Intent reSendIntent = new Intent(LogHistoryActivity.this, EditerCheackActivity.class);
+        reSendIntent.putExtra("ReSend", "ReSend");
         startActivity(reSendIntent);
 
     }
+
+
+    public void Retrive(ChequeInfo chequeInfo) {
+        chequeInfoRet = chequeInfo;
+
+        SweetAlertDialog sweRet = new SweetAlertDialog(LogHistoryActivity.this, SweetAlertDialog.WARNING_TYPE);
+        sweRet.setTitleText(LogHistoryActivity.this.getResources().getString(R.string.retrieval));
+        sweRet.setContentText(LogHistoryActivity.this.getResources().getString(R.string.RetrievalChequeNo)+chequeInfoRet.getChequeNo() );
+        sweRet.setCanceledOnTouchOutside(false);
+        sweRet.setConfirmText(LogHistoryActivity.this.getResources().getString(R.string.ok));
+        sweRet.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @SuppressLint("WrongConstant")
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+                RetrievalDialogReson(chequeInfoRet);
+                sDialog.dismissWithAnimation();
+            }
+        });
+
+        sweRet.setCancelText(LogHistoryActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                sweetAlertDialog.dismissWithAnimation();
+
+            }
+
+        });
+
+        sweRet.show();
+    }
+
+    void RetrievalDialogReson(final ChequeInfo chequeInfo) {
+        final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.reson_dialog_retreve);
+        dialog.setCancelable(false);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+//            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+//            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//            lp.gravity = Gravity.CENTER;
+        lp.windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setAttributes(lp);
+        Button close = dialog.findViewById(R.id.canceltButton);
+        Button send = dialog.findViewById(R.id.AcceptButton);
+        final EditText resonText = dialog.findViewById(R.id.edit_reson);
+
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.2F);
+                v.startAnimation(buttonClick);
+                dialog.dismiss();
+            }
+        });
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               if (!resonText.getText().toString().equals("")){
+
+                  new UpDateStatus(chequeInfo,resonText.getText().toString()).execute();
+
+                   dialog.dismiss();
+               }else {
+                   resonText.setError("Required");
+               }
+
+
+
+            }
+        });
+
+        dialog.show();
+
+
+    }
+
 
     private class GetAllTransaction extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
@@ -327,7 +427,7 @@ public class LogHistoryActivity extends AppCompatActivity {
                         "WHICH=" + URLEncoder.encode(parametwrForGetLog.get(2), "UTF-8");
 
                 URL url = new URL(link);
-                Log.e("link,3 ", serverLink+"   "+link+ "   "+data);
+                Log.e("link,3 ", serverLink + "   " + link + "   " + data);
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
@@ -435,6 +535,7 @@ public class LogHistoryActivity extends AppCompatActivity {
                         obj.setISCO(finalObject.getString("ISCO"));
                         obj.setCompanyName(finalObject.getString("COMPANY"));
                         obj.setNoteCheck(finalObject.getString("NOTE"));
+                        obj.setTransSendOrGero(finalObject.getString("TRANSTYPE"));
 
                         //CUSTNAME":"","CUSTFNAME":"","CUSTGNAME":"","CUSTFAMNAME":
 
@@ -502,7 +603,7 @@ public class LogHistoryActivity extends AppCompatActivity {
             public int compare(ChequeInfo one, ChequeInfo two) {
                 // TODO Auto-generated method stub
 
-                Log.e("Sort",""+arabicCollator.compare(one.getCustName(), two.getCustName()));
+                Log.e("Sort", "" + arabicCollator.compare(one.getCustName(), two.getCustName()));
 
                 return arabicCollator.compare(one.getCustName(), two.getCustName());
             }
@@ -514,20 +615,19 @@ public class LogHistoryActivity extends AppCompatActivity {
     private void sortDate() {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy"); //your own date format
 //        if (reports != null) {
-            Collections.sort(ChequeInfoLogHistoryMain, new Comparator<ChequeInfo>() {
-                @Override
-                public int compare(ChequeInfo o1, ChequeInfo o2) {
-                    try {
-                        return simpleDateFormat.parse(o2.getCheckDueDate()).compareTo(simpleDateFormat.parse(o1.getCheckDueDate()));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        return 0;
-                    }
+        Collections.sort(ChequeInfoLogHistoryMain, new Comparator<ChequeInfo>() {
+            @Override
+            public int compare(ChequeInfo o1, ChequeInfo o2) {
+                try {
+                    return simpleDateFormat.parse(o2.getCheckDueDate()).compareTo(simpleDateFormat.parse(o1.getCheckDueDate()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0;
                 }
-            });
+            }
+        });
 //        }
     }
-
 
 
     class CheqNoSorter implements Comparator<ChequeInfo> {
@@ -546,5 +646,144 @@ public class LogHistoryActivity extends AppCompatActivity {
         }
 
     }
+
+
+    private class UpDateStatus extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+         ChequeInfo chequeInfo;
+         String Reason;
+
+
+        public UpDateStatus(ChequeInfo chequeInfo,String Reason) {
+            this.chequeInfo=chequeInfo;
+            this.Reason=Reason;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            progressDialog = new ProgressDialog(context,R.style.MyTheme);
+//            progressDialog.setCancelable(false);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.setProgress(0);
+//            progressDialog.show();
+
+//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+
+                String link = serverLink + "UpdateCheckStatus";
+
+                String data = "CHECKNO=" + URLEncoder.encode(chequeInfo.getChequeNo(), "UTF-8") + "&" +
+                        "BANKNO=" + URLEncoder.encode(chequeInfo.getBankNo(), "UTF-8") + "&" +
+                        "BRANCHNO=" + URLEncoder.encode(chequeInfo.getBranchNo(), "UTF-8") + "&" +
+                        "ACCCODE=" + URLEncoder.encode(chequeInfo.getAccCode(), "UTF-8") + "&" +
+                        "IBANNO=" + URLEncoder.encode(chequeInfo.getIbanNo(), "UTF-8") + "&" +
+                        "ROWID=" + URLEncoder.encode(chequeInfo.getRowId(), "UTF-8") + "&" +
+                        "STATUS=" + URLEncoder.encode("4", "UTF-8") + "&" +
+                        "RJCTREASON=" + URLEncoder.encode(Reason, "UTF-8") + "&" +
+                        "USERNO=" + URLEncoder.encode(chequeInfo.getUserName(), "UTF-8");
+
+
+                URL url = new URL(link);
+                Log.e("link,3 ", serverLink + "   " + link + "   " + data);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                Log.e("tag", "TAG_GetStor -->" + stringBuffer.toString());
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String JsonResponse) {
+            super.onPostExecute(JsonResponse);
+
+
+            if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
+                Log.e("GetLogSuccess", "****Success");
+                new SweetAlertDialog(LogHistoryActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText(LogHistoryActivity.this.getResources().getString(R.string.retrieval))
+                        .setContentText(LogHistoryActivity.this.getResources().getString(R.string.save_success))
+                        .show();
+
+                new GetAllTransaction().execute();
+
+            } else {
+                Log.e("TAG_GetStor", "****Failed to export data");
+//                if(!isAssetsIn.equals("1")) {
+
+                new SweetAlertDialog(LogHistoryActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText(LogHistoryActivity.this.getResources().getString(R.string.retrieval))
+                        .setContentText(LogHistoryActivity.this.getResources().getString(R.string.failtoSend))
+                        .show();
+                new GetAllTransaction().execute();
+//                    }
+//                }else{
+//                    pd.dismiss();
+//                    new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText(context.getResources().getString(R.string.ops))
+//                            .setContentText(context.getResources().getString(R.string.faildstore))
+//                            .show();
+//                    new SyncGetAssest().execute();
+//                }
+            }
+//            progressDialog.dismiss();
+
+        }
+    }
+
 
 }
