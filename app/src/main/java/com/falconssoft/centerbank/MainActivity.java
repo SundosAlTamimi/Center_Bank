@@ -19,6 +19,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -158,12 +160,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         init();
 //        phoneNo = loginPrefs.getString("mobile", "");
 
-        Log.e("editingmain ", phoneNo);
+        Log.e("editingmain ",  ""+isNetworkAvailable());
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                new GetAllCheck_JSONTask().execute();
+                Log.e("isNetworkAvailable ",  ""+isNetworkAvailable());
+               if( isNetworkAvailable())
+               {
+                   new GetAllCheck_JSONTask().execute();
+               }else {
+                   Log.e("isNetworkAvailable ",  ""+isNetworkAvailable());
+
+               }
+
 
 //                new GetAllRequestFromUser_JSONTask().execute();
 
@@ -284,7 +294,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
     void showAllDataAccount() {
 //        picforbar = dbHandler.getAllAcCount();
 //        new GetAllAccount().execute();
