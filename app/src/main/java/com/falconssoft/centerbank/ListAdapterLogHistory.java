@@ -72,7 +72,7 @@ public class ListAdapterLogHistory extends BaseAdapter {
 
     private class ViewHolder {
        LinearLayout detailRow;
-        TextView name,transType,StatW,date,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo,cheqNo,chequNo,reSend ,bankName_text,phoneNo;//, price
+        TextView name,transType,StatW,date,from,to,TranseType,bankName,AmountJd,AmountWord,branchNo,cheqNo,chequNo,reSend ,bankName_text,phoneNo,Retrieval;//, price
 CircleImageView status;
 TableRow detail;
 
@@ -89,7 +89,7 @@ TableRow detail;
         view = View.inflate(context, R.layout.report_row_log_history, null);
 
         holder.bankName_text= view.findViewById(R.id.bankName_text);
-
+        holder.Retrieval= view.findViewById(R.id.Retrieval);
         holder.phoneNo= view.findViewById(R.id.phoneNo);
         holder.detailRow =  view.findViewById(R.id.detailRow);
         holder.reSend =  view.findViewById(R.id.reSend);
@@ -108,6 +108,10 @@ TableRow detail;
         holder.branchNo =  view.findViewById(R.id.branchNo);
         holder.detail=  view.findViewById(R.id.detailLog);
         String TStatus="";
+        String T_Type="";
+
+
+
 
         if(itemsList.get(i).getTransType().equals("2")){
             holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
@@ -127,9 +131,15 @@ TableRow detail;
             holder.status.setBorderColor(context.getResources().getColor(R.color.gray_));
             holder.StatW.setTextColor(context.getResources().getColor(R.color.gray_));
             TStatus=context.getResources().getString(R.string.cashed);
+        }else if(itemsList.get(i).getTransType().equals("4")){//OWNERMOBNO
+            holder.status.setBorderColor(context.getResources().getColor(R.color.dark_yellow));
+            holder.StatW.setTextColor(context.getResources().getColor(R.color.dark_yellow));
+            TStatus=context.getResources().getString(R.string.retrieval);
         }
 
         holder.reSend.setVisibility(View.GONE);
+
+        holder.Retrieval.setVisibility(View.GONE);
 //        if(itemsList.get(i).getTransType().equals("2")&&itemsList.get(i).getStatus().equals("0")){
 //            holder.reSend.setVisibility(View.VISIBLE);
 //        }else {
@@ -158,10 +168,19 @@ TableRow detail;
         });
 
 
+        if (itemsList.get(i).getTransSendOrGero().equals("1")) {
+            T_Type=context.getResources().getString(R.string.giro);
+//            holder.status.setBackground(context.getResources().getDrawable(R.drawable.ic_swap));
+        } else if (itemsList.get(i).getTransSendOrGero().equals("0")) {
+//            holder.status.setBackground(null);
+            T_Type=context.getResources().getString(R.string.Issue);
+        }
+
+
         holder.detailRow.setVisibility(View.GONE);
 //        holder.state.setText("" + itemsList.get(i).getStatus());
 
-        holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+" \n " +TStatus);
+        holder.TranseType.setText(context.getResources().getString(R.string.ch_status)+" \n " +TStatus+" / "+T_Type);
         holder.chequNo.setText(itemsList.get(i).getChequeNo());
         holder.phoneNo.setText("+"+itemsList.get(i).getToCustomerMobel());
 
@@ -178,16 +197,16 @@ TableRow detail;
 
 
 
-        if(itemsList.get(i).getStatus().equals("0")){
-            holder.status.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
-            holder.branchNo .setText(context.getResources().getString(R.string.account_no_) +"\n "+ itemsList.get(i).getAccCode().substring(1));
-            holder.branchNo .setVisibility(View.VISIBLE);
-            holder.bankName_text.setVisibility(View.VISIBLE);
-        }else if(itemsList.get(i).getStatus().equals("1")){
-            holder.status.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
-            holder.branchNo .setVisibility(View.GONE);
-            holder.bankName_text.setVisibility(View.GONE);
-        }
+            if (itemsList.get(i).getStatus().equals("0")) {
+                holder.status.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+                holder.branchNo.setText(context.getResources().getString(R.string.account_no_) + "\n " + itemsList.get(i).getAccCode().substring(1));
+                holder.branchNo.setVisibility(View.VISIBLE);
+                holder.bankName_text.setVisibility(View.VISIBLE);
+            } else if (itemsList.get(i).getStatus().equals("1")) {
+                holder.status.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
+                holder.branchNo.setVisibility(View.GONE);
+                holder.bankName_text.setVisibility(View.GONE);
+            }
 
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,6 +224,14 @@ TableRow detail;
             }
         });
 
+
+            if(itemsList.get(i).getStatus().equals("0")&&(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals(""))){
+                holder.Retrieval.setVisibility(View.VISIBLE);
+            }else {
+                holder.Retrieval.setVisibility(View.GONE);
+            }
+
+
         holder.phoneNo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -214,6 +241,15 @@ TableRow detail;
                 }
             }
         });
+
+        holder.Retrieval.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                context.Retrive(itemsList.get(i));
+            }
+        });
+
 
         return view;
     }

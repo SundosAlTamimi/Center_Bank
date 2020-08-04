@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bank4"
+android:textDirection="locale"
     android:layoutDirection="locale"
+
     >
 
     <LinearLayout
@@ -13,9 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/clear_buttons"
+        android:textDirection="locale"
         android:layoutDirection="locale"
+
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <LinearLayout
@@ -206,7 +210,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
+                    android:drawableStart="@drawable/ic_arrow_upward_black_24dp"
                     android:fontFamily="sans-serif-light"
 
                     android:gravity="center"
@@ -219,7 +223,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
+                    android:drawableStart="@drawable/ic_arrow_upward_black_24dp"
                     android:fontFamily="sans-serif-light"
 
                     android:gravity="center"
@@ -232,7 +236,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
+                    android:drawableStart="@drawable/ic_arrow_upward_black_24dp"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
 
@@ -272,10 +276,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/clear_buttons"
+        android:textDirection="locale"
         android:layoutDirection="locale"
+
         android:orientation="vertical"
         android:padding="10dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -356,6 +362,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_bac_s"
                         android:gravity="center"
+
+
                         android:orientation="horizontal">
 
                         <com.hbb20.CountryCodePicker
@@ -412,6 +420,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/national_no"
                             android:padding="5dp"
+
                             android:textColorHint="@color/colorWhiteLight"
                             app:hintTextColor="@color/red">
 
@@ -447,6 +456,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
+
+
                         android:gravity="center">
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -629,7 +640,7 @@
                                 android:enabled="false"
                                 android:fontFamily="serif"
                                 android:hint="@string/date"
-                                android:inputType="textPersonName"
+
                                 android:padding="5dp"
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
@@ -852,7 +863,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="C/O"
+                            android:text="@string/CO"
                             android:textColor="@color/colorWhite"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -933,8 +944,10 @@
         android:layout_height="match_parent"
         android:background="@drawable/clear_buttons"
         android:gravity="center"
-        android:orientation="vertical"
+        android:textDirection="locale"
         android:layoutDirection="locale"
+        android:orientation="vertical"
+
         android:visibility="gone">
 
         <LinearLayout

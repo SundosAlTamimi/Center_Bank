@@ -204,4 +204,11 @@
     <string name="chequeNotFound">*** لم يتم اصدار الشيك ***</string>
     <string name="edit">تحرير</string>
     <string name="my_cheques">My Cheques</string>
+    <string name="isNotYour">لست مالك الشيك !!!</string>
+    <string name="dATAnOTfOUND">الشيك ليس موجود</string>
+    <string name="erorInSaveChequeGero">خطا في حفظ الشيك !</string>
+    <string name="Issue">مصدر</string>
+    <string name="retrieval">استرجاع</string>
+    <string name="reason_of_retrieval"> سبب الارجاع </string>
+    <string name="RetrievalChequeNo">سترجاع الشيك رقم </string>
 </resources>

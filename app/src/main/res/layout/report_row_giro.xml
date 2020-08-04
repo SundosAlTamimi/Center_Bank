@@ -304,7 +304,13 @@
                 android:layout_margin="5dp"
                 android:fontFamily="sans-serif-light"
                 android:drawableStart="@drawable/ic_send_black_24dp"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textCursorDrawable="@null"
+                android:textSize="12sp"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/lostSteal"
@@ -317,7 +323,13 @@
                 android:text="@string/lost_stealing"
                 android:fontFamily="sans-serif-light"
                 android:drawableStart="@drawable/ic_gavel"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textCursorDrawable="@null"
+                android:textSize="12sp"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"/>
         </LinearLayout>
 
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.falconssoft.centerbank;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -47,6 +49,13 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.hbb20.CountryCodePicker;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,6 +68,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.Collator;
@@ -88,7 +98,7 @@ public class JeroActivity extends AppCompatActivity {
     static String phoneNo;
     List<ChequeInfo> ChequeInfoGiro;
     ListView listGiro;
-    TextView customName, dateText, cheqNo, scanBarcode, AmouWord, date, amountTV, Danier, phails, CheckPicText;
+    TextView customName, dateText, cheqNo, scanBarcode, AmouWord, date, amountTV, Danier, phails, CheckPicText,check;
     public LinearLayout giroList, editLiner, barcodeLiner, linearPhone;
     public List<ChequeInfo> chequeInfoTilar;
     public static TextView getTrial;
@@ -115,18 +125,31 @@ public class JeroActivity extends AppCompatActivity {
     TextView editorCheque_check;
     private TextInputEditText serial;
     private String validateBySerial = "";
+    private LinearLayout haveAProblem, serialLinear;
+    private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV;
+    static String CHECKNO = "";
+    static String ACCCODE = "";
+    static String IBANNO = "";
+    static String CUSTOMERNM = "";
+    static String QRCODE = "";
+    static String SERIALNO = "";
+    static String BANKNO = "";
+    static String BRANCHNO = "";
+    String[] arr;
 
+
+    @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         new LocaleAppUtils().changeLayot(JeroActivity.this);
         setContentView(R.layout.jiro_activity);
-
 
         SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs1.getString("link", "");
 
-        serial = findViewById(R.id.editorCheque_serial);
+
         listGiro = findViewById(R.id.GiroList);
         getTrial = findViewById(R.id.getTrial);
         giroList = findViewById(R.id.giroList);
@@ -157,8 +180,13 @@ public class JeroActivity extends AppCompatActivity {
         ccp = findViewById(R.id.giro_ccp);
         linearPhone = findViewById(R.id.giro_phone_linear);
 
-//        progressDialog = new ProgressDialog(this);
-//        progressDialog.setMessage("Please waiting...");
+        haveAProblem = findViewById(R.id.editorCheque_haveAProblem);
+        serialLinear = findViewById(R.id.editorCheque_serial_linear);
+        serial = findViewById(R.id.editorCheque_serial);
+        check = findViewById(R.id.editorCheque_check);
+        serialLinear.setVisibility(View.GONE);
+
+
 
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
@@ -185,6 +213,21 @@ public class JeroActivity extends AppCompatActivity {
         customName = findViewById(R.id.customName);
         dateText = findViewById(R.id.date);
         cheqNo = findViewById(R.id.chNo);
+
+
+
+        haveAProblem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (serialLinear.getVisibility() == View.VISIBLE) {
+                    serialLinear.setVisibility(View.GONE);
+
+                } else {
+                    serialLinear.setVisibility(View.VISIBLE);
+                    serial.setError(null);
+                }
+            }
+        });
 
 
         CheckPic.setOnClickListener(new View.OnClickListener() {
@@ -267,6 +310,7 @@ public class JeroActivity extends AppCompatActivity {
                     int index = Integer.parseInt(getTrial.getTag().toString());
                     Log.e("getTrialText", "  " + getTrial.getText().toString());
                     Log.e("getTrial", "  " + index + "   " + ChequeInfoGiro.get(index).getChequeNo());
+
                     giroList.setVisibility(View.GONE);
                     barcodeLiner.setVisibility(View.VISIBLE);
                     editLiner.setVisibility(View.GONE);
@@ -578,6 +622,21 @@ public class JeroActivity extends AppCompatActivity {
             }
         });
 
+
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(serial.getText().toString())) {
+                    serial.setError(null);
+                    validateBySerial = serial.getText().toString().toUpperCase();
+                    new JSONTaskSerial().execute();
+                } else {
+                    serial.setError("Required");
+                }
+
+            }
+        });
+
     }
 
 
@@ -651,7 +710,7 @@ public class JeroActivity extends AppCompatActivity {
 //                openEditerCheck();
 
                     String ST = Result.getContents();
-                    String[] arr = ST.split(";");
+                    arr = ST.split(";");
 
                     String checkNo = arr[0];
 //                    String bankNo = arr[1];
@@ -661,7 +720,7 @@ public class JeroActivity extends AppCompatActivity {
 //                    String custName= "";
 
                     if (checkNo.equals(chequeInfos.getChequeNo())) {
-                        new IsCheckPinding(ChequeInfoGiro.get(index)).execute();
+                        new JSONTask().execute();
 
                     } else {
                         new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -755,6 +814,8 @@ public class JeroActivity extends AppCompatActivity {
 
     void FailGiroSave() {
         flag1 = 2;
+
+        new LocaleAppUtils().changeLayot(JeroActivity.this);
         giroList.setVisibility(View.GONE);
         barcodeLiner.setVisibility(View.GONE);
         editLiner.setVisibility(View.VISIBLE);
@@ -1150,7 +1211,7 @@ public class JeroActivity extends AppCompatActivity {
                     } else {
                         new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("Giro Cheque ")
-                                .setContentText("This check is not Yours !!!")
+                                .setContentText(JeroActivity.this.getResources().getString(R.string.isNotYour))
                                 .show();
                         flag1 = 1;
                     }
@@ -1166,7 +1227,7 @@ public class JeroActivity extends AppCompatActivity {
 
                 new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText("Giro Cheque ")
-                        .setContentText("Check Data not found")
+                        .setContentText(JeroActivity.this.getResources().getString(R.string.dATAnOTfOUND))
                         .show();
 
                 flag1 = 1;
@@ -1405,6 +1466,8 @@ public class JeroActivity extends AppCompatActivity {
                         }
                     }).show();
 
+                    new LocaleAppUtils().changeLayot(JeroActivity.this);
+
                     flag1 = 0;
                     barcodeLiner.setVisibility(View.GONE);
                     giroList.setVisibility(View.VISIBLE);
@@ -1549,8 +1612,8 @@ public class JeroActivity extends AppCompatActivity {
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("")
-                            .setContentText("Processing ... ")
-                            .setConfirmText("Ok")
+                            .setContentText(JeroActivity.this.getResources().getString(R.string.save_success))
+                            .setConfirmText(JeroActivity.this.getResources().getString(R.string.ok))
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @SuppressLint("WrongConstant")
                                 @Override
@@ -1563,8 +1626,8 @@ public class JeroActivity extends AppCompatActivity {
                     Log.e("tag", "****Failed to export data");
                     new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("WARNING")
-                            .setContentText("Error in Saving Check Giro !")
-                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            .setContentText(JeroActivity.this.getResources().getString(R.string.erorInSaveChequeGero))
+                            .setCancelText(JeroActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             sweetAlertDialog.dismissWithAnimation();
@@ -1575,8 +1638,8 @@ public class JeroActivity extends AppCompatActivity {
                 } else if (s != null && s.contains("\"StatusCode\" : 4,\"StatusDescreption\":\"Error in Saving Check Temp.\"")) {//
                     new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("WARNING")
-                            .setContentText("Error in Saving Check Temp Giro!")
-                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            .setContentText(JeroActivity.this.getResources().getString(R.string.erorInSaveChequeGero))
+                            .setCancelText(JeroActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             sweetAlertDialog.dismissWithAnimation();
@@ -1586,8 +1649,8 @@ public class JeroActivity extends AppCompatActivity {
                 } else {
                     new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("WARNING")
-                            .setContentText("Error in Saving Giro " + s)
-                            .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            .setContentText(JeroActivity.this.getResources().getString(R.string.erorInSaveChequeGero))
+                            .setCancelText(JeroActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             sweetAlertDialog.dismissWithAnimation();
@@ -1600,7 +1663,7 @@ public class JeroActivity extends AppCompatActivity {
                 new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText("WARNING")
                         .setContentText("Failed to export data Please check internet connection !")
-                        .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        .setCancelText(JeroActivity.this.getResources().getString(R.string.close)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         sweetAlertDialog.dismissWithAnimation();
@@ -1779,6 +1842,21 @@ public class JeroActivity extends AppCompatActivity {
 //            }
 //        }
 //    }
+
+   void  showSweetDialog(){
+       new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
+               .setTitleText("WARNING")
+               .setContentText("Invalidate cheque!")
+               .setConfirmText("Ok")
+               .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                   @Override
+                   public void onClick(SweetAlertDialog sweetAlertDialog) {
+                       sweetAlertDialog.dismissWithAnimation();
+                   }
+               })
+
+               .show();
+    }
 
 
     public class GetUserInfoByMobo extends AsyncTask<String, String, String> {
@@ -1967,6 +2045,320 @@ public class JeroActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    // ********************************************  Serial VALIDATION *************************************
+    private class JSONTaskSerial extends AsyncTask<String, String, String> {
+        private String JsonResponse = null;
+        private HttpURLConnection urlConnection = null;
+        private BufferedReader reader = null;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//
+//                final List<MainSetting>mainSettings=dbHandler.getAllMainSetting();
+//                String ip="";
+//                if(mainSettings.size()!=0) {
+//                    ip=mainSettings.get(0).getIP();
+//                }
+                String link = serverLink + "VerifyCheckBySerial";
+
+
+                String data = "SERIALNO=" + URLEncoder.encode(validateBySerial, "UTF-8");
+//
+                URL url = new URL(link);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(data);
+                wr.flush();
+                wr.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                while ((JsonResponse = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(JsonResponse + "\n");
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+
+
+                return stringBuffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("tag", "Error closing stream", e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("editorChequeActivity/", "saved//" + s);
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****Success");
+                    Log.e("VerifyCheck 1116", "" + "JSONTask" + s.toString());
+                    try {
+
+                        JSONObject parentArray = new JSONObject(s);
+                        JSONArray parentInfo = parentArray.getJSONArray("INFO");
+
+//                    INFO":[{"ROWID":"AABX2UAAPAAAACDAA1","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الصقور للبرمجيات","QRCODE":"390144;004;0099;1014569990011000","SERIALNO":"635088CD7E6D405B","CHECKISSUEDATE":"7\/2\/2020 12:51:57 PM","CHECKDUEDATE":"","TOCUSTOMERNM":"","AMTJD":"","AMTFILS":"","AMTWORD":"","TOCUSTOMERMOB":"","TOCUSTOMERNATID":"","CHECKWRITEDATE":"","CHECKPICPATH":"","USERNO":"","ISCO":"","ISFB":"","COMPANY":"","NOTE":""}]}
+
+
+                        JSONObject finalObject = parentInfo.getJSONObject(0);
+
+
+//      [{"NATID":"4236828854","FIRSTNM":"alaa","FATHERNM":"t","GRANDNM":"yg","FAMILYNM":"ug","DOB":"22\/07\/2020","GENDER":"1","MOBILENO":"962798899716","ADDRESS":"amman","EMIAL":"alaa@gmail.com","PASSWORD":"AalaaA7$","INACTIVE":"0","INDATE":"22\/07\/2020 17:36:22","PASSKIND":"0"}]}
+
+
+//                            userSend.setNationalID(finalObject.getString("NATID"));
+                        CHECKNO = finalObject.get("CHECKNO").toString();
+                        ACCCODE = finalObject.get("ACCCODE").toString();
+                        IBANNO = finalObject.get("IBANNO").toString();
+                        CUSTOMERNM = finalObject.get("CUSTOMERNM").toString();
+                        QRCODE = finalObject.get("QRCODE").toString();
+                        SERIALNO = finalObject.get("SERIALNO").toString();
+                        BANKNO = finalObject.get("BANKNO").toString();
+                        BRANCHNO = finalObject.get("BRANCHNO").toString();
+
+
+//                        showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
+
+                        if (CHECKNO.equals(chequeInfos.getChequeNo())) {
+                            new IsCheckPinding(chequeInfos).execute();
+
+                        } else {
+                            new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("Cheque")
+                                    .setContentText("This cheque is not the same as the cheque you want to send !!!")
+                                    .setConfirmText("Ok")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @SuppressLint("WrongConstant")
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            finish();
+                                            Intent intent = new Intent(JeroActivity.this, JeroActivity.class);
+                                            startActivity(intent);
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    }).show();
+                        }
+
+
+//                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+
+                    showSweetDialog();
+
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+                showSweetDialog();
+
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
+
+
+
+    // ******************************************** CHECK QR VALIDATION *************************************
+    private class JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                Log.e("VerifyCheck 1067", "" + "JSONTask");
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                request.setURI(new URI(serverLink + "VerifyCheck?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("CHECKNO", arr[0]));
+                nameValuePairs.add(new BasicNameValuePair("BANKNO", arr[1]));
+                nameValuePairs.add(new BasicNameValuePair("BTANCHNO", arr[2]));
+                nameValuePairs.add(new BasicNameValuePair("ACCCODE", arr[3]));
+                nameValuePairs.add(new BasicNameValuePair("IBANNO", ""));
+                nameValuePairs.add(new BasicNameValuePair("CUSTOMERNM", ""));
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tag", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+//        Log.e("VerifyCheck 1112", "" + "JSONTask"+s.toString());
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("tag", "****Success");
+                    Log.e("VerifyCheck 1116", "" + "JSONTask" + s.toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+
+
+                        CHECKNO = jsonObject.get("CHECKNO").toString();
+                        ACCCODE = jsonObject.get("ACCCODE").toString();
+                        IBANNO = jsonObject.get("IBANNO").toString();
+                        CUSTOMERNM = jsonObject.get("CUSTOMERNM").toString();
+                        QRCODE = jsonObject.get("QRCODE").toString();
+                        SERIALNO = jsonObject.get("SERIALNO").toString();
+                        BANKNO = jsonObject.get("BANKNO").toString();
+                        BRANCHNO = jsonObject.get("BRANCHNO").toString();
+
+//                        showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
+
+                        new IsCheckPinding(chequeInfos).execute();
+
+//                        showSweetDialog(true, jsonObject.get("CUSTOMERNM").toString(), jsonObject.get("BANKNO").toString(), jsonObject.get("ACCCODE").toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+
+                   showSweetDialog();
+
+                    Log.e("tag", "****Failed to export data");
+                }
+            } else {
+               showSweetDialog();
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
+
+    public void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
+        Log.e("VerifyCheck 849", "" + "JSONTask dialog");
+        if (check) {
+            Log.e("VerifyCheck 851", "JSONTask dialog in ");
+            new LocaleAppUtils().changeLayot(JeroActivity.this);
+
+            final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_after_validation);
+            dialog.setCancelable(false);
+
+
+            bankNameTV = dialog.findViewById(R.id.dialog_validation_bankName);
+            chequeWriterTV = dialog.findViewById(R.id.dialog_validation_chequeWriter);
+            chequeNoTV = dialog.findViewById(R.id.dialog_validation_chequeNo);
+            accountNoTV = dialog.findViewById(R.id.dialog_validation_accountNo);
+            okTV = dialog.findViewById(R.id.dialog_validation_ok);
+            cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
+
+
+            if (LocaleAppUtils.language.equals("ar")) {
+                chequeWriterTV.setText(customerName);
+                accountNoTV.setText(new LocaleAppUtils().convertToArabic(accountNo));
+                chequeNoTV.setText(new LocaleAppUtils().convertToArabic(chequeNo));
+            } else {
+
+                chequeWriterTV.setText(customerName);
+                accountNoTV.setText(accountNo);
+                chequeNoTV.setText(chequeNo);
+            }
+
+            okTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    dialog.dismiss();
+                }
+            });
+
+            cancelTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        } else {
+            Log.e("VerifyCheck 890", "JSONTask dialog in ");
+            new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("WARNING")
+                    .setContentText("Invalidate cheque!")
+                    .setCancelText("Close").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+
+                }
+            }).show();
+
+        }
+
     }
 
 
