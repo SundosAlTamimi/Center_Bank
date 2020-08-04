@@ -72,6 +72,7 @@ public class ProfilePage extends AppCompatActivity {
             gender.setText("Male");
         else
             gender.setText("Female");
+        Log.e("getEmail", loginINFO.getEmail());
         date.setText(loginINFO.getBirthDate());
 
         phoneNo.setOnLongClickListener(new View.OnLongClickListener() {
