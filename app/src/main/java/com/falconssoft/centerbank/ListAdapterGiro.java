@@ -1,6 +1,7 @@
 package com.falconssoft.centerbank;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
@@ -193,6 +194,8 @@ public class ListAdapterGiro extends BaseAdapter {
             @Override
             public void onClick(View view) {
 
+                Intent intLost=new Intent(context,LostAndStealing.class);
+                context.startActivity(intLost);
                 Toast.makeText(context, "lost/stealing", Toast.LENGTH_SHORT).show();
 
             }
