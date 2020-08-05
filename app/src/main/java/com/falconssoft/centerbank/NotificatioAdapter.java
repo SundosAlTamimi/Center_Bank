@@ -127,7 +127,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         if (language.equals("ar")) {
 
             viewHolder.date_check.setText(viewHolder.convertToArabic(notificationList.get(i).getDate()));
-        } else {
+        }
+        else {
             viewHolder.date_check.setText(notificationList.get(i).getDate());
 
         }
