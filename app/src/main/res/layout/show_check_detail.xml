@@ -45,7 +45,9 @@
                     app:autoSizeMinTextSize="20sp"
                     app:autoSizeStepGranularity="2sp"
                     app:autoSizeTextType="uniform"
-                    app:fontFamily="sans-serif-smallcaps" />
+                    app:fontFamily="sans-serif-smallcaps"
+
+                    />
 
             </LinearLayout>
 
@@ -73,13 +75,16 @@
                     android:gravity="start"
                     android:drawablePadding="5dp"
                     android:text="@string/cheque_no"
+                    app:fontFamily="sans-serif-smallcaps"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:autoSizeMaxTextSize="18sp"
                     app:autoSizeMinTextSize="12sp"
                     app:autoSizeStepGranularity="2sp"
-                    app:autoSizeTextType="uniform" />
+                    app:autoSizeTextType="uniform"
+
+                    />
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -93,11 +98,8 @@
                         android:id="@+id/texChequNo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
                         android:ems="10"
                         android:gravity="center"
-
-
                         android:text=""
                         android:textColor="@color/colorWhite"
                         android:textColorHint="@color/colorWhite"
@@ -118,6 +120,7 @@
                     android:text="@string/date"
                     android:drawablePadding="5dp"
                     android:textColor="@color/colorWhite"
+                    app:fontFamily="sans-serif-smallcaps"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:autoSizeMaxTextSize="18sp"
@@ -137,7 +140,6 @@
                         android:id="@+id/texDate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
                         android:ems="10"
                         android:gravity="center"
                         android:text=""
@@ -160,6 +162,7 @@
                     android:drawablePadding="5dp"
                     android:text="@string/beneficiary"
                     android:textColor="@color/colorWhite"
+                    app:fontFamily="sans-serif-smallcaps"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:autoSizeMaxTextSize="18sp"
@@ -181,9 +184,7 @@
                         android:id="@+id/binificary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_weight="1"
-
                         android:ems="10"
                         android:gravity="center"
                         android:hint=""
@@ -215,6 +216,7 @@
                         android:layout_margin="2dp"
                         android:layout_weight="5.7"
                         android:text="@string/amount_word"
+                        app:fontFamily="sans-serif-smallcaps"
                         android:textColor="@color/colorWhite"
 
                         android:textSize="18sp"
@@ -239,7 +241,6 @@
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
                             android:ems="5"
-
                             android:gravity="center"
                             android:inputType="numberDecimal"
                             android:padding="5dp"
@@ -360,6 +361,7 @@
                     android:drawableStart="@drawable/ic_person"
                     android:gravity="start"
                     android:text="@string/cheque_writer"
+                    app:fontFamily="sans-serif-smallcaps"
                     android:textColor="@color/colorWhite"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -382,11 +384,9 @@
                         android:id="@+id/textToOrder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_weight="1"
                         android:ems="10"
                         android:gravity="center"
-
                         android:inputType="textPersonName"
                         android:padding="1dp"
                         android:textColor="@color/colorWhite"
@@ -417,7 +417,7 @@
                         android:layout_weight="2"
                         android:drawableStart="@drawable/ic_border_color_black_24dp"
                         android:gravity="start"
-
+                        app:fontFamily="sans-serif-smallcaps"
 
                         android:text="@string/Note"
                         android:drawablePadding="5dp"
@@ -438,7 +438,6 @@
                         android:background="@drawable/edit_bac_s"
                         android:layout_weight="1"
                         android:ems="10"
-
                         android:gravity="center"
                         android:lines="2"
                         android:layout_marginTop="3dp"
@@ -474,6 +473,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/left_background"
                         android:ems="10"
+                        app:fontFamily="sans-serif-smallcaps"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="@string/firstbeneficiary"
@@ -491,6 +491,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        app:fontFamily="sans-serif-smallcaps"
                         android:layout_weight="1"
                         android:background="@drawable/accept_background"
 
@@ -515,6 +516,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="serif"
                     android:text="@string/check_pic"
+                    app:fontFamily="sans-serif-smallcaps"
                     android:layout_weight="3"
                     android:textColor="@color/colorWhite"
                     android:textSize="15sp"
@@ -564,6 +566,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
+                app:fontFamily="sans-serif-smallcaps"
                 android:layout_weight="4"
                 android:orientation="vertical"
                 android:visibility="gone">
@@ -575,6 +578,7 @@
                     android:drawableStart="@drawable/ic_do_not_disturb_alt_black_24dp"
                     android:ems="5"
                     android:gravity="start"
+                    app:fontFamily="sans-serif-smallcaps"
                     android:text="@string/ResonOfReject"
                     android:textColor="@color/colorWhite"
                     android:textSize="16sp"
@@ -599,6 +603,7 @@
                         android:textColor="@color/colorWhite"
                         android:textSize="18sp"
                         app:autoSizeMaxTextSize="18sp"
+                        app:fontFamily="sans-serif-smallcaps"
                         app:autoSizeMinTextSize="16sp"
                         app:autoSizeStepGranularity="2sp"
                         app:autoSizeTextType="uniform" />
@@ -610,6 +615,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:layout_marginTop="5dp"
+                        app:fontFamily="sans-serif-smallcaps"
                         android:background="@drawable/edit_bac_sinup"
                         android:drawableStart="@drawable/ic_send_black_24dp"
                         android:drawablePadding="10dp"
@@ -645,6 +651,7 @@
                     android:background="@drawable/edit_bac_sinup"
                     android:padding="5dp"
                     android:text="@string/Accept"
+                    app:fontFamily="sans-serif-smallcaps"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -662,6 +669,7 @@
                     android:background="@drawable/edit_bac_"
                     android:padding="5dp"
                     android:text="@string/Reject"
+                    app:fontFamily="sans-serif-smallcaps"
 
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"

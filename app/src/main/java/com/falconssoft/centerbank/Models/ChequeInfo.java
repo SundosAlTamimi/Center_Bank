@@ -55,6 +55,101 @@ public class ChequeInfo implements Serializable {
     private  String toCustGName;
     private  String toCustFamalyName;
 
+    public String getIsJoin() {
+        return IsJoin;
+    }
+
+    public void setIsJoin(String isJoin) {
+        IsJoin = isJoin;
+    }
+
+    public String getJOIN_FirstMOB() {
+        return JOIN_FirstMOB;
+    }
+
+    public void setJOIN_FirstMOB(String JOIN_FirstMOB) {
+        this.JOIN_FirstMOB = JOIN_FirstMOB;
+    }
+
+    public String getJOIN_SecondSMOB() {
+        return JOIN_SecondSMOB;
+    }
+
+    public void setJOIN_SecondSMOB(String JOIN_SecondSMOB) {
+        this.JOIN_SecondSMOB = JOIN_SecondSMOB;
+    }
+
+    public String getJOIN_TheredMOB() {
+        return JOIN_TheredMOB;
+    }
+
+    public void setJOIN_TheredMOB(String JOIN_TheredMOB) {
+        this.JOIN_TheredMOB = JOIN_TheredMOB;
+    }
+
+    public String getJOIN_F_STATUS() {
+        return JOIN_F_STATUS;
+    }
+
+    public void setJOIN_F_STATUS(String JOIN_F_STATUS) {
+        this.JOIN_F_STATUS = JOIN_F_STATUS;
+    }
+
+    public String getJOIN_F_REASON() {
+        return JOIN_F_REASON;
+    }
+
+    public void setJOIN_F_REASON(String JOIN_F_REASON) {
+        this.JOIN_F_REASON = JOIN_F_REASON;
+    }
+
+    public String getJOIN_S_STATUS() {
+        return JOIN_S_STATUS;
+    }
+
+    public void setJOIN_S_STATUS(String JOIN_S_STATUS) {
+        this.JOIN_S_STATUS = JOIN_S_STATUS;
+    }
+
+    public String getJOIN_S_REASON() {
+        return JOIN_S_REASON;
+    }
+
+    public void setJOIN_S_REASON(String JOIN_S_REASON) {
+        this.JOIN_S_REASON = JOIN_S_REASON;
+    }
+
+    public String getJOIN_T_STATUS() {
+        return JOIN_T_STATUS;
+    }
+
+    public void setJOIN_T_STATUS(String JOIN_T_STATUS) {
+        this.JOIN_T_STATUS = JOIN_T_STATUS;
+    }
+
+    public String getJOIN_T_REASON() {
+        return JOIN_T_REASON;
+    }
+
+    public void setJOIN_T_REASON(String JOIN_T_REASON) {
+        this.JOIN_T_REASON = JOIN_T_REASON;
+    }
+
+    private  String IsJoin;
+    private  String JOIN_FirstMOB;
+    private  String JOIN_SecondSMOB ;
+    private  String JOIN_TheredMOB;
+
+    private  String JOIN_F_STATUS ;
+    private  String JOIN_F_REASON;
+    private  String JOIN_S_STATUS;
+
+    private  String JOIN_S_REASON;
+    private  String JOIN_T_STATUS;
+    private  String JOIN_T_REASON;
+
+
+
     public String getTransSendOrGero() {
         return transSendOrGero;
     }

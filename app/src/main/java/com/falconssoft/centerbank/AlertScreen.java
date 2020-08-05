@@ -355,65 +355,61 @@ public class AlertScreen extends AppCompatActivity {
                             JSONObject infoDetail = notificationInfo.getJSONObject(i);
 //                            serverPicBitmap=null;
                             ChequeInfo chequeInfo = new ChequeInfo();
+                            chequeInfo.setIsJoin(infoDetail.getString("ISJOIN"));
                             chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
+//
+
+                            chequeInfo.setToCustomerMobel(infoDetail.get("TOCUSTOMERMOB").toString());
+                            Log.e("setIsJoin",""+chequeInfo.getIsJoin()+"\t TOCUSTOMERMOB"+chequeInfo.getToCustomerMobel()+"\t phoneNo"+ phoneNo);
                             chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
                             Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t setStatus" + chequeInfo.getStatus());
                             if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
-                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")))// Pending and Reciver
+                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0"))
+                                            &&(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("100")&& !chequeInfo.getToCustomerMobel().equals(phoneNo)))// Pending and Reciver
                             {
                                 notification notifi = new notification();
                                 notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
                                 notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
                                 notifi.setAmount_check(infoDetail.get("AMTJD").toString());
                                 //**********************************************************************
-
                                 chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
                                 chequeInfo.setToCustomerNationalId(infoDetail.get("TOCUSTOMERNATID").toString());
-                                chequeInfo.setToCustomerMobel(infoDetail.get("TOCUSTOMERMOB").toString());
+
                                 chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
                                 chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
                                 chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
                                 chequeInfo.setQrCode(infoDetail.get("QRCODE").toString());
-
                                 chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
                                 chequeInfo.setCustomerWriteDate(infoDetail.get("CHECKWRITEDATE").toString());
                                 chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
                                 chequeInfo.setMoneyInFils(infoDetail.getString("AMTFILS"));
                                 chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
                                 chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
-
                                 chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
                                 chequeInfo.setSerialNo(infoDetail.get("SERIALNO").toString());
-
                                 chequeInfo.setBranchNo(infoDetail.get("BRANCHNO").toString());
                                 chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
                                 chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
                                 chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
                                 chequeInfo.setCheckIsSueDate(infoDetail.get("CHECKISSUEDATE").toString());
-
                                 chequeInfo.setCheckDueDate(infoDetail.get("CHECKDUEDATE").toString());
-
                                 chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
                                 chequeInfo.setStatus(infoDetail.getString("STATUS"));
-
                                 chequeInfo.setUserName(infoDetail.getString("USERNO"));
-
                                 chequeInfo.setISBF(infoDetail.getString("ISFB"));
                                 chequeInfo.setISCO(infoDetail.getString("ISCO"));
-
                                 chequeInfo.setNoteCheck(infoDetail.getString("NOTE"));
                                 chequeInfo.setCompanyName(infoDetail.getString("COMPANY"));
                                 chequeInfo.setResonOfreject(infoDetail.getString("RJCTREASON"));
-
-                                //CUSTNAME":"","CUSTFNAME":"","CUSTGNAME":"","CUSTFAMNAME":
-
                                 chequeInfo.setToCustName(infoDetail.getString("CUSTNAME"));
                                 chequeInfo.setToCustFName(infoDetail.getString("CUSTFNAME"));
                                 chequeInfo.setToCustGName(infoDetail.getString("CUSTGNAME"));
                                 chequeInfo.setToCustFamalyName(infoDetail.getString("CUSTFAMNAME"));
 
-                                chequeInfo.setTransSendOrGero(infoDetail.getString("TRANSTYPE"));
+                                chequeInfo.setTransSendOrGero(infoDetail.getString("TRANSTYPE"));// 0-----> send  // 1-------> gero
+
                                 Log.e("setTransSendOrGero",""+chequeInfo.getTransSendOrGero());
+
 
 //                            Log.e("chequeInfo",""+chequeInfo.getAccCode()+chequeInfo.getBankNo()+chequeInfo.getBranchNo()+"\t"+chequeInfo.getChequeNo());
 

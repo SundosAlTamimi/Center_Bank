@@ -85,6 +85,8 @@
                     android:layout_weight="1"
                     android:layout_margin="3dp"
                     android:text="Falcon company"
+                    app:fontFamily="sans-serif-smallcaps"
+
                     android:textSize="18sp"
 
                     android:textStyle="bold"
@@ -122,6 +124,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
+                    app:fontFamily="sans-serif-smallcaps"
+
                     android:gravity="center"
                     android:text="20/20/2020"
                     android:layout_margin="2dp"
@@ -237,6 +241,7 @@
                         android:layout_weight="1.8"
                         android:padding="5dp"
                         android:gravity="center"
+                        app:fontFamily="sans-serif-smallcaps"
                         android:drawablePadding="10dp"
                         android:drawableEnd="@drawable/money"
                         android:text="@string/NewCheck"
@@ -250,15 +255,11 @@
                         android:layout_height="match_parent"
                         android:visibility="invisible"
                         android:layout_weight="5"
-
                         android:text="@string/CheckAccpted"
-
                         android:layout_margin="2dp"
                         android:padding="2dp"
-
                         android:textSize="16sp"
                         android:background="@drawable/accept_background"
-
                         android:textColor="@color/colorBlack"
                         />
 
@@ -282,7 +283,12 @@
                         android:drawablePadding="10dp"
                         android:drawableEnd="@drawable/ic_group_black_24dp"
                         android:text="@string/JoinedRequestCheque"
-                        android:textSize="15sp"
+                        android:textSize="16sp"
+                        app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:fontFamily="sans-serif-smallcaps"
+                        app:autoSizeTextType="uniform"
                         android:background="@drawable/edit_bac_log"
                         android:textColor="@color/colorBlack"
                         />
@@ -291,10 +297,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="invisible"
-                        android:layout_weight="3"
-
-                        android:text="@string/CheckAccpted"
-
+                        android:layout_weight="5"
                         android:layout_margin="2dp"
                         android:padding="2dp"
 

@@ -57,6 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
+                    app:fontFamily="sans-serif-smallcaps"
 
                     android:background="@color/Nocolor"
                     android:drawableStart="@drawable/ic_person"
@@ -110,6 +111,7 @@
 
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
+                    app:fontFamily="sans-serif-smallcaps"
 
                     android:drawableStart="@drawable/ic_local_phone_black_24dp"
                     android:drawablePadding="10dp"
@@ -178,6 +180,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
+                    app:fontFamily="sans-serif-smallcaps"
 
                     android:background="@color/Nocolor"
                     android:drawableStart="@drawable/ic_company"
@@ -293,7 +296,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-             
+
                     android:background="@color/Nocolor"
                     android:ems="10"
                     android:fontFamily="serif"
@@ -391,6 +394,7 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:fontFamily="serif"
                 app:autoSizeMaxTextSize="18sp"
                 app:autoSizeMinTextSize="16sp"
                 app:autoSizeStepGranularity="2sp"
