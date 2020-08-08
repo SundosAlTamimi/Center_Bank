@@ -122,10 +122,15 @@ TableRow detail;
             holder.status.setBorderColor(context.getResources().getColor(R.color.RealGreen));
             holder.StatW.setTextColor(context.getResources().getColor(R.color.RealGreen));
             TStatus=context.getResources().getString(R.string.acccept);
-        }else if(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals("")){
+        }else if(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals("")||itemsList.get(i).getTransType().equals("100")){
             holder.status.setBorderColor(context.getResources().getColor(R.color.blue));
             holder.StatW.setTextColor(context.getResources().getColor(R.color.blue));
-            TStatus=context.getResources().getString(R.string.pending);
+            if(!itemsList.get(i).getTransType().equals("100")&&itemsList.get(i).getIsJoin().equals("0")){
+                TStatus=context.getResources().getString(R.string.pending);
+            }else{
+                TStatus=context.getResources().getString(R.string.Join)+" / "+context.getResources().getString(R.string.pending);
+            }
+
 
         } else if(itemsList.get(i).getTransType().equals("3")){//OWNERMOBNO
             holder.status.setBorderColor(context.getResources().getColor(R.color.gray_));

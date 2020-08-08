@@ -544,6 +544,22 @@ public class LogHistoryActivity extends AppCompatActivity {
                         obj.setToCustGName(finalObject.getString("CUSTGNAME"));
                         obj.setToCustFamalyName(finalObject.getString("CUSTFAMNAME"));
 
+
+                        obj.setIsJoin(finalObject.getString("ISJOIN"));
+                        obj.setJOIN_FirstMOB(finalObject.getString("JOINFMOB"));
+                        obj.setJOIN_SecondSMOB(finalObject.getString("JOINSMOB"));
+                        obj.setJOIN_TheredMOB(finalObject.getString("JOINTMOB"));
+
+                        obj.setJOIN_S_STATUS(finalObject.getString("JOINFSTATUS"));
+                        obj.setJOIN_F_REASON(finalObject.getString("JOINFREASON"));
+                        obj.setJOIN_S_STATUS(finalObject.getString("JOINSSTATUS"));
+                        obj.setJOIN_S_REASON(finalObject.getString("JOINSREASON"));
+
+
+
+                        obj.setJOIN_T_STATUS(finalObject.getString("JOINTSTATUS"));
+                        obj.setJOIN_T_REASON(finalObject.getString("JOINTREASON"));
+
                         obj.setISOpen("0");
                         ChequeInfoLogHistoryMain.add(obj);
                     }

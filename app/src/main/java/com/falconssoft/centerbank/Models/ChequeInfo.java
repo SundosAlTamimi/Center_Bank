@@ -55,6 +55,20 @@ public class ChequeInfo implements Serializable {
     private  String toCustGName;
     private  String toCustFamalyName;
 
+
+    private  String IsJoin;
+    private  String JOIN_FirstMOB;
+    private  String JOIN_SecondSMOB ;
+    private  String JOIN_TheredMOB;
+
+    private  String JOIN_F_STATUS ;
+    private  String JOIN_F_REASON;
+    private  String JOIN_S_STATUS;
+
+    private  String JOIN_S_REASON;
+    private  String JOIN_T_STATUS;
+    private  String JOIN_T_REASON;
+
     public String getIsJoin() {
         return IsJoin;
     }
@@ -134,20 +148,6 @@ public class ChequeInfo implements Serializable {
     public void setJOIN_T_REASON(String JOIN_T_REASON) {
         this.JOIN_T_REASON = JOIN_T_REASON;
     }
-
-    private  String IsJoin;
-    private  String JOIN_FirstMOB;
-    private  String JOIN_SecondSMOB ;
-    private  String JOIN_TheredMOB;
-
-    private  String JOIN_F_STATUS ;
-    private  String JOIN_F_REASON;
-    private  String JOIN_S_STATUS;
-
-    private  String JOIN_S_REASON;
-    private  String JOIN_T_STATUS;
-    private  String JOIN_T_REASON;
-
 
 
     public String getTransSendOrGero() {

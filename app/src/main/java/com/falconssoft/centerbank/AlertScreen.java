@@ -358,14 +358,14 @@ public class AlertScreen extends AppCompatActivity {
                             chequeInfo.setIsJoin(infoDetail.getString("ISJOIN"));
                             chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
 //
-
+                            chequeInfo.setUserName(infoDetail.getString("USERNO"));
                             chequeInfo.setToCustomerMobel(infoDetail.get("TOCUSTOMERMOB").toString());
                             Log.e("setIsJoin",""+chequeInfo.getIsJoin()+"\t TOCUSTOMERMOB"+chequeInfo.getToCustomerMobel()+"\t phoneNo"+ phoneNo);
                             chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
                             Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t setStatus" + chequeInfo.getStatus());
                             if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
                                     (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0"))
-                                            &&(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("100")&& !chequeInfo.getToCustomerMobel().equals(phoneNo)))// Pending and Reciver
+                                            ||(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("100")&& !chequeInfo.getToCustomerMobel().equals(phoneNo)&&!chequeInfo.getUserName().equals(phoneNo)))// Pending and Reciver
                             {
                                 notification notifi = new notification();
                                 notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
@@ -395,7 +395,7 @@ public class AlertScreen extends AppCompatActivity {
                                 chequeInfo.setCheckDueDate(infoDetail.get("CHECKDUEDATE").toString());
                                 chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
                                 chequeInfo.setStatus(infoDetail.getString("STATUS"));
-                                chequeInfo.setUserName(infoDetail.getString("USERNO"));
+
                                 chequeInfo.setISBF(infoDetail.getString("ISFB"));
                                 chequeInfo.setISCO(infoDetail.getString("ISCO"));
                                 chequeInfo.setNoteCheck(infoDetail.getString("NOTE"));
