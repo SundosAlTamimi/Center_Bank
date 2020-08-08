@@ -463,6 +463,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
                     }
                     if (checkInfoNotification.get(row_index).getTransType().equals("100")) {
+                        Log.e("linearButn",""+checkInfoNotification.get(row_index).getTransType());
+                        linearButn.setVisibility(View.VISIBLE);
                         textViewMain.setText(context.getResources().getString(R.string.requestToJoinCheque));
 
                     }
@@ -586,12 +588,12 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
 
-            if(checkInfoNotification.get(row_index).getStatus().equals("0"))
-            {
-                linearButn.setVisibility(View.GONE);
-                accept.setVisibility(View.GONE);
-                reject.setVisibility(View.GONE);
-            }
+//            if(checkInfoNotification.get(row_index).getStatus().equals("0"))
+//            {
+//                linearButn.setVisibility(View.GONE);
+//                accept.setVisibility(View.GONE);
+//                reject.setVisibility(View.GONE);
+//            }
 
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
