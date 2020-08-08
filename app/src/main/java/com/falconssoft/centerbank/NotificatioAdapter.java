@@ -638,6 +638,13 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     checkState = "1";
+                                    if(!checkInfoNotification.get(row_index).getTransType().equals("100"))
+                                    {
+                                       isJoin= "0";
+                                    }
+                                    else {
+                                        isJoin= checkInfoNotification.get(row_index).getIsJoin();
+                                    }
                                     progressDialog.setMessage(context.getResources().getString(R.string.process));
                                     progressDialog.show();
                                     updateCheckState();
@@ -736,6 +743,13 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
                     progressDialog.setMessage(context.getResources().getString(R.string.PleaseWaiting));
                     progressDialog.show();
+                    if(!checkInfoNotification.get(row_index).getTransType().equals("100"))
+                    {
+                        isJoin= "0";
+                    }
+                    else {
+                        isJoin= checkInfoNotification.get(row_index).getIsJoin();
+                    }
                     checkState = "2";
 
 
@@ -938,7 +952,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 nameValuePairs.add(new BasicNameValuePair("STATUS", checkState));
                 nameValuePairs.add(new BasicNameValuePair("RJCTREASON", reson_reject));
                 nameValuePairs.add(new BasicNameValuePair("USERNO",mobile_No));
-                nameValuePairs.add(new BasicNameValuePair("ISJOIN",checkInfoNotification.get(row_index).getIsJoin()));
+
+                Log.e("isJoin",""+isJoin);
+                nameValuePairs.add(new BasicNameValuePair("ISJOIN",isJoin));
 
 
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

@@ -1461,11 +1461,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             JSONObject infoDetail = notificationInfo.getJSONObject(i);
 //                            serverPicBitmap=null;
                             ChequeInfo chequeInfo = new ChequeInfo();
+                            chequeInfo.setIsJoin(infoDetail.getString("ISJOIN"));
+                            chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
+//
+                            chequeInfo.setUserName(infoDetail.getString("USERNO"));
+                            chequeInfo.setToCustomerMobel(infoDetail.get("TOCUSTOMERMOB").toString());
+
                             chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
                             chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
                             Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t setStatus" + chequeInfo.getStatus());
                             if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
-                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")))// Pending and Reciver
+                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")&&(!chequeInfo.getIsJoin().equals("1")))
+                                    ||(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("100")&& !chequeInfo.getToCustomerMobel().equals(phoneNo)&&!chequeInfo.getUserName().equals(phoneNo)))// Pending and Reciver
                             {
 
 

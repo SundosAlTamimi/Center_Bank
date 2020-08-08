@@ -364,7 +364,7 @@ public class AlertScreen extends AppCompatActivity {
                             chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
                             Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t setStatus" + chequeInfo.getStatus());
                             if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
-                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0"))
+                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")&&(!chequeInfo.getIsJoin().equals("1")))
                                             ||(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("100")&& !chequeInfo.getToCustomerMobel().equals(phoneNo)&&!chequeInfo.getUserName().equals(phoneNo)))// Pending and Reciver
                             {
                                 notification notifi = new notification();
