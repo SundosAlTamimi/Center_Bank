@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.NewAccount;
 import com.falconssoft.centerbank.Models.Setting;
+import com.falconssoft.centerbank.viewmodel.SignupVM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -231,7 +232,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //
 //    }
 
-    public void addLoginInfo(LoginINFO loginINFO) {
+    public void addLoginInfo(SignupVM loginINFO) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 

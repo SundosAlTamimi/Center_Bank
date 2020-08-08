@@ -21,6 +21,7 @@ import static android.graphics.Color.BLACK;
 import static android.graphics.Color.BLUE;
 import static android.graphics.Color.GREEN;
 import static android.graphics.Color.RED;
+import static android.graphics.Color.YELLOW;
 
 class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewHolder> {
 
@@ -80,16 +81,20 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
 //                holder.status.setText("Rejected");
                 holder.status.setTextColor(RED);
             } else if (list.get(position).getTransType().equals("3")) {
-                sendState =context.getResources().getString(R.string.cashed);
+                sendState = context.getResources().getString(R.string.cashed);
 //                holder.status.setText("Cashed");
                 holder.status.setTextColor(BLACK);// activity.getResources().getColor(R.color.colorBlack)
+            } else if (list.get(position).getTransType().equals("4")) {
+                sendState = context.getResources().getString(R.string.retrieval);
+//                holder.status.setText("Cashed");
+                holder.status.setTextColor(YELLOW);// activity.getResources().getColor(R.color.colorBlack)
             }
 
         if (!TextUtils.isEmpty(list.get(position).getTransSendOrGero()))
             if (list.get(position).getTransSendOrGero().equals("0"))
-                holder.status.setText(sendState + " / "+ context.getResources().getString(R.string.Issue));
+                holder.status.setText(sendState + " / " + context.getResources().getString(R.string.Issue));
             else
-                holder.status.setText(sendState + " / "+ context.getResources().getString(R.string.giro));
+                holder.status.setText(sendState + " / " + context.getResources().getString(R.string.giro));
 //        if(itemsList.get(i).getTransType().equals("2")){
 //            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
 //            TStatus=context.getResources().getString(R.string.rej);

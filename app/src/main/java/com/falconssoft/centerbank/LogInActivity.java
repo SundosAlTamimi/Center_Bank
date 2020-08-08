@@ -90,8 +90,6 @@ public class LogInActivity extends AppCompatActivity {
     private Dialog barcodeDialog;
     private SharedPreferences.Editor editor, edit;
     private ProgressDialog progressDialog;
-    private Snackbar snackbar;
-    private LinearLayout coordinatorLayout;
     private boolean flag = false;
     private LinearLayout phoneLinear, emailLinear, passwordLinear;
     private LogInBinding binding;
@@ -103,6 +101,7 @@ public class LogInActivity extends AppCompatActivity {
     public static String ROW_ID_PREFERENCE = "ROW_ID_PREFERENCE";
     private CountryCodePicker ccp;
     String serverLink = "";
+    private SharedClass sharedClass;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -168,8 +167,7 @@ public class LogInActivity extends AppCompatActivity {
                     if (!TextUtils.isEmpty(databaseHandler.getLoginInfo(countryCode + charSequence).getUsername())) {
                         binding.loginSearch.setVisibility(View.VISIBLE);
                         signupVM.setSearchPhone(databaseHandler.getLoginInfo(countryCode + charSequence).getUsername());
-                    }
-                    else {
+                    } else {
                         binding.loginSearch.setVisibility(View.GONE);
                         binding.loginSearch.setText("");
                     }
@@ -197,7 +195,6 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
-
     public class ButtonsClickHandler implements CompoundButton.OnCheckedChangeListener {
         Context context;
 
@@ -212,7 +209,7 @@ public class LogInActivity extends AppCompatActivity {
                     binding.setError(null);
                     binding.setPasswordError(null);
 
-                    LoginINFO user = new LoginINFO();
+                    SignupVM user = new SignupVM();
                     user.setUsername(countryCode + signupVM.getUsername());
                     user.setPassword(signupVM.getPassword());
                     user.setIsRemember(checkedRemember);
@@ -224,7 +221,7 @@ public class LogInActivity extends AppCompatActivity {
                     binding.setPasswordError(getResources().getString(R.string.required));
                 }
             else {
-                binding.setError("Required!");
+                binding.setError(getResources().getString(R.string.required));
             }
         }
 
@@ -444,12 +441,6 @@ public class LogInActivity extends AppCompatActivity {
         }
 
         public void onClickSearchPhone(View view) {
-//            String splitString = binding.loginSearch.getText().toString().substring(binding.loginSearch.getText().toString().length() - 9);
-//            binding.LogInUserName.setText(splitString);
-//            binding.LogInPassword.setText(databaseHandler.getUserInfo(binding.loginSearch.getText().toString()).getPassword());
-////            Log.e("split",binding.loginSearch.getText().toString().substring(binding.loginSearch.getText().toString().length() - 9));
-//            binding.loginRememberMe.setChecked(true);
-//            binding.loginSearch.setVisibility(View.GONE);
             String splitString = signupVM.getSearchPhone().substring(signupVM.getSearchPhone().length() - 9);
             signupVM.setUsername(splitString);
             signupVM.setPassword(databaseHandler.getUserInfo(signupVM.getSearchPhone()).getPassword());
@@ -582,7 +573,7 @@ public class LogInActivity extends AppCompatActivity {
         progressDialog.dismiss();
     }
 
-    public void goToTheMainPage(String message, LoginINFO user) {
+    public void goToTheMainPage(String message, SignupVM user) {
         hideDialog();
 
         if (message != null && message.contains("\"StatusCode\":0,\"StatusDescreption\":\"OK\",\"INFO\"")) {//"StatusCode":10,"StatusDescreption":"User not found."
@@ -613,9 +604,9 @@ public class LogInActivity extends AppCompatActivity {
             Intent MainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
             startActivity(MainActivityIntent);
         } else if (message != null && message.contains("\"StatusCode\":10,\"StatusDescreption\":\"User not found.\""))
-            showSnackbar(getResources().getString(R.string.user_not_found), false);
+            sharedClass.showSnackbar(binding.loginCoordinatorLayout, getResources().getString(R.string.user_not_found), false);//showSnackbar(getResources().getString(R.string.user_not_found), false);
         else
-            showSnackbar(getResources().getString(R.string.check_internet_connection), false);
+            sharedClass.showSnackbar(binding.loginCoordinatorLayout, getResources().getString(R.string.check_internet_connection), false);//showSnackbar(getResources().getString(R.string.check_internet_connection), false);
 
     }
 
@@ -661,289 +652,20 @@ public class LogInActivity extends AppCompatActivity {
 
     void init() {
 
+        sharedClass = new SharedClass(this);
         databaseHandler = new DatabaseHandler(LogInActivity.this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getString(R.string.please_waiting));
-//        userName = findViewById(R.id.LogInUserName);
-//        password = findViewById(R.id.LogInPassword);
-//        singIn = findViewById(R.id.LogInSingIn);
-//        singUp = findViewById(R.id.LogInSingUp);
-//        arabic = findViewById(R.id.login_arabic);
-//        english = findViewById(R.id.login_english);
-//        checkValidation = findViewById(R.id.login_checkValidation);
-//        signupVM.setUsername("0790790791");
-//        signupVM.setPassword("tahaniA1$");
 
 //        binding.LogInUserName.setText("0790790791");//userName.getText().toString());
 //        binding.LogInPassword.setText("tahaniA1$");
         SettingImage = findViewById(R.id.Setting);
-        coordinatorLayout = findViewById(R.id.login_coordinatorLayout);
-//        seen = findViewById(R.id.login_seen);
-//        forgetPassword = findViewById(R.id.login_forgetPassword);
         passwordLinear = findViewById(R.id.login_password_linear);
 
         if (getIntent().getIntExtra(PAGE_NAME, 0) == 10)
-            showSnackbar(getResources().getString(R.string.new_account_saved_successfully), true);
+            sharedClass.showSnackbar(binding.loginCoordinatorLayout, getResources().getString(R.string.new_account_saved_successfully), true);//showSnackbar(getResources().getString(R.string.new_account_saved_successfully), true);
 
     }
-
-    void showSnackbar(String text, boolean showImage) {
-
-        if (showImage) {
-            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#3167F0\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
-            View snackbarLayout = snackbar.getView();
-            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
-            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0);
-        } else {
-            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#D11616\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
-            View snackbarLayout = snackbar.getView();
-            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
-            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_error, 0, 0, 0);
-        }
-        snackbar.show();
-    }
-
-    void checkLanguage() {
-
-        if (language.equals("ar")) {
-//            binding.LogInUserName.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-//            binding.loginPhoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            binding.LogInPassword.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-
-            LinearLayout.LayoutParams checkBoxParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            checkBoxParam.gravity = Gravity.RIGHT;
-            binding.loginRememberMe.setLayoutParams(checkBoxParam);
-
-//            userName.setCompoundDrawablesWithIntrinsicBounds(null, null
-//                    , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_person_black_24dp), null);
-//            password.setCompoundDrawablesWithIntrinsicBounds(null, null
-//                    , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_https_black_24dp), null);
-        } else {
-
-//            binding.loginPhoneLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-//            userName.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_person_black_24dp), null
-//                    , null, null);
-//            password.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_https_black_24dp), null
-//                    , null, null);
-        }
-
-    }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        checkIfIsRemember();
-//    }
-
-//    @Override
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-////            case R.id.LogInSingIn: {
-////                if (!TextUtils.isEmpty(binding.LogInUserName.getText()))//userName.getText().toString()))
-////                    if (binding.LogInUserName.length() == 10)//userName.length() == 10)
-////                        if (!TextUtils.isEmpty(binding.LogInPassword.getText())) {//password.getText().toString())) {
-//////                            userName.setError(null);
-//////                            password.setError(null);
-////                            binding.LogInUserName.setError(null);
-////                            binding.LogInPassword.setError(null);
-////
-////                            LoginINFO user = new LoginINFO();
-////                            user.setUsername(binding.LogInUserName.getText().toString());//userName.getText().toString());
-////                            user.setPassword(binding.LogInPassword.getText().toString());//password.getText().toString());
-////
-////                            showDialog();
-////                            new Presenter(LogInActivity.this).loginInfoCheck(LogInActivity.this, user);
-////                        } else {
-////                            binding.LogInPassword.setError("Required!");//password
-////                        }
-////                    else {
-////                        binding.LogInUserName.setError("Phone number not correct!");//userName
-////                    }
-////                else {
-////                    binding.LogInUserName.setError("Required!");//userName
-////                }
-////            }
-////            break;
-//            case R.id.login_checkValidation: {
-//                barcodeDialog = new Dialog(LogInActivity.this);
-//                barcodeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//                barcodeDialog.setContentView(R.layout.check_validation_layout);
-//
-//                TextView scan = barcodeDialog.findViewById(R.id.checkValidation_scanBarcode);
-//                ImageView close = barcodeDialog.findViewById(R.id.checkValidation_close);
-//                LinearLayout headerLinear = barcodeDialog.findViewById(R.id.checkValidation_headerLinear);
-//                TextView haveAProblem = barcodeDialog.findViewById(R.id.checkValidation_help);
-//                TextView scanTV = barcodeDialog.findViewById(R.id.checkValidation_scanLinear);
-//
-//                final LinearLayout serialLinear = barcodeDialog.findViewById(R.id.checkValidation_serial_linear);
-//                final TextInputEditText serial = barcodeDialog.findViewById(R.id.checkValidation_serial);
-//                TextView check = barcodeDialog.findViewById(R.id.checkValidation_check);
-//                serialLinear.setVisibility(View.GONE);
-//
-//                haveAProblem.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if (serialLinear.getVisibility() == View.VISIBLE) {
-//                            serialLinear.setVisibility(View.GONE);
-//
-//                        } else {
-//                            serialLinear.setVisibility(View.VISIBLE);
-//                            serial.setError(null);
-//                        }
-//                    }
-//                });
-//
-//                check.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if (!TextUtils.isEmpty(serial.getText().toString())) {
-//                            serial.setError(null);
-//                        } else {
-//                            serial.setError("Required");
-//                        }
-//
-//                    }
-//                });
-//
-//                scan.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        IntentIntegrator intentIntegrator = new IntentIntegrator(LogInActivity.this);
-//                        intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
-//                        intentIntegrator.setBeepEnabled(false);
-//                        intentIntegrator.setCameraId(0);
-//                        intentIntegrator.setPrompt("SCAN");
-//                        intentIntegrator.setBarcodeImageEnabled(false);
-//                        intentIntegrator.initiateScan();
-//                    }
-//                });
-//
-//                close.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        barcodeDialog.dismiss();
-//                    }
-//                });
-//
-//                Log.e("checkLang", language);
-//                if (language.equals("ar")) {
-//                    headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-//                    check.setGravity(Gravity.RIGHT);
-//
-//                    haveAProblem.setCompoundDrawablesWithIntrinsicBounds(null, null
-//                            , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_help), null);
-//                    scanTV.setCompoundDrawablesWithIntrinsicBounds(null, null
-//                            , ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_phone), null);
-//
-//                } else {
-//                    headerLinear.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-//                    check.setGravity(Gravity.LEFT);
-//
-//                    haveAProblem.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_help), null
-//                            , null, null);
-//                    scanTV.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(LogInActivity.this, R.drawable.ic_phone), null
-//                            , null, null);
-//
-//                }
-//
-//                barcodeDialog.show();
-//            }
-//            break;
-//            case R.id.login_arabic: {
-//                language = "ar";
-//                editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
-//                editor.putString("language", "ar");
-//                editor.apply();
-//
-//                LocaleAppUtils.setLocale(new Locale("ar"));
-//                LocaleAppUtils.setConfigChange(LogInActivity.this);
-//                finish();
-//                startActivity(getIntent());
-//            }
-//            break;
-//            case R.id.login_english: {
-//                language = "en";
-//                editor = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE).edit();
-//                editor.putString("language", "en");
-//                editor.apply();
-//
-//                LocaleAppUtils.setLocale(new Locale("en"));
-//                LocaleAppUtils.setConfigChange(LogInActivity.this);
-//                finish();
-//                startActivity(getIntent());
-//            }
-//            break;
-//            case R.id.login_forgetPassword: {
-//                Dialog dialog = new Dialog(this);
-//                dialog.setContentView(R.layout.dialog_forget_password);
-//
-//                phoneLinear = dialog.findViewById(R.id.forgetPassword_phone_linear);
-//                final EditText phone = dialog.findViewById(R.id.forgetPassword_phone);
-//                final Button phoneSend = dialog.findViewById(R.id.forgetPassword_phone_send);
-//                RadioButton phoneRB = dialog.findViewById(R.id.forgetPassword_phone_rb);
-//                emailLinear = dialog.findViewById(R.id.forgetPassword_email_linear);
-//                final EditText email = dialog.findViewById(R.id.forgetPassword_email);
-//                final Button emailSend = dialog.findViewById(R.id.forgetPassword_email_send);
-//                RadioButton emailRB = dialog.findViewById(R.id.forgetPassword_email_rb);
-//                RadioGroup radioGroup = dialog.findViewById(R.id.forgetPassword_rg);
-//
-//
-//                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//                    @Override
-//                    public void onCheckedChanged(RadioGroup radioGroup, int id) {
-//                        if (id == R.id.forgetPassword_email_rb) {
-//                            phoneLinear.setVisibility(View.GONE);
-//                            emailLinear.setVisibility(View.VISIBLE);
-//
-//                            emailSend.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View view) {
-//                                    if (!TextUtils.isEmpty(email.getText().toString())) {
-//                                        try {
-//
-//                                            String emailSender = "hiary.abeer96@gmail.com", password = "000", emailReceiver = "hiary.abeer@yahoo.com", userName = "Cheque App";
-//
-//                                            LongOperation l = new LongOperation(emailSender
-//                                                    , password
-//                                                    , emailReceiver
-//                                                    , userName);
-//                                            l.execute();  //sends the email in background
-//                                            Toast.makeText(LogInActivity.this, l.get(), Toast.LENGTH_SHORT).show();
-//                                        } catch (Exception e) {
-//                                            Log.e("SendMail", e.getMessage(), e);
-//                                        }
-//
-//                                    } else
-//                                        Toast.makeText(LogInActivity.this, "Please fill email first!", Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-//
-//                        } else {
-//                            phoneLinear.setVisibility(View.VISIBLE);
-//                            emailLinear.setVisibility(View.GONE);
-//
-//                            phoneSend.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View view) {
-//                                    if (!TextUtils.isEmpty(phone.getText().toString())) {
-//
-//                                    } else
-//                                        Toast.makeText(LogInActivity.this, "Please fill phone first!", Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-//                        }
-//
-//                    }
-//                });
-//
-//
-//                dialog.show();
-//                Window window = dialog.getWindow();
-//                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            }
-//            break;
-//        }
-//    }
 
     // ******************************************** CHECK QR VALIDATION *************************************
     private class JSONTask extends AsyncTask<String, String, String> {

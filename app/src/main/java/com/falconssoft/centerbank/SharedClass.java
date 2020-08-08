@@ -6,12 +6,15 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -53,8 +56,9 @@ public class SharedClass {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 ClipboardManager myClipboard= (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);;
-                 ClipData myClip;
+                ClipboardManager myClipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+                ;
+                ClipData myClip;
 
                 myClip = ClipData.newPlainText("text", "+" + phoneNo);
                 myClipboard.setPrimaryClip(myClip);
@@ -73,5 +77,24 @@ public class SharedClass {
         });
 
         dialog.show();
+    }
+
+    void showSnackbar(View coordinatorLayout, String text, boolean showImage) {
+        Snackbar snackbar;
+
+        if (showImage) {
+            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#3167F0\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
+            View snackbarLayout = snackbar.getView();
+            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
+            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0);
+            textViewSnackbar.setCompoundDrawablePadding(5);
+        } else {
+            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#D11616\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
+            View snackbarLayout = snackbar.getView();
+            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
+            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_error, 0, 0, 0);
+            textViewSnackbar.setCompoundDrawablePadding(5);
+        }
+        snackbar.show();
     }
 }
