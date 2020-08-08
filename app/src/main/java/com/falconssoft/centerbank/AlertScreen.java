@@ -408,6 +408,21 @@ public class AlertScreen extends AppCompatActivity {
 
                                 chequeInfo.setTransSendOrGero(infoDetail.getString("TRANSTYPE"));// 0-----> send  // 1-------> gero
 
+                                chequeInfo.setIsJoin(infoDetail.getString("ISJOIN"));
+                                chequeInfo.setJOIN_FirstMOB   (infoDetail.getString("JOINFMOB"));
+                                chequeInfo.setJOIN_SecondSMOB  (infoDetail.getString("JOINSMOB"));
+                                chequeInfo.setJOIN_TheredMOB  (infoDetail.getString("JOINTMOB"));
+
+                                chequeInfo.setJOIN_F_STATUS(infoDetail.getString("JOINFSTATUS"));
+                                chequeInfo.setJOIN_F_REASON(infoDetail.getString("JOINFREASON"));
+                                chequeInfo.setJOIN_S_STATUS(infoDetail.getString("JOINSSTATUS"));
+                                chequeInfo.setJOIN_S_REASON(infoDetail.getString("JOINSREASON"));
+
+
+
+                                chequeInfo.setJOIN_T_STATUS(infoDetail.getString("JOINTSTATUS"));
+                                chequeInfo.setJOIN_T_REASON(infoDetail.getString("JOINTREASON"));
+
                                 Log.e("setTransSendOrGero",""+chequeInfo.getTransSendOrGero());
 
 
