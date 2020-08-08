@@ -211,4 +211,6 @@
     <string name="retrieval">استرجاع</string>
     <string name="reason_of_retrieval"> سبب الارجاع </string>
     <string name="RetrievalChequeNo">سترجاع الشيك رقم </string>
+    <string name="JoinedRequestCheque">Joined Request Cheque</string>
+    <string name="requestToJoinCheque">Join Cheque</string>
 </resources>

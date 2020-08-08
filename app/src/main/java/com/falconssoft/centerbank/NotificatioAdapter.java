@@ -94,7 +94,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     int row_index = -1;
     String checkState = "0";
     public static String languagelocalApp = "";
-    public static String acc="",bankN="",branch="",cheNo="", mobile_No="";
+    public static String acc="",bankN="",branch="",cheNo="", mobile_No="",isJoin="";
     EditText resonText;
     String reson_reject="";
     private ProgressDialog progressDialog;
@@ -127,7 +127,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         if (language.equals("ar")) {
 
             viewHolder.date_check.setText(viewHolder.convertToArabic(notificationList.get(i).getDate()));
-        } else {
+        }
+        else {
             viewHolder.date_check.setText(notificationList.get(i).getDate());
 
         }
@@ -164,7 +165,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 //        Log.e("getStatus",""+checkInfoNotification.get(i).getStatus());
 
         Log.e("getTransSendOrGero",""+checkInfoNotification.get(i).getTransSendOrGero());
-        if(checkInfoNotification.get(i).getTransSendOrGero().equals("0"))// normal cheque
+        if(checkInfoNotification.get(i).getTransSendOrGero().equals("0"))// normal cheque Send
         {
             Log.e("getTransSendOrGero","Send");
             viewHolder.geroLinear_pending.setVisibility(View.GONE);
@@ -178,6 +179,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 {
                     viewHolder.rejectImg.setVisibility(View.GONE);
                     viewHolder.reciveNew.setVisibility(View.GONE);
+                    viewHolder.joined_Requestimage.setVisibility(View.GONE);
                     viewHolder.acceptImg.setVisibility(View.VISIBLE);
 
                 }
@@ -185,6 +187,15 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     if(checkInfoNotification.get(i).getTransType().equals("2"))
                     {
                         viewHolder.rejectImg.setVisibility(View.VISIBLE);
+                        viewHolder.reciveNew.setVisibility(View.GONE);
+                        viewHolder.acceptImg.setVisibility(View.GONE);
+                        viewHolder.joined_Requestimage.setVisibility(View.GONE);
+                        viewHolder.geroLinear_pending.setVisibility(View.GONE);
+                    }
+                    if(checkInfoNotification.get(i).getTransType().equals("100"))// request to accept join cheque
+                    {
+                        viewHolder.joined_Requestimage.setVisibility(View.VISIBLE);
+                        viewHolder.rejectImg.setVisibility(View.GONE);
                         viewHolder.reciveNew.setVisibility(View.GONE);
                         viewHolder.acceptImg.setVisibility(View.GONE);
                         viewHolder.geroLinear_pending.setVisibility(View.GONE);
@@ -199,6 +210,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 viewHolder.reciveNew.setVisibility(View.VISIBLE);
                 viewHolder.rejectImg.setVisibility(View.GONE);
                 viewHolder.acceptImg.setVisibility(View.GONE);
+                viewHolder.joined_Requestimage.setVisibility(View.GONE);
 
             }
         }
@@ -255,6 +267,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             @Override
             public void onClick(View view) {
                 row_index = i;
+//                isJoin=checkInfoNotification.get(i).getIsJoined();
 //                progressDialog.show();
 //                progressDialog.setMessage("Please Waiting...");
                 viewHolder.showDetails();
@@ -273,7 +286,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         TextView source_check, amount_check, date_check,checkStateText,amount_Filis;
        ImageView image_check;
         LinearLayout linearCheckInfo, mainLinearAdapter,divider,lineardetail,rowStatus;
-        LinearLayout acceptImg,rejectImg,reciveNew,geroLinear_pending,geroLinear_accep,geroLinear_reject;
+        LinearLayout acceptImg,rejectImg,reciveNew,geroLinear_pending,geroLinear_accep,geroLinear_reject,joined_Requestimage;
         SharedPreferences loginPrefs;
         LoginINFO infoUser;
         public ViewHolder(View itemView) {
@@ -301,6 +314,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             acceptImg=itemView.findViewById(R.id.acceptimage);
             rejectImg=itemView.findViewById(R.id.rejectimage);
             reciveNew=itemView.findViewById(R.id.pendingimage);
+            joined_Requestimage=itemView.findViewById(R.id.joined_Requestimage);
 
 //
 
@@ -431,17 +445,16 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             {
                 if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
                     if (checkInfoNotification.get(row_index).getTransType().equals("1")) {
+                        textViewMain.setText(context.getResources().getString(R.string.CheckAccpted));
                         resonLayout.setVisibility(View.GONE);
-//                        textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
-//                                , ContextCompat.getDrawable(context, R.drawable.ic_check_black_24dp), null);
 
                     }
                     if (checkInfoNotification.get(row_index).getTransType().equals("2")) {
+                        textViewMain.setText(context.getResources().getString(R.string.checkReject));
                         resonLayout.setVisibility(View.VISIBLE);
                         linearButn.setVisibility(View.GONE);
                         textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
-//                        textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
-//                                , ContextCompat.getDrawable(context, R.drawable.ic_do_not_disturb_alt_black_24dp), null);
+
 
                         if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
                             reSend.setVisibility(View.VISIBLE);
@@ -449,11 +462,13 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
                     }
+                    if (checkInfoNotification.get(row_index).getTransType().equals("100")) {
+                        textViewMain.setText(context.getResources().getString(R.string.requestToJoinCheque));
+
+                    }
                 }
                 else {
                     resonLayout.setVisibility(View.GONE);
-//                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_note_add_black_24dp), null
-//                            , null, null);
 
                 }
             }
@@ -892,6 +907,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 nameValuePairs.add(new BasicNameValuePair("STATUS", checkState));
                 nameValuePairs.add(new BasicNameValuePair("RJCTREASON", reson_reject));
                 nameValuePairs.add(new BasicNameValuePair("USERNO",mobile_No));
+                nameValuePairs.add(new BasicNameValuePair("ISJOIN",checkInfoNotification.get(row_index).getIsJoin()));
+
 
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
