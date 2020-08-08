@@ -11,6 +11,7 @@ import android.os.Message;
 import android.util.Log;
 
 import java.io.IOException;
+import java.security.Permission;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,11 +47,18 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
 
 import com.falconssoft.centerbank.Models.LoginINFO;
+import com.falconssoft.centerbank.databinding.SingUpLayoutBinding;
+import com.falconssoft.centerbank.viewmodel.SignupVM;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -67,17 +75,20 @@ import java.util.regex.Pattern;
 
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
-public class SingUpActivity extends AppCompatActivity {
-    private TextView date_text, test;
+public class SingUpActivity extends AppCompatActivity implements
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    private static final int LOCATION_FLAG = 10;
+    private TextView test;//date_text,
     private Date currentTimeAndDate;
     private SimpleDateFormat df;
     private Calendar myCalendar;
-    private EditText natonalNo, phoneNo, address, email, firstName, secondName, thirdName, fourthName;
+    private EditText phoneNo;//,natonalNo,  address, email, firstName, secondName, thirdName, fourthName;
     private String language, today, selectedAccount = "Individual", selectedGender = "Male", countryCode = "962", selectedNationality = "Jordan";
     private Animation animation;
-    private LinearLayout linearLayout, coordinatorLayout, accountTypeLinear, genderLinear, phoneLinear, nationalLinear, linearDOB, passwordLinear, confirmPasswordLinear;
-    private Button save;
-    private Spinner spinnerAccountType, spinnerGender;//, spinnerDocumentType;
+    private LinearLayout linearLayout, coordinatorLayout, accountTypeLinear, genderLinear, phoneLinear, nationalLinear, linearDOB, passwordLinear, confirmPasswordLinear, addressLinear;
+    //    private Button save, currentLocation;
+//    private Spinner spinnerAccountType, spinnerGender;//, spinnerDocumentType;
     private List<String> genderList = new ArrayList<>();
     private ArrayAdapter arrayAdapter, genderArrayAdapter;//, documentAdapter;
     private DatabaseHandler databaseHandler;
@@ -85,50 +96,30 @@ public class SingUpActivity extends AppCompatActivity {
     private Snackbar snackbar;
     public static final String PAGE_NAME = "PAGE_NAME";
     private CountryCodePicker ccp, ccpNationality;
-    private TextInputLayout emailLinear, addressLinear, idLinear;
-    private ImageView seenPassword, seenConfirmPassword;
-    private TextInputEditText password, confirmPassword;
+    private TextInputLayout emailLinear, idLinear;
+    //    private ImageView seenPassword, seenConfirmPassword;
+    //    private TextInputEditText password, confirmPassword;
     private int currentYear, birthYear;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
+    private SignupVM signupVM;
+    private SingUpLayoutBinding binding;
+    private SharedClass sharedClass;
 //    AppLocationService appLocationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        binding = SingUpLayoutBinding.inflate(getLayoutInflater());
         new LocaleAppUtils().changeLayot(SingUpActivity.this);
-        setContentView(R.layout.sing_up_layout);//binding.getRoot()
+        binding = DataBindingUtil.setContentView(this, R.layout.sing_up_layout);
+//        setContentView(R.layout.sing_up_layout);//binding.getRoot()
 
-//        language = getIntent().getStringExtra(LANGUAGE_FLAG);
         test = findViewById(R.id.signUp_textView4);
-        init();
-//        appLocationService = new AppLocationService(
-//                SingUpActivity.this);
-//        test.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Location location = appLocationService
-//                        .getLocation(LocationManager.GPS_PROVIDER);
-//
-//                //you can hard-code the lat & long if you have issues with getting it
-//                //remove the below if-condition and use the following couple of lines
-//                //double latitude = 37.422005;
-//                //double longitude = -122.084095
-//
-//                if (location != null) {
-//                    double latitude = location.getLatitude();
-//                    double longitude = location.getLongitude();
-//                    LocationAddress locationAddress = new LocationAddress();
-//                    locationAddress.getAddressFromLocation(latitude, longitude,
-//                            getApplicationContext(), new GeocoderHandler());
-//                } else {
-//
-//                }
-//            }
-//        });
+        signupVM = new SignupVM();
 
-        ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+        init();
+
+        binding.signUpCcp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
                 countryCode = ccp.getSelectedCountryCode();
@@ -136,7 +127,7 @@ public class SingUpActivity extends AppCompatActivity {
             }
         });
 
-        ccpNationality.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+        binding.signUpDocumentType.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
                 selectedNationality = ccpNationality.getSelectedCountryName();
@@ -150,136 +141,115 @@ public class SingUpActivity extends AppCompatActivity {
         currentTimeAndDate = Calendar.getInstance().getTime();
         df = new SimpleDateFormat("dd/MM/yyyy");
         today = df.format(currentTimeAndDate);
-        date_text.setText(convertToEnglish(today));
+//        binding.date.setText(convertToEnglish(today));
+        signupVM.setBirthDate(convertToEnglish(today));
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
         birthYear = Calendar.getInstance().get(Calendar.YEAR);
 
-        save.setOnClickListener(new View.OnClickListener() {
+        binding.signUpSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveMethod();
             }
         });
 
-        seenPassword.setOnTouchListener(new View.OnTouchListener() {
+        binding.signUpSeen.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (password.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) { //password
-                    seenPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility));
-                    password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// password
-                    password.setTransformationMethod(new PasswordTransformationMethod());// password
+                if (binding.signUpPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) { //password
+                    binding.signUpSeen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility));
+                    binding.signUpPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// password
+                    binding.signUpPassword.setTransformationMethod(new PasswordTransformationMethod());// password
                 } else {
-                    seenPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
-                    password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);// password
-                    password.setTransformationMethod(null);//password
+                    binding.signUpSeen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+                    binding.signUpPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);// password
+                    binding.signUpPassword.setTransformationMethod(null);//password
                 }
                 return false;
             }
         });
 
-        seenConfirmPassword.setOnTouchListener(new View.OnTouchListener() {
+        binding.signUpSeenConfirm.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (confirmPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) { //password
-                    seenConfirmPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility));
-                    confirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// password
-                    confirmPassword.setTransformationMethod(new PasswordTransformationMethod());// password
+                if (binding.signUpConfirmPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) { //password
+                    binding.signUpSeenConfirm.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility));
+                    binding.signUpConfirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// password
+                    binding.signUpConfirmPassword.setTransformationMethod(new PasswordTransformationMethod());// password
                 } else {
-                    seenConfirmPassword.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
-                    confirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);// password
-                    confirmPassword.setTransformationMethod(null);//password
+                    binding.signUpSeenConfirm.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+                    binding.signUpConfirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);// password
+                    binding.signUpConfirmPassword.setTransformationMethod(null);//password
                 }
                 return false;
             }
         });
+        binding.setSignupModel(signupVM);
 
         Log.e("editing,signup ", language);
     }
 
     private void saveMethod() {
-        String localNationalID = natonalNo.getText().toString();
-        String localFirstName = firstName.getText().toString();
-        String localSecondName = secondName.getText().toString();
-        String localThirdName = thirdName.getText().toString();
-        String localFourthName = fourthName.getText().toString();
-        String localPhone = phoneNo.getText().toString();
-        String localAddress = address.getText().toString();
-        String localEmail = email.getText().toString();
-        String localPassword = password.getText().toString();
-        String localBirthDate = date_text.getText().toString();
-        String localConfirmPassword = confirmPassword.getText().toString();
-
-//        Log.e("phone", "" + localPhone.charAt(0) + "            " + (String.valueOf(localPhone.charAt(0))).equals("0"));
-
-//        if (!selectedAccount.equals(getResources().getString(R.string.account_type)))
-//            if (!selectedGender.equals(getResources().getString(R.string.gender)))        String localPassword = password.getText().toString();
+//        String localPhone = phoneNo.getText().toString();
 
         if (currentYear - birthYear > 17 ? true : false)
-            if (!TextUtils.isEmpty("" + localPhone))
-                if (localPhone.length() == 9)
-                    if (!String.valueOf(localPhone.charAt(0)).equals("0"))
-                        if (!TextUtils.isEmpty(localFirstName))
-                            if (!TextUtils.isEmpty(localSecondName))
-                                if (!TextUtils.isEmpty(localThirdName))
-                                    if (!TextUtils.isEmpty(localFourthName))
-                                        if (!TextUtils.isEmpty(localNationalID))
-                                            if ((selectedNationality.equals("Jordan") && (localNationalID.length() == 10))
-                                                    || (!selectedNationality.equals("Jordan") && (localNationalID.length() == 9)))
-                                                if (!TextUtils.isEmpty(localAddress))
-                                                    if (!TextUtils.isEmpty(localEmail))
-                                                        if (Patterns.EMAIL_ADDRESS.matcher(localEmail).matches())
-                                                            if (!TextUtils.isEmpty(localPassword))
-                                                                if (isValidPassword(localPassword))
-                                                                    if (!TextUtils.isEmpty(localConfirmPassword))
-                                                                        if (localPassword.equals(localConfirmPassword)) {
+            if (!TextUtils.isEmpty("" + signupVM.getUsername()))
+                if (signupVM.getUsername().length() == 9)
+                    if (!String.valueOf(signupVM.getUsername().charAt(0)).equals("0"))
+                        if (!TextUtils.isEmpty(signupVM.getFirstName()))
+                            if (!TextUtils.isEmpty(signupVM.getSecondName()))
+                                if (!TextUtils.isEmpty(signupVM.getThirdName()))
+                                    if (!TextUtils.isEmpty(signupVM.getFourthName()))
+                                        if (!TextUtils.isEmpty(signupVM.getNationalID()))
+                                            if ((selectedNationality.equals("Jordan") && (signupVM.getNationalID().length() == 10))
+                                                    || (!selectedNationality.equals("Jordan") && (signupVM.getNationalID().length() == 9)))
+                                                if (!TextUtils.isEmpty(signupVM.getAddress()))
+                                                    if (!TextUtils.isEmpty(signupVM.getEmail()))
+                                                        if (Patterns.EMAIL_ADDRESS.matcher(signupVM.getEmail()).matches())
+                                                            if (!TextUtils.isEmpty(signupVM.getPassword()))
+                                                                if (isValidPassword(signupVM.getPassword()))
+                                                                    if (!TextUtils.isEmpty(signupVM.getConfirmPassword()))
+                                                                        if (signupVM.getPassword().equals(signupVM.getConfirmPassword())) {
 
-                                                                            LoginINFO loginINFO = new LoginINFO();
-                                                                            loginINFO.setNationalID(localNationalID);
-                                                                            loginINFO.setFirstName(localFirstName);
-                                                                            loginINFO.setSecondName(localSecondName);
-                                                                            loginINFO.setThirdName(localThirdName);
-                                                                            loginINFO.setFourthName(localFourthName);
-                                                                            loginINFO.setUsername(countryCode + localPhone);
-                                                                            loginINFO.setAddress(localAddress);
-                                                                            loginINFO.setEmail(localEmail);
-                                                                            loginINFO.setPassword(localPassword);
-                                                                            loginINFO.setBirthDate(localBirthDate);
-                                                                            loginINFO.setNationality(selectedNationality);
+                                                                            String mobile = signupVM.getUsername();
+                                                                            signupVM.setUsername(countryCode + mobile);
+//                                                                            signupVM.setBirthDate(signupVM.getBirthDate());
+                                                                            signupVM.setNationality(selectedNationality);
 
                                                                             if (selectedGender.equals("Male") || selectedNationality.equals("ذكر"))
-                                                                                loginINFO.setGender("0");
+                                                                                signupVM.setGender("0");
                                                                             else
-                                                                                loginINFO.setGender("1");
+                                                                                signupVM.setGender("1");
 
                                                                             showDialog();
-                                                                            new Presenter(SingUpActivity.this).saveSignUpInfo(this, loginINFO);
+                                                                            new Presenter(SingUpActivity.this).saveSignUpInfo(this, signupVM);
 
                                                                         } else
-                                                                            confirmPassword.setError(getResources().getString(R.string.password_not_matched));
+                                                                            binding.signUpConfirmPassword.setError(getResources().getString(R.string.password_not_matched));
                                                                     else
-                                                                        confirmPassword.setError(getResources().getString(R.string.required));
+                                                                        binding.signUpConfirmPassword.setError(getResources().getString(R.string.required));
                                                                 else
-                                                                    password.setError(getResources().getString(R.string.password_syntax));
+                                                                    binding.signUpPassword.setError(getResources().getString(R.string.password_syntax));
                                                             else
-                                                                password.setError(getResources().getString(R.string.required));
+                                                                binding.signUpPassword.setError(getResources().getString(R.string.required));
                                                         else
-                                                            email.setError(getResources().getString(R.string.not_valid_email));
+                                                            binding.signUpEmail.setError(getResources().getString(R.string.not_valid_email));
                                                     else
-                                                        email.setError(getResources().getString(R.string.required));
+                                                        binding.signUpEmail.setError(getResources().getString(R.string.required));
                                                 else
-                                                    address.setError(getResources().getString(R.string.required));
+                                                    binding.signUpAddress.setError(getResources().getString(R.string.required));
                                             else
-                                                natonalNo.setError(getResources().getString(R.string.id_is_not_correct));
+                                                binding.signUpIdNo.setError(getResources().getString(R.string.id_is_not_correct));
                                         else
-                                            natonalNo.setError(getResources().getString(R.string.required));
+                                            binding.signUpIdNo.setError(getResources().getString(R.string.required));
                                     else
-                                        fourthName.setError(getResources().getString(R.string.required));
+                                        binding.signUpFourthName.setError(getResources().getString(R.string.required));
                                 else
-                                    thirdName.setError(getResources().getString(R.string.required));
+                                    binding.signUpThirdName.setError(getResources().getString(R.string.required));
                             else
-                                secondName.setError(getResources().getString(R.string.required));
+                                binding.signUpSecondName.setError(getResources().getString(R.string.required));
                         else
-                            firstName.setError(getResources().getString(R.string.required));
+                            binding.signUpFirstName.setError(getResources().getString(R.string.required));
                     else
                         phoneNo.setError(getResources().getString(R.string.remove_zero));
                 else
@@ -287,12 +257,7 @@ public class SingUpActivity extends AppCompatActivity {
             else
                 phoneNo.setError(getResources().getString(R.string.required));
         else
-            showSnackbar(getString(R.string.age_constrict), false);
-
-//            else
-//                showSnackbar("Please choose gender!", false);
-//        else
-//            showSnackbar("Please choose account type!", false);
+            sharedClass.showSnackbar(coordinatorLayout, getString(R.string.age_constrict), false);
 
     }
 
@@ -313,21 +278,22 @@ public class SingUpActivity extends AppCompatActivity {
     private void init() {
 
         databaseHandler = new DatabaseHandler(this);
+        sharedClass = new SharedClass(this);
         coordinatorLayout = findViewById(R.id.signup_coordinatorLayout);
-        save = findViewById(R.id.signUp_save);
-        firstName = findViewById(R.id.signUp_first_name);
-        secondName = findViewById(R.id.signUp_second_name);
-        thirdName = findViewById(R.id.signUp_third_name);
-        fourthName = findViewById(R.id.signUp_fourth_name);
-        natonalNo = findViewById(R.id.signUp_IdNo);
+//        save = findViewById(R.id.signUp_save);
+//        firstName = findViewById(R.id.signUp_first_name);
+//        secondName = findViewById(R.id.signUp_second_name);
+//        thirdName = findViewById(R.id.signUp_third_name);
+//        fourthName = findViewById(R.id.signUp_fourth_name);
+//        natonalNo = findViewById(R.id.signUp_IdNo);
         phoneNo = findViewById(R.id.signUp_phone);
-        address = findViewById(R.id.signUp_address);
-        email = findViewById(R.id.signUp_email);
-        password = findViewById(R.id.signUp_password);
+//        address = findViewById(R.id.signUp_address);
+//        email = findViewById(R.id.signUp_email);
+//        password = findViewById(R.id.signUp_password);
         linearLayout = findViewById(R.id.signup_nameLinear);
-        date_text = (TextView) findViewById(R.id.Date);
-        spinnerAccountType = findViewById(R.id.signUp_accountType);
-        spinnerGender = findViewById(R.id.signUp_gender);
+//        date_text = (TextView) findViewById(R.id.Date);
+//        spinnerAccountType = findViewById(R.id.signUp_accountType);
+//        spinnerGender = findViewById(R.id.signUp_gender);
 //        spinnerDocumentType = findViewById(R.id.signUp_document_type);
         ccpNationality = findViewById(R.id.signUp_document_type);
         accountTypeLinear = findViewById(R.id.signUp_accountType_linear);
@@ -341,22 +307,18 @@ public class SingUpActivity extends AppCompatActivity {
         addressLinear = findViewById(R.id.signUp_address_linear);
         passwordLinear = findViewById(R.id.signup_passwordLinear);
         confirmPasswordLinear = findViewById(R.id.signup_confirm_passwordLinear);
-        seenPassword = findViewById(R.id.signUp_seen);
-        seenConfirmPassword = findViewById(R.id.signUp_seen_confirm);
-        confirmPassword = findViewById(R.id.signUp_confirm_password);
+//        seenPassword = findViewById(R.id.signUp_seen);
+//        seenConfirmPassword = findViewById(R.id.signUp_seen_confirm);
+//        confirmPassword = findViewById(R.id.signUp_confirm_password);
+//        currentLocation = findViewById(R.id.signUp_current_location);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getString(R.string.please_waiting));
 
-//        accountTypeList.clear();
-//        accountTypeList.add(getResources().getResourceName(R.string.account_type));
-//        accountTypeList.add(getResources().getResourceName(R.string.individual));
-//        accountTypeList.add(getResources().getResourceName(R.string.corporate));
-//        accountTypeList.add(getResources().getResourceName(R.string.join_account));
         arrayAdapter = ArrayAdapter.createFromResource(this, R.array.account_type, R.layout.spinner_layout);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
-        spinnerAccountType.setAdapter(arrayAdapter);
-        spinnerAccountType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.signUpAccountType.setAdapter(arrayAdapter);
+        binding.signUpAccountType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 selectedAccount = adapterView.getItemAtPosition(position).toString();
@@ -368,14 +330,10 @@ public class SingUpActivity extends AppCompatActivity {
             }
         });
 
-//        genderList.clear();
-//        genderList.add(getResources().getResourceName(R.string.gender));
-//        genderList.add(getResources().getResourceName(R.string.male));
-//        genderList.add(getResources().getResourceName(R.string.female));
         genderArrayAdapter = ArrayAdapter.createFromResource(this, R.array.gender_type, R.layout.spinner_layout);
         genderArrayAdapter.setDropDownViewResource(R.layout.spinner_drop_down_layout);
-        spinnerGender.setAdapter(genderArrayAdapter);
-        spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.signUpGender.setAdapter(genderArrayAdapter);
+        binding.signUpGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 selectedGender = adapterView.getItemAtPosition(position).toString();
@@ -403,15 +361,51 @@ public class SingUpActivity extends AppCompatActivity {
 //        });
 
         myCalendar = Calendar.getInstance();
-        date_text.setOnClickListener(new View.OnClickListener() {
+        binding.date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(SingUpActivity.this, openDatePickerDialog(date_text), myCalendar
+                new DatePickerDialog(SingUpActivity.this, openDatePickerDialog(binding.date), myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        binding.signUpCurrentLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getLocation();
+            }
+        });
+    }
+
+    private void getLocation() {
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    void gelLocationName(double longitude, double latitude) throws IOException {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+        String addressLocal = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+//        String city = addresses.get(0).getLocality();
+//        String state = addresses.get(0).getAdminArea();
+//        String country = addresses.get(0).getCountryName();
+//        String postalCode = addresses.get(0).getPostalCode();
+        String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
+        signupVM.setAddress(knownName);
     }
 
     void checkLanguage() {
@@ -430,7 +424,7 @@ public class SingUpActivity extends AppCompatActivity {
 //                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_https_black_24dp), null);
 //            date_text.setCompoundDrawablesWithIntrinsicBounds(null, null
 //                    , ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_date_range_black_24dp), null);
-            date_text.setGravity(Gravity.RIGHT);
+//            date_text.setGravity(Gravity.RIGHT);
             linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
             accountTypeLinear.setGravity(Gravity.RIGHT);
             genderLinear.setGravity(Gravity.RIGHT);
@@ -450,7 +444,7 @@ public class SingUpActivity extends AppCompatActivity {
 //                    , null, null);
 //            date_text.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(SingUpActivity.this, R.drawable.ic_date_range_black_24dp), null
 //                    , null, null);
-            date_text.setGravity(Gravity.LEFT);
+//            date_text.setGravity(Gravity.LEFT);
             linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
             accountTypeLinear.setGravity(Gravity.LEFT);
             genderLinear.setGravity(Gravity.LEFT);
@@ -510,34 +504,14 @@ public class SingUpActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else if (message.contains("{\"StatusCode\" : 9,\"StatusDescreption\":\"Error in saving User.\" }"))
-            showSnackbar(getResources().getString(R.string.check_info_first), false);
+            sharedClass.showSnackbar(coordinatorLayout, getResources().getString(R.string.check_info_first), false);
         else if (message.contains("\"StatusCode\":14,\"StatusDescreption\":\"User Mobile alreay exisit.\""))
-            showSnackbar(getResources().getString(R.string.mobile_already_exist), false);
+            sharedClass.showSnackbar(coordinatorLayout, getResources().getString(R.string.mobile_already_exist), false);
         else if (message.contains("\"StatusCode\":15,\"StatusDescreption\":\"User National ID alreay exisit.\""))
-            showSnackbar(getResources().getString(R.string.national_already_exist), false);
+            sharedClass.showSnackbar(coordinatorLayout, getResources().getString(R.string.national_already_exist), false);
         else //(message.contains("{\"StatusCode\" : 4,\"StatusDescreption\":\"Error in Saving Check Temp.\" }") or error
-            showSnackbar(getResources().getString(R.string.info_not_saved), false);
+            sharedClass.showSnackbar(coordinatorLayout, getResources().getString(R.string.info_not_saved), false);
 
-
-    }
-
-    void showSnackbar(String text, boolean showImage) {
-
-        if (showImage) {
-            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#3167F0\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
-            View snackbarLayout = snackbar.getView();
-            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
-            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_24dp, 0, 0, 0);
-            textViewSnackbar.setCompoundDrawablePadding(5);
-        } else {
-            snackbar = Snackbar.make(coordinatorLayout, Html.fromHtml("<font color=\"#D11616\">" + text + "</font>"), Snackbar.LENGTH_SHORT);//Updated Successfully
-            View snackbarLayout = snackbar.getView();
-            TextView textViewSnackbar = (TextView) snackbarLayout.findViewById(R.id.snackbar_text);//android.support.design.R.id.snackbar_text
-            textViewSnackbar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_error, 0, 0, 0);
-            textViewSnackbar.setCompoundDrawablePadding(5);
-
-        }
-        snackbar.show();
     }
 
     void showDialog() {
@@ -574,7 +548,65 @@ public class SingUpActivity extends AppCompatActivity {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-        editText.setText(sdf.format(myCalendar.getTime()));
+//        editText.setText(sdf.format(myCalendar.getTime()));
+        signupVM.setBirthDate(sdf.format(myCalendar.getTime()));
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this
+                , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this
+                , Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION
+                    , Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_FLAG);
+            return;
+        } else {
+
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+            if (mLastLocation != null) {
+                try {
+                    gelLocationName(mLastLocation.getLongitude(), mLastLocation.getLatitude());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.e("locationis", "" + mLastLocation.getLatitude() + "****" + mLastLocation.getLongitude());
+//            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+//            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                        mGoogleApiClient);
+                if (mLastLocation != null) {
+                    try {
+                        gelLocationName(mLastLocation.getLongitude(), mLastLocation.getLatitude());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("locationisResult", "" + mLastLocation.getLatitude() + "****" + mLastLocation.getLongitude());
+//            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+//            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
@@ -640,7 +672,7 @@ public class SingUpActivity extends AppCompatActivity {
         private static final String TAG = "LocationAddress";
 
         public void getAddressFromLocation(final double latitude, final double longitude,
-                                                  final Context context, final Handler handler) {
+                                           final Context context, final Handler handler) {
             Thread thread = new Thread() {
                 @Override
                 public void run() {

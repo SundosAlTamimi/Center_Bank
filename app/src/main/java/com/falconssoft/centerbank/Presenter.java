@@ -15,6 +15,7 @@ import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.databinding.ActivityOwnerChequesBinding;
 import com.falconssoft.centerbank.databinding.ActivityTrackingChequeBinding;
 import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
+import com.falconssoft.centerbank.viewmodel.SignupVM;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +34,7 @@ class Presenter {//} extends CheckValidationResponse{
     private LogInActivity logInActivity;
     private Context context;
     private RequestQueue requestQueue;
-    private LoginINFO user;// for login
+    private SignupVM user;// for login
     private ActivityOwnerChequesBinding binding;
     private OwnerCheques ownerCheques;
     private TrackingCheque trackingCheque;
@@ -265,23 +266,23 @@ class Presenter {//} extends CheckValidationResponse{
     }
 
     // *************************************** saveSignUpInfo ***************************************
-    public void saveSignUpInfo(SingUpActivity singUpActivity, final LoginINFO loginINFO) {
+    public void saveSignUpInfo(SingUpActivity singUpActivity, final SignupVM signupVM) {
 
         this.singUpActivity = singUpActivity;
         final JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("NATID", loginINFO.getNationalID());
-            jsonObject.put("FIRSTNM", loginINFO.getFirstName());
-            jsonObject.put("FATHERNM", loginINFO.getSecondName());
-            jsonObject.put("GRANDNM", loginINFO.getThirdName());
-            jsonObject.put("FAMILYNM", loginINFO.getFourthName());
-            jsonObject.put("DOB", loginINFO.getBirthDate());
-            jsonObject.put("GENDER", loginINFO.getGender());
-            jsonObject.put("MOBILENO", loginINFO.getUsername());
-            jsonObject.put("ADDRESS", loginINFO.getAddress());
-            jsonObject.put("EMIAL", loginINFO.getEmail());
-            jsonObject.put("PASSWORD", loginINFO.getPassword());
-            jsonObject.put("PASSKIND", loginINFO.getNationality());
+            jsonObject.put("NATID", signupVM.getNationalID());
+            jsonObject.put("FIRSTNM", signupVM.getFirstName());
+            jsonObject.put("FATHERNM", signupVM.getSecondName());
+            jsonObject.put("GRANDNM", signupVM.getThirdName());
+            jsonObject.put("FAMILYNM", signupVM.getFourthName());
+            jsonObject.put("DOB", signupVM.getBirthDate());
+            jsonObject.put("GENDER", signupVM.getGender());
+            jsonObject.put("MOBILENO", signupVM.getUsername());
+            jsonObject.put("ADDRESS", signupVM.getAddress());
+            jsonObject.put("EMIAL", signupVM.getEmail());
+            jsonObject.put("PASSWORD", signupVM.getPassword());
+            jsonObject.put("PASSKIND", signupVM.getNationality());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -297,17 +298,17 @@ class Presenter {//} extends CheckValidationResponse{
 //                Map<String, String>  params = new HashMap<String, String>();
 //                params.put("INFO", jsonObject.toString());
 //
-////                params.put("NATID", "" + loginINFO.getNationalID());
-////                params.put("FIRSTNM", loginINFO.getFirstName());
-////                params.put("FATHERNM", loginINFO.getSecondName());
-////                params.put("GRANDNM", loginINFO.getThirdName());
-////                params.put("FAMILYNM", loginINFO.getFourthName());
-////                params.put("DOB", loginINFO.getBirthDate());
-////                params.put("GENDER", loginINFO.getGender());
-////                params.put("MOBILENO", loginINFO.getUsername());
-////                params.put("ADDRESS", loginINFO.getAddress());
-////                params.put("EMIAL", loginINFO.getEmail());
-////                params.put("PASSWORD", loginINFO.getPassword());
+////                params.put("NATID", "" + signupVM.getNationalID());
+////                params.put("FIRSTNM", signupVM.getFirstName());
+////                params.put("FATHERNM", signupVM.getSecondName());
+////                params.put("GRANDNM", signupVM.getThirdName());
+////                params.put("FAMILYNM", signupVM.getFourthName());
+////                params.put("DOB", signupVM.getBirthDate());
+////                params.put("GENDER", signupVM.getGender());
+////                params.put("MOBILENO", signupVM.getUsername());
+////                params.put("ADDRESS", signupVM.getAddress());
+////                params.put("EMIAL", signupVM.getEmail());
+////                params.put("PASSWORD", signupVM.getPassword());
 //                return params;
 //            }
 //        }
@@ -334,11 +335,11 @@ class Presenter {//} extends CheckValidationResponse{
     }
 
     // **************************************** loginInfoCheck **************************************
-    public void loginInfoCheck(LogInActivity logInActivity, LoginINFO loginINFO) {
-        user = loginINFO;
+    public void loginInfoCheck(LogInActivity logInActivity, SignupVM signupVM) {
+        user = signupVM;
         this.logInActivity = logInActivity;
 
-        loginRequest = new JsonObjectRequest(Request.Method.GET, urlLogin + loginINFO.getUsername() + "&PASS=" + loginINFO.getPassword()
+        loginRequest = new JsonObjectRequest(Request.Method.GET, urlLogin + signupVM.getUsername() + "&PASS=" + signupVM.getPassword()
                 , null, new LoginRequestClass(), new LoginRequestClass());
         requestQueue.add(loginRequest);
     }
@@ -496,14 +497,4 @@ class Presenter {//} extends CheckValidationResponse{
         }
     }
 
-//    @Override
-//    void showSnackbar(String text, boolean showImage, View coordinatorLayout) {
-//        super.showSnackbar(text, showImage, coordinatorLayout);
-//    }
-//
-//    @Override
-//    public void showValidationDialog(boolean check, String customerName, String BankNo, String accountNo, String chequeNo) {
-//        super.showValidationDialog(check, customerName, BankNo, accountNo, chequeNo);
-//
-//    }
 }
