@@ -163,6 +163,35 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
         viewHolder.image_check.setImageBitmap(notificationList.get(i).getCheck_photo());
 //        Log.e("getStatus",""+checkInfoNotification.get(i).getStatus());
+        if(checkInfoNotification.get(i).getJOIN_FirstMOB().equals(mobile_No))
+        {
+            if(!checkInfoNotification.get(i).getJOIN_F_STATUS().equals(""))
+            {
+                viewHolder.mainLinearAdapter.setVisibility(View.GONE);
+            }
+        }
+        else {
+            if(checkInfoNotification.get(i).getJOIN_SecondSMOB().equals(mobile_No))
+            {
+                if(!checkInfoNotification.get(i).getJOIN_S_STATUS().equals(""))
+                {
+                    viewHolder.mainLinearAdapter.setVisibility(View.GONE);
+                }
+            }
+            else {
+                if(checkInfoNotification.get(i).getJOIN_TheredMOB().equals(mobile_No))
+                {
+                    if(!checkInfoNotification.get(i).getJOIN_T_STATUS().equals(""))
+                    {
+                        viewHolder.mainLinearAdapter.setVisibility(View.GONE);
+                    }
+                }
+            }
+        }
+
+
+
+
 
         Log.e("getTransSendOrGero",""+checkInfoNotification.get(i).getTransSendOrGero());
         if(checkInfoNotification.get(i).getTransSendOrGero().equals("0"))// normal cheque Send
