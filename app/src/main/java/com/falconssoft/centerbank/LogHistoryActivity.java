@@ -492,6 +492,20 @@ public class LogHistoryActivity extends AppCompatActivity {
                     for (int i = 0; i < parentInfo.length(); i++) {
                         JSONObject finalObject = parentInfo.getJSONObject(i);
 
+                        boolean isAddInLogHistory=false;
+
+                        if (finalObject.getString("TRANSSTATUS").equals("100") && finalObject.getString("ISJOIN").equals("1")) {
+                            if (!finalObject.getString("TOCUSTOMERMOB").equals(parametwrForGetLog.get(1))) {
+                                isAddInLogHistory = true;
+                            } else {
+                                isAddInLogHistory = false;
+                            }
+                        } else {
+                            isAddInLogHistory = true;
+                        }
+
+                        if(isAddInLogHistory){
+
                         ChequeInfo obj = new ChequeInfo();
 
                         //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
@@ -556,12 +570,13 @@ public class LogHistoryActivity extends AppCompatActivity {
                         obj.setJOIN_S_REASON(finalObject.getString("JOINSREASON"));
 
 
-
                         obj.setJOIN_T_STATUS(finalObject.getString("JOINTSTATUS"));
                         obj.setJOIN_T_REASON(finalObject.getString("JOINTREASON"));
 
                         obj.setISOpen("0");
                         ChequeInfoLogHistoryMain.add(obj);
+
+                    }
                     }
 
 

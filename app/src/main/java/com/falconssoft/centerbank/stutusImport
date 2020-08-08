@@ -4,6 +4,7 @@ TRANSSTATUS
 1-->accept
 2-->reject
 3-->cashed
+4 --> retrieval
 100 -->join
 
 ]
