@@ -34,7 +34,7 @@ public class ListAdapterLogHistory extends BaseAdapter {
     CheckBox checkPriceed;
     private LogHistoryActivity context;
     List<ChequeInfo> itemsList;
- String phoneNo,language;
+ String phoneNos,language;
 
     public ListAdapterLogHistory(LogHistoryActivity context, List<ChequeInfo> itemsList) {
         this.context = context;
@@ -42,6 +42,9 @@ public class ListAdapterLogHistory extends BaseAdapter {
         SharedPreferences prefs = context.getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");//"No name defined" is the default value.
         Log.e("editing,3 ", language);
+
+        SharedPreferences loginPrefs = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        phoneNos = loginPrefs.getString("mobile", "");
 
         Log.e("sizeLog",""+itemsList.size());
     }
@@ -250,7 +253,7 @@ TableRow detail;
         });
 
 
-            if(itemsList.get(i).getStatus().equals("0")&&(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals(""))){
+            if(itemsList.get(i).getStatus().equals("0")&&(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals(""))&&itemsList.get(i).getUserName().equals(phoneNos)){
                 holder.Retrieval.setVisibility(View.VISIBLE);
             }else {
                 holder.Retrieval.setVisibility(View.GONE);
