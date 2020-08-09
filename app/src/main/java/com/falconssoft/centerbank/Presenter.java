@@ -33,6 +33,7 @@ class Presenter {//} extends CheckValidationResponse{
     private SingUpActivity singUpActivity;
     private LogInActivity logInActivity;
     private Context context;
+
     private RequestQueue requestQueue;
     private SignupVM user;// for login
     private ActivityOwnerChequesBinding binding;
