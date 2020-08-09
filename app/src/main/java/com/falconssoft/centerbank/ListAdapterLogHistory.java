@@ -140,6 +140,10 @@ TableRow detail;
             holder.status.setBorderColor(context.getResources().getColor(R.color.dark_yellow));
             holder.StatW.setTextColor(context.getResources().getColor(R.color.dark_yellow));
             TStatus=context.getResources().getString(R.string.retrieval);
+        }else if(itemsList.get(i).getTransType().equals("200")){//OWNERMOBNO
+            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
+            holder.StatW.setTextColor(context.getResources().getColor(R.color.RealRed));
+            TStatus=context.getResources().getString(R.string.Reject);
         }
 
         holder.reSend.setVisibility(View.GONE);
@@ -202,6 +206,7 @@ TableRow detail;
 
 
 
+        if(!itemsList.get(i).getTransType().equals("200")) {
             if (itemsList.get(i).getStatus().equals("0")) {
                 holder.status.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
                 holder.branchNo.setText(context.getResources().getString(R.string.account_no_) + "\n " + itemsList.get(i).getAccCode().substring(1));
@@ -212,6 +217,21 @@ TableRow detail;
                 holder.branchNo.setVisibility(View.GONE);
                 holder.bankName_text.setVisibility(View.GONE);
             }
+        }else   if(itemsList.get(i).getTransType().equals("200")) {
+
+            if (itemsList.get(i).getStatus().equals("0")) {
+                holder.status.setImageResource(R.drawable.ic_merge_type_black_24dp);
+                holder.branchNo.setText(context.getResources().getString(R.string.account_no_) + "\n " + itemsList.get(i).getAccCode().substring(1));
+                holder.branchNo.setVisibility(View.VISIBLE);
+                holder.bankName_text.setVisibility(View.VISIBLE);
+            } else if (itemsList.get(i).getStatus().equals("1")) {
+                holder.status.setRotation(180);
+                holder.status.setImageResource(R.drawable.ic_merge_type_black_24dp);
+                holder.branchNo.setVisibility(View.GONE);
+                holder.bankName_text.setVisibility(View.GONE);
+            }
+
+        }
 
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override

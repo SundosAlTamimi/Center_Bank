@@ -6,7 +6,7 @@ TRANSSTATUS
 3-->cashed
 4 --> retrieval
 100 -->join
-
+200-->join Reject
 ]
 
 TRANSTYPE
