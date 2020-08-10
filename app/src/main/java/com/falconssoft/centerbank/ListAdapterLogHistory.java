@@ -34,7 +34,7 @@ public class ListAdapterLogHistory extends BaseAdapter {
     CheckBox checkPriceed;
     private LogHistoryActivity context;
     List<ChequeInfo> itemsList;
- String phoneNo,language;
+ String phoneNos,language;
 
     public ListAdapterLogHistory(LogHistoryActivity context, List<ChequeInfo> itemsList) {
         this.context = context;
@@ -42,6 +42,9 @@ public class ListAdapterLogHistory extends BaseAdapter {
         SharedPreferences prefs = context.getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");//"No name defined" is the default value.
         Log.e("editing,3 ", language);
+
+        SharedPreferences loginPrefs = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        phoneNos = loginPrefs.getString("mobile", "");
 
         Log.e("sizeLog",""+itemsList.size());
     }
@@ -140,6 +143,10 @@ TableRow detail;
             holder.status.setBorderColor(context.getResources().getColor(R.color.dark_yellow));
             holder.StatW.setTextColor(context.getResources().getColor(R.color.dark_yellow));
             TStatus=context.getResources().getString(R.string.retrieval);
+        }else if(itemsList.get(i).getTransType().equals("200")){//OWNERMOBNO
+            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
+            holder.StatW.setTextColor(context.getResources().getColor(R.color.RealRed));
+            TStatus=context.getResources().getString(R.string.Reject);
         }
 
         holder.reSend.setVisibility(View.GONE);
@@ -202,6 +209,7 @@ TableRow detail;
 
 
 
+        if(!itemsList.get(i).getTransType().equals("200")) {
             if (itemsList.get(i).getStatus().equals("0")) {
                 holder.status.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
                 holder.branchNo.setText(context.getResources().getString(R.string.account_no_) + "\n " + itemsList.get(i).getAccCode().substring(1));
@@ -212,6 +220,21 @@ TableRow detail;
                 holder.branchNo.setVisibility(View.GONE);
                 holder.bankName_text.setVisibility(View.GONE);
             }
+        }else   if(itemsList.get(i).getTransType().equals("200")) {
+
+            if (itemsList.get(i).getStatus().equals("0")) {
+                holder.status.setImageResource(R.drawable.ic_merge_type_black_24dp);
+                holder.branchNo.setText(context.getResources().getString(R.string.account_no_) + "\n " + itemsList.get(i).getAccCode().substring(1));
+                holder.branchNo.setVisibility(View.VISIBLE);
+                holder.bankName_text.setVisibility(View.VISIBLE);
+            } else if (itemsList.get(i).getStatus().equals("1")) {
+                holder.status.setRotation(180);
+                holder.status.setImageResource(R.drawable.ic_merge_type_black_24dp);
+                holder.branchNo.setVisibility(View.GONE);
+                holder.bankName_text.setVisibility(View.GONE);
+            }
+
+        }
 
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,7 +253,7 @@ TableRow detail;
         });
 
 
-            if(itemsList.get(i).getStatus().equals("0")&&(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals(""))){
+            if(itemsList.get(i).getStatus().equals("0")&&(itemsList.get(i).getTransType().equals("0")||itemsList.get(i).getTransType().equals(""))&&itemsList.get(i).getUserName().equals(phoneNos)){
                 holder.Retrieval.setVisibility(View.VISIBLE);
             }else {
                 holder.Retrieval.setVisibility(View.GONE);

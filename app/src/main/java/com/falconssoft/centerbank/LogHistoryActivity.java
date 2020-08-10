@@ -494,11 +494,15 @@ public class LogHistoryActivity extends AppCompatActivity {
 
                         boolean isAddInLogHistory=false;
 
-                        if (finalObject.getString("TRANSSTATUS").equals("100") && finalObject.getString("ISJOIN").equals("1")) {
+                        if ( finalObject.getString("ISJOIN").equals("1")) {
+                            if(finalObject.getString("TRANSSTATUS").equals("100") || finalObject.getString("TRANSSTATUS").equals("200")){
                             if (!finalObject.getString("TOCUSTOMERMOB").equals(parametwrForGetLog.get(1))) {
                                 isAddInLogHistory = true;
                             } else {
                                 isAddInLogHistory = false;
+                            }
+                        }else{
+                                isAddInLogHistory = true;
                             }
                         } else {
                             isAddInLogHistory = true;
