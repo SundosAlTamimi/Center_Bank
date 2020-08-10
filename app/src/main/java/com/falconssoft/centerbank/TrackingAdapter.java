@@ -76,7 +76,7 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
                 sendState = context.getResources().getString(R.string.acccept);
 //                holder.status.setText("Accepted");
                 holder.status.setTextColor(GREEN);
-            } else if (list.get(position).getTransType().equals("2")) {
+            } else if (list.get(position).getTransType().equals("2")||list.get(position).getTransType().equals("200")) {
                 sendState = context.getResources().getString(R.string.rej);
 //                holder.status.setText("Rejected");
                 holder.status.setTextColor(RED);

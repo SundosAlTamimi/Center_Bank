@@ -286,6 +286,10 @@ public class EditerCheackActivity extends AppCompatActivity {
         intentReSend = getIntent().getStringExtra("ReSend");
         chequeInfoReSendEd = (ChequeInfo) getIntent().getSerializableExtra("ChequeInfo");
 
+        if (intentReSend != null && intentReSend.equals("ReSend")) {
+            userFound=true;
+        }
+
         ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {

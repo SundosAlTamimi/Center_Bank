@@ -213,7 +213,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
                 }
                 else {// rejected
-                    if(checkInfoNotification.get(i).getTransType().equals("2"))
+                    if(checkInfoNotification.get(i).getTransType().equals("2")||checkInfoNotification.get(i).getTransType().equals("200"))
                     {
                         viewHolder.rejectImg.setVisibility(View.VISIBLE);
                         viewHolder.reciveNew.setVisibility(View.GONE);
@@ -261,7 +261,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
                 }
                 else {// rejected
-                    if(checkInfoNotification.get(i).getTransType().equals("2"))
+                    if(checkInfoNotification.get(i).getTransType().equals("2")||checkInfoNotification.get(i).getTransType().equals("200"))
 
                     {
                         viewHolder.geroLinear_pending.setVisibility(View.GONE);
@@ -476,9 +476,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     if (checkInfoNotification.get(row_index).getTransType().equals("1")) {
                         textViewMain.setText(context.getResources().getString(R.string.CheckAccpted));
                         resonLayout.setVisibility(View.GONE);
+                        linearButn.setVisibility(View.GONE);
 
                     }
-                    if (checkInfoNotification.get(row_index).getTransType().equals("2")) {
+                    if (checkInfoNotification.get(row_index).getTransType().equals("2")||checkInfoNotification.get(row_index).getTransType().equals("200")) {
                         textViewMain.setText(context.getResources().getString(R.string.checkReject));
                         resonLayout.setVisibility(View.VISIBLE);
                         linearButn.setVisibility(View.GONE);
@@ -487,6 +488,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
                         if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
                             reSend.setVisibility(View.VISIBLE);
+                            linearButn.setVisibility(View.GONE);
                         }
 
 
@@ -508,12 +510,13 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
                     if (checkInfoNotification.get(row_index).getTransType().equals("1")) {
                         resonLayout.setVisibility(View.GONE);
+                        linearButn.setVisibility(View.GONE);
                         textViewMain.setText(context.getResources().getString(R.string.gerocheque));
                         textViewMain.setCompoundDrawablesWithIntrinsicBounds( ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_green_24dp), null
                                 ,null, null);
 
                     }
-                    if (checkInfoNotification.get(row_index).getTransType().equals("2")) {
+                    if (checkInfoNotification.get(row_index).getTransType().equals("2")||checkInfoNotification.get(row_index).getTransType().equals("200")) {
                         resonLayout.setVisibility(View.VISIBLE);
                         linearButn.setVisibility(View.GONE);
                         textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
@@ -528,6 +531,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     }
                 }
                 else {
+                    linearButn.setVisibility(View.VISIBLE);
                     resonLayout.setVisibility(View.GONE);
                     textViewMain.setText(context.getResources().getString(R.string.newGeroChecue));
                     textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
@@ -598,7 +602,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 @Override
                 public void onClick(View view) {
 
-                    if(checkInfoNotification.get(row_index).getTransType().equals("2")&&checkInfoNotification.get(row_index).getStatus().equals("0"))
+                    if((checkInfoNotification.get(row_index).getTransType().equals("200")||checkInfoNotification.get(row_index).getTransType().equals("2"))&&checkInfoNotification.get(row_index).getStatus().equals("0"))
                     {
 
 //                    Intent EditeIntent=new Intent(context,EditerCheackActivity.class);
