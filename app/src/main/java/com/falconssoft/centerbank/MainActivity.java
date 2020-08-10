@@ -1413,7 +1413,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));// test
                 Log.e("editingmain ", phoneNo);
-                nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));
+                nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));//  wich =1 =====> based on phone number //wich =0 =====> based on account number
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
                 HttpResponse response = client.execute(request);
@@ -1466,13 +1466,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
                             chequeInfo.setUserName(infoDetail.getString("USERNO"));
                             chequeInfo.setToCustomerMobel(infoDetail.get("TOCUSTOMERMOB").toString());
-
+//
                             chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
                             chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
                             Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t setStatus" + chequeInfo.getStatus());
                             if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
                                     (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")&&(!chequeInfo.getIsJoin().equals("1")))
-                                    ||(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("100")&& !chequeInfo.getToCustomerMobel().equals(phoneNo)&&!chequeInfo.getUserName().equals(phoneNo)))// Pending and Reciver
+                                    ||(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("100")&& !chequeInfo.getToCustomerMobel().equals(phoneNo)&&!chequeInfo.getUserName().equals(phoneNo))
+                                    ||(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("200")&& !chequeInfo.getToCustomerMobel().equals(phoneNo) ))// Pending and Reciver
                             {
 
 

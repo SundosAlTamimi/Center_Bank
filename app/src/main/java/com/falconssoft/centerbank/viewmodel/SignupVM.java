@@ -5,6 +5,8 @@ import androidx.databinding.Bindable;
 
 import com.falconssoft.centerbank.BR;
 
+//import com.falconssoft.centerbank.BR;
+
 public class SignupVM extends BaseObservable {
 
     private String gender;
@@ -34,7 +36,7 @@ public class SignupVM extends BaseObservable {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
-        notifyPropertyChanged(BR.confirmPassword);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.confirmPassword);
     }
 
     @Bindable
@@ -44,7 +46,7 @@ public class SignupVM extends BaseObservable {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
-        notifyPropertyChanged(BR.nationality);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.nationality);
     }
 
     public int getIsNowActive() {
@@ -70,7 +72,7 @@ public class SignupVM extends BaseObservable {
 
     public void setSearchPhone(String searchPhone) {
         this.searchPhone = searchPhone;
-        notifyPropertyChanged(BR.searchPhone);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.searchPhone);
     }
 
     public String getGender() {
@@ -104,7 +106,7 @@ public class SignupVM extends BaseObservable {
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
-        notifyPropertyChanged(BR.birthDate);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.birthDate);
     }
 
     @Bindable
@@ -114,7 +116,7 @@ public class SignupVM extends BaseObservable {
 
     public void setNationalID(String nationalID) {
         this.nationalID = nationalID;
-        notifyPropertyChanged(BR.nationalID);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.nationalID);
     }
 
     @Bindable
@@ -124,7 +126,7 @@ public class SignupVM extends BaseObservable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-        notifyPropertyChanged(BR.firstName);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.firstName);
     }
 
     @Bindable
@@ -134,7 +136,7 @@ public class SignupVM extends BaseObservable {
 
     public void setSecondName(String secondName) {
         this.secondName = secondName;
-        notifyPropertyChanged(BR.secondName);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.secondName);
     }
 
     @Bindable
@@ -144,7 +146,7 @@ public class SignupVM extends BaseObservable {
 
     public void setThirdName(String thirdName) {
         this.thirdName = thirdName;
-        notifyPropertyChanged(BR.thirdName);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.thirdName);
     }
 
     @Bindable
@@ -154,7 +156,7 @@ public class SignupVM extends BaseObservable {
 
     public void setFourthName(String fourthName) {
         this.fourthName = fourthName;
-        notifyPropertyChanged(BR.fourthName);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.fourthName);
     }
 
     @Bindable
@@ -164,7 +166,7 @@ public class SignupVM extends BaseObservable {
 
     public void setUsername(String username) {
         this.username = username;
-        notifyPropertyChanged(BR.username);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.username);
     }
 
     @Bindable
@@ -174,7 +176,7 @@ public class SignupVM extends BaseObservable {
 
     public void setAddress(String address) {
         this.address = address;
-        notifyPropertyChanged(BR.address);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.address);
     }
 
     @Bindable
@@ -184,7 +186,7 @@ public class SignupVM extends BaseObservable {
 
     public void setEmail(String email) {
         this.email = email;
-        notifyPropertyChanged(BR.email);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.email);
     }
 
     @Bindable
@@ -194,6 +196,6 @@ public class SignupVM extends BaseObservable {
 
     public void setPassword(String password) {
         this.password = password;
-        notifyPropertyChanged(BR.password);
+        notifyPropertyChanged(com.falconssoft.centerbank.BR.password);
     }
 }
