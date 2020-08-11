@@ -22,7 +22,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -51,11 +50,18 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:gravity="center"
+                android:background="@drawable/edit_bac_s"
+                android:orientation="vertical"
+                android:padding="5dp">
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:background="@drawable/edit_bac_s"
+
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -420,7 +426,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
 
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:drawableStart="@drawable/ic_border_color_black_24dp"
                             android:drawablePadding="5dp"
                             android:gravity="start"
@@ -438,6 +444,56 @@
 
                         <TextView
                             android:id="@+id/textnote"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="3dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:lines="2"
+                            android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite"
+                            android:textSize="18sp"
+                            app:autoSizeMaxTextSize="18sp"
+                            app:autoSizeMinTextSize="16sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/rowcompany"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:layout_weight="1"
+                        android:gravity="center"
+
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:layout_weight="2"
+                            android:drawableStart="@drawable/ic_border_color_black_24dp"
+                            android:drawablePadding="5dp"
+                            android:gravity="start"
+
+                            android:text="@string/company"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:autoSizeMaxTextSize="18sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform"
+                            app:fontFamily="sans-serif-smallcaps" />
+
+
+                        <TextView
+                            android:id="@+id/Textcompany"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="3dp"
@@ -633,7 +689,7 @@
 
                 </LinearLayout>
             </ScrollView>
-
+            </LinearLayout>
 
 
 
@@ -642,10 +698,10 @@
             <LinearLayout
                 android:id="@+id/linearButn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="clip_horizontal|center"
                 android:layout_marginTop="5dp"
-                android:layout_weight="5.5"
+                android:layout_weight="0.5"
                 android:orientation="horizontal"
                 android:visibility="visible">
 

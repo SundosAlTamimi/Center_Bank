@@ -1450,6 +1450,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 //        Log.e("VerifyCheck 1112", "" + "JSONTask"+s.toString());
+            Log.e("JSONTask", "JSONTaskpost");
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("tag", "****Success");
@@ -1946,6 +1947,8 @@ public class EditerCheackActivity extends AppCompatActivity {
             super.onPostExecute(s);
             Log.e("editorChequeActivity/", "saved//" + s);
             Log.e("Edit_1388", "JSONTask dialog in " + s.toString());
+            Log.e("IsCheckPinding", "JSONTaskpost");
+
 
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
@@ -2117,7 +2120,9 @@ public class EditerCheackActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.e("editorChequeActivity/", "saved//" + s);
+//            Log.e("editorChequeActivity/", "saved//" + s);
+            Log.e("IsCheckForThisAcc", "JSONTaskpost");
+
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
 
@@ -2289,6 +2294,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         protected void onPostExecute(String JsonResponse) {
             super.onPostExecute(JsonResponse);
 
+            Log.e("TillerGetCheck", "JSONTaskpost");
 
             if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
                 Log.e("GetLogSuccess", "****Success");
@@ -2303,14 +2309,14 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 
                     List<ChequeInfo> chequeInfoTilar = new ArrayList<>();
-                    boolean foundIn = false;
+                    boolean foundIn = false,isCashed= false;
 
                     for (int i = 0; i < parentInfo.length(); i++) {
                         JSONObject finalObject = parentInfo.getJSONObject(i);
 
                         ChequeInfo obj = new ChequeInfo();
 
-                        if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNo) || finalObject.getString("TOCUSTOMERMOB").equals("")) {
+                        if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNoUser) || finalObject.getString("TOCUSTOMERMOB").equals("")) {
                             //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
 
                             obj.setRowId(finalObject.getString("ROWID"));
@@ -2358,18 +2364,32 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                             foundIn = true;
 
+                            if(finalObject.getString("TOCUSTOMERMOB").equals(finalObject.getString("OWNERMOBNO"))){
+
+                                isCashed=true;
+
+                            }
 
                         }
                     }
 
                     if (foundIn) {
-                        if (intentReSend != null && intentReSend.equals("ReSend")) {
-                            fillTheCheck(chequeInfoReSendEd);
-                            linerEditing.setVisibility(View.VISIBLE);
-                            linerBarcode.setVisibility(View.GONE);
-                        } else {
-                            linerEditing.setVisibility(View.VISIBLE);
-                            linerBarcode.setVisibility(View.GONE);
+                        if(!isCashed) {
+                            if (intentReSend != null && intentReSend.equals("ReSend")) {
+                                fillTheCheck(chequeInfoReSendEd);
+                                linerEditing.setVisibility(View.VISIBLE);
+                                linerBarcode.setVisibility(View.GONE);
+                            } else {
+                                linerEditing.setVisibility(View.VISIBLE);
+                                linerBarcode.setVisibility(View.GONE);
+                            }
+                        }else{
+
+                            new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                    .setTitleText(" Cheque ")
+                                    .setContentText(EditerCheackActivity.this.getResources().getString(R.string.chequeCashed))
+                                    .show();
+
                         }
 
                     } else {
@@ -2522,7 +2542,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         protected void onPostExecute(String JsonResponse) {
             super.onPostExecute(JsonResponse);
 
-
+            Log.e("IsCheckGero", "JSONTaskpost");
             if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
                 Log.e("GetLogSuccess", "****Success");
 
@@ -2543,7 +2563,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                         ChequeInfo obj = new ChequeInfo();
 
-                        if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNo)) {
+                        if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNoUser)) {
 //                            "INFO":[{"ROWID":"AAAq3rAAuAAAADeAAB","BANKNO":"004","BANKNM":"Jordan Bank","BRANCHNO":"0099","CHECKNO":"390105","ACCCODE":"0014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"ADA2B3D052C54199","CHECKISSUEDATE":"01\/07\/2020 18:29:14","CHECKDUEDATE":"01\/07\/2020","TOCUSTOMERNM":"GggHhVhGg","AMTJD":"4444","AMTFILS":"44","AMTWORD":"اربعة آلاف و اربعمائة و اربعة و اربعون ديناراً و 440 فلساً","TOCUSTOMERMOB":"0772095887","TOCUSTOMERNATID":"0788588868","CHECKWRITEDATE":"01\/07\/2020 18:29:14","CHECKPICPATH":"Z:\\FS_Acc_Stk\\Web Services\\ChequesScan\\Win32\\Debug\\Images\\00400990014569990011000390105.txt","TRANSSTATUS":"1","USERNO":"0786812709","ISCO":"0","ISFB":"0","COMPANY":"","NOTE":"","TRANSTYPE":"1","RJCTREASON":""}]}
 
 
@@ -2621,7 +2641,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                 }//
 
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"Check Is not Gero")) {
-                Log.e("TAG_GetStor", "****Check Data not found");
+                Log.e("CheckIsnotGero", "****Check Data not found");
 
 
 //                new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)

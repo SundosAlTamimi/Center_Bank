@@ -252,7 +252,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             if(checkInfoNotification.get(i).getStatus().equals("0"))// reciver
             {
 
-                if(checkInfoNotification.get(i).getTransType().equals("1"))// accepted
+                if(checkInfoNotification.get(i).getTransType().equals("1")||checkInfoNotification.get(i).getTransType().equals("3"))// accepted
                 {
 
                     viewHolder.geroLinear_pending.setVisibility(View.GONE);
@@ -391,10 +391,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             }
             TextView textAmouWord, textAmountNo, textViewMain, textResonReject,
-                    textToOrder, texChequNo, amountPhilis, textPhoneNo, texDate, binificary, textCompanyname, note, textFirstPinificry, textCo,reSend;
+                    textToOrder, texChequNo, amountPhilis, textPhoneNo, texDate, binificary, textCompanyname, note, textFirstPinificry, textCo,reSend,textCompany;
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
-            LinearLayout resonLayout, linearButn,rowNote;
+            LinearLayout resonLayout, linearButn,rowNote,rowCompany;
 
 
             final Button reject = (Button) dialog.findViewById(R.id.RejectButton);
@@ -414,7 +414,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             rowFirst=dialog.findViewById(R.id.rowFirst);
             textCo = dialog.findViewById(R.id.textCo);
             textToOrder = dialog.findViewById(R.id.textToOrder);
-
+            rowCompany = dialog.findViewById(R.id.rowcompany);
+            textCompany=dialog.findViewById(R.id.Textcompany);
             amountPhilis = dialog.findViewById(R.id.amountPhilis);
 
 
@@ -508,7 +509,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             else {// gero cheque
 
                 if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
-                    if (checkInfoNotification.get(row_index).getTransType().equals("1")) {
+                    if (checkInfoNotification.get(row_index).getTransType().equals("1")||checkInfoNotification.get(row_index).getTransType().equals("3")) {
                         resonLayout.setVisibility(View.GONE);
                         linearButn.setVisibility(View.GONE);
                         textViewMain.setText(context.getResources().getString(R.string.gerocheque));
@@ -523,9 +524,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                         textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
                                 , ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_red_24dp), null);
                         textViewMain.setText(context.getResources().getString(R.string.rejectedGereo));
-                        if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
-                            reSend.setVisibility(View.VISIBLE);
-                        }
+//                        if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
+//                            reSend.setVisibility(View.VISIBLE);
+//                        }
 
 
                     }
@@ -560,6 +561,18 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             else {
                 note.setVisibility(View.INVISIBLE);
                 rowNote.setVisibility(View.GONE);
+            }
+
+
+            if(!checkInfoNotification.get(row_index).getCompanyName().equals(""))
+            {
+                textCompany.setVisibility(View.VISIBLE);
+                rowCompany.setVisibility(View.VISIBLE);
+                textCompany.setText(checkInfoNotification.get(row_index).getCompanyName());
+            }
+            else {
+                textCompany.setVisibility(View.INVISIBLE);
+                rowCompany.setVisibility(View.GONE);
             }
 
             textPhoneNo.setText(checkInfoNotification.get(row_index).getToCustomerMobel());

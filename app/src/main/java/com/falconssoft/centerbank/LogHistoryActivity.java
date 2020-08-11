@@ -603,6 +603,12 @@ public class LogHistoryActivity extends AppCompatActivity {
                 }
 
             } else {
+                if (isRefresh) {
+                    swipeRefresh.setRefreshing(false);
+                    isRefresh = false;
+                } else {
+                    isRefresh = false;
+                }
                 Log.e("TAG_GetStor", "****Failed to export data");
 //                if(!isAssetsIn.equals("1")) {
 //                    if (pd != null) {
