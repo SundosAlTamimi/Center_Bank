@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cheque editor</string>
+    <string name="app_name">Chequati</string>
     <string name="cheque_app">ChequeAti</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
@@ -39,9 +39,9 @@
     <string name="dinar">Dinar</string>
     <string name="phils">Fils</string>
     <string name="amount_in_word">Amount in word</string>
-    <string name="check_pic">Check Pic</string>
+    <string name="check_pic">Cheque Picture</string>
     <string name="send">Send</string>
-    <string name="please_scan_the_barcode_to_continue_editing_the_check">Please Scan The QR Code To Continue Editing The Check ...</string>
+    <string name="please_scan_the_barcode_to_continue_editing_the_check">Please Scan The QR Code To Continue Issuing The Check ...</string>
     <string name="scan_barcode">Scan QR Code</string>
     <string name="have_a_problem">have a problem !</string>
     <string name="check">Check</string>
@@ -67,15 +67,15 @@
 
     <string name="the_cheque_has_been_validated">The cheque has been validated</string>
     <string name="Accept">Accept</string>
-    <string name="Reject">Reject</string>
+    <string name="Reject">Rejected</string>
     <string name="CheckDetail">Check Detail</string>
     <string name="customer_name">Customer Name</string>
     <string name="cashier_check">cashier Check </string>
     <!--    <string name="cashier_check">cashier Check</string>-->
     <string name="firstbeneficiary">first beneficiary</string>
     <string name="beneficiary"> Beneficiary</string>
-    <string name="checkReject">Check Reject</string>
-    <string name="CheckAccpted">Check Accpted</string>
+    <string name="checkReject">Check Rejected</string>
+    <string name="CheckAccpted">Check Accepted</string>
     <string name="NewCheck">New Cheque</string>
     <string name="cheque_endorsement">Giro</string>
     <string name="wallet">Wallet</string>
@@ -84,12 +84,12 @@
     <string name="chBf">Cheque Beneficiary :</string>
     <string name="chBf_">Cheque Beneficiary </string>
     <string name="rej">Reject</string>
-    <string name="acccept">Accept</string>
+    <string name="acccept">Accepted</string>
     <string name="pending">pending</string>
     <string name="save_success">Processing</string>
-    <string name="cantSave">Can\'t Save</string>
-    <string name="already_exist">Account already exist !</string>
-    <string name="error_in_save">Error in saving Accounts!</string>
+    <string name="cantSave">Can Not Add</string>
+    <string name="already_exist">Account Is Not Yours !</string>
+    <string name="error_in_save">Error in Adding Accounts!</string>
     <string name="success_del">Delete Successfully</string>
     <string name="del_acc_success">Delete Account Successfully</string>
     <string name="can_del">Can\'t Delete</string>
@@ -101,7 +101,7 @@
     <string name="failtoSend">Fail to send!</string>
     <string name="close">Close</string>
     <string name="Confirm">Confirm</string>
-    <string name="message_forAccept">Are you sure to accept cheque ?</string>
+    <string name="message_forAccept">Are You Want To Accept This Cheque ?</string>
     <string name="signout">Signout</string>
     <string name="profile">Profile</string>
     <string name="giro">Giro</string>
@@ -117,10 +117,10 @@
     <string name="requestRejec">Request Rejected</string>
     <string name="cashier_cheque">Cashier Cheque</string>
     <string name="handovew">Please hand it over :</string>
-    <string name="thisusernotcheq">This user not has this check.</string>
-    <string name="cheq_acc">*** CHEQUE ACCOUNT ***</string>
+    <string name="thisusernotcheq">To Send This Cheque Go To Giro</string>
+    <string name="cheq_acc">*** CHEQUE ***</string>
     <string name="CHEQUE_NOT_FOR_YOU">This cheque is not the same as the cheque you want to send !!!</string>
-    <string name="message_reject">Are you sure to reject cheque?</string>
+    <string name="message_reject">Are You Want To Reject This Cheque?</string>
     <string name="remember_me">Remember Me</string>
     <string name="about">About</string>
     <string name="type">Type</string>
@@ -136,7 +136,7 @@
     <string name="account_type">Account Type</string>
     <string name="individual">Individual</string>
     <string name="corporate">Corporate</string>
-    <string name="join_account">Join Account</string>
+    <string name="join_account">Joint Account</string>
 
     <string name="gender">Gender</string>
     <string name="male">Male</string>
@@ -154,12 +154,12 @@
     <string name="cashed">Cashed</string>
 
     <string name="national_id">National ID</string>
-    <string name="gerocheque">Accepted Gero </string>
+    <string name="gerocheque">Accepted Giro </string>
     <string name="relation">The Relation</string>
     <string name="consanguinity">Consanguinity</string>
     <string name="Business">Business</string>
     <string name="other">Other</string>
-    <string name="notforYou">Accoount Not for you</string>
+    <string name="notforYou">You Are Not This Account Owner</string>
     <string name="customer_no">Customer No</string>
     <string name="branch_no">Branch No</string>
     <string name="currency">Currency</string>
@@ -167,7 +167,7 @@
     <string name="check_">check</string>
     <string name="with_a_discount_from_our_account_you_have_a_number">With a discount from our account,you have a number:</string>
     <string name="us_personally">Us personally</string>
-    <string name="to_the_master">To the master</string>
+    <string name="to_the_master">To Authorized Person</string>
     <string name="branch_name">Branch Name :</string>
     <string name="passport">Passport ID</string>
     <string name="beneficiary_mobile">Beneficiary mobile</string>
@@ -175,8 +175,8 @@
     <string name="zero_digit">Enter phone number without zero at the beginning!</string>
     <string name="lost">Lost</string>
     <string name="process">Processing</string>
-    <string name="rejectedGereo">Rejected Gero</string>
-    <string name="newGeroChecue">New Gero Checue</string>
+    <string name="rejectedGereo">Rejected Giro</string>
+    <string name="newGeroChecue">New Giro Cheque</string>
     <string name="_7xxxxxxxx">7xxxxxxxx</string>
     <string name="name_of_fourth_syllables">Name Of Fourth Syllables</string>
     <string name="date_of_birth">Date Of Birth</string>
@@ -226,11 +226,21 @@
     <string name="isNotYour">This check is not Yours !!!</string>
     <string name="dATAnOTfOUND">Check Data not found</string>
     <string name="erorInSaveChequeGero">Error in Saving Check Giro !</string>
-    <string name="Issue">Issue</string>
-    <string name="retrieval">Retrieval</string>
+    <string name="Issue">Issued</string>
+    <string name="retrieval">Retrieve</string>
     <string name="reason_of_retrieval">Reason OF Retrieval</string>
     <string name="RetrievalChequeNo">Retrieval Cheque No</string>
-    <string name="JoinedRequestCheque">Joined Request Cheque</string>
-    <string name="requestToJoinCheque">Join Cheque</string>
-    <string name="Join">Join</string>
+    <string name="JoinedRequestCheque">Joint Request Cheque</string>
+    <string name="requestToJoinCheque">Joint Cheque</string>
+    <string name="Join">Joint</string>
+    <string name="deleteAccount">Do You Want To Delete This Account No =</string>
+    <string name="chequeCurrentlyNotYour">This Check Currently Is Not Yours !!!</string>
+    <string name="sendCheque">Send Cheque</string>
+    <string name="cheque">Cheque</string>
+    <string name="ResendCheque">Resend Cheque</string>
+    <string name="sent">Sent</string>
+    <string name="next">Next</string>
+    <string name="chequeBackPicture">Cheque Back Picture</string>
+    <string name="resonofReject">Reson Of Reject</string>
+    <string name="jointReject">Joint Reject</string>
 </resources>

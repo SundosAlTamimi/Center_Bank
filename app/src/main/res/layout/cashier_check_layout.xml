@@ -193,6 +193,7 @@
                             android:layout_height="wrap_content"
                             app:ccp_contentColor="@color/white"
                             app:ccp_defaultNameCode="JO"
+                            app:ccp_showNameCode="false"
                             />
 
                         <EditText
@@ -203,8 +204,8 @@
                             android:fontFamily="serif"
                             android:hint="@string/_7xxxxxxxx"
                             android:inputType="phone"
-                            android:maxLength="10"
-                            android:nextFocusDown="@id/signUp_address"
+                            android:maxLength="9"
+                            android:nextFocusDown="@id/cashier_IdNo"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="@color/colorWhiteLight"
@@ -239,7 +240,7 @@
                         android:background="@color/Nocolor"
                         android:inputType="number"
                         android:maxLength="10"
-                        android:nextFocusDown="@id/signUp_first_name"
+                        android:nextFocusDown="@id/casher_first_name"
                         android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="@color/colorWhiteLight"
@@ -278,7 +279,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/Nocolor"
                                 android:fontFamily="serif"
-                                android:nextFocusDown="@id/signUp_third_name"
+                                android:nextFocusDown="@id/cashier_second_name"
                                 android:singleLine="true"
                                 android:padding="2dp"
 
@@ -312,10 +313,9 @@
                                 android:layout_weight="1"
                                 android:background="@color/Nocolor"
                                 android:fontFamily="serif"
-                                android:nextFocusDown="@id/signUp_third_name"
+                                android:nextFocusDown="@id/cashier_third_name"
                                 android:singleLine="true"
                                 android:padding="2dp"
-
                                 android:textColor="@color/colorWhiteLight"
                                 android:textColorHint="@color/colorWhiteLight"
                                 android:textCursorDrawable="@null"
@@ -346,7 +346,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/Nocolor"
                                 android:fontFamily="serif"
-                                android:nextFocusDown="@id/signUp_fourth_name"
+                            android:nextFocusDown="@id/cashier_fourth_name"
                                 android:singleLine="true"
                             android:padding="2dp"
                             android:textColor="@color/colorWhiteLight"
@@ -378,7 +378,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/Nocolor"
                                 android:fontFamily="serif"
-                                android:nextFocusDown="@id/signUp_phone"
+                                android:nextFocusDown="@id/cashier_address"
                             android:padding="2dp"
                                 android:singleLine="true"
                                 android:textColor="@color/colorWhiteLight"
@@ -415,7 +415,7 @@
                             android:drawableStart="@drawable/ic_location_on_black_24dp"
                             android:drawablePadding="5dp"
                             android:fontFamily="serif"
-                            android:nextFocusDown="@id/signUp_email"
+                            android:nextFocusDown="@id/cashier_reson"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="@color/colorWhiteLight"
@@ -450,7 +450,7 @@
                             android:drawablePadding="5dp"
                             android:fontFamily="serif"
 
-                            android:nextFocusDown="@id/signUp_email"
+                            android:nextFocusDown="@id/denier"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="@color/colorWhiteLight"
@@ -586,6 +586,7 @@
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
                                 android:textCursorDrawable="@null"
+                                android:nextFocusDown="@id/Phils"
                                 android:textSize="14sp" />
 
                             <EditText
@@ -604,6 +605,7 @@
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
                                 android:textCursorDrawable="@null"
+                                android:nextFocusDown="@id/cashier_BN1"
                                 android:textSize="14sp" />
 
 
@@ -724,7 +726,7 @@
                                         android:gravity="center"
                                         android:inputType="number"
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_BN2"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -748,7 +750,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_BN3"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -772,7 +774,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_CUR1"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -841,7 +843,7 @@
                                         android:gravity="center"
                                         android:inputType="number"
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_CUR2"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -865,7 +867,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_CUR3"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -889,7 +891,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_ACC1"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -958,7 +960,7 @@
                                         android:gravity="center"
                                         android:inputType="number"
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_ACC2"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -982,7 +984,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_ACC3"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1006,7 +1008,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_CUS1"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1084,7 +1086,7 @@
                                         android:gravity="center"
                                         android:inputType="number"
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_CUS2"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1108,7 +1110,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_CUS3"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1132,7 +1134,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_CUS4"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1156,7 +1158,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_CUS5"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1180,7 +1182,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_CUS6"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1204,7 +1206,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_SE1"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1298,7 +1300,7 @@
                                         android:gravity="center"
                                         android:inputType="number"
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_SE2"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1322,7 +1324,7 @@
                                         android:inputType="number"
 
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/cashier_CH1"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
@@ -1345,7 +1347,7 @@
                                         android:gravity="center"
                                         android:inputType="number"
                                         android:maxLength="1"
-                                        android:nextFocusDown="@id/signUp_second_name"
+                                        android:nextFocusDown="@id/Date"
                                         android:singleLine="true"
                                         android:textColor="@color/colorWhiteLight"
                                         android:textColorHint="@color/colorWhiteLight"
