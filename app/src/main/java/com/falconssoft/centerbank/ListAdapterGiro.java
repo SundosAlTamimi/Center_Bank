@@ -37,15 +37,16 @@ public class ListAdapterGiro extends BaseAdapter {
     String phoneNo, language;
     LinearLayout liner;
     int index;
+    boolean isWallet=false;
 
-    public ListAdapterGiro(JeroActivity context, List<ChequeInfo> itemsList, LinearLayout liner) {
+    public ListAdapterGiro(JeroActivity context, List<ChequeInfo> itemsList, LinearLayout liner,boolean isWallet) {
         this.context = context;
         this.itemsList = itemsList;
         SharedPreferences prefs = context.getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");//"No name defined" is the default value.
         Log.e("editing,3 ", language);
         this.liner = liner;
-
+        this.isWallet=isWallet;
         Log.e("sizeLog", "" + itemsList.size());
     }
 
@@ -113,6 +114,18 @@ public class ListAdapterGiro extends BaseAdapter {
         holder.lostSteal= view.findViewById(R.id.lostSteal);
 
         String TStatus = "";
+
+
+        if(isWallet){
+            holder.send.setVisibility(View.GONE);
+            holder.lostSteal.setVisibility(View.GONE);
+        }else {
+            holder.send.setVisibility(View.VISIBLE);
+            holder.lostSteal.setVisibility(View.VISIBLE);
+        }
+
+
+
 
         if(itemsList.get(i).getTransType().equals("2")){
 //            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));

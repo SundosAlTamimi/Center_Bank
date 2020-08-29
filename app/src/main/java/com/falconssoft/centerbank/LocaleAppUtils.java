@@ -13,7 +13,7 @@ import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 public class LocaleAppUtils {
 
     private static Locale locale;
-    public static String language;
+    public static String language="en";
 
     public static void setLocale(Locale localeIn) {
         locale = localeIn;

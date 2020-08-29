@@ -678,11 +678,12 @@
                             <TextView
                                 android:id="@+id/textResonReject"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:background="@drawable/back_black"
                                 android:ems="5"
                                 android:gravity="center"
                                 android:scrollbars="vertical"
+                                android:lines="3"
                                 android:textColor="@color/colorWhite"
                                 android:textSize="18sp"
                                 app:autoSizeMaxTextSize="18sp"

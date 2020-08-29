@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
@@ -697,7 +698,17 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
                         contextAlert.startEditerForReSendAlert(checkInfoNotification.get(row_index));
                         Toast.makeText(contextAlert, "Resend " + checkInfoNotification.get(row_index).getChequeNo(), Toast.LENGTH_SHORT).show();
 
-                    } else {
+
+                        new Handler().post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                dialog.dismiss();
+
+                            }
+                        });
+
+                    }else {
                         new SweetAlertDialog(contextAlert, SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("ReSend Error!")
                                 .setContentText("This Cheque Can't Resend States is not Reject")
@@ -769,7 +780,17 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     sDialog.dismissWithAnimation();
-                                    dialog.dismiss();
+
+                                    new Handler().post(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            dialog.dismiss();
+
+                                        }
+                                    });
+
+
                                     showDialogreson();
 
 

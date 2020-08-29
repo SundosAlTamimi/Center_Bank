@@ -98,7 +98,7 @@ public class JeroActivity extends AppCompatActivity {
     static String phoneNo;
     List<ChequeInfo> ChequeInfoGiro;
     ListView listGiro;
-    TextView customName, dateText, cheqNo, scanBarcode, AmouWord, date, amountTV, Danier, phails, CheckPicText,check;
+    TextView giroTaital,customName, dateText, cheqNo, scanBarcode, AmouWord, date, amountTV, Danier, phails, CheckPicText,check;
     public LinearLayout giroList, editLiner, barcodeLiner, linearPhone;
     public List<ChequeInfo> chequeInfoTilar;
     public static TextView getTrial;
@@ -136,6 +136,8 @@ public class JeroActivity extends AppCompatActivity {
     static String BANKNO = "";
     static String BRANCHNO = "";
     String[] arr;
+    String intentWallet;
+    boolean isWallet=false;
 
 
     @SuppressLint("CutPasteId")
@@ -149,7 +151,7 @@ public class JeroActivity extends AppCompatActivity {
         SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs1.getString("link", "");
 
-
+        giroTaital= findViewById(R.id.giroTaital);
         listGiro = findViewById(R.id.GiroList);
         getTrial = findViewById(R.id.getTrial);
         giroList = findViewById(R.id.giroList);
@@ -334,13 +336,13 @@ public class JeroActivity extends AppCompatActivity {
                 Collections.sort(ChequeInfoGiro, new JeroActivity.CheqNoSorter());
 //                Log.e("Sort2",""+sortAlpha());
                 if (cheqNo.getTag().toString().equals("1")) {
-                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
+                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList,isWallet);
                     listGiro.setAdapter(listAdapterLogHistory);
                     cheqNo.setTag("0");
                     cheqNo.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_arrow_upward_black_24dp, 0,0, 0);
                 } else if (cheqNo.getTag().toString().equals("0")) {
                     Collections.reverse(ChequeInfoGiro);
-                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
+                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList,isWallet);
                     listGiro.setAdapter(listAdapterLogHistory);
                     cheqNo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_downward_black_24dp, 0, 0, 0);
 
@@ -358,13 +360,13 @@ public class JeroActivity extends AppCompatActivity {
                 sortDate();
 //                Log.e("Sort2",""+sortAlpha());
                 if (dateText.getTag().toString().equals("1")) {
-                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
+                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList,isWallet);
                     listGiro.setAdapter(listAdapterLogHistory);
                     dateText.setTag("0");
                     dateText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_downward_black_24dp, 0,0 , 0);
                 } else if (dateText.getTag().toString().equals("0")) {
                     Collections.reverse(ChequeInfoGiro);
-                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
+                    listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList,isWallet);
                     listGiro.setAdapter(listAdapterLogHistory);
                     dateText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_upward_black_24dp, 0, 0, 0);
 
@@ -383,13 +385,13 @@ public class JeroActivity extends AppCompatActivity {
                 sortAlpha();
 //                Log.e("Sort2",""+sortAlpha());
                 if (customName.getTag().toString().equals("1")) {
-                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
+                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList,isWallet);
                     listGiro.setAdapter(listAdapterLogHistory);
                     customName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_upward_black_24dp, 0, 0, 0);
                     customName.setTag("0");
                 } else if (customName.getTag().toString().equals("0")) {
                     Collections.reverse(ChequeInfoGiro);
-                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
+                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList,isWallet);
                     listGiro.setAdapter(listAdapterLogHistory);
                     customName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_arrow_downward_black_24dp, 0, 0, 0);
                     customName.setTag("1");
@@ -586,6 +588,13 @@ public class JeroActivity extends AppCompatActivity {
 //            }
 //        });
 
+
+        intentWallet = getIntent().getStringExtra("wallet");
+
+        if (intentWallet != null && intentWallet.equals("wallet")) {
+            isWallet=true;
+            giroTaital.setText(JeroActivity.this.getResources().getString(R.string.wallet));
+        }
 
         new GetGiro().execute();
 
@@ -941,58 +950,114 @@ public class JeroActivity extends AppCompatActivity {
 
                     ChequeInfoGiro = new ArrayList<>();
 
-                    for (int i = 0; i < parentInfo.length(); i++) {
-                        JSONObject finalObject = parentInfo.getJSONObject(i);
+                    if (intentWallet != null && intentWallet.equals("wallet")) {
+                        for (int i = 0; i < parentInfo.length(); i++) {
+                            JSONObject finalObject = parentInfo.getJSONObject(i);
 
-                        ChequeInfo obj = new ChequeInfo();
+                            ChequeInfo obj = new ChequeInfo();
 
-                        //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
-                        if (finalObject.getString("ISFB").equals("0") && !finalObject.getString("TOCUSTOMERMOB").equals(finalObject.getString("OWNERMOBNO"))) {//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
+                            //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
+                            if (finalObject.getString("ISFB").equals("1") ||(finalObject.getString("ISFB").equals("1")&&finalObject.getString("ISCO").equals("1")) && !finalObject.getString("TOCUSTOMERMOB").equals(finalObject.getString("OWNERMOBNO"))) {//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
 
-                            //&&!finalObject.getString("TRANSSTATUS").equals("3")
-                            obj.setRowId(finalObject.getString("ROWID"));
-                            obj.setBankNo(finalObject.getString("BANKNO"));
-                            obj.setBankName(finalObject.getString("BANKNM"));
-                            obj.setBranchNo(finalObject.getString("BRANCHNO"));
-                            obj.setChequeNo(finalObject.getString("CHECKNO"));
-                            obj.setAccCode(finalObject.getString("ACCCODE"));
-                            obj.setIbanNo(finalObject.getString("IBANNO"));
-                            obj.setCustName(finalObject.getString("CUSTOMERNM"));
-                            obj.setQrCode(finalObject.getString("QRCODE"));
-                            obj.setSerialNo(finalObject.getString("SERIALNO"));
-                            obj.setCheckIsSueDate(finalObject.getString("CHECKISSUEDATE"));//?
-                            obj.setCheckDueDate(finalObject.getString("CHECKDUEDATE"));//?
-                            obj.setToCustomerName(finalObject.getString("TOCUSTOMERNM"));
-                            obj.setMoneyInDinar(finalObject.getString("AMTJD"));
-                            obj.setMoneyInFils(finalObject.getString("AMTFILS"));
-                            obj.setMoneyInWord(finalObject.getString("AMTWORD"));
-                            obj.setToCustomerMobel(finalObject.getString("TOCUSTOMERMOB"));
-                            obj.setToCustomerNationalId(finalObject.getString("TOCUSTOMERNATID"));
-                            obj.setCustomerWriteDate(finalObject.getString("CHECKWRITEDATE"));//?
+                                //&&!finalObject.getString("TRANSSTATUS").equals("3")
+                                obj.setRowId(finalObject.getString("ROWID"));
+                                obj.setBankNo(finalObject.getString("BANKNO"));
+                                obj.setBankName(finalObject.getString("BANKNM"));
+                                obj.setBranchNo(finalObject.getString("BRANCHNO"));
+                                obj.setChequeNo(finalObject.getString("CHECKNO"));
+                                obj.setAccCode(finalObject.getString("ACCCODE"));
+                                obj.setIbanNo(finalObject.getString("IBANNO"));
+                                obj.setCustName(finalObject.getString("CUSTOMERNM"));
+                                obj.setQrCode(finalObject.getString("QRCODE"));
+                                obj.setSerialNo(finalObject.getString("SERIALNO"));
+                                obj.setCheckIsSueDate(finalObject.getString("CHECKISSUEDATE"));//?
+                                obj.setCheckDueDate(finalObject.getString("CHECKDUEDATE"));//?
+                                obj.setToCustomerName(finalObject.getString("TOCUSTOMERNM"));
+                                obj.setMoneyInDinar(finalObject.getString("AMTJD"));
+                                obj.setMoneyInFils(finalObject.getString("AMTFILS"));
+                                obj.setMoneyInWord(finalObject.getString("AMTWORD"));
+                                obj.setToCustomerMobel(finalObject.getString("TOCUSTOMERMOB"));
+                                obj.setToCustomerNationalId(finalObject.getString("TOCUSTOMERNATID"));
+                                obj.setCustomerWriteDate(finalObject.getString("CHECKWRITEDATE"));//?
 //                        obj.setCheqPIc(finalObject.getString("CHECKPICPATH"));
-                            obj.setTransType(finalObject.getString("TRANSTYPE"));
-                            obj.setStatus("1");
-                            obj.setUserName(finalObject.getString("USERNO"));
-                            obj.setCompanyName(finalObject.getString("COMPANY"));
-                            obj.setNoteCheck(finalObject.getString("NOTE"));
-                            obj.setISBF(finalObject.getString("ISFB"));
-                            obj.setISCO(finalObject.getString("ISCO"));
-                            //CUSTNAME":"","CUSTFNAME":"","CUSTGNAME":"","CUSTFAMNAME":
+                                obj.setTransType(finalObject.getString("TRANSTYPE"));
+                                obj.setStatus("1");
+                                obj.setUserName(finalObject.getString("USERNO"));
+                                obj.setCompanyName(finalObject.getString("COMPANY"));
+                                obj.setNoteCheck(finalObject.getString("NOTE"));
+                                obj.setISBF(finalObject.getString("ISFB"));
+                                obj.setISCO(finalObject.getString("ISCO"));
+                                //CUSTNAME":"","CUSTFNAME":"","CUSTGNAME":"","CUSTFAMNAME":
 
-                            obj.setToCustName(finalObject.getString("CUSTNAME"));
-                            obj.setToCustFName(finalObject.getString("CUSTFNAME"));
-                            obj.setToCustGName(finalObject.getString("CUSTGNAME"));
-                            obj.setToCustFamalyName(finalObject.getString("CUSTFAMNAME"));
-
-
-                            obj.setISOpen("0");
+                                obj.setToCustName(finalObject.getString("CUSTNAME"));
+                                obj.setToCustFName(finalObject.getString("CUSTFNAME"));
+                                obj.setToCustGName(finalObject.getString("CUSTGNAME"));
+                                obj.setToCustFamalyName(finalObject.getString("CUSTFAMNAME"));
 
 
-                            ChequeInfoGiro.add(obj);
+                                obj.setISOpen("0");
+
+                                ChequeInfoGiro.add(obj);
+                            }
+
+
                         }
+                    }else {
+                        for (int i = 0; i < parentInfo.length(); i++) {
+                            JSONObject finalObject = parentInfo.getJSONObject(i);
+
+                            ChequeInfo obj = new ChequeInfo();
+
+                            //[{"ROWID":"AAAp0DAAuAAAAC0AAC","BANKNO":"004","BANKNM":"","BRANCHNO":"0099","CHECKNO":"390144","ACCCODE":"1014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"720817C32F164968","CHECKISSUEDATE":"28\/06\/2020 10:33:57","CHECKDUEDATE":"21\/12\/2020","TOCUSTOMERNM":"ALAA SALEM","AMTJD":"100","AMTFILS":"0","AMTWORD":"One Handred JD","TOCUSTOMERMOB":"0798899716","TOCUSTOMERNATID":"123456","CHECKWRITEDATE":"28\/06\/2020 10:33:57","CHECKPICPATH":"E:\\00400991014569990011000390144.png","TRANSSTATUS":""}]}
+                            if (finalObject.getString("ISFB").equals("0") && !finalObject.getString("TOCUSTOMERMOB").equals(finalObject.getString("OWNERMOBNO"))) {//&&finalObject.getString("TRANSTYPE").equals("1")//&&finalObject.getString("STATUS").equals("1")
+
+                                //&&!finalObject.getString("TRANSSTATUS").equals("3")
+                                obj.setRowId(finalObject.getString("ROWID"));
+                                obj.setBankNo(finalObject.getString("BANKNO"));
+                                obj.setBankName(finalObject.getString("BANKNM"));
+                                obj.setBranchNo(finalObject.getString("BRANCHNO"));
+                                obj.setChequeNo(finalObject.getString("CHECKNO"));
+                                obj.setAccCode(finalObject.getString("ACCCODE"));
+                                obj.setIbanNo(finalObject.getString("IBANNO"));
+                                obj.setCustName(finalObject.getString("CUSTOMERNM"));
+                                obj.setQrCode(finalObject.getString("QRCODE"));
+                                obj.setSerialNo(finalObject.getString("SERIALNO"));
+                                obj.setCheckIsSueDate(finalObject.getString("CHECKISSUEDATE"));//?
+                                obj.setCheckDueDate(finalObject.getString("CHECKDUEDATE"));//?
+                                obj.setToCustomerName(finalObject.getString("TOCUSTOMERNM"));
+                                obj.setMoneyInDinar(finalObject.getString("AMTJD"));
+                                obj.setMoneyInFils(finalObject.getString("AMTFILS"));
+                                obj.setMoneyInWord(finalObject.getString("AMTWORD"));
+                                obj.setToCustomerMobel(finalObject.getString("TOCUSTOMERMOB"));
+                                obj.setToCustomerNationalId(finalObject.getString("TOCUSTOMERNATID"));
+                                obj.setCustomerWriteDate(finalObject.getString("CHECKWRITEDATE"));//?
+//                        obj.setCheqPIc(finalObject.getString("CHECKPICPATH"));
+                                obj.setTransType(finalObject.getString("TRANSTYPE"));
+                                obj.setStatus("1");
+                                obj.setUserName(finalObject.getString("USERNO"));
+                                obj.setCompanyName(finalObject.getString("COMPANY"));
+                                obj.setNoteCheck(finalObject.getString("NOTE"));
+                                obj.setISBF(finalObject.getString("ISFB"));
+                                obj.setISCO(finalObject.getString("ISCO"));
+                                //CUSTNAME":"","CUSTFNAME":"","CUSTGNAME":"","CUSTFAMNAME":
+
+                                obj.setToCustName(finalObject.getString("CUSTNAME"));
+                                obj.setToCustFName(finalObject.getString("CUSTFNAME"));
+                                obj.setToCustGName(finalObject.getString("CUSTGNAME"));
+                                obj.setToCustFamalyName(finalObject.getString("CUSTFAMNAME"));
 
 
+                                obj.setISOpen("0");
+
+
+                                ChequeInfoGiro.add(obj);
+                            }
+
+
+                        }
                     }
+
+
 
 
 //                  ChequeInfoLogHistoryMain.get(0).setCustName("مها");
@@ -1000,7 +1065,7 @@ public class JeroActivity extends AppCompatActivity {
 //                    ChequeInfoLogHistoryMain.get(2).setCustName("عبير");
 //                    ChequeInfoLogHistoryMain.get(3).setCustName("احمد");
                     sortAlpha();
-                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList);
+                    ListAdapterGiro listAdapterLogHistory = new ListAdapterGiro(JeroActivity.this, ChequeInfoGiro, giroList,isWallet);
                     listGiro.setAdapter(listAdapterLogHistory);
 
 
@@ -1533,7 +1598,7 @@ public class JeroActivity extends AppCompatActivity {
 //            pd.setTitleText(context.getResources().getString(R.string.importstor));
             pd = new SweetAlertDialog(JeroActivity.this, SweetAlertDialog.PROGRESS_TYPE);
             pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
-            pd.setTitleText("Save...");
+            pd.setTitleText(JeroActivity.this.getResources().getString(R.string.save_success));
             pd.setCancelable(false);
             pd.show();
 

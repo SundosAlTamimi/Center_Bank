@@ -409,6 +409,164 @@
                 app:autoSizeTextType="uniform" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="5dp"
+            android:background="@color/alpha_black2"
+            android:fontFamily="serif" />
+
+
+        <LinearLayout
+            android:id="@+id/resonRejectLinear"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/resonReject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:drawablePadding="3dp"
+                android:fontFamily="serif"
+                android:textColor="@color/white"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="5dp"
+            android:background="@color/alpha_black2"
+            android:fontFamily="serif" />
+        <LinearLayout
+            android:id="@+id/resonRejectLinearJoin"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/resonRejectJoin1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:drawablePadding="3dp"
+                android:fontFamily="serif"
+                android:textColor="@color/white"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+            <TextView
+                android:id="@+id/resonRejectJoin2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:drawablePadding="3dp"
+                android:fontFamily="serif"
+                android:textColor="@color/white"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+            <TextView
+                android:id="@+id/resonRejectJoin3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:drawablePadding="3dp"
+                android:fontFamily="serif"
+                android:textColor="@color/white"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="5dp"
+            android:background="@color/alpha_black2"
+            android:fontFamily="serif" />
+
+        <LinearLayout android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:drawablePadding="3dp"
+                android:fontFamily="serif"
+                android:text="@string/check_pic"
+                android:textColor="@color/white"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+        <TableRow
+            android:id="@+id/editorCheque_picLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1"
+            android:gravity="center">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/logImage"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/edit_bac_s"
+                android:src="@drawable/bank4"
+                android:layout_weight="1"
+                app:civ_border_color="@color/colorWhiteLight"
+                app:civ_border_width="3dp"  />
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/logImageGiro"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/edit_bac_s"
+                android:src="@drawable/bank4"
+                android:layout_weight="1"
+                app:civ_border_color="@color/colorWhiteLight"
+                app:civ_border_width="3dp"  />
+
+
+        </TableRow>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Cheque editor</string>
+    <string name="app_name">شيكاتي</string>
     <string name="cheque_app">شيكاتي</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
@@ -214,6 +214,13 @@
     <string name="JoinedRequestCheque">Joined Request Cheque</string>
     <string name="requestToJoinCheque">Join Cheque</string>
     <string name="Join">مشترك</string>
+    <string name="deleteAccount">هل تريد حذف هذا الاحساب = </string>
+    <string name="cheque">Cheque</string>
+    <string name="ResendCheque">Resend Cheque</string>
+    <string name="sent">Sent</string>
+    <string name="next">Next</string>
+    <string name="chequeBackPicture">Cheque Back Picture</string>
+    <string name="resonofReject">Reson Of Reject</string>
     <string name="JoinedRejectCheque">Joint Reject Cheque</string>
     <string name="JoinedAcceptCheque">Joinet Accept Cheque</string>
     <string name="retrivedCheque">تم إسترجاع الشيك </string>

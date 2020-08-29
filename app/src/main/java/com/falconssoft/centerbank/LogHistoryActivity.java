@@ -568,7 +568,7 @@ public class LogHistoryActivity extends AppCompatActivity {
                         obj.setJOIN_SecondSMOB(finalObject.getString("JOINSMOB"));
                         obj.setJOIN_TheredMOB(finalObject.getString("JOINTMOB"));
 
-                        obj.setJOIN_S_STATUS(finalObject.getString("JOINFSTATUS"));
+                        obj.setJOIN_F_STATUS(finalObject.getString("JOINFSTATUS"));
                         obj.setJOIN_F_REASON(finalObject.getString("JOINFREASON"));
                         obj.setJOIN_S_STATUS(finalObject.getString("JOINSSTATUS"));
                         obj.setJOIN_S_REASON(finalObject.getString("JOINSREASON"));

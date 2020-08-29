@@ -103,6 +103,7 @@
                                 android:id="@+id/editorCheque_ccp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                app:ccp_showNameCode="false"
                                 app:ccp_contentColor="@color/white"
                                 app:ccp_defaultNameCode="JO" />
 

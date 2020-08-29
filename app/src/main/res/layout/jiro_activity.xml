@@ -30,7 +30,7 @@ android:textDirection="locale"
 
 
             <TextView
-                android:id="@+id/AccAccount"
+                android:id="@+id/giroTaital"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -894,7 +894,7 @@ android:textDirection="locale"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="serif"
-                            android:text="@string/check_pic"
+                            android:text="@string/chequeBackPicture"
                             android:textColor="@color/colorWhite"
                             android:textSize="18sp"
                             android:textStyle="bold" />

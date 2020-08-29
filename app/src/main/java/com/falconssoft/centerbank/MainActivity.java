@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DatabaseHandler dbHandler;
     SQLiteDatabase database;
     static String watch;
-    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = "", CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = "", BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "", fullUsername;
+    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = "", CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = "", BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "", fullUsername,bankNo="";
     private JSONObject addAccountOb;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
@@ -438,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (!TextUtils.isEmpty(inputEditText.getText().toString())) {
                     // TODO add account
 
-                    NewAccount acc = new NewAccount("jj", inputEditText.getText().toString(), "Bank Of Jordan ", "0");
+                    NewAccount acc = new NewAccount("jj", inputEditText.getText().toString(), bankNo, "0");
                     addAccountOb = acc.getJSONObject(userNo);
                     new AddAccount().execute();
 
@@ -657,6 +658,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String ST = Result.getContents();
                 arr = ST.split(";");
 
+                bankNo = arr[1];
                 accCode = arr[3];
 
                 if (isAdd)
@@ -694,12 +696,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             break;
             case R.id.menu_wallet: {
-
+                Intent intentWallet = new Intent(MainActivity.this, JeroActivity.class);
+                intentWallet.putExtra("wallet","wallet");
+                startActivity(intentWallet);
             }
             break;
             case R.id.menu_giro: {
-                Intent intentJero = new Intent(MainActivity.this, JeroActivity.class);
-                startActivity(intentJero);
+                Intent intentGiro = new Intent(MainActivity.this, JeroActivity.class);
+                startActivity(intentGiro);
 
             }
             break;
@@ -984,6 +988,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onBindViewHolder(@NonNull final MainActivity.CViewHolderForbar cViewHolder, final int i) {
             cViewHolder.ItemName.setText(list.get(i).getAccountNo().substring(1));
+           switch (list.get(i).getBank()){
+
+               case "004":
+                cViewHolder.itemImage.setImageDrawable(context.getResources().getDrawable(R.drawable.jordan_bank));
+                break;
+               case "009":
+                   cViewHolder.itemImage.setImageDrawable(context.getResources().getDrawable(R.drawable.cairo_amman_bank));
+                   break;
+            }
 //            cViewHolder.itemImage.setBackgroundResource(getImage(pic2.get(i)));
             cViewHolder.layBar.setTag("" + i);
 
@@ -992,7 +1005,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onClick(View v) {
                     if (!longIsOpen[0]) {
-                        Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "id = " + v.getTag(), Toast.LENGTH_SHORT).show();
                         Intent LogHistoryIntent = new Intent(MainActivity.this, LogHistoryActivity.class);
                         LogHistoryIntent.putExtra("AccountNo", list.get(i).getAccountNo());
                         watch = "0";
@@ -1011,7 +1024,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     longIsOpen[0] = true;
                     new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("WARNING")
-                            .setContentText("You want to Delete This Account No =   ( " + list.get(i).getAccountNo() + " ) !")
+                            .setContentText(MainActivity.this.getResources().getString(R.string.deleteAccount) + " ( " + list.get(i).getAccountNo() + " ) !")
                             .setConfirmText("Ok")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
@@ -2032,6 +2045,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     Log.e("getTransType-new",""+checkInfoList.get(0).getTransType().equals("100"));
 //                                    ShowNotifi("check");
 
+                                    new Handler().post(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            notification_btn.setVisibility(View.VISIBLE);
+
+                                        }
+                                    });
                                     int stat=-1;
 //                                    if(checkInfoList.get(0).getStatus().equals("0")) {
                                         if (checkInfoList.get(0).getTransType().equals("1")) {
@@ -2077,7 +2098,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 if (arrayListRow.size() > countFirst)// new data
                                 {
                                     Log.e("NewGreater", "countFirst" + countFirst);
-                                    Log.e("getTransType",""+checkInfoList.get(0).getTransType().equals("100"));
+                                    new Handler().post(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            notification_btn.setVisibility(View.VISIBLE);
+
+                                        }
+                                    });
 //                                    ShowNotifi("check");
                                     int stat=-1;
 //                                    if(checkInfoList.get(0).getStatus().equals("0")) {
@@ -2127,7 +2155,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         {
 //                                            ShowNotifi("check");
 
+                                            new Handler().post(new Runnable() {
+                                                @Override
+                                                public void run() {
 
+                                                    notification_btn.setVisibility(View.VISIBLE);
+
+                                                }
+                                            });
                                             int stat = -1;
 //                                            if (checkInfoList.get(0).getStatus().equals("0")) {
                                                 if (checkInfoList.get(0).getTransType().equals("1")) {

@@ -1603,7 +1603,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 //
             pd = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
             pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
-            pd.setTitleText("Save...");
+            pd.setTitleText(EditerCheackActivity.this.getResources().getString(R.string.save_success));
             pd.setCancelable(false);
             pd.show();
 
@@ -1685,7 +1685,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                   linerBarcode.setVisibility(View.VISIBLE);
                     SweetAlertDialog sweet = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.SUCCESS_TYPE);
                     sweet.setTitleText("");
-                    sweet.setContentText(EditerCheackActivity.this.getResources().getString(R.string.save_success));
+                    sweet.setContentText(EditerCheackActivity.this.getResources().getString(R.string.sent));
                     sweet.setCanceledOnTouchOutside(false);
                     sweet.setConfirmText("Ok");
                     sweet.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -2160,6 +2160,9 @@ public class EditerCheackActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     finish();
+                                    Intent intentGiro=new Intent(EditerCheackActivity.this,JeroActivity.class);
+                                    startActivity(intentGiro);
+
                                     sDialog.dismissWithAnimation();
                                 }
                             }).show();
@@ -2394,7 +2397,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                         }else{
 
                             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                    .setTitleText(" Cheque ")
+                                    .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.cheque))
                                     .setContentText(EditerCheackActivity.this.getResources().getString(R.string.chequeCashed))
                                     .show();
 
@@ -2403,8 +2406,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                     } else {
                         if (intentReSend != null && intentReSend.equals("ReSend")) {
                             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                                    .setTitleText("ReSend Cheque ")
-                                    .setContentText("This check is not Yours !!!")
+                                    .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.ResendCheque))
+                                    .setContentText(EditerCheackActivity.this.getResources().getString(R.string.chequeCurrentlyNotYour))
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @SuppressLint("WrongConstant")
                                         @Override
@@ -2416,8 +2419,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                                     }).show();
                         } else {
                             new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                                    .setTitleText("Send Cheque ")
-                                    .setContentText("This check is not Yours !!!")
+                                    .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.sendCheque))
+                                    .setContentText(EditerCheackActivity.this.getResources().getString(R.string.chequeCurrentlyNotYour))
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @SuppressLint("WrongConstant")
                                         @Override
@@ -2441,7 +2444,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 
                 new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText(" Cheque ")
+                        .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.cheque))
                         .setContentText("Check Data not found")
                         .show();
 
@@ -2572,54 +2575,55 @@ public class EditerCheackActivity extends AppCompatActivity {
                         ChequeInfo obj = new ChequeInfo();
 
                         if (finalObject.getString("TOCUSTOMERMOB").equals(phoneNoUser)) {
+                            if (!finalObject.getString("OWNERMOBNO").equals(phoneNoUser)) {
 //                            "INFO":[{"ROWID":"AAAq3rAAuAAAADeAAB","BANKNO":"004","BANKNM":"Jordan Bank","BRANCHNO":"0099","CHECKNO":"390105","ACCCODE":"0014569990011000","IBANNO":"","CUSTOMERNM":"الخزينة والاستثمار","QRCODE":"","SERIALNO":"ADA2B3D052C54199","CHECKISSUEDATE":"01\/07\/2020 18:29:14","CHECKDUEDATE":"01\/07\/2020","TOCUSTOMERNM":"GggHhVhGg","AMTJD":"4444","AMTFILS":"44","AMTWORD":"اربعة آلاف و اربعمائة و اربعة و اربعون ديناراً و 440 فلساً","TOCUSTOMERMOB":"0772095887","TOCUSTOMERNATID":"0788588868","CHECKWRITEDATE":"01\/07\/2020 18:29:14","CHECKPICPATH":"Z:\\FS_Acc_Stk\\Web Services\\ChequesScan\\Win32\\Debug\\Images\\00400990014569990011000390105.txt","TRANSSTATUS":"1","USERNO":"0786812709","ISCO":"0","ISFB":"0","COMPANY":"","NOTE":"","TRANSTYPE":"1","RJCTREASON":""}]}
 
 
-                            obj.setRowId(finalObject.getString("ROWID"));
-                            obj.setBankNo(finalObject.getString("BANKNO"));
+                                obj.setRowId(finalObject.getString("ROWID"));
+                                obj.setBankNo(finalObject.getString("BANKNO"));
 
 
-                            obj.setBankName(finalObject.getString("BANKNM"));
-                            obj.setBranchNo(finalObject.getString("BRANCHNO"));
+                                obj.setBankName(finalObject.getString("BANKNM"));
+                                obj.setBranchNo(finalObject.getString("BRANCHNO"));
 
-                            obj.setChequeNo(finalObject.getString("CHECKNO"));
-                            obj.setAccCode(finalObject.getString("ACCCODE"));
+                                obj.setChequeNo(finalObject.getString("CHECKNO"));
+                                obj.setAccCode(finalObject.getString("ACCCODE"));
 
-                            obj.setIbanNo(finalObject.getString("IBANNO"));
-                            obj.setCustName(finalObject.getString("CUSTOMERNM"));
+                                obj.setIbanNo(finalObject.getString("IBANNO"));
+                                obj.setCustName(finalObject.getString("CUSTOMERNM"));
 
-                            obj.setQrCode(finalObject.getString("QRCODE"));
-                            obj.setSerialNo(finalObject.getString("SERIALNO"));
+                                obj.setQrCode(finalObject.getString("QRCODE"));
+                                obj.setSerialNo(finalObject.getString("SERIALNO"));
 
-                            obj.setCheckIsSueDate(finalObject.getString("CHECKISSUEDATE"));//?
-                            obj.setCheckDueDate(finalObject.getString("CHECKDUEDATE"));//?
+                                obj.setCheckIsSueDate(finalObject.getString("CHECKISSUEDATE"));//?
+                                obj.setCheckDueDate(finalObject.getString("CHECKDUEDATE"));//?
 
-                            obj.setToCustomerName(finalObject.getString("TOCUSTOMERNM"));
-                            obj.setMoneyInDinar(finalObject.getString("AMTJD"));
+                                obj.setToCustomerName(finalObject.getString("TOCUSTOMERNM"));
+                                obj.setMoneyInDinar(finalObject.getString("AMTJD"));
 
-                            obj.setMoneyInFils(finalObject.getString("AMTFILS"));
-                            obj.setMoneyInWord(finalObject.getString("AMTWORD"));
+                                obj.setMoneyInFils(finalObject.getString("AMTFILS"));
+                                obj.setMoneyInWord(finalObject.getString("AMTWORD"));
 
-                            obj.setToCustomerMobel(finalObject.getString("TOCUSTOMERMOB"));
+                                obj.setToCustomerMobel(finalObject.getString("TOCUSTOMERMOB"));
 
-                            obj.setToCustomerNationalId(finalObject.getString("TOCUSTOMERNATID"));
-                            obj.setCustomerWriteDate(finalObject.getString("CHECKWRITEDATE"));//?
+                                obj.setToCustomerNationalId(finalObject.getString("TOCUSTOMERNATID"));
+                                obj.setCustomerWriteDate(finalObject.getString("CHECKWRITEDATE"));//?
 
 //                        obj.setCheqPIc(finalObject.getString("CHECKPICPATH"));
 //                            obj.setTransType(finalObject.getString("TRANSSTATUS"));
 //                            obj.setStatus(finalObject.getString("STATUS"));
-                            obj.setUserName(finalObject.getString("USERNO"));
+                                obj.setUserName(finalObject.getString("USERNO"));
 
-                            obj.setISBF(finalObject.getString("ISFB"));
-                            obj.setISCO(finalObject.getString("ISCO"));
+                                obj.setISBF(finalObject.getString("ISFB"));
+                                obj.setISCO(finalObject.getString("ISCO"));
 
-                            obj.setISOpen("0");
+                                obj.setISOpen("0");
 
 
-                            chequeInfoGiro.add(obj);
+                                chequeInfoGiro.add(obj);
 
-                            foundIn = true;
-
+                                foundIn = true;
+                            }
 
                         }
                     }
@@ -2629,17 +2633,18 @@ public class EditerCheackActivity extends AppCompatActivity {
                         Log.e("chequeGiro 2010", "not giro" + JsonResponse.toString());
 
                     } else {
-                        new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
-                                .setTitleText(" Cheque ")
-                                .setContentText("This check is Giro can't Send !!!")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @SuppressLint("WrongConstant")
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        finish();
-                                        sDialog.dismissWithAnimation();
-                                    }
-                                }).show();
+//                        new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
+//                                .setTitleText(" Cheque ")
+//                                .setContentText("This check is Giro can't Send !!!")
+//                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                    @SuppressLint("WrongConstant")
+//                                    @Override
+//                                    public void onClick(SweetAlertDialog sDialog) {
+//                                        finish();
+//                                        sDialog.dismissWithAnimation();
+//                                    }
+//                                }).show();
+                        new TillerGetCheck(chequeInfo).execute();
 
                     }
 

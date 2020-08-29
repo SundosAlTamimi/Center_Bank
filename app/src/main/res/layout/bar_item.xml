@@ -9,7 +9,7 @@
     android:background="@color/white"
     android:padding="10dp"
     android:layout_weight="1"
-    android:orientation="vertical">
+    android:orientation="horizontal">
     <!--<TextView-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="match_parent"-->
@@ -39,33 +39,92 @@
         <!--android:layout_weight="3"-->
         <!--android:background="@drawable/ic_account_circle_black_dp" />-->
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgbar"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_weight="3"
-        android:src="@drawable/jordan_bank"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/colorGold"
-        android:gravity="center"
-        android:textColor="@color/white"
-        tools:ignore="VectorDrawableCompat" />
-
-
-    <TextView
-        android:id="@+id/textbar"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:text="point"
+        android:layout_weight="2.3"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/currency"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="start"
+           android:text="JD"
+            android:textColor="@color/colorGold"
+            android:textSize="25sp"
+            app:autoSizeMaxTextSize="25sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            android:textStyle="bold"
+            android:fontFamily="serif"
+            tools:ignore="VectorDrawableCompat" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColor="@color/colorGold"
-        android:textSize="25sp"
-        app:autoSizeMaxTextSize="25sp"
-        app:autoSizeMinTextSize="12sp"
-        app:autoSizeStepGranularity="2sp"
-        app:autoSizeTextType="uniform"        />
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgbar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:src="@drawable/jordan_bank"
+            android:textColor="@color/white"
+            app:civ_border_color="@color/colorGold"
+            app:civ_border_width="2dp"
+            tools:ignore="VectorDrawableCompat" />
+
+        <TextView
+            android:id="@+id/textbar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="point"
+            android:textColor="@color/colorGold"
+            android:textSize="22sp"
+            app:autoSizeMaxTextSize="22sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2.3"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/AccType"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end"
+            android:text="@string/Join"
+            android:textColor="@color/colorGold"
+            android:textSize="20sp"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            android:textStyle="bold"
+            android:fontFamily="serif"
+            tools:ignore="VectorDrawableCompat" />
+    </LinearLayout>
+
 
     <!--<TextView-->
         <!--android:layout_width="wrap_content"-->

@@ -77,7 +77,7 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
 //                holder.status.setText("Accepted");
                 holder.status.setTextColor(GREEN);
             } else if (list.get(position).getTransType().equals("2")||list.get(position).getTransType().equals("200")) {
-                sendState = context.getResources().getString(R.string.rej);
+                sendState = context.getResources().getString(R.string.Reject);
 //                holder.status.setText("Rejected");
                 holder.status.setTextColor(RED);
             } else if (list.get(position).getTransType().equals("3")) {
@@ -92,9 +92,9 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
 
         if (!TextUtils.isEmpty(list.get(position).getTransSendOrGero()))
             if (list.get(position).getTransSendOrGero().equals("0"))
-                holder.status.setText(sendState + " / " + context.getResources().getString(R.string.Issue));
+                holder.status.setText( context.getResources().getString(R.string.Issue)+ " / " +sendState );
             else
-                holder.status.setText(sendState + " / " + context.getResources().getString(R.string.giro));
+                holder.status.setText( context.getResources().getString(R.string.giro)+ " / " +sendState );
 //        if(itemsList.get(i).getTransType().equals("2")){
 //            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
 //            TStatus=context.getResources().getString(R.string.rej);

@@ -220,7 +220,7 @@
                 android:background="@drawable/edit_bac_sinup"
                 android:fontFamily="serif"
                 android:padding="5dp"
-                android:text="@string/save"
+                android:text="@string/next"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"
                 app:autoSizeMaxTextSize="20sp"

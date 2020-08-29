@@ -146,6 +146,7 @@
                         android:layout_height="wrap_content"
                         app:ccp_contentColor="@color/white"
                         app:ccp_defaultNameCode="JO"
+                        app:ccp_showNameCode="false"
                         />
 
                     <EditText

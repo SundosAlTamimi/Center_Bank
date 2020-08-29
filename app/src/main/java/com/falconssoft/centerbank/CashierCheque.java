@@ -112,6 +112,7 @@ public class CashierCheque extends AppCompatActivity {
         phoneNoUser = loginPrefs.getString("mobile", "");
 
         bankName.add("Bank Of Jordan");
+        bankName.add("Cairo Amman Bank");
 
         branchName.add("Abdoun Branch");
         branchName.add("Abu Alanda Branch");
@@ -253,8 +254,8 @@ public class CashierCheque extends AppCompatActivity {
     void SendCashierCheque() {
 
 
-        if (!TextUtils.isEmpty(cashier_IdNo.getText().toString()) && cashier_IdNo.getText().toString().length() == 10) {
-            if (!TextUtils.isEmpty(cashier_phone.getText().toString()) && cashier_phone.getText().toString().length() == 10) {
+//        if (!TextUtils.isEmpty(cashier_IdNo.getText().toString()) && cashier_IdNo.getText().toString().length() == 10) {
+            if (!TextUtils.isEmpty(cashier_phone.getText().toString()) && cashier_phone.getText().toString().length() == 9) {
                 if (!String.valueOf(cashier_phone.getText().toString().charAt(0)).equals("0"))
                     if (!TextUtils.isEmpty(casher_first_name.getText().toString())) {
                         if (!TextUtils.isEmpty(cashier_second_name.getText().toString())) {
@@ -525,9 +526,9 @@ public class CashierCheque extends AppCompatActivity {
             } else {
                 cashier_phone.setError("Required!");
             }
-        } else {
-            cashier_IdNo.setError("Required!");
-        }
+//        } else {
+//            cashier_IdNo.setError("Required!");
+//        }
 
 
     }
