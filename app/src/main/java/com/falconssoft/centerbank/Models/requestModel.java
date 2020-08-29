@@ -16,6 +16,42 @@ public class requestModel {
     private  String INDATE;
     private  String REASON;
     private String witch;
+    private String kind;
+    private String notif_ROWID;
+    private String SEEN;
+    private String  WICHEUSER;
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    public String getNotif_ROWID() {
+        return notif_ROWID;
+    }
+
+    public void setNotif_ROWID(String notif_ROWID) {
+        this.notif_ROWID = notif_ROWID;
+    }
+
+    public String getSEEN() {
+        return SEEN;
+    }
+
+    public void setSEEN(String SEEN) {
+        this.SEEN = SEEN;
+    }
+
+    public String getWICHEUSER() {
+        return WICHEUSER;
+    }
+
+    public void setWICHEUSER(String WICHEUSER) {
+        this.WICHEUSER = WICHEUSER;
+    }
 
     public String getWitch() {
         return witch;

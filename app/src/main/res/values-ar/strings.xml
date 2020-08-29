@@ -214,4 +214,8 @@
     <string name="JoinedRequestCheque">Joined Request Cheque</string>
     <string name="requestToJoinCheque">Join Cheque</string>
     <string name="Join">مشترك</string>
+    <string name="JoinedRejectCheque">Joint Reject Cheque</string>
+    <string name="JoinedAcceptCheque">Joinet Accept Cheque</string>
+    <string name="retrivedCheque">تم إسترجاع الشيك </string>
+    <string name="message_forDelete">هل تريد مسح الإشعار?</string>
 </resources>

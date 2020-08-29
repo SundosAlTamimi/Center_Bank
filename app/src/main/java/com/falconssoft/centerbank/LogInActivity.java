@@ -118,8 +118,11 @@ public class LogInActivity extends AppCompatActivity {
         editor.apply();
 
         new LocaleAppUtils().changeLayot(LogInActivity.this);
-
-        binding = DataBindingUtil.setContentView(this, R.layout.log_in);
+try {
+    binding = DataBindingUtil.setContentView(this, R.layout.log_in);
+}
+        catch (Exception e)
+        {}
 //        setContentView(R.layout.log_in);//binding.getRoot()
         if (language.equals("ar"))
             binding.LogInPassword.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);

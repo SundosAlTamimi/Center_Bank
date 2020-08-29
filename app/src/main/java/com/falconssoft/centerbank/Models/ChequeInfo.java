@@ -57,17 +57,35 @@ public class ChequeInfo implements Serializable {
 
 
     private  String IsJoin;
-    private  String JOIN_FirstMOB;
+    private  String JOIN_FirstMOB   ;
     private  String JOIN_SecondSMOB ;
-    private  String JOIN_TheredMOB;
+    private  String JOIN_TheredMOB  ;
 
-    private  String JOIN_F_STATUS ;
-    private  String JOIN_F_REASON;
-    private  String JOIN_S_STATUS;
+    private  String JOIN_F_STATUS   ;
+    private  String JOIN_F_REASON   ;
+    private  String JOIN_S_STATUS   ;
 
-    private  String JOIN_S_REASON;
-    private  String JOIN_T_STATUS;
-    private  String JOIN_T_REASON;
+    private  String JOIN_S_REASON   ;
+    private  String JOIN_T_STATUS   ;
+    private  String JOIN_T_REASON    ;
+    private  String NOTFROWID;
+    private  String WICHEUSER;
+
+    public String getWICHEUSER() {
+        return WICHEUSER;
+    }
+
+    public void setWICHEUSER(String WICHEUSER) {
+        this.WICHEUSER = WICHEUSER;
+    }
+
+    public String getNOTFROWID() {
+        return NOTFROWID;
+    }
+
+    public void setNOTFROWID(String NOTFROWID) {
+        this.NOTFROWID = NOTFROWID;
+    }
 
     public String getIsJoin() {
         return IsJoin;

@@ -113,7 +113,9 @@ public class RequestCheque extends AppCompatActivity {
     public  String WHICH="0";
     private ProgressDialog progressDialog;
     LoginINFO infoUser;
-    public  static   String language="", serverLink="http://falconssoft.net/ScanChecks/APIMethods.dll/";
+    public  static   String language="", serverLink="";
+//    public  static   String language="", serverLink="http://falconssoft.net/ScanChecks/APIMethods.dll/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +153,8 @@ public class RequestCheque extends AppCompatActivity {
 
         progressDialog.show();
         progressDialog.setMessage("Loading...");
-        new GetAllRequestToUser_JSONTask().execute();
+        new GetNotificationRequest_JSONTask().execute();
+//        new GetAllRequestToUser_JSONTask().execute();
         Log.e("flagMainCreat",""+flagMain);
 
 //        if(flagMain==2)
@@ -449,7 +452,7 @@ public class RequestCheque extends AppCompatActivity {
                         editor.putStringSet("REQUEST_ToUser", set_tow);
                         editor.apply();
                         Log.e("EndFirstToUser", "****************");
-                        new GetAllRequestFromUser_JSONTask().execute();
+//                        new GetAllRequestFromUser_JSONTask().execute();
 
 
 
@@ -464,14 +467,281 @@ public class RequestCheque extends AppCompatActivity {
 //                    INFO
                     Log.e("tag", "****Success" + s.toString());
                 }if (s.contains("\"StatusDescreption\":\"Request data not found.\"")) {
-                    new GetAllRequestFromUser_JSONTask().execute();
+//                    new GetAllRequestFromUser_JSONTask().execute();
 
                     Log.e("tagFromUser", "****Failed to export data");
 
                 }
             }
             else {
-                new GetAllRequestFromUser_JSONTask().execute();
+//                new GetAllRequestFromUser_JSONTask().execute();
+
+                Log.e("tag", "****Failed to export data Please check internet connection");
+            }
+        }
+    }
+    public class GetNotificationRequest_JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                infoUser=databaseHandler.getActiveUserInfo();
+                phoneNo=infoUser.getUsername();
+
+                WHICH="0";// to user
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+//                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
+                request.setURI(new URI(serverLink + "GetNotifications?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));
+                nameValuePairs.add(new BasicNameValuePair("ISREQ", "1"));// test
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                Log.e("tagGetRequestToUser", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    JSONObject jsonObject = null;
+                    try {
+
+//                        checkInfoNotification.clear();//delete
+
+                        if (first == 1) {
+                            requestListMain.clear();// for first creat
+                        }
+                        requestListTestMain.clear();
+
+
+                        arrayListRow.clear();
+                        arrayListRowFirst.clear();
+                        requestList.clear();
+
+
+                        jsonObject = new JSONObject(s);
+
+                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
+                        for (int i = 0; i < notificationInfo.length(); i++) {
+                            JSONObject infoDetail = notificationInfo.getJSONObject(i);
+
+                            requestModel chequeInfo = new requestModel();
+
+                            chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
+                            chequeInfo.setKind(infoDetail.getString("KIND"));
+
+                            Log.e("setTransType", "\t" + chequeInfo.getTRANSSTATUS());
+
+                            if (( chequeInfo.getKind().equals("3"))|| chequeInfo.getKind().equals("4"))// reject from mee
+                            {
+                                chequeInfo.setROWID(infoDetail.getString("ROWID1"));
+                                chequeInfo.setFROMUSER_No(infoDetail.getString("FROMUSER"));
+                                chequeInfo.setWitch(WHICH);
+                                chequeInfo.setFROMUSER_name(infoDetail.get("FROMUSERNM").toString());
+                                chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
+                                chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
+                                chequeInfo.setCOMPNAME(infoDetail.get("COMPNAME").toString());
+                                Log.e("getFROMUSER_name", "" + chequeInfo.getFROMUSER_name());
+                                chequeInfo.setNOTE(infoDetail.get("NOTE").toString());
+                                chequeInfo.setAMOUNT(infoDetail.get("AMOUNT").toString());
+
+                                chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
+                                chequeInfo.setINDATE(infoDetail.get("INDATE").toString());
+                                chequeInfo.setREASON(infoDetail.getString("REASON"));
+
+                                chequeInfo.setNotif_ROWID(infoDetail.getString("NOTFROWID"));
+                                chequeInfo.setKind(infoDetail.getString("KIND"));
+
+
+                                arrayListRow.add(chequeInfo.getNotif_ROWID());
+
+
+
+                                if(first==1){
+                                    requestListMain.add(chequeInfo);
+                                }
+
+                                requestListTestMain.add(chequeInfo);
+                                Log.e("ToUserArrayListTest",""+requestListTestMain.size());
+
+                            }
+                        }
+                        Log.e("requestListTestMain",""+requestListTestMain.size());
+//
+                        if(first==1)
+                        {
+                            Log.e("first",""+first);
+
+
+                        }
+                        fillListNotification(requestListMain);
+                        Set<String> set_t = new HashSet<String>();
+                        set_t.addAll(arrayListRow);
+                        Log.e("Empty",""+arrayListRow.size());
+
+
+
+                        Set<String> set = sharedPreferences.getStringSet("REQUEST_LIST", null);
+
+                        if(set !=null)
+                        {
+//
+                            set = sharedPreferences.getStringSet("REQUEST_LIST", null);
+                            arrayListRowFirst.addAll(set);
+
+                            int countFirst=arrayListRowFirst.size();
+                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
+                            {
+                                Log.e("olddataGreater","countFirst"+countFirst);
+                                Log.e("olddataGreater","arrayListRow"+arrayListRow.size());
+
+                                for( int h=0;h<arrayListRow.size();h++){
+                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if(index==-1)
+                                    {
+                                        arrayListRowFirst.add(arrayListRow.get(h));
+                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+
+                                    }
+
+                                }
+
+                                if (countFirst < arrayListRowFirst.size())// new data
+                                {
+                                    Log.e("NewGreater","new data");
+//                                    ShowNotifi();
+//                                    fillListNotification(requestListTestMain);
+                                    foundSecond=true;
+
+
+                                }
+                                else {
+
+//                                    fillListNotification(requestListMain);
+                                }
+
+                            }//********************************************
+                            else {
+                                if(arrayListRow.size()>countFirst)// new data
+                                {
+                                    Log.e("NewGreater","countFirst");
+//                                    fillListNotification(requestListTestMain);
+//                                    ShowNotifi();
+                                    foundSecond=true;
+
+                                }
+                                else{
+                                    if(arrayListRow.size()==countFirst)// equal size
+                                    {
+                                        Log.e("arrayListRow","== hereeee");
+
+                                        for( int h=0;h<arrayListRow.size();h++){
+                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if(index==-1)
+                                            {
+                                                arrayListRowFirst.add(arrayListRow.get(h));
+
+
+                                            }
+
+                                        }
+
+                                        if (countFirst < arrayListRowFirst.size())// new data
+                                        {
+//                                            ShowNotifi();
+
+//                                            fillListNotification(requestListTestMain);
+                                            foundSecond=true;
+
+                                        }
+                                        else {
+
+//                                                fillListNotification(requestListMain);
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+
+//                            }
+
+                        }
+                        else {//empty shared preference
+                        }
+
+
+
+                        editor = sharedPreferences.edit();
+                        editor.putStringSet("REQUEST_LIST", set_t);
+                        editor.apply();
+                        Log.e("foundSecond",""+foundSecond+"\t foundFirst"+foundFirst);
+
+
+                        // fillList();
+                        first=2;
+                        progressDialog.dismiss();
+
+//                        fillListNotification(notificationArrayList);
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        progressDialog.dismiss();
+                    }
+
+//                    INFO
+                    Log.e("tag", "****Success" + s.toString());
+                }if (s.contains("\"StatusDescreption\":\"Request data not found.\"")) {
+                    progressDialog.dismiss();
+//                    new GetAllRequestFromUser_JSONTask().execute();
+
+                    Log.e("tagFromUser", "****Failed to export data");
+
+                }
+            }
+            else {
+                progressDialog.dismiss();
+//                new GetAllRequestFromUser_JSONTask().execute();
 
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
