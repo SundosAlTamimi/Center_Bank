@@ -230,8 +230,8 @@
     <string name="retrieval">Retrieve</string>
     <string name="reason_of_retrieval">Reason OF Retrieval</string>
     <string name="RetrievalChequeNo">Retrieval Cheque No</string>
-    <string name="JoinedRequestCheque">Joint Request Cheque</string>
-    <string name="requestToJoinCheque">Joint Cheque</string>
+
+
     <string name="Join">Joint</string>
     <string name="deleteAccount">Do You Want To Delete This Account No =</string>
     <string name="chequeCurrentlyNotYour">This Check Currently Is Not Yours !!!</string>
@@ -245,7 +245,7 @@
     <string name="jointReject">Joint Reject</string>
     <string name="JoinedRequestCheque">Joined Request Cheque</string>
     <string name="requestToJoinCheque">Join Cheque</string>
-    <string name="Join">Join</string>
+
     <string name="JoinedRejectCheque">Joint Reject Cheque</string>
     <string name="JoinedAcceptCheque">Joinet Accept Cheque</string>
     <string name="retrivedCheque">Retrived Cheque</string>

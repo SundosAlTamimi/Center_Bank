@@ -345,7 +345,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 //                isJoin=checkInfoNotification.get(i).getIsJoined();
 //                progressDialog.show();
 //                progressDialog.setMessage("Please Waiting...");
-                viewHolder.showDetails(stateJoin, resonReject);
+                viewHolder.showDetails(stateJoin, resonReject,phonCurentReject);
             }
         });
         viewHolder.linearCheckInfo.setOnLongClickListener(new View.OnLongClickListener() {
@@ -448,7 +448,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             return newValue;
         }
 
-        public void showDetails(String state_Join, String reson_Reject) {
+        public void showDetails(String state_Join, String reson_Reject,String phonCurent) {
             progressDialog = new ProgressDialog(context);
             final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -469,11 +469,11 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 }
 
             }
-            TextView textAmouWord, textAmountNo, textViewMain, textResonReject,
+            TextView textAmouWord, textAmountNo, textViewMain, textResonReject,textPhoneAccept,
                     rejectPhone, textToOrder, texChequNo, amountPhilis, textPhoneNo, texDate, binificary, textCompanyname, note, textFirstPinificry, textCo, reSend, textCompany;
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
-            LinearLayout resonLayout, linearButn, rowNote, rowCompany;
+            LinearLayout resonLayout, linearButn, rowNote, rowCompany,rowJointAccptedPhone;
 
 
             final Button reject = (Button) dialog.findViewById(R.id.RejectButton);
@@ -482,6 +482,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             linearButn = dialog.findViewById(R.id.linearButn);
 
             resonLayout = dialog.findViewById(R.id.resonLayout);
+            textPhoneAccept = dialog.findViewById(R.id.textPhoneAccept);
+            rowJointAccptedPhone = dialog.findViewById(R.id.rowJointAccptedPhone);
 
 
             TableRow rowFirst;
@@ -556,31 +558,37 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     textViewMain.setText(context.getResources().getString(R.string.CheckAccpted));
                     resonLayout.setVisibility(View.GONE);
                     linearButn.setVisibility(View.GONE);
+                    if((state_Join.equals("1")&&checkInfoNotification.get(row_index).getIsJoin().equals("1")))
+                    {
+                        rowJointAccptedPhone.setVisibility(View.VISIBLE);
+                        textPhoneAccept.setText(phonCurent);
+
+                    }
+
 
                 }
-                if (checkInfoNotification.get(row_index).getTransType().equals("2") || (checkInfoNotification.get(row_index).getTransType().equals("200") && !state_Join.equals("1")) ||( state_Join.equals("2")&&checkInfoNotification.get(row_index).getIsJoin().equals("1"))) {
+                if (checkInfoNotification.get(row_index).getTransType().equals("2") || (checkInfoNotification.get(row_index).getTransType().equals("200") && !state_Join.equals("1")) ||( state_Join.equals("2")&&checkInfoNotification.get(row_index).getIsJoin().equals("1")&&!checkInfoNotification.get(row_index).getWICHEUSER().equals("-1"))) {
                     textViewMain.setText(context.getResources().getString(R.string.checkReject));
                     resonLayout.setVisibility(View.VISIBLE);
                     linearButn.setVisibility(View.GONE);
-                    if (state_Join.equals("2")) {
+                    if (state_Join.equals("2")&&!checkInfoNotification.get(row_index).getWICHEUSER().equals("-1")) {
                         textResonReject.setText(reson_Reject);
                     } else {
                         textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
                     }
 
 
-                    rejectPhone.setText(phonCurentReject);
+                    rejectPhone.setText(phonCurent);
 
 
-//                    if (!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")) {//0
-//                        reSend.setVisibility(View.VISIBLE);
-//                        linearButn.setVisibility(View.GONE);
-//                    }
+                    if (!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")) {//0
+                        reSend.setVisibility(View.VISIBLE);
+                        linearButn.setVisibility(View.GONE);
+                    }
 
 
                 }
                 if (checkInfoNotification.get(row_index).getTransType().equals("100") && checkInfoNotification.get(row_index).getWICHEUSER().equals("-1")) {
-                    Log.e("linearButn", "" + checkInfoNotification.get(row_index).getTransType());
                     linearButn.setVisibility(View.VISIBLE);
                     textViewMain.setText(context.getResources().getString(R.string.requestToJoinCheque));
 
@@ -610,9 +618,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
                             , ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_red_24dp), null);
                     textViewMain.setText(context.getResources().getString(R.string.rejectedGereo));
-//                        if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
-//                            reSend.setVisibility(View.VISIBLE);
-//                        }
+                        if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
+                            reSend.setVisibility(View.VISIBLE);
+                        }
 
 
                 }

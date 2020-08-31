@@ -117,7 +117,7 @@ public class AlertScreen extends AppCompatActivity {
     LinearLayout layout;
     Bitmap serverPicBitmap;
     int first = 0;
-    public  static  int flagRefresh=0;
+//    public  static  int flagRefresh=0;
 
     Timer timer;
     public static ArrayList<ChequeInfo> checkInfoNotification;
@@ -162,9 +162,9 @@ public class AlertScreen extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-//                if (isNetworkAvailable()) {
+                if (isNetworkAvailable()) {
                     new GetNotification_JSONTask().execute();
-//                }
+                }
 
 
             }
@@ -644,7 +644,7 @@ public class AlertScreen extends AppCompatActivity {
 //        }
 //    }
     public class GetNotification_JSONTask extends AsyncTask<String, String, String> {
-
+        public    int flagRefresh=0;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -928,18 +928,18 @@ public class AlertScreen extends AppCompatActivity {
 //                    INFO
                     Log.e("tag", "****Success" + s.toString());
                 } else if (s.contains("\"StatusDescreption\":\"No Notification found\"")) {
-                    new Handler().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if( flagRefresh==1)
-                            {
-                                checkInfoNotification.clear();
-                                notificationArrayListTest.clear();
-                                fillListNotification(notificationArrayListTest);
-                            }
-
-                        }
-                    });
+//                    new Handler().post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if( flagRefresh==1)
+//                            {
+//                                checkInfoNotification.clear();
+//                                notificationArrayListTest.clear();
+//                                fillListNotification(notificationArrayListTest);
+//                            }
+//
+//                        }
+//                    });
 
 
 
