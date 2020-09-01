@@ -40,8 +40,8 @@ class Presenter {//} extends CheckValidationResponse{
     private OwnerCheques ownerCheques;
     private TrackingCheque trackingCheque;
     private ActivityTrackingChequeBinding trackingChequeBinding;
-    String URL = "http://falconssoft.net/ScanChecks/APIMethods.dll/";
-//    String URL = "http://10.0.0.16:8082/";
+//    String URL = "http://falconssoft.net/ScanChecks/APIMethods.dll/";
+    String URL = "http://10.0.0.16:8082/";
 
     private JsonObjectRequest signUpRequest;
     private String urlSignUp = URL + "RegisterUser?INFO=";
