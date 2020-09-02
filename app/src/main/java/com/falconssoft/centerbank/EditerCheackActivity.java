@@ -567,8 +567,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 
         progressDialog = new ProgressDialog(this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please Waiting...");
+        progressDialog.setMessage(getResources().getString(R.string.please_waiting));
+
         CheckPic = findViewById(R.id.CheckPic);
         date = findViewById(R.id.editorCheque_date);
 

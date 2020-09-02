@@ -756,7 +756,7 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
                                     progressDialog.setMessage(context.getResources().getString(R.string.process));
                                     progressDialog.show();
                                     updateCheckState();
-                                    updateNotificationState();
+
                                     dialog.dismiss();
                                     sDialog.dismissWithAnimation();
                                 }
@@ -873,7 +873,7 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
 
 //
                     updateCheckState();
-                    updateNotificationState();
+
 
 
                 } else {
@@ -1113,6 +1113,7 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("AdapteronPostExecute", "OK");
+                    updateNotificationState();
 
 //                    progressDialog.dismiss();
 

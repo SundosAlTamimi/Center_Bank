@@ -988,7 +988,7 @@ public class AlertScreen extends AppCompatActivity {
 
 
 //                show_Notification("Check  app, Recive new Check");
-            showNotification(AlertScreen.this, "Recive new Check", "details");
+            showNotification(AlertScreen.this, "Receive New Check", "Details");
         } else {
             notificationShow();
         }
@@ -1002,7 +1002,7 @@ public class AlertScreen extends AppCompatActivity {
         NotificationManager nm;
         notif = new Notification.Builder(getApplicationContext());
         notif.setSmallIcon(R.drawable.ic_notifications_black_24dp);
-        notif.setContentTitle("Recive new Check, click to show detail");
+        notif.setContentTitle("Receive new Check, click to show detail");
         Uri path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notif.setSound(path);
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -1073,14 +1073,14 @@ public class AlertScreen extends AppCompatActivity {
 
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "name", NotificationManager.IMPORTANCE_HIGH);
         Notification notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID)
-                .setContentText("show Detail ......")
-                .setContentTitle("Recive new Check, click to show detail")
+                .setContentText("Show Details ......")
+                .setContentTitle("Receive New Check, Click To Show Details")
                 .setStyle(new Notification.BigTextStyle()
                         .bigText(detail)
                         .setBigContentTitle(" ")
                         .setSummaryText(""))
                 .setContentIntent(pendingIntent)
-                .addAction(android.R.drawable.sym_action_chat, "Show detail", pendingIntent)
+                .addAction(android.R.drawable.sym_action_chat, "Show Details", pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setChannelId(CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_add)
@@ -1110,7 +1110,7 @@ public class AlertScreen extends AppCompatActivity {
 //        }
         NotificationCompat.Builder nbuilder = new NotificationCompat.Builder(AlertScreen.this)
                 .setContentTitle("Check APP Notification ......")
-                .setContentText("New Check... click to show details ")
+                .setContentText("New Check... Click To Show Details ")
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setStyle(new NotificationCompat.BigTextStyle()
