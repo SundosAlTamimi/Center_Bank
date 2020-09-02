@@ -348,7 +348,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         viewHolder.linearCheckInfo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if((checkInfoNotification.get(i).getTransType().equals("0")&&checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No))||(checkInfoNotification.get(i).getTransType().equals("100")&& checkInfoNotification.get(i).getWICHEUSER().equals("-1")))
+                if(!(checkInfoNotification.get(i).getTransType().equals("0")&&checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No))||!(checkInfoNotification.get(i).getTransType().equals("100")&& checkInfoNotification.get(i).getWICHEUSER().equals("-1")))
                 {
                     row_index = i;
                     progressDialog = new ProgressDialog(context);
