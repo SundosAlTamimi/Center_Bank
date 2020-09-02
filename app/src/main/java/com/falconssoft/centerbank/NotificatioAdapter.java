@@ -192,12 +192,11 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 resonReject = checkInfoNotification.get(i).getJOIN_T_REASON();
             }
         }
+        else if(checkInfoNotification.get(i).getWICHEUSER().equals("-1")&&checkInfoNotification.get(i).getTransType().equals("1"))
+        {
+            phonCurentReject = checkInfoNotification.get(i).getToCustomerMobel();
+        }
 
-
-//        if (checkInfoNotification.get(i).getTransType().equals("0") && checkInfoNotification.get(i).getIsJoin().equals("1") && !checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No)) {
-//            viewHolder.mainLinearAdapter.setVisibility(View.GONE);
-//        }
-//
 
         Log.e("stateJoin", "" + stateJoin + resonReject);
         if (checkInfoNotification.get(i).getTransSendOrGero().equals("0"))// normal cheque Send
@@ -210,6 +209,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             {
                 viewHolder.reciveNew.setVisibility(View.VISIBLE);
             }
+
 
             if (checkInfoNotification.get(i).getTransType().equals("1") || ((checkInfoNotification.get(i).getTransType().equals("100")) && stateJoin.equals("1")) || stateJoin.equals("1"))// accepted
             {
@@ -338,6 +338,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                         resonReject = checkInfoNotification.get(i).getJOIN_T_REASON();
                     }
                 }
+                else if(checkInfoNotification.get(i).getWICHEUSER().equals("-1")&&checkInfoNotification.get(i).getTransType().equals("1"))
+                {
+                    phonCurentReject = checkInfoNotification.get(i).getToCustomerMobel();
+                }
 
 //                isJoin=checkInfoNotification.get(i).getIsJoined();
 //                progressDialog.show();
@@ -345,11 +349,17 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 viewHolder.showDetails(stateJoin, resonReject,phonCurentReject);
             }
         });
-        viewHolder.linearCheckInfo.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(!(checkInfoNotification.get(i).getTransType().equals("0")&&checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No))||!(checkInfoNotification.get(i).getTransType().equals("100")&& checkInfoNotification.get(i).getWICHEUSER().equals("-1")))
-                {
+        if(((checkInfoNotification.get(i).getTransType().equals("0")&&checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No)))||((checkInfoNotification.get(i).getTransType().equals("100")&& checkInfoNotification.get(i).getWICHEUSER().equals("-1"))))
+        {
+
+            Log.e("setOnLongClickListener","");
+        }
+        else {
+            Log.e("setOnLongClickListener","Else");
+            viewHolder.linearCheckInfo.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
                     row_index = i;
                     progressDialog = new ProgressDialog(context);
                     new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
@@ -375,11 +385,14 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
                         }
                     }).show();
-                }
+                    return  true;
 
-                return  true;
-            }
-        });
+
+
+                }
+            });
+        }
+
 
     }
 
@@ -754,8 +767,8 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
                                     } else {
                                         isJoin = checkInfoNotification.get(row_index).getIsJoin();
                                     }
-                                    progressDialog.setMessage(context.getResources().getString(R.string.process));
-                                    progressDialog.show();
+//                                    progressDialog.setMessage(context.getResources().getString(R.string.process));
+//                                    progressDialog.show();
                                     updateCheckState();
 
                                     dialog.dismiss();
@@ -1041,6 +1054,8 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog.setMessage(context.getResources().getString(R.string.process));
+            progressDialog.show();
 
         }
 

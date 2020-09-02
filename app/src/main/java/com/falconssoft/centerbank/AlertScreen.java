@@ -152,9 +152,7 @@ public class AlertScreen extends AppCompatActivity {
 //        phoneNo = loginPrefs.getString("mobile", "");
         infoUser = databaseHandler.getActiveUserInfo();
         phoneNo = infoUser.getUsername();
-        Log.e("phoneNoAlertScreen", "" + phoneNo);
-//        progressDialog.show();
-//        progressDialog.setMessage(getResources().getString(R.string.please_waiting));
+
         progressDialog = ProgressDialog.show(AlertScreen.this, "", ""+getResources().getString(R.string.please_waiting), true, false);
 
         new GetNotification_JSONTask().execute();
@@ -176,7 +174,7 @@ public class AlertScreen extends AppCompatActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new GetNotification_JSONTask().execute();
+//                new GetNotification_JSONTask().execute();
 
 //                Toast.makeText(AlertScreen.this, "refresh ..", Toast.LENGTH_SHORT).show();
                 swipeRefresh.setRefreshing(false);
