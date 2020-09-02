@@ -49,16 +49,16 @@
             android:id="@+id/currency"
             android:layout_width="50dp"
             android:layout_height="match_parent"
+            android:fontFamily="serif"
             android:gravity="start"
-           android:text="JD"
+            android:text="JD"
             android:textColor="@color/colorGold"
-            android:textSize="25sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:autoSizeMaxTextSize="25sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
-            android:textStyle="bold"
-            android:fontFamily="serif"
             tools:ignore="VectorDrawableCompat" />
 
     </LinearLayout>
@@ -112,16 +112,16 @@
             android:id="@+id/AccType"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fontFamily="serif"
             android:gravity="end"
             android:text="@string/Join"
             android:textColor="@color/colorGold"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:autoSizeMaxTextSize="20sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
-            android:textStyle="bold"
-            android:fontFamily="serif"
             tools:ignore="VectorDrawableCompat" />
     </LinearLayout>
 

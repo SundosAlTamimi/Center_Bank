@@ -118,11 +118,10 @@ public class LogInActivity extends AppCompatActivity {
         editor.apply();
 
         new LocaleAppUtils().changeLayot(LogInActivity.this);
-try {
-    binding = DataBindingUtil.setContentView(this, R.layout.log_in);
-}
-        catch (Exception e)
-        {}
+        try {
+            binding = DataBindingUtil.setContentView(this, R.layout.log_in);
+        } catch (Exception e) {
+        }
 //        setContentView(R.layout.log_in);//binding.getRoot()
         if (language.equals("ar"))
             binding.LogInPassword.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
@@ -269,6 +268,7 @@ try {
                     if (!TextUtils.isEmpty(serial.getText().toString())) {
                         serial.setError(null);
                         new Presenter(LogInActivity.this).checkBySerial(serial.getText().toString().toUpperCase(), LogInActivity.this, null, null);
+                        barcodeDialog.dismiss();
                     } else {
                         serial.setError("Required");
                     }
@@ -506,6 +506,7 @@ try {
                 new JSONTask().execute();
                 // showSweetDialog(true);
             }
+            barcodeDialog.dismiss();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -545,7 +546,7 @@ try {
                 public void onClick(View view) {
                     dialog.dismiss();
                     new IsCheckPinding().execute();
-                    barcodeDialog.dismiss();
+//                    LogInActivity.this.barcodeDialog.dismiss();
                 }
             });
 
