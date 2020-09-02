@@ -194,13 +194,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         }
 
 
-        if (checkInfoNotification.get(i).getTransType().equals("0") && checkInfoNotification.get(i).getIsJoin().equals("1") && !checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No)) {
-            viewHolder.mainLinearAdapter.setVisibility(View.GONE);
-        }
-        if (checkInfoNotification.get(i).getTransType().equals("0") && checkInfoNotification.get(i).getIsJoin().equals("1") && !checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No)) {
-            viewHolder.mainLinearAdapter.setVisibility(View.GONE);
-        }
-
+//        if (checkInfoNotification.get(i).getTransType().equals("0") && checkInfoNotification.get(i).getIsJoin().equals("1") && !checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No)) {
+//            viewHolder.mainLinearAdapter.setVisibility(View.GONE);
+//        }
+//
 
         Log.e("stateJoin", "" + stateJoin + resonReject);
         if (checkInfoNotification.get(i).getTransSendOrGero().equals("0"))// normal cheque Send
@@ -209,7 +206,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             viewHolder.geroLinear_accep.setVisibility(View.GONE);
             viewHolder.geroLinear_reject.setVisibility(View.GONE);
             //****************************************************
-            if(checkInfoNotification.get(i).getTransType().equals("0")&&(checkInfoNotification.get(i).getWICHEUSER().equals("-1")))// reciver
+            if(checkInfoNotification.get(i).getTransType().equals("0")&&checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No))// reciver
             {
                 viewHolder.reciveNew.setVisibility(View.VISIBLE);
             }
@@ -351,31 +348,35 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         viewHolder.linearCheckInfo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                row_index = i;
-                progressDialog = new ProgressDialog(context);
-                new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText(R.string.Confirm)
-                        .setContentText(context.getResources().getString(R.string.message_forDelete))
-                        .setConfirmText(context.getResources().getString(R.string.ok))
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @SuppressLint("WrongConstant")
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
+                if(!(checkInfoNotification.get(i).getTransType().equals("0")&&checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No))||!(checkInfoNotification.get(i).getTransType().equals("100")&& checkInfoNotification.get(i).getWICHEUSER().equals("-1")))
+                {
+                    row_index = i;
+                    progressDialog = new ProgressDialog(context);
+                    new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(R.string.Confirm)
+                            .setContentText(context.getResources().getString(R.string.message_forDelete))
+                            .setConfirmText(context.getResources().getString(R.string.ok))
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
 
-                                progressDialog.setMessage(context.getResources().getString(R.string.process));
-                                progressDialog.show();
-                                updateNotificationState();
+                                    progressDialog.setMessage(context.getResources().getString(R.string.process));
+                                    progressDialog.show();
+                                    updateNotificationState();
 
-                                sDialog.dismissWithAnimation();
-                            }
-                        }).setCancelText(context.getResources().getString(R.string.dialog_cancel)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).setCancelText(context.getResources().getString(R.string.dialog_cancel)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
 
-                        sweetAlertDialog.dismissWithAnimation();
+                            sweetAlertDialog.dismissWithAnimation();
 
-                    }
-                }).show();
+                        }
+                    }).show();
+                }
+
                 return  true;
             }
         });
@@ -1114,7 +1115,6 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("AdapteronPostExecute", "OK");
                     updateNotificationState();
-
 //                    progressDialog.dismiss();
 
 //                    Log.e("tagAdapter", "****Success" + s.toString());
