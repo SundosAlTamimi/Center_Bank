@@ -69,11 +69,13 @@
                     <TextView
                         android:id="@+id/button_notification"
                         android:layout_height="30dp"
-                        android:layout_width="45dp"
+                        android:layout_width="30dp"
+                        android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:visibility="invisible"
                         android:backgroundTint="@color/white"
                         android:drawableTop="@drawable/red_circle"
+                        android:paddingRight="15dp"
                         android:drawablePadding="10dp"
                         android:background="@drawable/ic_notifications"/>
 
@@ -98,16 +100,14 @@
  />
                     <TextView
                         android:id="@+id/button_request"
-                        android:layout_height="match_parent"
-                        android:layout_marginVertical="15dp"
-                        android:layout_margin="3dp"
-                        android:padding="3dp"
+                        android:layout_height="30dp"
+                        android:layout_width="30dp"
+                        android:layout_marginTop="5dp"
                         android:visibility="invisible"
-                        android:layout_width="35dp"
                         android:backgroundTint="@color/white"
                         android:drawableTop="@drawable/red_circle"
                         android:drawablePadding="10dp"
-
+                        android:paddingRight="20dp"
                         android:background="@drawable/ic_monetization_on_black_24dp"
  />
 

@@ -91,7 +91,7 @@
     <string name="already_exist">Account Is Not Yours !</string>
     <string name="error_in_save">Error in Adding Accounts!</string>
     <string name="success_del">Delete Successfully</string>
-    <string name="del_acc_success">Delete Account Successfully</string>
+    <string name="del_acc_success">Account Deleted Successfully</string>
     <string name="can_del">Cannot Delete</string>
     <string name="error_del">Error In Deleting Account. !</string>
     <string name="pending_">*** Pending ***</string>

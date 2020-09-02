@@ -1084,6 +1084,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                     CheckPic.setImageBitmap(serverPicBitmap);
                     serverPic = bitMapToString(serverPicBitmap);
                     deleteFiles(path);
+                    CheckPicText.setError(null);
                 }
                 File file = new File(mCameraFileName);
                 if (!file.exists()) {

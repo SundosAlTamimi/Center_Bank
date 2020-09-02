@@ -152,7 +152,7 @@ public class RequestCheque extends AppCompatActivity {
         phoneNo=infoUser.getUsername();
 
         progressDialog.show();
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getResources().getString(R.string.process));
         new GetNotificationRequest_JSONTask().execute();
 //        new GetAllRequestToUser_JSONTask().execute();
         Log.e("flagMainCreat",""+flagMain);
@@ -177,7 +177,7 @@ public class RequestCheque extends AppCompatActivity {
             public void onRefresh() {
                 Log.e("onRefresh",""+flagMain);
 //                first=1;
-                Toast.makeText(RequestCheque.this, "refresh ..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RequestCheque.this, "Refresh ..", Toast.LENGTH_SHORT).show();
 //
                 finish();
                 Intent i=new Intent(RequestCheque.this,RequestCheque.class);
