@@ -1996,7 +1996,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                         chequeInfo.setBankNo(BANKNO);
                         chequeInfo.setBranchNo(BRANCHNO);
                         chequeInfo.setChequeNo(CHECKNO);
-
+  
                         new IsCheckGero(chequeInfo).execute();
 //                        linerEditing.setVisibility(View.VISIBLE);
 //                        linerBarcode.setVisibility(View.GONE);
