@@ -10,6 +10,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.falconssoft.centerbank.Models.ChequeInfo;
 import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.Models.NewAccount;
 import com.falconssoft.centerbank.Models.Setting;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int VERSION = 16;
+    private static final int VERSION = 22;
     private static final String BD_NAME = "cheque_editor";
 
     // ********************************************************************
@@ -65,13 +66,40 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //    private final String SIGNUP_ADDRESS = "SIGNUP_ADDRESS";
 //    private final String SIGNUP_EMAIL = "SIGNUP_EMAIL";
 //    private final String SIGNUP_PASSWORD = "SIGNUP_PASSWORD";
+    // ********************************************************************
+    private final String CHEQU_NOTIFICATION_TABLE = "CHEQU_NOTIFICATION_TABLE";
+    private final String KEY_CHEQUE = "KEY_CHEQUE";
+    private final String ROW_ID = "ROW_ID";
+    private final String ISJOIN = "ISJOIN";
+    private final String NUMBER_CHEQUE = "NUMBER_CHEQUE";
+    private final String DATE_CHEQUE = "DATE_CHEQUE";
+    private final String TOCUSTOMER_MOBILE = "TOCUSTOMER_MOBILE";
+    private final String TRANSType = "TRANSType";
+    private final String STATUS = "STATUS";
+    private final String USERNAME = "USERNAME";
+    private final String SEND_OR_GERO = "SEND_OR_GERO";
+    private final String JOIN_FirstMOB = "JOIN_FirstMOB";
+    private final String JOIN_SecondSMOB = "JOIN_SecondSMOB";
+    private final String JOIN_TheredMOB = "JOIN_TheredMOB";
+    private final String JOIN_F_STATUS = "JOIN_F_STATUS";
+    private final String JOIN_F_REASON = "JOIN_F_REASON";
+    private final String JOIN_S_STATUS = "JOIN_S_STATUS";
+
+    private final String JOIN_S_REASON = "JOIN_S_REASON";
+    private final String JOIN_T_STATUS = "JOIN_T_STATUS";
+    private final String JOIN_T_REASON = "JOIN_T_REASON";
+    private final String AMOUNT_CHEQUE = "AMOUNT_CHEQUE";
+
+
+
+
 
     public DatabaseHandler(@Nullable Context context) {
         super(context, BD_NAME, null, VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
 //        String createTableSignup = "CREATE TABLE " + SIGNUP_TABLE
 //                + " ("
 //                + SIGNUP_NATIONAL_ID + " INTEGER, "
@@ -87,7 +115,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //                + SIGNUP_PASSWORD + " TEXT "
 //                + ")";
 //        db.execSQL(createTableSignup);
-
+//*******************************************************************************
+        try {
         String createTableAccounts = "CREATE TABLE " + ACCOUNT_TABLE
                 + " ("
                 + ACCOUNT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -95,38 +124,86 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + ACCOUNT_BANK_NO + " TEXT, "
                 + ACCOUNT_STATUS + " TEXT "
                 + ")";
-        db.execSQL(createTableAccounts);
+            sqLiteDatabase.execSQL(createTableAccounts);
+
+        }
+        catch (Exception e)
+        {
+
+        }
 
         String createTableSetting = "CREATE TABLE " + SETTING_TABLE
                 + " ("
                 + SETTING_IP + " TEXT "
                 + ")";
-        db.execSQL(createTableSetting);
-        String createTableLOGIN = "CREATE TABLE " + LOGIN_TABLE
+        sqLiteDatabase.execSQL(createTableSetting);
+        try {
+            String createTableLOGIN = "CREATE TABLE " + LOGIN_TABLE
+                    + " ("
+                    + USER_NAME + " TEXT,"
+                    + PASSWORD + " TEXT, "
+                    + LOGIN_NATIONAL_ID + " TEXT, "
+                    + LOGIN_FIRST_NAME + " TEXT, "
+                    + LOGIN_SECOND_NAME + " TEXT, "
+                    + LOGIN_THIRD_NAME + " TEXT, "
+                    + LOGIN_FOURTH_NAME + " TEXT, "
+                    + LOGIN_DOB + " TEXT, "
+                    + LOGIN_GENDER + " TEXT, "
+                    + LOGIN_ADDRESS + " TEXT, "
+                    + LOGIN_EMAIL + " TEXT, "
+                    + LOGIN_INACTIVE + " TEXT, "
+                    + LOGIN_INDATE + " TEXT, "
+                    + LOGIN_REMEMBER + " INTEGER ,"
+                    + LOGIN_ACTIVE_NOW + " INTEGER "
+                    + ")";
+            sqLiteDatabase.execSQL(createTableLOGIN);
+
+        }
+        catch (Exception e)
+        {
+
+        }
+        try {
+
+        String createTableCHEQU_NOTIFICATION_TABLE = "CREATE TABLE " + CHEQU_NOTIFICATION_TABLE
                 + " ("
-                + USER_NAME + " TEXT,"
-                + PASSWORD + " TEXT, "
-                + LOGIN_NATIONAL_ID + " TEXT, "
-                + LOGIN_FIRST_NAME + " TEXT, "
-                + LOGIN_SECOND_NAME + " TEXT, "
-                + LOGIN_THIRD_NAME + " TEXT, "
-                + LOGIN_FOURTH_NAME + " TEXT, "
-                + LOGIN_DOB + " TEXT, "
-                + LOGIN_GENDER + " TEXT, "
-                + LOGIN_ADDRESS + " TEXT, "
-                + LOGIN_EMAIL + " TEXT, "
-                + LOGIN_INACTIVE + " TEXT, "
-                + LOGIN_INDATE + " TEXT, "
-                + LOGIN_REMEMBER + " INTEGER ,"
-                + LOGIN_ACTIVE_NOW + " INTEGER "
+                + KEY_CHEQUE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ROW_ID + " TEXT NOT NULL, "
+                + ISJOIN + " INTEGER NOT NULL, "
+                + NUMBER_CHEQUE + " INTEGER NOT NULL, "
+
+                + DATE_CHEQUE + " TEXT NOT NULL, "
+                + TOCUSTOMER_MOBILE + " INTEGER NOT NULL, "
+                + TRANSType + " INTEGER NOT NULL, "
+                + STATUS + " INTEGER NOT NULL, "
+                + USERNAME + " INTEGER NOT NULL, "
+                + SEND_OR_GERO + " INTEGER NOT NULL, "
+                + JOIN_FirstMOB + " INTEGER, "
+                + JOIN_SecondSMOB + " INTEGER, "
+                + JOIN_TheredMOB + " INTEGER, "
+                + JOIN_F_STATUS + " INTEGER, "
+                + JOIN_F_REASON + " TEXT, "
+                + JOIN_S_STATUS + " INTEGER, "
+                + JOIN_S_REASON + " TEXT, "
+                + JOIN_T_STATUS + " INTEGER, "
+                + JOIN_T_REASON + " TEXT, "
+                + AMOUNT_CHEQUE + " TEXT "
+
                 + ")";
-        db.execSQL(createTableLOGIN);
+            sqLiteDatabase.execSQL(createTableCHEQU_NOTIFICATION_TABLE);
+        Log.e("NOTIFICATION_TABLE","onCreate");
+        }
+        catch (Exception e)
+        {
+
+        }
+        //***********************************************************************
 
 
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
 
         try {
 
@@ -165,10 +242,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //            db.execSQL(createTableLOGIN);
 
             String createTableSignup = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_REMEMBER + " INTEGER ";
-            db.execSQL(createTableSignup);
+            database.execSQL(createTableSignup);
 
             String createTableSignup2 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_ACTIVE_NOW + " INTEGER ";
-            db.execSQL(createTableSignup2);
+            database.execSQL(createTableSignup2);
 //            String createTableSignup1 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_FIRST_NAME + " TEXT ";
 //            db.execSQL(createTableSignup1);
 //            String createTableSignup2 = "ALTER TABLE LOGIN_TABLE ADD " + LOGIN_SECOND_NAME + " TEXT ";
@@ -195,6 +272,69 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         } catch (Exception e) {
 
         }
+        try {
+            String createTableCHEQU_NOTIFICATION_TABLE = "CREATE TABLE " + CHEQU_NOTIFICATION_TABLE
+                    + " ("
+                    + KEY_CHEQUE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + ROW_ID + " TEXT NOT NULL, "
+                    + ISJOIN + " INTEGER NOT NULL, "
+                    + NUMBER_CHEQUE + " INTEGER NOT NULL, "
+
+                    + DATE_CHEQUE + " TEXT NOT NULL, "
+                    + TOCUSTOMER_MOBILE + " INTEGER NOT NULL, "
+                    + TRANSType + " INTEGER NOT NULL, "
+                    + STATUS + " INTEGER NOT NULL, "
+                    + USERNAME + " INTEGER NOT NULL, "
+                    + SEND_OR_GERO + " INTEGER NOT NULL, "
+                    + JOIN_FirstMOB + " INTEGER, "
+                    + JOIN_SecondSMOB + " INTEGER, "
+                    + JOIN_TheredMOB + " INTEGER, "
+                    + JOIN_F_STATUS + " INTEGER, "
+                    + JOIN_F_REASON + " TEXT, "
+                    + JOIN_S_STATUS + " INTEGER, "
+                    + JOIN_S_REASON + " TEXT, "
+                    + JOIN_T_STATUS + " INTEGER, "
+                    + JOIN_T_REASON + " TEXT, "
+                    + AMOUNT_CHEQUE + " TEXT "
+
+                    + ")";
+            database.execSQL(createTableCHEQU_NOTIFICATION_TABLE);
+
+        }
+        catch (Exception e)
+        {
+
+        }
+
+    }
+
+    public void addNotificationInfo(ChequeInfo chequeInfo) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ROW_ID,chequeInfo.getRowId());
+        contentValues.put(ISJOIN,chequeInfo.getIsJoin());
+        contentValues.put(NUMBER_CHEQUE,chequeInfo.getChequeNo());
+        contentValues.put(DATE_CHEQUE,chequeInfo.getCheckDueDate());
+        contentValues.put(TOCUSTOMER_MOBILE,chequeInfo.getToCustomerMobel());
+        contentValues.put(TRANSType,chequeInfo.getTransType());
+        contentValues.put(STATUS,chequeInfo.getStatus());
+        contentValues.put(USERNAME,chequeInfo.getUserName());
+        contentValues.put(SEND_OR_GERO,chequeInfo.getTransSendOrGero());
+        contentValues.put(JOIN_FirstMOB,chequeInfo.getJOIN_FirstMOB());
+        contentValues.put(JOIN_SecondSMOB,chequeInfo.getJOIN_SecondSMOB());
+        contentValues.put(JOIN_TheredMOB,chequeInfo.getJOIN_TheredMOB());
+        contentValues.put(JOIN_F_STATUS,chequeInfo.getJOIN_F_STATUS());
+        contentValues.put(JOIN_F_REASON,chequeInfo.getJOIN_F_REASON());
+        contentValues.put(JOIN_S_STATUS,chequeInfo.getJOIN_S_STATUS());
+        contentValues.put(JOIN_S_REASON,chequeInfo.getJOIN_S_REASON());
+        contentValues.put(JOIN_T_STATUS,chequeInfo.getJOIN_T_STATUS());
+        contentValues.put(JOIN_T_REASON,chequeInfo.getJOIN_T_REASON());
+        contentValues.put(AMOUNT_CHEQUE,chequeInfo.getMoneyInDinar());
+
+        database.insert(CHEQU_NOTIFICATION_TABLE, null, contentValues);
+      //  Log.e("addNotificationInfo",""+  database.insert(CHEQU_NOTIFICATION_TABLE, null, contentValues));
+
+        database.close();
 
     }
 
@@ -476,5 +616,85 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     }
+    // SELECT ROW_ID from CHEQU_NOTIFICATION_TABLE WHERE ROW_ID = 'AAAth+AAuAAAADcAAA'
+    public String getRowID(String row) {
 
+        String id="";
+        SQLiteDatabase database = this.getWritableDatabase();
+        String selectQuery = "SELECT ROW_ID from CHEQU_NOTIFICATION_TABLE WHERE ROW_ID =  '" + row + "'";
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                id=(cursor.getString(0));
+
+
+                Log.e("getRowID", "" + id );
+
+            } while (cursor.moveToNext());
+        }
+        return id;
+    }
+    public String getLastTransTypeByChequeNo(int chequNo)
+    {
+       // select TRANSType , Max(KEY_CHEQUE) from CHEQU_NOTIFICATION_TABLE WHERE NUMBER_CHEQUE = '39009'
+        int stat=-1;
+        SQLiteDatabase database = this.getWritableDatabase();
+        String selectQuery = "select TRANSType , Max(KEY_CHEQUE) from CHEQU_NOTIFICATION_TABLE WHERE NUMBER_CHEQUE =  '" + chequNo + "'";
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                try {
+                    stat=(cursor.getInt(0));
+                }
+                catch (Exception e)
+                {stat=-1;
+
+                }
+
+
+                Log.e("getLastTrans", "" + stat );
+
+            } while (cursor.moveToNext());
+        }
+        return stat+"";
+
+    }
+    public String getLastStateByChequeNo(int chequNo,int flag)
+    {
+        String orderMob="";
+        switch (flag)
+        {
+            case 1:
+                orderMob="JOIN_F_STATUS";
+                break;
+            case 2:
+                orderMob="JOIN_S_STATUS";
+                break;
+            case 3:
+                orderMob="JOIN_T_STATUS";
+                break;
+
+        }
+        int stat=-1;
+        SQLiteDatabase database = this.getWritableDatabase();
+        String selectQuery = "select    "+orderMob+"   , Max(KEY_CHEQUE) from CHEQU_NOTIFICATION_TABLE WHERE NUMBER_CHEQUE =  '" + chequNo + "'";
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                try {
+                    stat=(cursor.getInt(0));
+                }
+                catch (Exception e)
+                {stat=-1;
+
+                }
+
+
+                Log.e("statorderMob", "" + stat+"\t"+orderMob );
+
+            } while (cursor.moveToNext());
+        }
+        return stat+"";
+
+    }
 }

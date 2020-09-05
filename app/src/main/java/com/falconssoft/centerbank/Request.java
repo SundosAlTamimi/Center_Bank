@@ -73,7 +73,7 @@ public class Request extends AppCompatActivity {
     EditText edit_customerName,phoneNo,amountDinar,company,note;
     Button sendButton,cancelButton;
     boolean isFull=true;
-    public  static   String language="", serverLink="http://falconssoft.net/ScanChecks/APIMethods.dll/";
+    public  static   String language="", serverLink="";
     JSONObject obj;
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
@@ -132,6 +132,8 @@ public class Request extends AppCompatActivity {
     }
 
     private void initView() {
+        SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+        serverLink = loginPrefs.getString("link", "");
         coordinatorLayout=findViewById(R.id.request_coordinatorLayout);
         edit_customerName = findViewById(R.id.edit_customerName);
         phoneNo = findViewById(R.id.edit_phoneNo);
@@ -255,7 +257,7 @@ public class Request extends AppCompatActivity {
                 httpURLConnection.disconnect();
 
                 JsonResponse = sb.toString();
-                Log.e("tagAlertScreenImage", "" + JsonResponse);
+                Log.e("RequestAdded", "" + JsonResponse);
 
                 return  JsonResponse;
         } catch (IOException e) {

@@ -239,22 +239,11 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
             LinearLayout linearLayout = dialog.findViewById(R.id.mainLinearDetail);
             linearresone = dialog.findViewById(R.id.linearresone);
             linear_buttons  = dialog.findViewById(R.id.linearButtons);
-//            if (language.equals("ar")) {
-//                linearLayout.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-//            } else {
-//                if (languagelocalApp.equals("en")) {
-//                    linearLayout.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-//                }
-//
-//            }
             TextView textAmouWord, checkStatuseReson,
-                    textToOrder, texDate,  binificary,  textCompanyname, note,textCo;
+            textToOrder, texDate,  binificary,  textCompanyname, note,textCo;
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
-
             LinearLayout rowNote,rowcompany;
-
-//
             rowcompany=dialog.findViewById(R.id.rowcompany);
             checkStatuseReson=dialog.findViewById(R.id.checkStatuseReson);
             textCompanyname=dialog.findViewById(R.id.textComp);
@@ -266,7 +255,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
                 rowcompany.setVisibility(View.GONE);
 
             }
-            if(requestList.get(row_index).getWitch().equals("1"))
+            if(requestList.get(row_index).getTRANSSTATUS().equals("1"))
             {
                 linear_buttons.setVisibility(View.GONE);
                 linearresone.setVisibility(View.VISIBLE);
@@ -315,7 +304,7 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 
             final Button reject = (Button) dialog.findViewById(R.id.RejectButton);
             final Button accept = (Button) dialog.findViewById(R.id.AcceptButton);
-            if(!requestList.get(row_index).getWitch().equals("0"))
+            if(!requestList.get(row_index).getTRANSSTATUS().equals("0"))
             {
                 accept.setVisibility(View.GONE);
                 reject.setVisibility(View.GONE);
@@ -373,7 +362,8 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
                      Log.e("reson",""+reson);
                      requestList.get(row_index).setREASON(reson);
                      updateCheckState();
-                     dialog.dismiss();
+                     updateNotificationState();
+                 dialog.dismiss();
                  }
                  else {resonText.setError(context.getResources().getString(R.string.required));
 
@@ -387,8 +377,92 @@ public class Requestadapter extends RecyclerView.Adapter<Requestadapter.ViewHold
 
     }
 
+    private void updateNotificationState() {
+        new JSONUpdateNotificationTask().execute();
+    }
+    class JSONUpdateNotificationTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                SharedPreferences loginPrefs1 = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+                String serverLink = loginPrefs1.getString("link", "");
+//                http://localhost:8082/UpdateNotfication?ROWID=&STATUS=1
+                request.setURI(new URI(serverLink + "UpdateNotfication?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("ROWID", requestList.get(row_index).getNotif_ROWID()));
+                nameValuePairs.add(new BasicNameValuePair("STATUS", "1"));
+
+                Log.e("requestList", "" + checkState);
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 
+//                HttpResponse response = client.execute(request);
+//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                Log.e("tagAlertScreen", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("AdapteronPostExecute", "OK");
+
+
+//                    progressDialog.dismiss();
+
+//                    Log.e("tagAdapter", "****Success" + s.toString());
+                } else {
+                    Log.e("tagAdapter", "****Failed to Savedata");
+                }
+            } else {
+
+                Log.e("tagAdapter", "****Failed  Please check internet connection");
+            }
+        }
+    }
     private void updateCheckState() {
         new Requestadapter.JSONTask().execute();
        // http://10.0.0.16:8081/UpdateRequestStatus?ROWID=AAArqWAAuAAAAFNAAA&STATUS=1&REASON=""

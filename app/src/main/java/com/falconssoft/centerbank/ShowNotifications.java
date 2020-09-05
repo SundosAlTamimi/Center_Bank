@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -17,9 +18,12 @@ import androidx.core.content.ContextCompat;
 import java.util.Date;
 import java.util.List;
 
+import static com.falconssoft.centerbank.MainActivity.notification_btn;
+
 public class ShowNotifications {
     public static void showNotification(Context context, String title, String messageBody) {
         Log.e("show_Notification",""+title);
+        notification_btn.setVisibility(View.VISIBLE);
         boolean result=isAppOnForeground(context,"com.falconssoft.centerbank");
         String actionType="";
         Intent intent = null;

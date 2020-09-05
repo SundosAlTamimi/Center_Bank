@@ -14,9 +14,11 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
@@ -102,6 +104,7 @@ import static com.falconssoft.centerbank.ShowNotifications.showNotification;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String CHANNEL_ID = "2";
     CircleImageView imageView;
+    private ProgressDialog progressDialog;
 
     private TextView addAccount, generateCheque, logHistory, Editing, request, cashierCheque, jerro, wallet, usernameNavigation, barCodTextTemp, scanBarcode, signout;
     //    @SuppressLint("WrongConstant")
@@ -128,21 +131,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ArrayList<ChequeInfo> checkInfoList;
 
     private DatabaseHandler dbHandler;
+    SQLiteDatabase database;
     static String watch;
-    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = "", CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = "", BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "", fullUsername,bankNo="";
+    private String accCode = "", serverLink = "", CHECKNO = "", ACCCODE = "", IBANNO = "", CUSTOMERNM = "", QRCODE = "", SERIALNO = "", BANKNO = "", BRANCHNO = "", language, userNo, username, AccountNoDelete = "", phoneNo = "", fullUsername, bankNo = "";
     private JSONObject addAccountOb;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
-    private Dialog barcodeDialog;
+    private Dialog barcodeDialog, addAccountDialog;
     private String[] arr;
     private boolean isAdd = false, isNewData = false;
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
     public static final String LOGIN_FLAG = "LOGIN_FLAG";
     String countryCode = "962";
-    public  static  TextView  notification_btn,button_request;
-    RelativeLayout notifyLayout,requestLayout;
+    public static TextView notification_btn, button_request;
+    RelativeLayout notifyLayout, requestLayout;
     LoginINFO infoUser;
+    int transtype = -1;
+    int orderMobil = 0;
+    String statuseJoin = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,23 +165,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         username = loginPrefs.getString("name", "");
         serverLink = loginPrefs.getString("link", "");
 
-
         init();
-//        phoneNo = loginPrefs.getString("mobile", "");
 
-        Log.e("editingmain ",  ""+isNetworkAvailable());
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.please_waiting));
+
+        Log.e("editingmain ", "" + isNetworkAvailable());
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-               if( isNetworkAvailable())
-               {
-                   new GetAllCheck_JSONTask().execute();
-               }
+                if (isNetworkAvailable()) {
+                    new GetNotification_JSONTask().execute();
+                }
 
+
+//                new GetAllRequestFromUser_JSONTask().execute();
+//
+//
             }
 
-        }, 0, 9000);
+        }, 0, 5000);
         addAccountOb = new JSONObject();
         picforbar = new ArrayList<>();
 //        picforbar.add("01365574861","");
@@ -287,12 +299,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
     void showAllDataAccount() {
 //        picforbar = dbHandler.getAllAcCount();
 //        new GetAllAccount().execute();
@@ -365,14 +379,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void show_Notification(String detail) {
-        Log.e("show_Notification",""+detail);
-        String actionType="";
-        if(detail.contains("Request"))
-        {
-            actionType="Request";
-        }
-        else {
-            actionType="YES";
+        Log.e("show_Notification", "" + detail);
+        String actionType = "";
+        if (detail.contains("Request")) {
+            actionType = "Request";
+        } else {
+            actionType = "YES";
         }
 
         Intent intent = new Intent(MainActivity.this, notificationReciver.class);
@@ -406,16 +418,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     void addAccountButton() {
-        final Dialog dialog = new Dialog(MainActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_add_account);
-        dialog.setCancelable(false);
+        addAccountDialog = new Dialog(MainActivity.this);
+        addAccountDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        addAccountDialog.setContentView(R.layout.dialog_add_account);
+        addAccountDialog.setCancelable(false);
 
-        final TextInputEditText inputEditText = dialog.findViewById(R.id.dialog_addAccount_account);
-        TextView close = dialog.findViewById(R.id.dialog_add_close);
-        TextView add = dialog.findViewById(R.id.dialog_addAccount_add);
-        TextView scan = dialog.findViewById(R.id.dialog_addAccount_scan);
-        LinearLayout linearLayout = dialog.findViewById(R.id.dialog_addAccount_linear);
+        final TextInputEditText inputEditText = addAccountDialog.findViewById(R.id.dialog_addAccount_account);
+        TextView close = addAccountDialog.findViewById(R.id.dialog_add_close);
+        TextView add = addAccountDialog.findViewById(R.id.dialog_addAccount_add);
+        TextView scan = addAccountDialog.findViewById(R.id.dialog_addAccount_scan);
+        LinearLayout linearLayout = addAccountDialog.findViewById(R.id.dialog_addAccount_linear);
 
         if (language.equals("ar")) {
             linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -457,30 +469,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                addAccountDialog.dismiss();
             }
         });
         //TODO add dialog function
-        dialog.show();
+        addAccountDialog.show();
     }
 
     void init() {
         imageView = findViewById(R.id.profile_image);
         scanBarcode = findViewById(R.id.scanBarcode);
-        notifyLayout=findViewById(R.id.notifyLayout);
-        requestLayout=findViewById(R.id.requestLayout);
+        notifyLayout = findViewById(R.id.notifyLayout);
+        requestLayout = findViewById(R.id.requestLayout);
 
         notifyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(MainActivity.this,AlertScreen.class);
+                Intent in = new Intent(MainActivity.this, AlertScreen.class);
                 startActivity(in);
 
             }
         });
         notification_btn = findViewById(R.id.button_notification);
         notification_btn.setVisibility(View.INVISIBLE);
-        button_request= findViewById(R.id.button_request);
+        button_request = findViewById(R.id.button_request);
         button_request.setVisibility(View.INVISIBLE);
 
 
@@ -489,24 +501,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         requestLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(MainActivity.this,RequestCheque.class);
+                Intent in = new Intent(MainActivity.this, RequestCheque.class);
                 startActivity(in);
 
             }
         });
-        dbHandler = new DatabaseHandler(MainActivity.this);
+
+        dbHandler = new DatabaseHandler(this);
+        database = dbHandler.getWritableDatabase();
         usernameTv = findViewById(R.id.main_username);
-        usernameTv.setText(MainActivity.this.getResources().getString(R.string.welcome)+"  " + username);
+        usernameTv.setText(MainActivity.this.getResources().getString(R.string.welcome) + "  " + username);
         cashierCheque = findViewById(R.id.main_cashier);
         jerro = findViewById(R.id.main_jero);
         wallet = findViewById(R.id.main_wallet);
         arrayListRow = new ArrayList<>();
         arrayListRowFirst = new ArrayList<>();
-        requestList=new ArrayList<>();
-        requestList_Tow=new ArrayList<>();
+        requestList = new ArrayList<>();
+        requestList_Tow = new ArrayList<>();
         notifiList1 = new ArrayList<>();
         notifiList = new ArrayList<>();
-        checkInfoList=new ArrayList<>();
+        checkInfoList = new ArrayList<>();
 
         recyclerViews = (RecyclerView) findViewById(R.id.res);
         setSupportActionBar(toolbar);
@@ -529,8 +543,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        TextView navUsername = (TextView) headerView.findViewById(R.id.navUsername);
 //        navUsername.setText("Your Text Here");
 
-        infoUser=dbHandler.getActiveUserInfo();
-        phoneNo=infoUser.getUsername();
+        infoUser = dbHandler.getActiveUserInfo();
+        phoneNo = infoUser.getUsername();
         fullUsername = infoUser.getFirstName() + " " + infoUser.getFourthName();
         usernameNavigation.setText(fullUsername);
 
@@ -640,6 +654,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
 //                TostMesage(getResources().getString(R.string.cancel));
             } else {
+                if (barcodeDialog != null)
+                    barcodeDialog.dismiss();
                 Log.d("MainActivity", "Scanned");
                 Log.e("resultcontent", "" + Result.getContents());
                 Toast.makeText(this, "Scan ___" + Result.getContents(), Toast.LENGTH_SHORT).show();
@@ -686,7 +702,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             break;
             case R.id.menu_wallet: {
                 Intent intentWallet = new Intent(MainActivity.this, JeroActivity.class);
-                intentWallet.putExtra("wallet","wallet");
+                intentWallet.putExtra("wallet", "wallet");
                 startActivity(intentWallet);
             }
             break;
@@ -722,7 +738,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog.show();
 
                 Window window = dialog.getWindow();
-                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
             }
             break;
@@ -779,8 +795,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(serial.getText().toString())) {
-                    new Presenter(MainActivity.this).checkBySerial(serial.getText().toString().toUpperCase(), null, MainActivity.this, null);
                     serial.setError(null);
+                    new Presenter(MainActivity.this).checkBySerial(serial.getText().toString().toUpperCase(), null, MainActivity.this, null);
+                    barcodeDialog.dismiss();
                 } else {
                     serial.setError("Required");
                 }
@@ -854,7 +871,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 chequeWriterTV.setText(customerName);
                 accountNoTV.setText(convertToArabic(accountNo));
                 chequeNoTV.setText(convertToArabic(chequeNo));
-            }else {
+            } else {
                 LocaleAppUtils.setLocale(new Locale("en"));
                 LocaleAppUtils.setConfigChange(MainActivity.this);
                 chequeWriterTV.setText(customerName);
@@ -866,6 +883,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void onClick(View view) {
                     checkLanguage();
                     dialog.dismiss();
+
                 }
             });
 
@@ -977,14 +995,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onBindViewHolder(@NonNull final MainActivity.CViewHolderForbar cViewHolder, final int i) {
             cViewHolder.ItemName.setText(list.get(i).getAccountNo().substring(1));
-           switch (list.get(i).getBank()){
+            switch (list.get(i).getBank()) {
 
-               case "004":
-                cViewHolder.itemImage.setImageDrawable(context.getResources().getDrawable(R.drawable.jordan_bank));
-                break;
-               case "009":
-                   cViewHolder.itemImage.setImageDrawable(context.getResources().getDrawable(R.drawable.cairo_amman_bank));
-                   break;
+                case "004":
+                    cViewHolder.itemImage.setImageDrawable(context.getResources().getDrawable(R.drawable.jordan_bank));
+                    break;
+                case "009":
+                    cViewHolder.itemImage.setImageDrawable(context.getResources().getDrawable(R.drawable.cairo_amman_bank));
+                    break;
             }
 //            cViewHolder.itemImage.setBackgroundResource(getImage(pic2.get(i)));
             cViewHolder.layBar.setTag("" + i);
@@ -1266,12 +1284,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         protected void onPostExecute(String JsonResponse) {
             super.onPostExecute(JsonResponse);
 
-
             if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
                 Log.e("GetAccSuccess", "****Success");
 
+                if (addAccountDialog != null)
+                    addAccountDialog.dismiss();
+
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText(MainActivity.this.getResources().getString(R.string.save_success))
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.sent))
                         .setContentText(MainActivity.this.getResources().getString(R.string.save_success))
                         .show();
 
@@ -1397,7 +1417,446 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
+    //    public class GetAllCheck_JSONTask extends AsyncTask<String, String, String> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//                infoUser=dbHandler.getActiveUserInfo();
+//                phoneNo=infoUser.getUsername();
+//
+//                String JsonResponse = null;
+//                HttpClient client = new DefaultHttpClient();
+//                HttpPost request = new HttpPost();
+////                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
+//                request.setURI(new URI(serverLink + "GetLog?"));
+//
+//                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+//                nameValuePairs.add(new BasicNameValuePair("ACCCODE", "0"));
+//
+//                nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));// test
+//                Log.e("editingmain ", phoneNo);
+//                nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));//  wich =1 =====> based on phone number //wich =0 =====> based on account number
+//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+//
+//                HttpResponse response = client.execute(request);
+//
+//                BufferedReader in = new BufferedReader(new
+//                        InputStreamReader(response.getEntity().getContent()));
+//
+//                StringBuffer sb = new StringBuffer("");
+//                String line = "";
+//
+//                while ((line = in.readLine()) != null) {
+//                    sb.append(line);
+//                }
+//
+//                in.close();
+//
+//                JsonResponse = sb.toString();
+////                Log.e("tagMainActivityNotifi", "" + JsonResponse);
+//
+//                return JsonResponse;
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//
+//            if (s != null) {
+//                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+//                    JSONObject jsonObject = null;
+//                    try {
+//
+//                        arrayListRow.clear();
+//                        arrayListRowFirst.clear();
+//                        notifiList.clear();
+//                        checkInfoList.clear();
+//                        jsonObject = new JSONObject(s);
+//
+//                        JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
+//                        for (int i = 0; i < notificationInfo.length(); i++) {
+//
+//                            JSONObject infoDetail = notificationInfo.getJSONObject(i);
+//                            ChequeInfo chequeInfo = new ChequeInfo();
+//                            chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
+////                           if( !dbHandler.getRowID(chequeInfo.getRowId()).equals(""))
+//////                           {
+//
+//
+//                            chequeInfo.setIsJoin(infoDetail.getString("ISJOIN"));
+//                            chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
+//
+//
+//                            chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
+//                            int chNo=Integer.parseInt(chequeInfo.getChequeNo());
+//
+//                            chequeInfo.setUserName(infoDetail.getString("USERNO"));
+//                            chequeInfo.setToCustomerMobel(infoDetail.get("TOCUSTOMERMOB").toString());
+////
+//
+//                            chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
+//                            Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t setStatus" + chequeInfo.getStatus());
+//                            if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
+//                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")&&(chequeInfo.getIsJoin().equals("0")))
+//                                    ||(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("100")&& !chequeInfo.getToCustomerMobel().equals(phoneNo)&&!chequeInfo.getUserName().equals(phoneNo))
+//                                    ||(chequeInfo.getIsJoin().equals("1")&& !chequeInfo.getTransType().equals("100")&& !chequeInfo.getToCustomerMobel().equals(phoneNo) ))// Pending and Reciver
+//                            {
+//
+//
+//                                notification notifi = new notification();
+//                                notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
+//                                notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
+//                                notifi.setAmount_check(infoDetail.get("AMTJD").toString());
+//                                //**********************************************************************
+//                                chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
+//                                chequeInfo.setToCustomerNationalId(infoDetail.get("TOCUSTOMERNATID").toString());
+//
+//                                chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
+//                                chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
+//                                chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
+//                                chequeInfo.setQrCode(infoDetail.get("QRCODE").toString());
+//                                chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
+//                                chequeInfo.setCustomerWriteDate(infoDetail.get("CHECKWRITEDATE").toString());
+//                                chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
+//                                chequeInfo.setMoneyInFils(infoDetail.getString("AMTFILS"));
+//                                chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
+//                                chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
+//                                chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
+//                                chequeInfo.setSerialNo(infoDetail.get("SERIALNO").toString());
+//                                chequeInfo.setBranchNo(infoDetail.get("BRANCHNO").toString());
+//                                chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
+//                                chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
+//                                chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
+//                                chequeInfo.setCheckIsSueDate(infoDetail.get("CHECKISSUEDATE").toString());
+//                                chequeInfo.setCheckDueDate(infoDetail.get("CHECKDUEDATE").toString());
+//                                chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
+//                                chequeInfo.setStatus(infoDetail.getString("STATUS"));
+//
+//                                chequeInfo.setISBF(infoDetail.getString("ISFB"));
+//                                chequeInfo.setISCO(infoDetail.getString("ISCO"));
+//                                chequeInfo.setNoteCheck(infoDetail.getString("NOTE"));
+//                                chequeInfo.setCompanyName(infoDetail.getString("COMPANY"));
+//                                chequeInfo.setResonOfreject(infoDetail.getString("RJCTREASON"));
+//                                chequeInfo.setToCustName(infoDetail.getString("CUSTNAME"));
+//                                chequeInfo.setToCustFName(infoDetail.getString("CUSTFNAME"));
+//                                chequeInfo.setToCustGName(infoDetail.getString("CUSTGNAME"));
+//                                chequeInfo.setToCustFamalyName(infoDetail.getString("CUSTFAMNAME"));
+//
+//                                chequeInfo.setTransSendOrGero(infoDetail.getString("TRANSTYPE"));// 0-----> send  // 1-------> gero
+//
+//                                chequeInfo.setIsJoin(infoDetail.getString("ISJOIN"));
+//                                chequeInfo.setJOIN_FirstMOB   (infoDetail.getString("JOINFMOB"));
+//                                chequeInfo.setJOIN_SecondSMOB  (infoDetail.getString("JOINSMOB"));
+//                                chequeInfo.setJOIN_TheredMOB  (infoDetail.getString("JOINTMOB"));
+//
+//                                chequeInfo.setJOIN_F_STATUS(infoDetail.getString("JOINFSTATUS"));
+//                                chequeInfo.setJOIN_F_REASON(infoDetail.getString("JOINFREASON"));
+//                                chequeInfo.setJOIN_S_STATUS(infoDetail.getString("JOINSSTATUS"));
+//                                chequeInfo.setJOIN_S_REASON(infoDetail.getString("JOINSREASON"));
+//
+//
+//
+//                                chequeInfo.setJOIN_T_STATUS(infoDetail.getString("JOINTSTATUS"));
+//                                chequeInfo.setJOIN_T_REASON(infoDetail.getString("JOINTREASON"));
+//                                if(!dbHandler.getLastTransTypeByChequeNo(chNo).equals( chequeInfo.getTransType()))
+//                                {
+//                                    Log.e("YES",""+dbHandler.getLastTransTypeByChequeNo(chNo));
+//                                    dbHandler.addNotificationInfo(chequeInfo);
+//                                    notification_btn.setVisibility(View.VISIBLE);
+//                                    ShowNotifi_detail("check",Integer.parseInt(chequeInfo.getTransType()),chNo+"");
+//
+//                                }
+////                                else {
+//
+//                                   if(chequeInfo.getIsJoin().equals("1"))
+//                                   {
+//
+//
+//                                       if( chequeInfo.getJOIN_FirstMOB().equals(phoneNo))
+//                                       {
+//                                           orderMobil=1;
+//                                           statuseJoin=chequeInfo.getJOIN_F_STATUS();
+//                                           if(!dbHandler.getLastStateByChequeNo(chNo,2).equals( chequeInfo.getJOIN_S_STATUS())||
+//                                                   !dbHandler.getLastStateByChequeNo(chNo,3).equals( chequeInfo.getJOIN_T_STATUS()))
+//                                           {
+//                                               dbHandler.addNotificationInfo(chequeInfo);
+//                                               notification_btn.setVisibility(View.VISIBLE);
+//                                               ShowNotifi_detail("check",Integer.parseInt(chequeInfo.getTransType()),chNo+"");
+//                                           }
+//                                       }
+//
+//                                       if( chequeInfo.getJOIN_SecondSMOB().equals(phoneNo))
+//                                       {
+//                                           orderMobil=2;
+//                                           statuseJoin=chequeInfo.getJOIN_S_STATUS();
+//                                           if(!dbHandler.getLastStateByChequeNo(chNo,1).equals( chequeInfo.getJOIN_F_STATUS())||
+//                                                   !dbHandler.getLastStateByChequeNo(chNo,3).equals( chequeInfo.getJOIN_T_STATUS()))
+//                                           {
+//                                               dbHandler.addNotificationInfo(chequeInfo);
+//                                               notification_btn.setVisibility(View.VISIBLE);
+//                                               ShowNotifi_detail("check",Integer.parseInt(chequeInfo.getTransType()),chNo+"");
+//                                           }
+//                                       }
+//
+//
+//                                       if( chequeInfo.getJOIN_TheredMOB().equals(phoneNo))
+//                                       {
+//                                           orderMobil=3;
+//                                           statuseJoin=chequeInfo.getJOIN_T_STATUS();
+//                                           if(!dbHandler.getLastStateByChequeNo(chNo,1).equals( chequeInfo.getJOIN_F_STATUS())||
+//                                                   !dbHandler.getLastStateByChequeNo(chNo,2).equals( chequeInfo.getJOIN_S_STATUS()))
+//                                           {
+//                                               dbHandler.addNotificationInfo(chequeInfo);
+//                                               notification_btn.setVisibility(View.VISIBLE);
+//                                               ShowNotifi_detail("check",Integer.parseInt(chequeInfo.getTransType()),chNo+"");
+//                                           }
+//                                       }
+//
+//                                       String state= dbHandler.getLastStateByChequeNo(chNo,orderMobil);
+//                                       Log.e("getLastStateByChequeNo",""+state);
+////                                       if(!dbHandler.getLastStateByChequeNo(chNo,orderMobil).equals( statuseJoin))
+////                                       {
+////                                           dbHandler.addNotificationInfo(chequeInfo);
+////                                           notification_btn.setVisibility(View.VISIBLE);
+////                                           ShowNotifi_detail("check",Integer.parseInt(chequeInfo.getTransType()),chNo+"");
+////                                       }
+////
+////
+//
+//                                   }
+//
+//
+//                                checkInfoList.add(chequeInfo);
+//                                arrayListRow.add(chequeInfo.getRowId());
+//
+//
+//                            }
+////                           }
+//                        }
+//                        Log.e("arrayListRow",""+arrayListRow.size());
+//
+//
+//                        Set<String> set_tow = new HashSet<String>();
+//                        set_tow.addAll(arrayListRow);
+//                        Set<String> set = null;
+//                        try {
+//
+//                          set = sharedPreferences.getStringSet("DATE_LIST", null);
+//                            Log.e("sharedPreferences",""+set.size()+set.toString());
+//                        }
+//                        catch (Exception e)
+//                        {
+//
+//                        }
+//
+//
+//
+//                        if (set != null) {
+////
+////                            set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
+//                            arrayListRowFirst.addAll(set);
+//
+//                            int countFirst = arrayListRowFirst.size();
+//                            if (arrayListRow.size() < countFirst)//there are update new data is less than old data
+//                            {
+//                                Log.e("olddataGreater", "countFirst" + countFirst);
+//
+//                                for (int h = 0; h < arrayListRow.size(); h++) {
+//                                    int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+//                                    if (index == -1) {
+//                                        arrayListRowFirst.add(arrayListRow.get(h));
+//                                        Log.e("arrayListRowYES", "" + arrayListRow.get(h));
+//
+//                                    }
+//
+//                                }
+//
+//                                if (countFirst < arrayListRowFirst.size())// new data
+//                                {
+//                                    Log.e("getTransType-new",""+checkInfoList.get(0).getTransType().equals("100"));
+////                                    ShowNotifi("check");
+//
+//                                    int stat=-1;
+//                                    if(checkInfoList.get(0).getStatus().equals("0")) {
+//                                        if (checkInfoList.get(0).getTransType().equals("1")) {
+//                                            stat=1;
+//
+//                                        }
+//                                        else {
+//                                            if((checkInfoList.get(0).getTransType().equals("2"))||(checkInfoList.get(0).getTransType().equals("200")))
+//                                            {
+//                                                stat=2;
+//                                            }
+//                                            if(checkInfoList.get(0).getTransType().equals("100"))
+//                                            {
+//
+//                                                stat=100;
+//                                            }
+//
+//                                        }
+//                                    }
+//                                    else {
+//                                        stat=0;
+//
+//                                    }
+//                                    notification_btn.setVisibility(View.VISIBLE);
+//                                    ShowNotifi_detail("check",stat,checkInfoList.get(0).getChequeNo());
+//
+//
+//
+//
+//                                } else {
+//
+//
+//
+//                                }
+//
+//                            }//********************************************
+//                            else {
+//                                if (arrayListRow.size() > countFirst)// new data
+//                                {
+//                                    Log.e("NewGreater", "countFirst" + countFirst);
+//                                    Log.e("getTransType",""+checkInfoList.get(0).getTransType().equals("100"));
+////                                    ShowNotifi("check");
+//                                    int stat=-1;
+//                                    if(checkInfoList.get(0).getStatus().equals("0")) {
+//                                        if (checkInfoList.get(0).getTransType().equals("1")) {
+//                                            stat=1;
+//
+//                                        }
+//                                        else {
+//                                            if((checkInfoList.get(0).getTransType().equals("2"))||(checkInfoList.get(0).getTransType().equals("200")))
+//                                            {
+//                                                stat=2;
+//                                            }
+//                                            if(checkInfoList.get(0).getTransType().equals("100"))
+//                                            {
+//                                                stat=100;
+//                                            }
+//
+//                                        }
+//                                    }
+//                                    else {
+//                                        stat=0;
+//
+//                                    }
+//                                    notification_btn.setVisibility(View.VISIBLE);
+//                                    ShowNotifi_detail("check",stat,checkInfoList.get(0).getChequeNo());
+//
+//
+//
+//
+//
+//                                } else {
+//                                    if (arrayListRow.size() == countFirst)// equal size
+//                                    {
+//                                        Log.e("arrayListRow", "== hereeee");
+//
+//                                        for (int h = 0; h < arrayListRow.size(); h++) {
+//                                            int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+//                                            if (index == -1) {
+//                                                arrayListRowFirst.add(arrayListRow.get(h));
+//
+//
+//                                            }
+//
+//                                        }
+//
+//                                        if (countFirst < arrayListRowFirst.size())// new data
+//                                        {
+////                                            ShowNotifi("check");
+//
+//
+//                                            int stat = -1;
+//                                            if (checkInfoList.get(0).getStatus().equals("0")) {
+//                                                if (checkInfoList.get(0).getTransType().equals("1")) {
+//                                                    stat = 1;
+//
+//                                                } else {
+//                                                    if((checkInfoList.get(0).getTransType().equals("2"))||(checkInfoList.get(0).getTransType().equals("200")))
+//                                                    {
+//                                                        stat=2;
+//                                                    }
+//                                                    if(checkInfoList.get(0).getTransType().equals("100"))
+//                                                    {
+//                                                        stat=100;
+//                                                    }
+//
+//                                                }
+//                                            } else {
+//                                                stat = 0;
+//
+//                                            }
+//                                            notification_btn.setVisibility(View.VISIBLE);
+//                                            ShowNotifi_detail("check", stat, checkInfoList.get(0).getChequeNo());
+//
+//                                        }
+//
+//
+//                                    } else {
+//
+//
+////                                                fillListNotification(notificationArrayListTest);
+//
+//                                    }
+//
+//                                }
+//
+//                            }
+//
+//
+//                        } else {//empty shared preference
+//
+//                        notification_btn.setVisibility(View.VISIBLE);
+//                        try {
+//                            transtype=Integer.parseInt(checkInfoList.get(0).getTransType());
+//                        }
+//                        catch (Exception e)
+//                        {}
+//                        ShowNotifi_detail("check",transtype,checkInfoList.get(0).getChequeNo());
+//                        }
+//
+//
+////                        Set<String> set_tow = new HashSet<String>();
+////                        set_tow.addAll(arrayListRow);
+////                        Log.e("Empty", "" + arrayListRow.size());
+//                        editor = sharedPreferences.edit();
+//                        editor.putStringSet("DATE_LIST", set_tow);
+//                        editor.apply();
+//
+//
+//                        new  GetAllRequestToUser_JSONTask().execute();
+////                        new GetAllRequestFromUser_JSONTask().execute();
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+////                    INFO
+////                    Log.e("tag", "****Success" + s.toString());
+//                } else {
+//                    new  GetAllRequestToUser_JSONTask().execute();
+//                    Log.e("tagMain", "****Failed to export data"+s.toString());
+//                }
+//            } else {
+//                new  GetAllRequestToUser_JSONTask().execute();
+//                Log.e("tagMain", "****Failed to export data Please check internet connection");
+//            }
+//        }
+//    }
+    public class GetNotification_JSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -1408,21 +1867,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected String doInBackground(String... params) {
             try {
-                infoUser=dbHandler.getActiveUserInfo();
-                phoneNo=infoUser.getUsername();
+                infoUser = dbHandler.getActiveUserInfo();
+                phoneNo = infoUser.getUsername();
 
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
 //                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
-                request.setURI(new URI(serverLink + "GetLog?"));
+                // http://localhost:8082/GetNotifications?MOBNO=??
+                request.setURI(new URI(serverLink + "GetNotifications?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-                nameValuePairs.add(new BasicNameValuePair("ACCCODE", "0"));
+
 
                 nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));// test
+                nameValuePairs.add(new BasicNameValuePair("ISREQ", "0"));// test
+
                 Log.e("editingmain ", phoneNo);
-                nameValuePairs.add(new BasicNameValuePair("WHICH", "1"));//  wich =1 =====> based on phone number //wich =0 =====> based on account number
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
                 HttpResponse response = client.execute(request);
@@ -1440,7 +1901,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 in.close();
 
                 JsonResponse = sb.toString();
-//                Log.e("tagMainActivityNotifi", "" + JsonResponse);
+                Log.e("tagMainActivityNotifi", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -1467,39 +1928,90 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         JSONArray notificationInfo = jsonObject.getJSONArray("INFO");
                         for (int i = 0; i < notificationInfo.length(); i++) {
+
                             JSONObject infoDetail = notificationInfo.getJSONObject(i);
-//                            serverPicBitmap=null;
                             ChequeInfo chequeInfo = new ChequeInfo();
+                            chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
+//                           if( !dbHandler.getRowID(chequeInfo.getRowId()).equals(""))
+////                           {
+
+
                             chequeInfo.setIsJoin(infoDetail.getString("ISJOIN"));
                             chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
-//
+
+
+                            chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
+                            int chNo = Integer.parseInt(chequeInfo.getChequeNo());
+
                             chequeInfo.setUserName(infoDetail.getString("USERNO"));
                             chequeInfo.setToCustomerMobel(infoDetail.get("TOCUSTOMERMOB").toString());
-//
+                            Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t" + chequeInfo.getUserName());
+
+
+                            notification notifi = new notification();
+                            notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
+                            notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
+                            notifi.setAmount_check(infoDetail.get("AMTJD").toString());
+                            //**********************************************************************
+                            chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
+                            chequeInfo.setToCustomerNationalId(infoDetail.get("TOCUSTOMERNATID").toString());
+
+                            chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
+                            chequeInfo.setChequeData(infoDetail.get("CHECKDUEDATE").toString());
+                            chequeInfo.setToCustomerName(infoDetail.get("TOCUSTOMERNM").toString());
+                            chequeInfo.setQrCode(infoDetail.get("QRCODE").toString());
+                            chequeInfo.setMoneyInDinar(infoDetail.get("AMTJD").toString());
+                            chequeInfo.setCustomerWriteDate(infoDetail.get("CHECKWRITEDATE").toString());
+                            chequeInfo.setMoneyInWord(infoDetail.get("AMTWORD").toString());
+                            chequeInfo.setMoneyInFils(infoDetail.getString("AMTFILS"));
+                            chequeInfo.setBankName(infoDetail.get("BANKNM").toString());
+                            chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
+                            chequeInfo.setCustName(infoDetail.get("CUSTOMERNM").toString());
+                            chequeInfo.setSerialNo(infoDetail.get("SERIALNO").toString());
+                            chequeInfo.setBranchNo(infoDetail.get("BRANCHNO").toString());
+                            chequeInfo.setAccCode(infoDetail.get("ACCCODE").toString());
+                            chequeInfo.setIbanNo(infoDetail.get("IBANNO").toString());
+                            chequeInfo.setBankNo(infoDetail.get("BANKNO").toString());
+                            chequeInfo.setCheckIsSueDate(infoDetail.get("CHECKISSUEDATE").toString());
+                            chequeInfo.setCheckDueDate(infoDetail.get("CHECKDUEDATE").toString());
                             chequeInfo.setTransType(infoDetail.getString("TRANSSTATUS"));
-                            chequeInfo.setStatus(infoDetail.getString("STATUS"));// Recive=== 1
-                            Log.e("setTransType", "\t" + chequeInfo.getTransType() + "\t setStatus" + chequeInfo.getStatus());
-                            if ((chequeInfo.getTransType().equals("0") && chequeInfo.getStatus().equals("1")) ||
-                                    (chequeInfo.getStatus().equals("0") && !chequeInfo.getTransType().equals("0")&&(!chequeInfo.getIsJoin().equals("1")))
-                                    ||(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("100")&& !chequeInfo.getToCustomerMobel().equals(phoneNo)&&!chequeInfo.getUserName().equals(phoneNo))
-                                    ||(chequeInfo.getIsJoin().equals("1")&&chequeInfo.getTransType().equals("200")&& !chequeInfo.getToCustomerMobel().equals(phoneNo) ))// Pending and Reciver
-                            {
+
+                            chequeInfo.setISBF(infoDetail.getString("ISFB"));
+                            chequeInfo.setISCO(infoDetail.getString("ISCO"));
+                            chequeInfo.setNoteCheck(infoDetail.getString("NOTE"));
+                            chequeInfo.setCompanyName(infoDetail.getString("COMPANY"));
+                            chequeInfo.setResonOfreject(infoDetail.getString("RJCTREASON"));
+                            chequeInfo.setToCustName(infoDetail.getString("CUSTNAME"));
+                            chequeInfo.setToCustFName(infoDetail.getString("CUSTFNAME"));
+                            chequeInfo.setToCustGName(infoDetail.getString("CUSTGNAME"));
+                            chequeInfo.setToCustFamalyName(infoDetail.getString("CUSTFAMNAME"));
+
+                            chequeInfo.setTransSendOrGero(infoDetail.getString("TRANSTYPE"));// 0-----> send  // 1-------> gero
+
+                            chequeInfo.setIsJoin(infoDetail.getString("ISJOIN"));
+                            chequeInfo.setJOIN_FirstMOB(infoDetail.getString("JOINFMOB"));
+                            chequeInfo.setJOIN_SecondSMOB(infoDetail.getString("JOINSMOB"));
+                            chequeInfo.setJOIN_TheredMOB(infoDetail.getString("JOINTMOB"));
+
+                            chequeInfo.setJOIN_F_STATUS(infoDetail.getString("JOINFSTATUS"));
+                            chequeInfo.setJOIN_F_REASON(infoDetail.getString("JOINFREASON"));
+                            chequeInfo.setJOIN_S_STATUS(infoDetail.getString("JOINSSTATUS"));
+                            chequeInfo.setJOIN_S_REASON(infoDetail.getString("JOINSREASON"));
 
 
-                                com.falconssoft.centerbank.Models.notification notifi = new notification();
-                                notifi.setSource(infoDetail.get("CUSTOMERNM").toString());
-                                notifi.setDate(infoDetail.get("CHECKDUEDATE").toString());
-                                notifi.setAmount_check(infoDetail.get("AMTJD").toString());
-                                //**********************************************************************
-                                chequeInfo.setChequeNo(infoDetail.get("CHECKNO").toString());
-                                chequeInfo.setRowId(infoDetail.get("ROWID1").toString());
-
-                                checkInfoList.add(chequeInfo);
-                                arrayListRow.add(chequeInfo.getRowId());
+                            chequeInfo.setJOIN_T_STATUS(infoDetail.getString("JOINTSTATUS"));
+                            chequeInfo.setJOIN_T_REASON(infoDetail.getString("JOINTREASON"));
+                            chequeInfo.setNOTFROWID(infoDetail.getString("NOTFROWID"));
+                            chequeInfo.setWICHEUSER(infoDetail.getString("WICHEUSER"));
 
 
-                            }
+                            checkInfoList.add(chequeInfo);
+                            arrayListRow.add(chequeInfo.getNOTFROWID());
+
+
                         }
+                        Log.e("arrayListRow", "" + arrayListRow.size());
+
 
                         Set<String> set_tow = new HashSet<String>();
                         set_tow.addAll(arrayListRow);
@@ -1507,23 +2019,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        editor = sharedPreferences.edit();
 //                        editor.putStringSet("DATE_LIST", set_tow);
 //                        editor.apply();
-                        
+
                         Set<String> set = null;
                         try {
 
-                          set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
-                            Log.e("sharedPreferences",""+set.size()+set.toString()); 
-                        }
-                        catch (Exception e)
-                        {
-                            
-                        }
+                            set = sharedPreferences.getStringSet("DATE_LIST", null);
+                            Log.e("sharedPreferences", "" + set.size() + set.toString());
+                        } catch (Exception e) {
 
+                        }
 
 
                         if (set != null) {
 //
-                            set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
+//                            set = sharedPreferences.getStringSet("DATE_LIST", set_tow);
                             arrayListRowFirst.addAll(set);
 
                             int countFirst = arrayListRowFirst.size();
@@ -1543,6 +2052,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                 if (countFirst < arrayListRowFirst.size())// new data
                                 {
+                                    Log.e("getTransType-new", "" + checkInfoList.get(0).getTransType().equals("100"));
 //                                    ShowNotifi("check");
 
                                     new Handler().post(new Runnable() {
@@ -1553,28 +2063,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                         }
                                     });
-                                    int stat=-1;
-                                    if(checkInfoList.get(0).getStatus().equals("0")) {
-                                        if (checkInfoList.get(0).getTransType().equals("1")) {
-                                            stat=1;
+                                    int stat = -1;
+//                                    if(checkInfoList.get(0).getStatus().equals("0")) {
+                                    if (checkInfoList.get(0).getTransType().equals("1")) {
+                                        stat = 1;
 
+                                    } else {
+                                        if ((checkInfoList.get(0).getTransType().equals("2")) || (checkInfoList.get(0).getTransType().equals("200"))) {
+                                            stat = 2;
                                         }
-                                        else {
-                                            stat=2;
+                                        if (checkInfoList.get(0).getTransType().equals("100")) {
+
+                                            stat = 100;
                                         }
-                                    }
-                                    else {
-                                        stat=0;
 
                                     }
-                                    ShowNotifi_detail("check",stat,checkInfoList.get(0).getChequeNo());
-
-
+//                                    }
+//                                    else {
+//                                        stat=0;
+//
+//                                    }
+                                    try {
+                                        notification_btn.setVisibility(View.VISIBLE);
+                                        ShowNotifi_detail("check", stat, checkInfoList.get(0).getChequeNo());
+                                    } catch (Exception e) {
+                                        Log.e("ShowNotifi_detail", "" + e.getMessage());
+                                    }
 
 
                                 } else {
-
-
 
                                 }
 
@@ -1592,24 +2109,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         }
                                     });
 //                                    ShowNotifi("check");
-                                    int stat=-1;
-                                    if(checkInfoList.get(0).getStatus().equals("0")) {
-                                        if (checkInfoList.get(0).getTransType().equals("1")) {
-                                            stat=1;
+                                    int stat = -1;
+//                                    if(checkInfoList.get(0).getStatus().equals("0")) {
+                                    if (checkInfoList.get(0).getTransType().equals("1")) {
+                                        stat = 1;
 
+                                    } else {
+                                        if ((checkInfoList.get(0).getTransType().equals("2")) || (checkInfoList.get(0).getTransType().equals("200"))) {
+                                            stat = 2;
                                         }
-                                        else {
-                                            stat=2;
+                                        if (checkInfoList.get(0).getTransType().equals("100")) {
+                                            stat = 100;
                                         }
-                                    }
-                                    else {
-                                        stat=0;
 
                                     }
-                                    ShowNotifi_detail("check",stat,checkInfoList.get(0).getChequeNo());
-
-
-
+//                                    }
+//                                    else {
+//                                        stat=0;
+//
+//                                    }
+                                    notification_btn.setVisibility(View.VISIBLE);
+                                    ShowNotifi_detail("check", stat, checkInfoList.get(0).getChequeNo());
 
 
                                 } else {
@@ -1640,17 +2160,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                 }
                                             });
                                             int stat = -1;
-                                            if (checkInfoList.get(0).getStatus().equals("0")) {
-                                                if (checkInfoList.get(0).getTransType().equals("1")) {
-                                                    stat = 1;
+//                                            if (checkInfoList.get(0).getStatus().equals("0")) {
+                                            if (checkInfoList.get(0).getTransType().equals("1")) {
+                                                stat = 1;
 
-                                                } else {
+                                            } else {
+                                                if ((checkInfoList.get(0).getTransType().equals("2")) || (checkInfoList.get(0).getTransType().equals("200"))) {
                                                     stat = 2;
                                                 }
-                                            } else {
-                                                stat = 0;
+                                                if (checkInfoList.get(0).getTransType().equals("100")) {
+                                                    stat = 100;
+                                                }
 
                                             }
+//                                            }
+//                                            else {
+//                                                stat = 0;
+//
+//                                            }
+                                            notification_btn.setVisibility(View.VISIBLE);
                                             ShowNotifi_detail("check", stat, checkInfoList.get(0).getChequeNo());
 
                                         }
@@ -1670,7 +2198,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         } else {//empty shared preference
 
-//
+                            notification_btn.setVisibility(View.VISIBLE);
+                            try {
+                                transtype = Integer.parseInt(checkInfoList.get(0).getTransType());
+                            } catch (Exception e) {
+                            }
+                            ShowNotifi_detail("check", transtype, checkInfoList.get(0).getChequeNo());
                         }
 
 
@@ -1681,7 +2214,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         editor.putStringSet("DATE_LIST", set_tow);
                         editor.apply();
 
-                        new  GetAllRequestToUser_JSONTask().execute();
+
+                        new GetAllRequestToUser_JSONTask().execute();
 //                        new GetAllRequestFromUser_JSONTask().execute();
 
                     } catch (JSONException e) {
@@ -1691,11 +2225,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    INFO
 //                    Log.e("tag", "****Success" + s.toString());
                 } else {
-                    new  GetAllRequestToUser_JSONTask().execute();
-                    Log.e("tagMain", "****Failed to export data"+s.toString());
+                    new GetAllRequestToUser_JSONTask().execute();
+                    Log.e("tagMain", "****Failed to export data" + s.toString());
                 }
             } else {
-                new  GetAllRequestToUser_JSONTask().execute();
+                new GetAllRequestToUser_JSONTask().execute();
                 Log.e("tagMain", "****Failed to export data Please check internet connection");
             }
         }
@@ -1703,88 +2237,103 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void ShowNotifi(String type) {
         String currentapiVersion = Build.VERSION.RELEASE;
-        String title="",content="";
-        switch (type)
-        {
+        String title = "", content = "";
+        switch (type) {
             case "check":
-                title="Recive new Check";
+                title = "Recive new Check";
                 break;
             case "request":
-                title="Recive new Request";
+                title = "Recive new Request";
                 break;
         }
 
 //
 
 
-
 //                                show_Notification("Thank you for downloading the Points app, so we'd like to add 30 free points to your account");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
 //                show_Notification(title);
-                showNotification(MainActivity.this,title,"details");
+            showNotification(MainActivity.this, title, "details");
 
-            } else {
-                notificationShow(title);
-            }
-
+        } else {
+            notificationShow(title);
+        }
 
 
     }
-    private void ShowNotifi_detail(String type,int state,String contentMessage) {
-        String currentapiVersion = Build.VERSION.RELEASE;
-        String title="",content="",statuse="";
 
-        switch (type)
-        {
+    private void ShowNotifi_detail(String type, int state, String contentMessage) {
+        String currentapiVersion = Build.VERSION.RELEASE;
+        String title = "", content = "", statuse = "";
+
+
+        if (type.equals("check")) {
+            notification_btn.setVisibility(View.VISIBLE);
+
+        }
+        if (type.equals("Request")) {
+            button_request.setVisibility(View.VISIBLE);
+
+        }
+
+        switch (type) {
             case "check":
-                title="Check";
+                title = "Check";
                 break;
             case "request":
-                title="Request";
+                title = "Request";
                 break;
         }
-        String messgaeBody="";
-        switch (state)
-        {
+        String messgaeBody = "";
+        switch (state) {
             case 0:
-                statuse="new\t"+title+"\t";
-                messgaeBody="you have "+statuse+"From"+"\t"+contentMessage;
-            break;
+                statuse = "new\t" + title + "\t";
+                messgaeBody = "you have " + statuse + "From" + "\t" + contentMessage;
+                break;
             case 1:
-                statuse="Accepted\t"+title+"\t";
-                messgaeBody="you have "+statuse+"\t"+contentMessage;
+                statuse = "Accepted\t" + title + "\t";
+                messgaeBody = "you have " + statuse + "\t" + contentMessage;
                 break;
             case 2:
-                statuse="Rejected\t"+title+"\t";
-                messgaeBody="you have "+statuse+"\t"+contentMessage;
+                statuse = "Rejected\t" + title + "\t";
+                messgaeBody = "you have " + statuse + "\t" + contentMessage;
+                break;
+            case 200:
+                statuse = "Rejected\t" + title + "\t";
+                messgaeBody = "you have " + statuse + "\t" + contentMessage;
+                break;
+            case 100:
+                statuse = "New Joint\t" + title + "\t";
+                messgaeBody = "you have " + statuse + "\t" + contentMessage;
                 break;
         }
 
-        Log.e("messgaeBody",""+messgaeBody);
+        Log.e("messgaeBody", "" + messgaeBody);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
 //                show_Notification(title);
-            showNotification(MainActivity.this,title,messgaeBody);
+            showNotification(MainActivity.this, title, messgaeBody);
 
         } else {
-            showNotification(MainActivity.this,title,messgaeBody);
+            showNotification(MainActivity.this, title, messgaeBody);
 
 //            notificationShow(title);
         }
 
 
-
     }
+
     // ******************************************** CHECK QR VALIDATION *************************************
     private class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog.show();
 
         }
 
@@ -1835,7 +2384,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+            progressDialog.dismiss();
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("main/checkValidation/", "Success/" + s);
@@ -1869,6 +2418,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
     //**********************************************************************************************************
     public class GetAllRequestToUser_JSONTask extends AsyncTask<String, String, String> {
 
@@ -1881,21 +2431,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected String doInBackground(String... params) {
             try {
-              String  WHICH="0";// to user
-                infoUser=dbHandler.getActiveUserInfo();
-                phoneNo=infoUser.getUsername();
+                String WHICH = "0";// to user
+                infoUser = dbHandler.getActiveUserInfo();
+                phoneNo = infoUser.getUsername();
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
 //                http://localhost:8082/GetAllTempCheck?CUSTMOBNO=0798899716&CUSTIDNO=123456
-                request.setURI(new URI(serverLink + "GetRequest?"));
+                request.setURI(new URI(serverLink + "GetNotifications?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-                nameValuePairs.add(new BasicNameValuePair("MOBILENO", phoneNo));
+                nameValuePairs.add(new BasicNameValuePair("MOBNO", phoneNo));
+                nameValuePairs.add(new BasicNameValuePair("ISREQ", "1"));// test
+
                 Log.e("editingmain ", phoneNo);
 
-                nameValuePairs.add(new BasicNameValuePair("WHICH", "0"));// to me witch=1
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 
                 HttpResponse response = client.execute(request);
@@ -1945,13 +2496,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             requestModel chequeInfo = new requestModel();
 
                             chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
+                            chequeInfo.setKind(infoDetail.getString("KIND"));
 
+                            Log.e("setTransType", "\t" + chequeInfo.getTRANSSTATUS());
 
-                            Log.e("setTransType","\t"+chequeInfo.getTRANSSTATUS());
-
-                            if (chequeInfo.getTRANSSTATUS().equals("0") )// reject from mee
+                            if ((chequeInfo.getKind().equals("3")) || (chequeInfo.getKind().equals("4")))// reject from mee
                             {
-                                chequeInfo.setROWID(infoDetail.getString("ROWID"));
+                                chequeInfo.setROWID(infoDetail.getString("ROWID1"));
                                 chequeInfo.setFROMUSER_No(infoDetail.getString("FROMUSER"));
                                 chequeInfo.setWitch("0");
                                 chequeInfo.setFROMUSER_name(infoDetail.get("FROMUSERNM").toString());
@@ -1965,11 +2516,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
                                 chequeInfo.setINDATE(infoDetail.get("INDATE").toString());
                                 chequeInfo.setREASON(infoDetail.getString("REASON"));
+                                chequeInfo.setNotif_ROWID(infoDetail.getString("NOTFROWID"));
                                 requestList.add(chequeInfo);
 
 
-                                arrayListRow.add(chequeInfo.getROWID());
-                                Log.e("arrayListRowTouser",""+arrayListRow.size());
+                                arrayListRow.add(chequeInfo.getNotif_ROWID());
+                                Log.e("arrayListRowTouser", "" + arrayListRow.size());
 
 
                             }
@@ -1977,28 +2529,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         Set<String> set_tow = new HashSet<String>();
                         set_tow.addAll(arrayListRow);
-                        Log.e("Empty",""+arrayListRow.size());
+                        Log.e("Empty", "" + arrayListRow.size());
 
 
+                        Set<String> set = sharedPreferences.getStringSet("REQUEST_ToUser", null);
 
-                        Set<String> set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
-
-                        if(set !=null)
-                        {
+                        if (set != null) {
 //
-                            set = sharedPreferences.getStringSet("REQUEST_ToUser", set_tow);
+                            set = sharedPreferences.getStringSet("REQUEST_ToUser", null);
                             arrayListRowFirst.addAll(set);
 
-                            int countFirst=arrayListRowFirst.size();
-                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
-                            {Log.e("olddataGreater","countFirst"+countFirst);
+                            int countFirst = arrayListRowFirst.size();
+                            if (arrayListRow.size() < countFirst)//there are update new data is less than old data
+                            {
+                                Log.e("olddataGreater", "countFirst" + countFirst);
 
-                                for( int h=0;h<arrayListRow.size();h++){
-                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                    if(index==-1)
-                                    {
+                                for (int h = 0; h < arrayListRow.size(); h++) {
+                                    int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if (index == -1) {
                                         arrayListRowFirst.add(arrayListRow.get(h));
-                                        Log.e("arrayListRowYES",""+arrayListRow.get(h));
+                                        Log.e("arrayListRowYES", "" + arrayListRow.get(h));
 
                                     }
 
@@ -2009,58 +2559,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //                                    ShowNotifi("request");
                                     button_request.setVisibility(View.VISIBLE);
-                                    ShowNotifi_detail("request",0,requestList.get(requestList.size()-1).getTOUSER_name());
+                                    ShowNotifi_detail("request", 0, requestList.get(requestList.size() - 1).getTOUSER_name());
 
-                                    Log.e("requestList_comparenew",""+ arrayListRowFirst.size()+"\t"+countFirst);
+                                    Log.e("requestList_comparenew", "" + arrayListRowFirst.size() + "\t" + countFirst);
 //                                    isNewData=true;
 
 
-
-                                }
-                                else {
+                                } else {
 
 //
                                 }
 
                             }//********************************************
                             else {
-                                if(arrayListRow.size()>countFirst)// new data
+                                if (arrayListRow.size() > countFirst)// new data
                                 {
-                                    Log.e("newGreater","countFirst");
-                                    ShowNotifi_detail("request",0,requestList.get(requestList.size()-1).getFROMUSER_name());
-                                    Log.e("requestList",""+ requestList.size()+"\t"+requestList.get(requestList.size()-1).getTOUSER_name());
+                                    Log.e("newGreater", "countFirst");
                                     button_request.setVisibility(View.VISIBLE);
+                                    ShowNotifi_detail("request", 0, requestList.get(requestList.size() - 1).getFROMUSER_name());
+                                    Log.e("requestList", "" + requestList.size() + "\t" + requestList.get(requestList.size() - 1).getTOUSER_name());
+
 //                                    isNewData=true;
 
-                                }
-                                else{
-                                    if(arrayListRow.size()==countFirst)// equal size
+                                } else {
+                                    if (arrayListRow.size() == countFirst)// equal size
                                     {
-                                        Log.e("arrayListRow","== hereeee");
+                                        Log.e("arrayListRow", "== hereeee");
 
-                                        for( int h=0;h<arrayListRow.size();h++){
-                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                            if(index==-1)
-                                            {
+                                        for (int h = 0; h < arrayListRow.size(); h++) {
+                                            int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if (index == -1) {
                                                 arrayListRowFirst.add(arrayListRow.get(h));
 
 
                                             }
 
                                         }
-                                        Log.e("requestList_equal",""+ arrayListRowFirst.size()+"\t"+arrayListRow.size());
+                                        Log.e("requestList_equal", "" + arrayListRowFirst.size() + "\t" + arrayListRow.size());
 
                                         if (countFirst < arrayListRowFirst.size())// new data
                                         {
 //                                            ShowNotifi("request");
                                             button_request.setVisibility(View.VISIBLE);
-                                            ShowNotifi_detail("request",0,requestList.get(requestList.size()-1).getTOUSER_name());
+                                            ShowNotifi_detail("request", 0, requestList.get(requestList.size() - 1).getTOUSER_name());
 
 //                                            isNewData=true;
 //
 
-                                        }
-                                        else {
+                                        } else {
 
                                         }
                                     }
@@ -2072,19 +2618,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //                            }
 
-                        }
-                        else {//empty shared preference
+                        } else {//empty shared preference
 
+                            button_request.setVisibility(View.VISIBLE);
+                            ShowNotifi_detail("request", 0, requestList.get(requestList.size() - 1).getTOUSER_name());
 
                         }
 
                         editor = sharedPreferences.edit();
                         editor.putStringSet("REQUEST_ToUser", set_tow);
                         editor.apply();
-                        Log.e("EndFirstToUser","****************");
-                        new GetAllRequestFromUser_JSONTask().execute();
-
-
+                        Log.e("EndFirstToUser", "****************");
+//                        new GetAllRequestFromUser_JSONTask().execute();
 
 
                     } catch (JSONException e) {
@@ -2092,19 +2637,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
 
 //                    INFO
-                    Log.e("tag", "****Success"+s.toString());
+                    Log.e("tag", "****Success" + s.toString());
                 } else {
-                    Log.e("tagRequest", "****Failed to export data"+s.toString());
-                    new GetAllRequestFromUser_JSONTask().execute();
+                    Log.e("tagRequest", "****Failed to export data" + s.toString());
+//                    new GetAllRequestFromUser_JSONTask().execute();
 
                 }
-            }
-            else {
+            } else {
 
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
         }
     }
+
     public class GetAllRequestFromUser_JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -2116,10 +2661,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected String doInBackground(String... params) {
             try {
-                Log.e("flagMaindoInBackground","");
-               String WHICH="1";
-                infoUser=dbHandler.getActiveUserInfo();
-                phoneNo=infoUser.getUsername();
+                Log.e("flagMaindoInBackground", "");
+                String WHICH = "1";
+                infoUser = dbHandler.getActiveUserInfo();
+                phoneNo = infoUser.getUsername();
                 String JsonResponse = null;
                 HttpClient client = new DefaultHttpClient();
                 HttpPost request = new HttpPost();
@@ -2132,7 +2677,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.e("editingmain ", phoneNo);
 
                 nameValuePairs.add(new BasicNameValuePair("WHICH", WHICH));// to me witch=1
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 
 
                 HttpResponse response = client.execute(request);
@@ -2168,8 +2713,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     JSONObject jsonObject = null;
                     try {
-                        Log.e("StartSecondUser","****************");
-
+                        Log.e("StartSecondUser", "****************");
 
 
                         arrayListRow.clear();
@@ -2187,7 +2731,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             chequeInfo.setTRANSSTATUS(infoDetail.get("TRANSSTATUS").toString());
 
 
-                            if (chequeInfo.getTRANSSTATUS().equals("1") )// reject from mee
+                            if (chequeInfo.getTRANSSTATUS().equals("1"))// reject from mee
                             {
                                 chequeInfo.setROWID(infoDetail.getString("ROWID"));
                                 chequeInfo.setFROMUSER_No(infoDetail.getString("FROMUSER"));
@@ -2196,7 +2740,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 chequeInfo.setTOUSER_No(infoDetail.get("TOUSER").toString());
                                 chequeInfo.setTOUSER_name(infoDetail.get("TOUSERNM").toString());
                                 chequeInfo.setCOMPNAME(infoDetail.get("COMPNAME").toString());
-                                Log.e("getFROMUSER_name",""+chequeInfo.getFROMUSER_name());
+                                Log.e("getFROMUSER_name", "" + chequeInfo.getFROMUSER_name());
                                 chequeInfo.setNOTE(infoDetail.get("NOTE").toString());
                                 chequeInfo.setAMOUNT(infoDetail.get("AMOUNT").toString());
 
@@ -2210,37 +2754,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             }
                         }
-                        Log.e("requestList_Tow",""+requestList_Tow.size());
+                        Log.e("requestList_Tow", "" + requestList_Tow.size());
 //
                         Set<String> set_Data = new HashSet<String>();
                         set_Data.addAll(arrayListRow);
-                        Log.e("Empty",""+arrayListRow.size());
-
+                        Log.e("Empty", "" + arrayListRow.size());
 
 
                         Set<String> set = sharedPreferences.getStringSet("REQUEST_LIST", set_Data);
 
-                        if(set !=null)
-                        {
+                        if (set != null) {
 //
                             set = sharedPreferences.getStringSet("REQUEST_LIST", set_Data);
                             arrayListRowFirst.addAll(set);
 
-                            int countFirst=arrayListRowFirst.size();
-                            Log.e("countFirstT",""+countFirst);
-                            Log.e("arrayListRow9999",""+arrayListRow.size());
+                            int countFirst = arrayListRowFirst.size();
+                            Log.e("countFirstT", "" + countFirst);
+                            Log.e("arrayListRow9999", "" + arrayListRow.size());
 
-                            if(arrayListRow.size()<countFirst)//there are update new data is less than old data
+                            if (arrayListRow.size() < countFirst)//there are update new data is less than old data
                             {
-                                Log.e("olddataGreater2222T","countFirst"+countFirst+"arrayListRow"+arrayListRow.size());
+                                Log.e("olddataGreater2222T", "countFirst" + countFirst + "arrayListRow" + arrayListRow.size());
 
 
-                                for( int h=0;h<arrayListRow.size();h++){
-                                    int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                    if(index==-1)
-                                    {
+                                for (int h = 0; h < arrayListRow.size(); h++) {
+                                    int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                    if (index == -1) {
                                         arrayListRowFirst.add(arrayListRow.get(h));
-                                        Log.e("arrayListRowYEST",""+arrayListRow.get(h));
+                                        Log.e("arrayListRowYEST", "" + arrayListRow.get(h));
 
                                     }
 
@@ -2248,39 +2789,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                 if (countFirst < arrayListRowFirst.size())// new data
                                 {
-                                    Log.e("NewGreaterT","new data");
+                                    Log.e("NewGreaterT", "new data");
 //                                    ShowNotifi("request");
                                     button_request.setVisibility(View.VISIBLE);
-                                    ShowNotifi_detail("request",2,requestList_Tow.get(requestList_Tow.size()-1).getTOUSER_name());
+                                    ShowNotifi_detail("request", 2, requestList_Tow.get(requestList_Tow.size() - 1).getTOUSER_name());
 
 //                                    isNewData=true;
 
 
-                                }
-                                else {
+                                } else {
                                 }
 
                             }//********************************************
                             else {
-                                if(arrayListRow.size()>countFirst)// new data
+                                if (arrayListRow.size() > countFirst)// new data
                                 {
-                                    Log.e("StatenewdataT","g");
+                                    Log.e("StatenewdataT", "g");
 
 //                                    ShowNotifi("request");
-                                    ShowNotifi_detail("request",2,requestList_Tow.get(requestList_Tow.size()-1).getTOUSER_name());
                                     button_request.setVisibility(View.VISIBLE);
+                                    ShowNotifi_detail("request", 2, requestList_Tow.get(requestList_Tow.size() - 1).getTOUSER_name());
+
 //                                    isNewData=true;
 
-                                }
-                                else{
-                                    if(arrayListRow.size()==countFirst)// equal size
+                                } else {
+                                    if (arrayListRow.size() == countFirst)// equal size
                                     {
-                                        Log.e("arrayListRowT","== hereeee");
+                                        Log.e("arrayListRowT", "== hereeee");
 
-                                        for( int h=0;h<arrayListRow.size();h++){
-                                            int index= arrayListRowFirst.indexOf(arrayListRow.get(h));
-                                            if(index==-1)
-                                            {
+                                        for (int h = 0; h < arrayListRow.size(); h++) {
+                                            int index = arrayListRowFirst.indexOf(arrayListRow.get(h));
+                                            if (index == -1) {
                                                 arrayListRowFirst.add(arrayListRow.get(h));
 
 
@@ -2291,13 +2830,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         if (countFirst < arrayListRowFirst.size())// new data
                                         {
 
-                                            Log.e("newdataT","gCompare");
+                                            Log.e("newdataT", "gCompare");
 //                                            ShowNotifi("request");
-                                            ShowNotifi_detail("request",2,requestList_Tow.get(requestList_Tow.size()-1).getTOUSER_name());
                                             button_request.setVisibility(View.VISIBLE);
+                                            ShowNotifi_detail("request", 2, requestList_Tow.get(requestList_Tow.size() - 1).getTOUSER_name());
+
 //                                            isNewData=true;
-                                        }
-                                        else {
+                                        } else {
 
                                         }
                                     }
@@ -2309,16 +2848,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //                            }
 
+                        } else {//empty shared preference
                         }
-                        else {//empty shared preference
-                        }
-
 
 
                         editor = sharedPreferences.edit();
                         editor.putStringSet("REQUEST_LIST", set_Data);
                         editor.apply();
-                        Log.e("isNewData",""+isNewData);
+                        Log.e("isNewData", "" + isNewData);
 //                        if(isNewData)
 //                        {
 //                            ShowNotifi("request");
@@ -2334,8 +2871,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     Log.e("tagFromUser", "****Failed to export data");
                 }
-            }
-            else {
+            } else {
 
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }

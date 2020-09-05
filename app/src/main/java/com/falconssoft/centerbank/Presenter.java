@@ -1,9 +1,7 @@
 package com.falconssoft.centerbank;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -11,7 +9,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.falconssoft.centerbank.Models.LoginINFO;
 import com.falconssoft.centerbank.databinding.ActivityOwnerChequesBinding;
 import com.falconssoft.centerbank.databinding.ActivityTrackingChequeBinding;
 import com.falconssoft.centerbank.viewmodel.ChequeInfoVM;
@@ -40,8 +37,8 @@ class Presenter {//} extends CheckValidationResponse{
     private OwnerCheques ownerCheques;
     private TrackingCheque trackingCheque;
     private ActivityTrackingChequeBinding trackingChequeBinding;
-//    String URL = "http://falconssoft.net/ScanChecks/APIMethods.dll/";
-    String URL = "http://10.0.0.16:8082/";
+    String URL = "http://falconssoft.net/ScanChecks/APIMethods.dll/";
+//    String URL = "http://10.0.0.16:8082/";
 
     private JsonObjectRequest signUpRequest;
     private String urlSignUp = URL + "RegisterUser?INFO=";

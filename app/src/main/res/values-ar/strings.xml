@@ -221,4 +221,8 @@
     <string name="next">Next</string>
     <string name="chequeBackPicture">Cheque Back Picture</string>
     <string name="resonofReject">Reson Of Reject</string>
+    <string name="JoinedRejectCheque">Joint Reject Cheque</string>
+    <string name="JoinedAcceptCheque">Joinet Accept Cheque</string>
+    <string name="retrivedCheque">تم إسترجاع الشيك </string>
+    <string name="message_forDelete">هل تريد مسح الإشعار?</string>
 </resources>

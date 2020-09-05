@@ -89,25 +89,26 @@ import static com.falconssoft.centerbank.Requestadapter.mobileNo;
 public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.ViewHolder> {
     Context context;
     List<notification> notificationList;
-   public PhotoView photoView,photoDetail;
-    CircleImageView circleImageView,circleGeroImg;
-    Bitmap serverPicBitmap,geroBitmap;
+    public PhotoView photoView, photoDetail;
+    CircleImageView circleImageView, circleGeroImg;
+    Bitmap serverPicBitmap, geroBitmap;
     int row_index = -1;
     String checkState = "0";
     public static String languagelocalApp = "";
-    public static String acc="",bankN="",branch="",cheNo="", mobile_No="",isJoin="";
+    public static String acc = "", bankN = "", branch = "", cheNo = "", mobile_No = "", isJoin = "";
     EditText resonText;
-    String reson_reject="";
+    String reson_reject = "";
     private ProgressDialog progressDialog;
     AlertScreen contextAlert;
-    String amountArabic="";
+    public static String amountArabic = "", stateJoin = "", phonCurentReject = "", resonReject = "";
 
 
     public NotificatioAdapter(Context context, List<notification> notifications) {
         this.context = context;
         this.notificationList = notifications;
 //        progressDialog = new ProgressDialog(context);
-        this. contextAlert= (AlertScreen) context;
+        this.contextAlert = (AlertScreen) context;
+        Log.e("NotificatioAdapter", "" + notificationList.size());
     }
 
     @NonNull
@@ -122,39 +123,36 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-       language= new LocaleAppUtils().getLocale();
-       Log.e("onBindViewHolder",""+language);
-        Date dateToday=null;
+        stateJoin = "";
+        phonCurentReject = "";
+        resonReject = "";
+        language = new LocaleAppUtils().getLocale();
         if (language.equals("ar")) {
 
             viewHolder.date_check.setText(viewHolder.convertToArabic(notificationList.get(i).getDate()));
-        }
-        else {
+        } else {
             viewHolder.date_check.setText(notificationList.get(i).getDate());
 
         }
 
 
-        if(!checkInfoNotification.get(i).getMoneyInFils().equals("0"))
-        {
+
+        if (!checkInfoNotification.get(i).getMoneyInFils().equals("0")) {
             if (language.equals("ar")) {
-                amountArabic=viewHolder.convertToArabic("\tد.أ\t"+notificationList.get(i).getAmount_check())+"."+viewHolder.convertToArabic(checkInfoNotification.get(i).getMoneyInFils());
-                Log.e("amountArabic",""+amountArabic);
+                amountArabic = viewHolder.convertToArabic("\tد.أ\t" + notificationList.get(i).getAmount_check()) + "." + viewHolder.convertToArabic(checkInfoNotification.get(i).getMoneyInFils());
+                Log.e("amountArabic", "" + amountArabic);
                 viewHolder.amount_Filis.setText(amountArabic);
 
-            }
-            else {
-                viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+".");
-                viewHolder.amount_Filis.setText(checkInfoNotification.get(i).getMoneyInFils()+"\tJD");
+            } else {
+                viewHolder.amount_check.setText(notificationList.get(i).getAmount_check() + ".");
+                viewHolder.amount_Filis.setText(checkInfoNotification.get(i).getMoneyInFils() + "\tJD");
             }
 
-        }
-        else {
+        } else {
             if (language.equals("ar")) {
-                viewHolder.amount_check.setText("\tد.أ\t"+viewHolder.convertToArabic(notificationList.get(i).getAmount_check()));
-            }
-            else {
-                viewHolder.amount_check.setText(notificationList.get(i).getAmount_check()+"\tJD");
+                viewHolder.amount_check.setText("\tد.أ\t" + viewHolder.convertToArabic(notificationList.get(i).getAmount_check()));
+            } else {
+                viewHolder.amount_check.setText(notificationList.get(i).getAmount_check() + "\tJD");
             }
 
 
@@ -163,126 +161,137 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
         viewHolder.image_check.setImageBitmap(notificationList.get(i).getCheck_photo());
-//        Log.e("getStatus",""+checkInfoNotification.get(i).getStatus());
-        if(checkInfoNotification.get(i).getJOIN_FirstMOB().equals(mobile_No))
-        {
-            if(!checkInfoNotification.get(i).getJOIN_F_STATUS().equals(""))
-            {
-                viewHolder.mainLinearAdapter.setVisibility(View.GONE);
+        Log.e("getWICHEUSER", "" + checkInfoNotification.get(i).getWICHEUSER());
+        if (checkInfoNotification.get(i).getWICHEUSER().equals("1")) {
+            phonCurentReject = checkInfoNotification.get(i).getJOIN_FirstMOB();
+            if (checkInfoNotification.get(i).getJOIN_F_STATUS().equals("1")) {
+                stateJoin = "1";
+                resonReject = "";
+            } else {
+                stateJoin = "2";
+                resonReject = checkInfoNotification.get(i).getJOIN_F_REASON();
+            }
+
+
+        } else if (checkInfoNotification.get(i).getWICHEUSER().equals("2")) {
+            phonCurentReject = checkInfoNotification.get(i).getJOIN_SecondSMOB();
+            if (checkInfoNotification.get(i).getJOIN_S_STATUS().equals("1")) {
+                stateJoin = "1";
+                resonReject = "";
+            } else {
+                stateJoin = "2";
+                resonReject = checkInfoNotification.get(i).getJOIN_S_REASON();
+            }
+        } else if (checkInfoNotification.get(i).getWICHEUSER().equals("3")) {
+            phonCurentReject = checkInfoNotification.get(i).getJOIN_TheredMOB();
+            if (checkInfoNotification.get(i).getJOIN_T_STATUS().equals("1")) {
+                stateJoin = "1";
+                resonReject = "";
+            } else {
+                stateJoin = "2";
+                resonReject = checkInfoNotification.get(i).getJOIN_T_REASON();
             }
         }
-        else {
-            if(checkInfoNotification.get(i).getJOIN_SecondSMOB().equals(mobile_No))
-            {
-                if(!checkInfoNotification.get(i).getJOIN_S_STATUS().equals(""))
-                {
-                    viewHolder.mainLinearAdapter.setVisibility(View.GONE);
-                }
-            }
-            else {
-                if(checkInfoNotification.get(i).getJOIN_TheredMOB().equals(mobile_No))
-                {
-                    if(!checkInfoNotification.get(i).getJOIN_T_STATUS().equals(""))
-                    {
-                        viewHolder.mainLinearAdapter.setVisibility(View.GONE);
-                    }
-                }
-            }
+        else if(checkInfoNotification.get(i).getWICHEUSER().equals("-1")&&checkInfoNotification.get(i).getTransType().equals("1"))
+        {
+            phonCurentReject = checkInfoNotification.get(i).getToCustomerMobel();
         }
 
 
-
-
-
-        Log.e("getTransSendOrGero",""+checkInfoNotification.get(i).getTransSendOrGero());
-        if(checkInfoNotification.get(i).getTransSendOrGero().equals("0"))// normal cheque Send
+        Log.e("stateJoin", "" + stateJoin + resonReject);
+        if (checkInfoNotification.get(i).getTransSendOrGero().equals("0"))// normal cheque Send
         {
-            Log.e("getTransSendOrGero","Send");
             viewHolder.geroLinear_pending.setVisibility(View.GONE);
             viewHolder.geroLinear_accep.setVisibility(View.GONE);
             viewHolder.geroLinear_reject.setVisibility(View.GONE);
             //****************************************************
-            if(checkInfoNotification.get(i).getStatus().equals("0"))// reciver
+            if(checkInfoNotification.get(i).getTransType().equals("0")&&checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No))// reciver
             {
+                viewHolder.reciveNew.setVisibility(View.VISIBLE);
+            }
 
-                if(checkInfoNotification.get(i).getTransType().equals("1"))// accepted
+
+            if (checkInfoNotification.get(i).getTransType().equals("1") || ((checkInfoNotification.get(i).getTransType().equals("100")) && stateJoin.equals("1")) || stateJoin.equals("1"))// accepted
+            {
+                if(stateJoin.equals("1"))
                 {
+                  viewHolder.joined_Acceptimage.setVisibility(View.VISIBLE);
+                }
+                else {
+//                    viewHolder.rejectImg.setVisibility(View.GONE);
+//                    viewHolder.reciveNew.setVisibility(View.GONE);
+//                    viewHolder.joined_Requestimage.setVisibility(View.GONE);
+                    viewHolder.acceptImg.setVisibility(View.VISIBLE);
+                }
+
+
+
+            } else {// rejected
+                if (checkInfoNotification.get(i).getTransType().equals("2") || stateJoin.equals("2")) {
+                    if(stateJoin.equals("2"))
+                    {
+                        viewHolder.joined_Rejectimage.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        viewHolder.rejectImg.setVisibility(View.VISIBLE);
+//                        viewHolder.reciveNew.setVisibility(View.GONE);
+//                        viewHolder.acceptImg.setVisibility(View.GONE);
+//                        viewHolder.joined_Requestimage.setVisibility(View.GONE);
+//                        viewHolder.geroLinear_pending.setVisibility(View.GONE);
+
+                    }
+
+                }
+                if (checkInfoNotification.get(i).getTransType().equals("100") && checkInfoNotification.get(i).getWICHEUSER().equals("-1"))// request to accept join cheque
+                {
+                    viewHolder.joined_Requestimage.setVisibility(View.VISIBLE);
                     viewHolder.rejectImg.setVisibility(View.GONE);
                     viewHolder.reciveNew.setVisibility(View.GONE);
-                    viewHolder.joined_Requestimage.setVisibility(View.GONE);
-                    viewHolder.acceptImg.setVisibility(View.VISIBLE);
-
+                    viewHolder.acceptImg.setVisibility(View.GONE);
+                    viewHolder.geroLinear_pending.setVisibility(View.GONE);
                 }
-                else {// rejected
-                    if(checkInfoNotification.get(i).getTransType().equals("2")||checkInfoNotification.get(i).getTransType().equals("200"))
-                    {
-                        viewHolder.rejectImg.setVisibility(View.VISIBLE);
-                        viewHolder.reciveNew.setVisibility(View.GONE);
-                        viewHolder.acceptImg.setVisibility(View.GONE);
-                        viewHolder.joined_Requestimage.setVisibility(View.GONE);
-                        viewHolder.geroLinear_pending.setVisibility(View.GONE);
-                    }
-                    if(checkInfoNotification.get(i).getTransType().equals("100"))// request to accept join cheque
-                    {
-                        viewHolder.joined_Requestimage.setVisibility(View.VISIBLE);
-                        viewHolder.rejectImg.setVisibility(View.GONE);
-                        viewHolder.reciveNew.setVisibility(View.GONE);
-                        viewHolder.acceptImg.setVisibility(View.GONE);
-                        viewHolder.geroLinear_pending.setVisibility(View.GONE);
-                    }
-
-
-                }
-
-            }
-            else {// new cheque
-
-                viewHolder.reciveNew.setVisibility(View.VISIBLE);
-                viewHolder.rejectImg.setVisibility(View.GONE);
-                viewHolder.acceptImg.setVisibility(View.GONE);
-                viewHolder.joined_Requestimage.setVisibility(View.GONE);
-
-            }
-        }
-        else {// gero chequ
-
-            viewHolder.reciveNew.setVisibility(View.GONE);
-            viewHolder.rejectImg.setVisibility(View.GONE);
-            viewHolder.acceptImg.setVisibility(View.GONE);
-            //****************************************************
-            if(checkInfoNotification.get(i).getStatus().equals("0"))// reciver
-            {
-
-                if(checkInfoNotification.get(i).getTransType().equals("1")||checkInfoNotification.get(i).getTransType().equals("3"))// accepted
+                if (checkInfoNotification.get(i).getTransType().equals("4") )// request to accept join cheque
                 {
 
-                    viewHolder.geroLinear_pending.setVisibility(View.GONE);
-                    viewHolder.geroLinear_accep.setVisibility(View.VISIBLE);
-                    viewHolder.geroLinear_reject.setVisibility(View.GONE);
-
+                    viewHolder.retrive_image.setVisibility(View.VISIBLE);
                 }
-                else {// rejected
-                    if(checkInfoNotification.get(i).getTransType().equals("2")||checkInfoNotification.get(i).getTransType().equals("200"))
 
-                    {
-                        viewHolder.geroLinear_pending.setVisibility(View.GONE);
-                        viewHolder.geroLinear_accep.setVisibility(View.GONE);
-                        viewHolder.geroLinear_reject.setVisibility(View.VISIBLE);
-
-                    }
-
-                }
 
             }
-            else {// new cheque
 
+
+        } else {// gero chequ
+
+
+            if(checkInfoNotification.get(i).getTransType().equals("0"))// reciver
+            {
                 viewHolder.geroLinear_pending.setVisibility(View.VISIBLE);
-                viewHolder.geroLinear_accep.setVisibility(View.GONE);
+            }
+
+            if (checkInfoNotification.get(i).getTransType().equals("1") || checkInfoNotification.get(i).getTransType().equals("3"))// accepted
+            {
+
+                viewHolder.geroLinear_pending.setVisibility(View.GONE);
+                viewHolder.geroLinear_accep.setVisibility(View.VISIBLE);
                 viewHolder.geroLinear_reject.setVisibility(View.GONE);
 
+            } else {// rejected
+                if (checkInfoNotification.get(i).getTransType().equals("2") || checkInfoNotification.get(i).getTransType().equals("200") || stateJoin.equals("2")) {
+                    viewHolder.geroLinear_pending.setVisibility(View.GONE);
+                    viewHolder.geroLinear_accep.setVisibility(View.GONE);
+                    viewHolder.geroLinear_reject.setVisibility(View.VISIBLE);
+
+                }
+
+            }
+            if (checkInfoNotification.get(i).getTransType().equals("4") )// request to accept join cheque
+            {
+
+                viewHolder.retrive_image.setVisibility(View.VISIBLE);
             }
 
-            Log.e("getTransSendOrGero","Gero");
+
+            Log.e("getTransSendOrGero", "Gero");
 
         }
 
@@ -297,12 +306,93 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             @Override
             public void onClick(View view) {
                 row_index = i;
+
+                Log.e("getWICHEUSER", "" + checkInfoNotification.get(i).getWICHEUSER());
+                if (checkInfoNotification.get(i).getWICHEUSER().equals("1")) {
+                    phonCurentReject = checkInfoNotification.get(i).getJOIN_FirstMOB();
+                    if (checkInfoNotification.get(i).getJOIN_F_STATUS().equals("1")) {
+                        stateJoin = "1";
+                        resonReject = "";
+                    } else {
+                        stateJoin = "2";
+                        resonReject = checkInfoNotification.get(i).getJOIN_F_REASON();
+                    }
+
+
+                } else if (checkInfoNotification.get(i).getWICHEUSER().equals("2")) {
+                    phonCurentReject = checkInfoNotification.get(i).getJOIN_SecondSMOB();
+                    if (checkInfoNotification.get(i).getJOIN_S_STATUS().equals("1")) {
+                        stateJoin = "1";
+                        resonReject = "";
+                    } else {
+                        stateJoin = "2";
+                        resonReject = checkInfoNotification.get(i).getJOIN_S_REASON();
+                    }
+                } else if (checkInfoNotification.get(i).getWICHEUSER().equals("3")) {
+                    phonCurentReject = checkInfoNotification.get(i).getJOIN_TheredMOB();
+                    if (checkInfoNotification.get(i).getJOIN_T_STATUS().equals("1")) {
+                        stateJoin = "1";
+                        resonReject = "";
+                    } else {
+                        stateJoin = "2";
+                        resonReject = checkInfoNotification.get(i).getJOIN_T_REASON();
+                    }
+                }
+                else if(checkInfoNotification.get(i).getWICHEUSER().equals("-1")&&checkInfoNotification.get(i).getTransType().equals("1"))
+                {
+                    phonCurentReject = checkInfoNotification.get(i).getToCustomerMobel();
+                }
+
 //                isJoin=checkInfoNotification.get(i).getIsJoined();
 //                progressDialog.show();
 //                progressDialog.setMessage("Please Waiting...");
-                viewHolder.showDetails();
+                viewHolder.showDetails(stateJoin, resonReject,phonCurentReject);
             }
         });
+        if(((checkInfoNotification.get(i).getTransType().equals("0")&&checkInfoNotification.get(i).getToCustomerMobel().equals(mobile_No)))||((checkInfoNotification.get(i).getTransType().equals("100")&& checkInfoNotification.get(i).getWICHEUSER().equals("-1"))))
+        {
+
+            Log.e("setOnLongClickListener","");
+        }
+        else {
+            Log.e("setOnLongClickListener","Else");
+            viewHolder.linearCheckInfo.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    row_index = i;
+                    progressDialog = new ProgressDialog(context);
+                    new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(R.string.Confirm)
+                            .setContentText(context.getResources().getString(R.string.message_forDelete))
+                            .setConfirmText(context.getResources().getString(R.string.ok))
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+
+                                    progressDialog.setMessage(context.getResources().getString(R.string.process));
+                                    progressDialog.show();
+                                    updateNotificationState();
+
+                                    sDialog.dismissWithAnimation();
+                                }
+                            }).setCancelText(context.getResources().getString(R.string.dialog_cancel)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                            sweetAlertDialog.dismissWithAnimation();
+
+                        }
+                    }).show();
+                    return  true;
+
+
+
+                }
+            });
+        }
+
 
     }
 
@@ -313,38 +403,42 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView source_check, amount_check, date_check,checkStateText,amount_Filis;
-       ImageView image_check;
-        LinearLayout linearCheckInfo, mainLinearAdapter,divider,lineardetail,rowStatus;
-        LinearLayout acceptImg,rejectImg,reciveNew,geroLinear_pending,geroLinear_accep,geroLinear_reject,joined_Requestimage;
+        TextView source_check, amount_check, date_check, checkStateText, amount_Filis;
+        ImageView image_check;
+        LinearLayout linearCheckInfo, mainLinearAdapter, divider, lineardetail, rowStatus,joined_Acceptimage,joined_Rejectimage,retrive_image;
+        LinearLayout acceptImg, rejectImg, reciveNew, geroLinear_pending, geroLinear_accep, geroLinear_reject, joined_Requestimage;
         SharedPreferences loginPrefs;
         LoginINFO infoUser;
+
         public ViewHolder(View itemView) {
             super(itemView);
             loginPrefs = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
-            DatabaseHandler databaseHandler=new DatabaseHandler(context);
-             infoUser=databaseHandler.getActiveUserInfo();
-            mobile_No=infoUser.getUsername();
-            geroLinear_pending=itemView.findViewById(R.id.geroLinear_pending);
-            geroLinear_accep=itemView.findViewById(R.id.geroLinear_accepted);
-            geroLinear_reject =itemView.findViewById(R.id.geroLinear_rejected);
+            DatabaseHandler databaseHandler = new DatabaseHandler(context);
+            infoUser = databaseHandler.getActiveUserInfo();
+            mobile_No = infoUser.getUsername();
+            geroLinear_pending = itemView.findViewById(R.id.geroLinear_pending);
+            geroLinear_accep = itemView.findViewById(R.id.geroLinear_accepted);
+            geroLinear_reject = itemView.findViewById(R.id.geroLinear_rejected);
             source_check = itemView.findViewById(R.id.source_check);
             amount_check = itemView.findViewById(R.id.amount_check);
-            amount_Filis= itemView.findViewById(R.id.amount_Filis);
+            amount_Filis = itemView.findViewById(R.id.amount_Filis);
             date_check = itemView.findViewById(R.id.date_check);
             image_check = itemView.findViewById(R.id.image_check);
             linearCheckInfo = itemView.findViewById(R.id.linearCheckInfo);
             mainLinearAdapter = itemView.findViewById(R.id.mainLinearAdapter);
-            lineardetail= itemView.findViewById(R.id.lineardetail);
-            rowStatus= itemView.findViewById(R.id.rowStatus);
+            lineardetail = itemView.findViewById(R.id.lineardetail);
+            rowStatus = itemView.findViewById(R.id.rowStatus);
             divider = itemView.findViewById(R.id.divider);
-            checkStateText= itemView.findViewById(R.id.checkState);
+            checkStateText = itemView.findViewById(R.id.checkState);
 
 
-            acceptImg=itemView.findViewById(R.id.acceptimage);
-            rejectImg=itemView.findViewById(R.id.rejectimage);
-            reciveNew=itemView.findViewById(R.id.pendingimage);
-            joined_Requestimage=itemView.findViewById(R.id.joined_Requestimage);
+            acceptImg = itemView.findViewById(R.id.acceptimage);
+            rejectImg = itemView.findViewById(R.id.rejectimage);
+            reciveNew = itemView.findViewById(R.id.pendingimage);
+            joined_Requestimage = itemView.findViewById(R.id.joined_Requestimage);
+            joined_Acceptimage=itemView.findViewById(R.id.joined_Acceptimage);
+            joined_Rejectimage=itemView.findViewById(R.id.joined_Rejectimage);
+            retrive_image=itemView.findViewById(R.id.retrive_image);
 
 //
 
@@ -356,7 +450,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
             dialog.setContentView(R.layout.show_image);
-            photoDetail= (PhotoView) dialog.findViewById(R.id.image_check);
+            photoDetail = (PhotoView) dialog.findViewById(R.id.image_check);
 //          final ImageView imageView = (ImageView) dialog.findViewById(R.id.image_check);
             photoDetail.setImageBitmap(bitmap);
             dialog.show();
@@ -367,7 +461,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             Log.e("convertToArabic", value + "      " + newValue);
             return newValue;
         }
-        public void showDetails() {
+
+        public void showDetails(String state_Join, String reson_Reject,String phonCurent) {
             progressDialog = new ProgressDialog(context);
             final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -376,9 +471,6 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
             lp.copyFrom(dialog.getWindow().getAttributes());
-//            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-//            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-//            lp.gravity = Gravity.CENTER;
             lp.windowAnimations = R.style.DialogAnimation;
             dialog.getWindow().setAttributes(lp);
             dialog.show();
@@ -391,204 +483,210 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 }
 
             }
-            TextView textAmouWord, textAmountNo, textViewMain, textResonReject,
-                    textToOrder, texChequNo, amountPhilis, textPhoneNo, texDate, binificary, textCompanyname, note, textFirstPinificry, textCo,reSend,textCompany;
+            TextView textAmouWord, textAmountNo, textViewMain, textResonReject,textPhoneAccept,
+                    rejectPhone, textToOrder, texChequNo, amountPhilis, textPhoneNo, texDate, binificary, textCompanyname, note, textFirstPinificry, textCo, reSend, textCompany;
             ImageView mImageView;
             PhotoViewAttacher mAttacher;
-            LinearLayout resonLayout, linearButn,rowNote,rowCompany;
+            LinearLayout resonLayout, linearButn, rowNote, rowCompany,rowJointAccptedPhone;
 
 
             final Button reject = (Button) dialog.findViewById(R.id.RejectButton);
             final Button accept = (Button) dialog.findViewById(R.id.AcceptButton);
-            reSend =  dialog.findViewById(R.id.reSend);
+            reSend = dialog.findViewById(R.id.reSend);
             linearButn = dialog.findViewById(R.id.linearButn);
 
             resonLayout = dialog.findViewById(R.id.resonLayout);
+            textPhoneAccept = dialog.findViewById(R.id.textPhoneAccept);
+            rowJointAccptedPhone = dialog.findViewById(R.id.rowJointAccptedPhone);
 
 
             TableRow rowFirst;
             texDate = dialog.findViewById(R.id.texDate);
-            textViewMain=dialog.findViewById(R.id.textViewMain);
+            textViewMain = dialog.findViewById(R.id.textViewMain);
             textFirstPinificry = dialog.findViewById(R.id.textFirstPinificry);
             textResonReject = dialog.findViewById(R.id.textResonReject);
-            rowNote=dialog.findViewById(R.id.rowNote);
-            rowFirst=dialog.findViewById(R.id.rowFirst);
+            rowNote = dialog.findViewById(R.id.rowNote);
+            rowFirst = dialog.findViewById(R.id.rowFirst);
             textCo = dialog.findViewById(R.id.textCo);
             textToOrder = dialog.findViewById(R.id.textToOrder);
             rowCompany = dialog.findViewById(R.id.rowcompany);
-            textCompany=dialog.findViewById(R.id.Textcompany);
+            textCompany = dialog.findViewById(R.id.Textcompany);
             amountPhilis = dialog.findViewById(R.id.amountPhilis);
-
-
+            rejectPhone = dialog.findViewById(R.id.rejectPhone);
 
             textPhoneNo = dialog.findViewById(R.id.textPhoneNo);
 
             circleImageView = (CircleImageView) dialog.findViewById(R.id.profile_image2);
-            circleGeroImg=(CircleImageView) dialog.findViewById(R.id.profile_gero);
+            circleGeroImg = (CircleImageView) dialog.findViewById(R.id.profile_gero);
             textAmouWord = dialog.findViewById(R.id.textAmouWord);
 
             textAmountNo = dialog.findViewById(R.id.textAmountNo);
 
             note = dialog.findViewById(R.id.textnote);
             reSend.setVisibility(View.GONE);
-            binificary= dialog.findViewById(R.id.binificary);
-            String fullName=checkInfoNotification.get(row_index).getToCustomerName();
+            binificary = dialog.findViewById(R.id.binificary);
+            String fullName = checkInfoNotification.get(row_index).getToCustomerName();
             binificary.setText(fullName);
-            texChequNo=dialog.findViewById(R.id.texChequNo);
-            if(language.equals("ar"))
-            {
+            texChequNo = dialog.findViewById(R.id.texChequNo);
+
+
+            if (language.equals("ar")) {
                 texChequNo.setText(convertToArabic(checkInfoNotification.get(row_index).getChequeNo()));
                 texDate.setText(convertToArabic(checkInfoNotification.get(row_index).getChequeData()));
                 textAmountNo.setText(convertToArabic(checkInfoNotification.get(row_index).getMoneyInDinar()));
                 amountPhilis.setText(convertToArabic(checkInfoNotification.get(row_index).getMoneyInFils()));
-            }
-            else {texChequNo.setText(checkInfoNotification.get(row_index).getChequeNo());
+            } else {
+                texChequNo.setText(checkInfoNotification.get(row_index).getChequeNo());
                 texDate.setText(checkInfoNotification.get(row_index).getChequeData());
                 textAmountNo.setText(checkInfoNotification.get(row_index).getMoneyInDinar());
                 amountPhilis.setText(checkInfoNotification.get(row_index).getMoneyInFils());
             }
 
 
-
             textResonReject.setMovementMethod(ScrollingMovementMethod.getInstance());
 
-            if(checkInfoNotification.get(row_index).getISCO().equals("1")){
+            if (checkInfoNotification.get(row_index).getISCO().equals("1")) {
 
                 textCo.setVisibility(View.VISIBLE);
 
 
+            } else {
+                textCo.setVisibility(View.GONE);
             }
-            else {textCo.setVisibility(View.GONE);}
 
-            if(checkInfoNotification.get(row_index).getISBF().equals("1")){
+            if (checkInfoNotification.get(row_index).getISBF().equals("1")) {
                 textFirstPinificry.setVisibility(View.VISIBLE);
 
+            } else {
+                textFirstPinificry.setVisibility(View.GONE);
             }
-            else {
-                textFirstPinificry.setVisibility(View.GONE);}
-            if(checkInfoNotification.get(row_index).getISBF().equals("0")&&checkInfoNotification.get(row_index).getISBF().equals("0"))
-            {
+            if (checkInfoNotification.get(row_index).getISBF().equals("0") && checkInfoNotification.get(row_index).getISBF().equals("0")) {
                 rowFirst.setVisibility(View.GONE);
             }
 
 
-            if(checkInfoNotification.get(row_index).getTransSendOrGero().equals("0"))// normal cheque
+            if (checkInfoNotification.get(row_index).getTransSendOrGero().equals("0"))// normal cheque
             {
-                if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
-                    if (checkInfoNotification.get(row_index).getTransType().equals("1")) {
-                        textViewMain.setText(context.getResources().getString(R.string.CheckAccpted));
-                        resonLayout.setVisibility(View.GONE);
-                        linearButn.setVisibility(View.GONE);
+//                if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
+                if (checkInfoNotification.get(row_index).getTransType().equals("1") || (state_Join.equals("1")&&checkInfoNotification.get(row_index).getIsJoin().equals("1"))) {
+                    textViewMain.setText(context.getResources().getString(R.string.CheckAccpted));
+                    resonLayout.setVisibility(View.GONE);
+                    linearButn.setVisibility(View.GONE);
+                    if((state_Join.equals("1")&&checkInfoNotification.get(row_index).getIsJoin().equals("1")))
+                    {
+                        rowJointAccptedPhone.setVisibility(View.VISIBLE);
+                        textPhoneAccept.setText(phonCurent);
 
                     }
-                    if (checkInfoNotification.get(row_index).getTransType().equals("2")||checkInfoNotification.get(row_index).getTransType().equals("200")) {
-                        textViewMain.setText(context.getResources().getString(R.string.checkReject));
-                        resonLayout.setVisibility(View.VISIBLE);
-                        linearButn.setVisibility(View.GONE);
+
+
+                }
+                if (checkInfoNotification.get(row_index).getTransType().equals("2") || (checkInfoNotification.get(row_index).getTransType().equals("200") && !state_Join.equals("1")) ||( state_Join.equals("2")&&checkInfoNotification.get(row_index).getIsJoin().equals("1")&&!checkInfoNotification.get(row_index).getWICHEUSER().equals("-1"))) {
+                    textViewMain.setText(context.getResources().getString(R.string.checkReject));
+                    resonLayout.setVisibility(View.VISIBLE);
+                    linearButn.setVisibility(View.GONE);
+                    if (state_Join.equals("2")&&!checkInfoNotification.get(row_index).getWICHEUSER().equals("-1")) {
+                        textResonReject.setText(reson_Reject);
+                    } else {
                         textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
+                    }
 
 
+                    rejectPhone.setText(phonCurent);
+
+
+                    if (!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")) {//0
+                        reSend.setVisibility(View.VISIBLE);
+                        linearButn.setVisibility(View.GONE);
+                    }
+
+
+                }
+                if (checkInfoNotification.get(row_index).getTransType().equals("100") && checkInfoNotification.get(row_index).getWICHEUSER().equals("-1")) {
+                    linearButn.setVisibility(View.VISIBLE);
+                    textViewMain.setText(context.getResources().getString(R.string.requestToJoinCheque));
+
+                }
+                if(checkInfoNotification.get(row_index).getTransType().equals("0") &&checkInfoNotification.get(row_index).getWICHEUSER().equals("-1"))
+                {
+                    linearButn.setVisibility(View.VISIBLE);
+//                    textViewMain.setText(context.getResources().getString(R.string));
+                }
+
+
+            } else {// gero cheque
+
+//                if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
+                if (checkInfoNotification.get(row_index).getTransType().equals("1") || checkInfoNotification.get(row_index).getTransType().equals("3")) {
+                    resonLayout.setVisibility(View.GONE);
+                    linearButn.setVisibility(View.GONE);
+                    textViewMain.setText(context.getResources().getString(R.string.gerocheque));
+                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_green_24dp), null
+                            , null, null);
+
+                }
+                if (checkInfoNotification.get(row_index).getTransType().equals("2") || checkInfoNotification.get(row_index).getTransType().equals("200")) {
+                    resonLayout.setVisibility(View.VISIBLE);
+                    linearButn.setVisibility(View.GONE);
+                    textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
+                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+                            , ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_red_24dp), null);
+                    textViewMain.setText(context.getResources().getString(R.string.rejectedGereo));
                         if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
                             reSend.setVisibility(View.VISIBLE);
-                            linearButn.setVisibility(View.GONE);
                         }
 
 
-                    }
-                    if (checkInfoNotification.get(row_index).getTransType().equals("100")) {
-                        Log.e("linearButn",""+checkInfoNotification.get(row_index).getTransType());
-                        linearButn.setVisibility(View.VISIBLE);
-                        textViewMain.setText(context.getResources().getString(R.string.requestToJoinCheque));
-
-                    }
                 }
-                else {
-                    resonLayout.setVisibility(View.GONE);
-
-                }
-            }
-            else {// gero cheque
-
-                if(checkInfoNotification.get(row_index).getStatus().equals("0")) {
-                    if (checkInfoNotification.get(row_index).getTransType().equals("1")||checkInfoNotification.get(row_index).getTransType().equals("3")) {
-                        resonLayout.setVisibility(View.GONE);
-                        linearButn.setVisibility(View.GONE);
-                        textViewMain.setText(context.getResources().getString(R.string.gerocheque));
-                        textViewMain.setCompoundDrawablesWithIntrinsicBounds( ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_green_24dp), null
-                                ,null, null);
-
-                    }
-                    if (checkInfoNotification.get(row_index).getTransType().equals("2")||checkInfoNotification.get(row_index).getTransType().equals("200")) {
-                        resonLayout.setVisibility(View.VISIBLE);
-                        linearButn.setVisibility(View.GONE);
-                        textResonReject.setText(checkInfoNotification.get(row_index).getResonOfreject());
-                        textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
-                                , ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_red_24dp), null);
-                        textViewMain.setText(context.getResources().getString(R.string.rejectedGereo));
-//                        if(!checkInfoNotification.get(row_index).getTransSendOrGero().equals("1")){
-//                            reSend.setVisibility(View.VISIBLE);
-//                        }
-
-
-                    }
-                }
-                else {
-                    linearButn.setVisibility(View.VISIBLE);
-                    resonLayout.setVisibility(View.GONE);
-                    textViewMain.setText(context.getResources().getString(R.string.newGeroChecue));
-                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
-                            , ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_yelow_24dp), null);
-
-                }
-
-
-
+//                }
+//                else {
+//                    linearButn.setVisibility(View.VISIBLE);
+//                    resonLayout.setVisibility(View.GONE);
+//                    textViewMain.setText(context.getResources().getString(R.string.newGeroChecue));
+//                    textViewMain.setCompoundDrawablesWithIntrinsicBounds(null, null
+//                            , ContextCompat.getDrawable(context, R.drawable.ic_swap_calls_yelow_24dp), null);
+//
+//                }
 
 
             }
-
-
-
-
-
+if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNotification.get(row_index).getTransSendOrGero().equals("0"))
+{
+    reSend.setVisibility(View.VISIBLE);
+    linearButn.setVisibility(View.GONE);
+}
 
             textAmouWord.setText(checkInfoNotification.get(row_index).getMoneyInWord());
-            if(!checkInfoNotification.get(row_index).getNoteCheck().equals(""))
-            {
+            if (!checkInfoNotification.get(row_index).getNoteCheck().equals("")) {
                 note.setVisibility(View.VISIBLE);
                 rowNote.setVisibility(View.VISIBLE);
                 note.setText(checkInfoNotification.get(row_index).getNoteCheck());
-            }
-            else {
+            } else {
                 note.setVisibility(View.INVISIBLE);
                 rowNote.setVisibility(View.GONE);
             }
 
 
-            if(!checkInfoNotification.get(row_index).getCompanyName().equals(""))
-            {
+            if (!checkInfoNotification.get(row_index).getCompanyName().equals("")) {
                 textCompany.setVisibility(View.VISIBLE);
                 rowCompany.setVisibility(View.VISIBLE);
                 textCompany.setText(checkInfoNotification.get(row_index).getCompanyName());
-            }
-            else {
+            } else {
                 textCompany.setVisibility(View.INVISIBLE);
                 rowCompany.setVisibility(View.GONE);
             }
 
             textPhoneNo.setText(checkInfoNotification.get(row_index).getToCustomerMobel());
             textToOrder.setText(checkInfoNotification.get(row_index).getCustName());
-            if(checkInfoNotification.get(row_index).getTransSendOrGero().equals("0"))
-            {// send image
+            if (checkInfoNotification.get(row_index).getTransSendOrGero().equals("0")) {// send image
                 circleGeroImg.setVisibility(View.GONE);
-                getPicture("0",checkInfoNotification.get(row_index).getAccCode(),checkInfoNotification.get(row_index).getBankNo(),checkInfoNotification.get(row_index).getBranchNo(),checkInfoNotification.get(row_index).getChequeNo());
-                Log.e("getTransSendOrGero","Send");
+                getPicture("0", checkInfoNotification.get(row_index).getAccCode(), checkInfoNotification.get(row_index).getBankNo(), checkInfoNotification.get(row_index).getBranchNo(), checkInfoNotification.get(row_index).getChequeNo());
+                Log.e("getTransSendOrGero", "Send");
 
-            }
-            else {// gero image
-                getPicture("0",checkInfoNotification.get(row_index).getAccCode(),checkInfoNotification.get(row_index).getBankNo(),checkInfoNotification.get(row_index).getBranchNo(),checkInfoNotification.get(row_index).getChequeNo());
+            } else {// gero image
+                getPicture("0", checkInfoNotification.get(row_index).getAccCode(), checkInfoNotification.get(row_index).getBankNo(), checkInfoNotification.get(row_index).getBranchNo(), checkInfoNotification.get(row_index).getChequeNo());
 
-                getPicture("1",checkInfoNotification.get(row_index).getAccCode(),checkInfoNotification.get(row_index).getBankNo(),checkInfoNotification.get(row_index).getBranchNo(),checkInfoNotification.get(row_index).getChequeNo());
+                getPicture("1", checkInfoNotification.get(row_index).getAccCode(), checkInfoNotification.get(row_index).getBankNo(), checkInfoNotification.get(row_index).getBranchNo(), checkInfoNotification.get(row_index).getChequeNo());
 
             }
 
@@ -609,19 +707,18 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             });
 
 
-
             //**********************************************************************************
 
             reSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    if((checkInfoNotification.get(row_index).getTransType().equals("200")||checkInfoNotification.get(row_index).getTransType().equals("2"))&&checkInfoNotification.get(row_index).getStatus().equals("0"))
-                    {
+//                    if((checkInfoNotification.get(row_index).getTransType().equals("200")||checkInfoNotification.get(row_index).getTransType().equals("2"))&&checkInfoNotification.get(row_index).getStatus().equals("0"))
+                    if ((checkInfoNotification.get(row_index).getTransType().equals("200") || checkInfoNotification.get(row_index).getTransType().equals("2"))) {
 
 //                    Intent EditeIntent=new Intent(context,EditerCheackActivity.class);
                         contextAlert.startEditerForReSendAlert(checkInfoNotification.get(row_index));
-                        Toast.makeText(contextAlert, "Resend "+checkInfoNotification.get(row_index).getChequeNo(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(contextAlert, "Resend " + checkInfoNotification.get(row_index).getChequeNo(), Toast.LENGTH_SHORT).show();
 
 
                         new Handler().post(new Runnable() {
@@ -642,7 +739,6 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
                 }
             });
-
 
 
 //            if(checkInfoNotification.get(row_index).getStatus().equals("0"))
@@ -666,16 +762,15 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     checkState = "1";
-                                    if(!checkInfoNotification.get(row_index).getTransType().equals("100"))
-                                    {
-                                       isJoin= "0";
+                                    if (!checkInfoNotification.get(row_index).getTransType().equals("100")) {
+                                        isJoin = "0";
+                                    } else {
+                                        isJoin = checkInfoNotification.get(row_index).getIsJoin();
                                     }
-                                    else {
-                                        isJoin= checkInfoNotification.get(row_index).getIsJoin();
-                                    }
-                                    progressDialog.setMessage(context.getResources().getString(R.string.process));
-                                    progressDialog.show();
+//                                    progressDialog.setMessage(context.getResources().getString(R.string.process));
+//                                    progressDialog.show();
                                     updateCheckState();
+
                                     dialog.dismiss();
                                     sDialog.dismissWithAnimation();
                                 }
@@ -721,7 +816,6 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                                     showDialogreson();
 
 
-
                                 }
                             }).setCancelText(context.getResources().getString(R.string.no)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -740,6 +834,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         }
     }
 
+    private void updateNotificationState() {
+        new JSONUpdateNotificationTask().execute();
+    }
+
     private void showDialogreson() {
         final Dialog dialog_reson = new Dialog(context);
         dialog_reson.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -754,8 +852,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         dialog_reson.getWindow().setAttributes(lp);
 
 
-
-        resonText=dialog_reson.findViewById(R.id.edit_reson);
+        resonText = dialog_reson.findViewById(R.id.edit_reson);
         Button close = dialog_reson.findViewById(R.id.canceltButton);
         Button send = dialog_reson.findViewById(R.id.AcceptButton);
         close.setOnClickListener(new View.OnClickListener() {
@@ -772,24 +869,20 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 final AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.2F);
                 v.startAnimation(buttonClick);
 
-                reson_reject=resonText.getText().toString();
-                if(!TextUtils.isEmpty(reson_reject))
-                {
-                    Log.e("reson_reject",""+reson_reject);
+                reson_reject = resonText.getText().toString();
+                if (!TextUtils.isEmpty(reson_reject)) {
+                    Log.e("reson_reject", "" + reson_reject);
                     dialog_reson.dismiss();
 //                  requestList.get(row_index).setREASON(reson);
 
                     progressDialog.setMessage(context.getResources().getString(R.string.PleaseWaiting));
                     progressDialog.show();
-                    if(!checkInfoNotification.get(row_index).getTransType().equals("100"))
-                    {
-                        isJoin= "0";
-                    }
-                    else {
-                        isJoin= checkInfoNotification.get(row_index).getIsJoin();
+                    if (!checkInfoNotification.get(row_index).getTransType().equals("100")) {
+                        isJoin = "0";
+                    } else {
+                        isJoin = checkInfoNotification.get(row_index).getIsJoin();
                     }
                     checkState = "2";
-
 
 
 //
@@ -797,9 +890,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
 
-
-                }
-                else {resonText.setError(context.getResources().getString(R.string.required));
+                } else {
+                    resonText.setError(context.getResources().getString(R.string.required));
 
                 }
 
@@ -812,7 +904,6 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     }
 
 
-
     public Bitmap StringToBitMap(String image) {
         try {
 
@@ -820,12 +911,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 //            String decoded = new String(encodeByte);
 
 //            byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
-            Bitmap bitmap=null;
+            Bitmap bitmap = null;
             try {
-                 bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            }
-            catch (Exception e)
-            {
+                bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            } catch (Exception e) {
 //                R.drawable.check_bank
 
                 Toast.makeText(context, "memorY is full can't display image ", Toast.LENGTH_SHORT).show();
@@ -843,26 +932,26 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         //http://localhost:8082/UpdateCheckStatus?CHECKNO=390144&BANKNO=004&BRANCHNO=0099&ACCCODE=1014569990011000&IBANNO=""&ROWID=AAAp0DAAuAAAAC2AAA&STATUS=1
 
     }
-    private void getPicture(String type,String accCode, String bankName, String branchNo, String chequeNo) {
-        acc    =accCode;
-        bankN  =bankName;
+
+    private void getPicture(String type, String accCode, String bankName, String branchNo, String chequeNo) {
+        acc = accCode;
+        bankN = bankName;
         branch = branchNo;
-        cheNo  =chequeNo;
-        if(type.equals("0"))
-        {
+        cheNo = chequeNo;
+        if (type.equals("0")) {
             new Image().execute();
-        }
-        else {
+        } else {
             new ImageGero().execute();
         }
 
 
     }
+
     protected class Image extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
         private BufferedReader reader = null;
-        public  String typeImg="0";
+        public String typeImg = "0";
 
 //        public Image(String typeImg) {
 //            this.typeImg = typeImg;
@@ -886,14 +975,14 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     e.printStackTrace();
                 }
 
-                Log.e("NameValuePair",""+acc+bankN+branch+""+cheNo);
+                Log.e("NameValuePair", "" + acc + bankN + branch + "" + cheNo);
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("ACCCODE", acc));
                 nameValuePairs.add(new BasicNameValuePair("BANKNO", bankN));
                 nameValuePairs.add(new BasicNameValuePair("BRANCHNO", branch));// test
                 nameValuePairs.add(new BasicNameValuePair("CHECKNO", cheNo));
 
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
                 HttpResponse response = client.execute(request);
 
                 BufferedReader in = new BufferedReader(new
@@ -911,7 +1000,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 JsonResponse = sb.toString();
 //                Log.e("tagAlertScreenImage", "" + JsonResponse);
 
-                return  JsonResponse;
+                return JsonResponse;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -939,12 +1028,12 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 //
 //
                         serverPicBitmap = StringToBitMap(jsonObject.getString("CHECKPIC"));
-                        Log.e("serverPicBitmap",""+serverPicBitmap);
-                        if(serverPicBitmap!=null)
-                        {
+                        Log.e("serverPicBitmap", "" + serverPicBitmap);
+                        if (serverPicBitmap != null) {
                             circleImageView.setImageBitmap(serverPicBitmap);
+                        } else {
+                            circleImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.check));
                         }
-                        else {circleImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.check));}
 
 
                     } catch (JSONException e) {
@@ -965,6 +1054,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog.setMessage(context.getResources().getString(R.string.process));
+            progressDialog.show();
 
         }
 
@@ -977,7 +1068,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 HttpPost request = new HttpPost();
                 SharedPreferences loginPrefs1 = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
                 String serverLink = loginPrefs1.getString("link", "");
-                request.setURI(new URI(serverLink+"UpdateCheckStatus?"));
+                request.setURI(new URI(serverLink + "UpdateCheckStatus?"));
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("CHECKNO", checkInfoNotification.get(row_index).getChequeNo()));
@@ -989,10 +1080,10 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 nameValuePairs.add(new BasicNameValuePair("ROWID", checkInfoNotification.get(row_index).getRowId()));
                 nameValuePairs.add(new BasicNameValuePair("STATUS", checkState));
                 nameValuePairs.add(new BasicNameValuePair("RJCTREASON", reson_reject));
-                nameValuePairs.add(new BasicNameValuePair("USERNO",mobile_No));
+                nameValuePairs.add(new BasicNameValuePair("USERNO", mobile_No));
 
-                Log.e("isJoin",""+isJoin);
-                nameValuePairs.add(new BasicNameValuePair("ISJOIN",isJoin));
+                Log.e("isJoin", "" + isJoin);
+                nameValuePairs.add(new BasicNameValuePair("ISJOIN", isJoin));
 
 
                 request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -1038,7 +1129,89 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("AdapteronPostExecute", "OK");
-                    refreshScreen();
+                    updateNotificationState();
+//                    progressDialog.dismiss();
+
+//                    Log.e("tagAdapter", "****Success" + s.toString());
+                } else {
+                    Log.e("tagAdapter", "****Failed to Savedata");
+                }
+            } else {
+
+                Log.e("tagAdapter", "****Failed  Please check internet connection");
+            }
+        }
+    }
+
+    class JSONUpdateNotificationTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                SharedPreferences loginPrefs1 = context.getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+                String serverLink = loginPrefs1.getString("link", "");
+//                http://localhost:8082/UpdateNotfication?ROWID=&STATUS=1
+                request.setURI(new URI(serverLink + "UpdateNotfication?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("ROWID", checkInfoNotification.get(row_index).getNOTFROWID()));
+                nameValuePairs.add(new BasicNameValuePair("STATUS", "1"));
+
+                Log.e("STATUS", "" + checkState);
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+
+
+//                HttpResponse response = client.execute(request);
+//                request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                Log.e("tagAlertScreen", "" + JsonResponse);
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("AdapteronPostExecute", "OK");
 
 
                     progressDialog.dismiss();
@@ -1059,6 +1232,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         textCheckstateChanger.setText("2");
 
     }
+
     protected class ImageGero extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
@@ -1082,14 +1256,14 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                     e.printStackTrace();
                 }
 
-                Log.e("NameValuePair",""+acc+bankN+branch+""+cheNo);
+                Log.e("NameValuePair", "" + acc + bankN + branch + "" + cheNo);
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("ACCCODE", acc));
                 nameValuePairs.add(new BasicNameValuePair("BANKNO", bankN));
                 nameValuePairs.add(new BasicNameValuePair("BRANCHNO", branch));// test
                 nameValuePairs.add(new BasicNameValuePair("CHECKNO", cheNo));
 
-                request.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
                 HttpResponse response = client.execute(request);
 
                 BufferedReader in = new BufferedReader(new
@@ -1107,7 +1281,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 JsonResponse = sb.toString();
 //                Log.e("tagAlertScreenImage", "" + JsonResponse);
 
-                return  JsonResponse;
+                return JsonResponse;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -1131,11 +1305,11 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                         jsonObject = new JSONObject(s);
 
                         geroBitmap = StringToBitMap(jsonObject.getString("CHECKPIC"));
-                        if(geroBitmap!=null)
-                        {
+                        if (geroBitmap != null) {
                             circleGeroImg.setImageBitmap(geroBitmap);
+                        } else {
+                            circleImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.check));
                         }
-                        else {circleImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.check));}
 //                        Log.e("GetGeroPic",""+geroBitmap);
 
                     } catch (JSONException e) {

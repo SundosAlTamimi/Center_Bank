@@ -93,6 +93,7 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.falconssoft.centerbank.AlertScreen.checkInfoNotification;
 import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 import static com.falconssoft.centerbank.LogInActivity.LOGIN_INFO;
 
@@ -566,8 +567,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 
         progressDialog = new ProgressDialog(this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please Waiting...");
+        progressDialog.setMessage(getResources().getString(R.string.please_waiting));
+
         CheckPic = findViewById(R.id.CheckPic);
         date = findViewById(R.id.editorCheque_date);
 
@@ -841,6 +842,9 @@ public class EditerCheackActivity extends AppCompatActivity {
                                             if (!(countryCode + localPhoneNo).equals(phoneNoUser)) {//no send to the same phone no
                                                 new SaveCheckTemp().execute();
 
+
+
+
                                             } else {
                                                 SweetAlertDialog sw = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
                                                 sw.setTitleText("***" + EditerCheackActivity.this.getResources().getString(R.string.phone_no) + "***");
@@ -1080,6 +1084,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                     CheckPic.setImageBitmap(serverPicBitmap);
                     serverPic = bitMapToString(serverPicBitmap);
                     deleteFiles(path);
+                    CheckPicText.setError(null);
                 }
                 File file = new File(mCameraFileName);
                 if (!file.exists()) {
@@ -1688,6 +1693,10 @@ public class EditerCheackActivity extends AppCompatActivity {
                         @SuppressLint("WrongConstant")
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
+                            if (intentReSend != null && intentReSend.equals("ReSend")) {
+
+                                updateNotificationState();
+                            }
                             finish();
                             sDialog.dismissWithAnimation();
                         }
@@ -3384,5 +3393,83 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
+    private void updateNotificationState() {
+        new JSONUpdateNotificationTask().execute();
+    }
+    class JSONUpdateNotificationTask extends AsyncTask<String, String, String> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String JsonResponse = null;
+                HttpClient client = new DefaultHttpClient();
+                HttpPost request = new HttpPost();
+                SharedPreferences loginPrefs1 = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
+                String serverLink = loginPrefs1.getString("link", "");
+//                http://localhost:8082/UpdateNotfication?ROWID=&STATUS=1
+                request.setURI(new URI(serverLink+"UpdateNotfication?"));
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("ROWID", chequeInfoReSendEd.getNOTFROWID()));
+                nameValuePairs.add(new BasicNameValuePair("STATUS", "1"));
+
+                Log.e("STATUS", "" +  chequeInfoReSendEd.getNOTFROWID());
+
+                request.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+
+                HttpResponse response = client.execute(request);
+
+                BufferedReader in = new BufferedReader(new
+                        InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer sb = new StringBuffer("");
+                String line = "";
+
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                in.close();
+
+                JsonResponse = sb.toString();
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                return JsonResponse;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+                if (s.contains("\"StatusDescreption\":\"OK\"")) {
+                    Log.e("AdapteronPostExecute", "OK");
+
+                    progressDialog.dismiss();
+
+                } else {
+                    Log.e("tagAdapter", "****Failed to Savedata");
+                }
+            } else {
+
+                Log.e("tagAdapter", "****Failed  Please check internet connection");
+            }
+        }
+    }
 }
