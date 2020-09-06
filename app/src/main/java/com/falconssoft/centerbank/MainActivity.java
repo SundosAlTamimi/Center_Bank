@@ -1291,7 +1291,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     addAccountDialog.dismiss();
 
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText(MainActivity.this.getResources().getString(R.string.sent))
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.save))
                         .setContentText(MainActivity.this.getResources().getString(R.string.save_success))
                         .show();
 

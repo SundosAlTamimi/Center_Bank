@@ -847,7 +847,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                                             } else {
                                                 SweetAlertDialog sw = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
-                                                sw.setTitleText("***" + EditerCheackActivity.this.getResources().getString(R.string.phone_no) + "***");
+                                                sw.setTitleText( EditerCheackActivity.this.getResources().getString(R.string.phone_no) );
                                                 sw.setContentText("Please , change Phone No ,You Can't Send The Cheque To Yourself");
                                                 sw.setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok));
                                                 sw.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -2161,8 +2161,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     finish();
-                                    Intent intentGiro=new Intent(EditerCheackActivity.this,JeroActivity.class);
-                                    startActivity(intentGiro);
+//                                    Intent intentGiro=new Intent(EditerCheackActivity.this,JeroActivity.class);
+//                                    startActivity(intentGiro);
 
                                     sDialog.dismissWithAnimation();
                                 }

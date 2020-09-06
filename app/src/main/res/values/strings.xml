@@ -117,8 +117,10 @@
     <string name="requestRejec">Request Rejected</string>
     <string name="cashier_cheque">Cashier Cheque</string>
     <string name="handovew">Please Hand It Over :</string>
-    <string name="thisusernotcheq">To Send This Cheque Go To Giro</string>
-    <string name="cheq_acc">*** CHEQUE ***</string>
+    <string name="thisusernotcheq">This Cheque Is Not Yours</string>
+    <string name="SENDtOGiro">To Send This Cheque Go To Giro</string>
+
+    <string name="cheq_acc"> CHEQUE </string>
     <string name="CHEQUE_NOT_FOR_YOU">This Cheque Is Not The Same As The Cheque You Want To Send !!!</string>
     <string name="message_reject">Are You Sure Want To Reject This Cheque?</string>
     <string name="remember_me">Remember Me</string>
@@ -178,7 +180,7 @@
     <string name="rejectedGereo">Rejected Giro</string>
     <string name="newGeroChecue">New Giro Cheque</string>
     <string name="_7xxxxxxxx">7xxxxxxxx</string>
-    <string name="name_of_fourth_syllables">Name Of Fourth Syllables</string>
+    <string name="name_of_fourth_syllables">Full Name </string>
     <string name="date_of_birth">Date Of Birth</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="nationality">Nationality</string>
@@ -219,7 +221,7 @@
     <string name="ex_13001_13010">Ex. 13001-13010</string>
     <string name="beneficiary_phone">Beneficiary Phone</string>
     <string name="my_cheques">My Cheques</string>
-    <string name="canReceive">*** Can Receive The Cheque ***</string>
+    <string name="canReceive"> You Can Receive This Cheque </string>
     <string name="chequeCashed">Cheque Cashed</string>
     <string name="chequeNotFound">Cheque Data not found</string>
     <string name="edit">Edit</string>
@@ -250,4 +252,5 @@
     <string name="JoinedAcceptCheque">Joint Accept Cheque</string>
     <string name="retrivedCheque">Retrieved Cheque</string>
     <string name="message_forDelete">Are You Sure To Delete This Notification ?</string>
+    <string name="national_id_">National ID</string>
 </resources>

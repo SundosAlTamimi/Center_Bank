@@ -102,8 +102,10 @@
     <string name="giro">جيرو</string>
     <string name="cashier_cheque">طلب اصدار شيك مدير </string>
     <string name="handovew">يرجى تسليمه :-</string>
-    <string name="thisusernotcheq">This user not has this check.</string>
-    <string name="cheq_acc">*** CHEQUE ACCOUNT ***</string>
+    <string name="thisusernotcheq">لست صاحب هذا الشيك</string>
+    <string name="SENDtOGiro">لارسال الشيك </string>
+
+    <string name="cheq_acc"> CHEQUE ACCOUNT </string>
     <string name="Dear">السيد</string>
     <string name="verification">تاكد من صحة الشيك</string>
     <string name="required">حقل اجباري</string>
@@ -225,4 +227,5 @@
     <string name="JoinedAcceptCheque">Joinet Accept Cheque</string>
     <string name="retrivedCheque">تم إسترجاع الشيك </string>
     <string name="message_forDelete">هل تريد مسح الإشعار?</string>
+    <string name="national_id_">National ID</string>
 </resources>
