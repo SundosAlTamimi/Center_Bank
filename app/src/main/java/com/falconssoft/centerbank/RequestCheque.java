@@ -737,6 +737,8 @@ public class RequestCheque extends AppCompatActivity {
 
                     Log.e("tagFromUser", "****Failed to export data");
 
+                }if(s.contains("\"StatusDescreption\":\"No Notification found.\"")){
+                    progressDialog.dismiss();
                 }
             }
             else {

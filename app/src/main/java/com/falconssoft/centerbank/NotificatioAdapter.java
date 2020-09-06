@@ -463,7 +463,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         }
 
         public void showDetails(String state_Join, String reson_Reject,String phonCurent) {
-            progressDialog = new ProgressDialog(context);
+
             final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
@@ -875,8 +875,6 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
                     dialog_reson.dismiss();
 //                  requestList.get(row_index).setREASON(reson);
 
-                    progressDialog.setMessage(context.getResources().getString(R.string.PleaseWaiting));
-                    progressDialog.show();
                     if (!checkInfoNotification.get(row_index).getTransType().equals("100")) {
                         isJoin = "0";
                     } else {
@@ -1054,6 +1052,8 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            progressDialog = new ProgressDialog(context);
             progressDialog.setMessage(context.getResources().getString(R.string.process));
             progressDialog.show();
 
@@ -1219,10 +1219,12 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
 //                    Log.e("tagAdapter", "****Success" + s.toString());
                 } else {
                     Log.e("tagAdapter", "****Failed to Savedata");
+                    progressDialog.dismiss();
                 }
             } else {
 
                 Log.e("tagAdapter", "****Failed  Please check internet connection");
+                progressDialog.dismiss();
             }
         }
     }
