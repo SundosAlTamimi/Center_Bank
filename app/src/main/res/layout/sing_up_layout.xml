@@ -369,14 +369,21 @@
                                 android:layout_height="wrap_content"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
-
+                    <LinearLayout
+                        android:id="@+id/signUp_id_nationality_linears"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+                        android:orientation="vertical">
                         <LinearLayout
                             android:id="@+id/signUp_id_nationality_linear"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
                             android:layout_weight="1"
-                            android:background="@drawable/edit_bac_s"
+
                             android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
@@ -405,6 +412,50 @@
                                     android:layout_height="wrap_content"/>
                             </com.google.android.material.textfield.TextInputLayout>
 
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+                            <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bac_s"
+                        android:orientation="vertical">
+                                <TextView
+                                    android:textColor="@color/red"
+                                    android:fontFamily="serif"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0"
+                                    android:layout_gravity="center"
+                                    android:text="@string/frontPicture"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+
+
+                            <Button
+                                android:id="@+id/signUp_gallary_id_pic"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="bottom"
+                                android:layout_weight="0"
+                                android:paddingVertical="8dp"
+                                android:paddingHorizontal="10dp"
+                                android:layout_marginHorizontal="10dp"
+                                android:background="@drawable/ic_camera_black_24dp"/>
                             <Button
                                 android:id="@+id/signUp_uplod_id_pic"
                                 android:layout_width="40dp"
@@ -413,8 +464,71 @@
                                 android:layout_weight="0"
                                 android:paddingVertical="8dp"
                                 android:paddingHorizontal="10dp"
-                                android:background="@drawable/ic_camera_black_24dp"/>
+                                android:background="@drawable/ic_file_upload_black_24dp"/>
+
                         </LinearLayout>
+                        <ImageView
+                            android:id="@+id/imageNationalId"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:padding="5dp" />
+
+
+                    </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:textColor="@color/red"
+                                    android:fontFamily="serif"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0"
+                                    android:layout_gravity="center"
+                                    android:text="@string/backPicture"/>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+                                    <Button
+                                        android:id="@+id/signUp_gallary_id_bac"
+                                        android:layout_width="40dp"
+                                        android:layout_height="40dp"
+                                        android:layout_gravity="bottom"
+                                        android:layout_weight="0"
+                                        android:paddingVertical="8dp"
+                                        android:paddingHorizontal="10dp"
+                                        android:layout_marginHorizontal="10dp"
+
+                                        android:background="@drawable/ic_camera_black_24dp"/>
+                                    <Button
+                                        android:id="@+id/signUp_uplod_id_bac"
+                                        android:layout_width="40dp"
+                                        android:layout_height="40dp"
+                                        android:layout_gravity="bottom"
+                                        android:layout_weight="0"
+                                        android:paddingVertical="8dp"
+                                        android:paddingHorizontal="10dp"
+                                        android:background="@drawable/ic_file_upload_black_24dp"/>
+
+                                </LinearLayout>
+                                <ImageView
+                                    android:id="@+id/imageNationalIdBac"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp"
+                                    android:padding="5dp" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/signUp_address_linear"
                             android:layout_width="match_parent"

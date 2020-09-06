@@ -1,6 +1,7 @@
 package com.falconssoft.centerbank;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.Service;
@@ -8,18 +9,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -29,13 +38,17 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
@@ -49,7 +62,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,7 +79,8 @@ import static com.falconssoft.centerbank.LogInActivity.LANGUAGE_FLAG;
 
 public class SingUpActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
+    String mCameraFileName, path;
+    private static final int SELECT_IMAGE = 3;
     private static final int LOCATION_FLAG = 10;
     private TextView test;//date_text,
     private Date currentTimeAndDate;
@@ -91,6 +108,17 @@ public class SingUpActivity extends AppCompatActivity implements
     private SignupVM signupVM;
     private SingUpLayoutBinding binding;
     private SharedClass sharedClass;
+    Button gallary,gallary_bac,upload,upload_bac;
+    boolean isPermition;
+    int flag=0;
+    int backPic=0;
+
+    private Uri fileUri;
+ImageView imageNationalId,imageNationalId_bac;
+    Uri image;
+    Bitmap serverPicBitmap;
+    String serverPic;
+
 //    AppLocationService appLocationService;
 
     @Override
@@ -139,6 +167,57 @@ public class SingUpActivity extends AppCompatActivity implements
             }
         });
 
+        gallary.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                isPermition = isStoragePermissionGranted();
+                if (isPermition) {
+                    flag=0;
+                    backPic=0;
+                    cameraIntent();
+                }
+
+            }
+        });
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                flag=1;
+                backPic=0;
+                openGallery();
+
+            }
+        });
+
+
+        gallary_bac.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                isPermition = isStoragePermissionGranted();
+                if (isPermition) {
+                    flag=0;
+                    backPic=1;
+                    cameraIntent();
+                }
+
+            }
+        });
+
+        upload_bac.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                flag=1;
+                backPic=1;
+                openGallery();
+
+            }
+        });
+
         binding.signUpSeen.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -173,6 +252,34 @@ public class SingUpActivity extends AppCompatActivity implements
         binding.setSignupModel(signupVM);
 
         Log.e("editing,signup ", language);
+    }
+
+
+    private void cameraIntent() {
+        flag=0;
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("_mm_ss");
+
+        String newPicFile = "national" + ".png";
+        String outPath = Environment.getExternalStorageDirectory() + File.separator + newPicFile;
+        Log.e("national", "" + outPath);
+        File outFile = new File(outPath);
+        path = outPath;
+        mCameraFileName = outFile.toString();
+        Uri outuri = Uri.fromFile(outFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outuri);
+        startActivityForResult(intent, 2);
+    }
+    private void openGallery(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"),SELECT_IMAGE);
     }
 
     private void saveMethod() {
@@ -297,6 +404,13 @@ public class SingUpActivity extends AppCompatActivity implements
 //        seenConfirmPassword = findViewById(R.id.signUp_seen_confirm);
 //        confirmPassword = findViewById(R.id.signUp_confirm_password);
 //        currentLocation = findViewById(R.id.signUp_current_location);
+
+        gallary=findViewById(R.id.signUp_gallary_id_pic);
+        gallary_bac=findViewById(R.id.signUp_gallary_id_bac);
+        upload_bac=findViewById(R.id.signUp_uplod_id_bac);
+        upload=findViewById(R.id.signUp_uplod_id_pic);
+        imageNationalId=findViewById(R.id.imageNationalId);
+        imageNationalId_bac=findViewById(R.id.imageNationalIdBac);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getString(R.string.please_waiting));
@@ -568,7 +682,7 @@ public class SingUpActivity extends AppCompatActivity implements
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 1) {
+        if (requestCode == 10) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                         mGoogleApiClient);
@@ -583,6 +697,21 @@ public class SingUpActivity extends AppCompatActivity implements
 //            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
                 }
             }
+        }else{
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.e("jj4", "Permission: " + permissions[0] + "was " + grantResults[0]);
+                //resume tasks needing this permission
+//            if(flagINoUT==1){
+//                ExportDbToExternal();
+//            }else if (flagINoUT==2){
+//                ImportDbToMyApp();
+//            }
+                flag=0;
+                cameraIntent();
+
+            }
+
         }
     }
 
@@ -720,5 +849,141 @@ public class SingUpActivity extends AppCompatActivity implements
             }
             test.setText(locationAddress);
         }
+    }
+
+    public boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.e("gg1", "Permission is granted");
+                return true;
+            } else {
+
+                Log.e("gg2", "Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 5);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.e("gg3", "Permission is granted");
+            return true;
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if(flag==0){
+            if (requestCode == 2) {
+                if (data != null) {
+                    image = data.getData();
+                    imageNationalId.setImageURI(image);
+//                CheckPic.setVisibility(View.VISIBLE);
+                }
+                if (image == null && mCameraFileName != null) {
+                    image = Uri.fromFile(new File(mCameraFileName));
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/national.png";
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/national.png");
+                    if(backPic==1) {
+                        imageNationalId_bac.setImageBitmap(serverPicBitmap);
+                    }else {
+                        imageNationalId.setImageBitmap(serverPicBitmap);
+
+                    }
+                    serverPic = bitMapToString(serverPicBitmap);
+                    deleteFiles(path);
+                }
+                File file = new File(mCameraFileName);
+                if (!file.exists()) {
+                    file.mkdir();
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/national.png";
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/national.png");
+                    if(backPic==1) {
+                        imageNationalId_bac.setImageBitmap(serverPicBitmap);
+                    }else {
+                        imageNationalId.setImageBitmap(serverPicBitmap);
+                    }
+                    serverPic = bitMapToString(serverPicBitmap);
+                    deleteFiles(path);
+//                    Bitmap bitmap1 = StringToBitMap(serverPic);
+//                    showImageOfCheck(bitmap1);
+                } else {
+
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/national.png";
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//                serverPicBitmap = BitmapFactory.decodeFile(path, options);
+                    serverPicBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/national.png");
+
+                    if(backPic==1) {
+                        imageNationalId_bac.setImageBitmap(serverPicBitmap);
+                    }else {
+                        imageNationalId.setImageBitmap(serverPicBitmap);
+                    }
+                    serverPic = bitMapToString(serverPicBitmap);
+                    deleteFiles(path);
+//                Bitmap bitmap1 = StringToBitMap(serverPic);
+//                showImageOfCheck(bitmap1);
+
+                }
+            }}else {
+
+
+            if (resultCode == Activity.RESULT_OK)
+            {
+                if (data != null)
+                {
+                    fileUri = data.getData(); //added this line
+                    try {
+                        serverPicBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
+                        if(backPic==1) {
+                            imageNationalId_bac.setImageBitmap(serverPicBitmap);
+                        }else {
+                            imageNationalId.setImageBitmap(serverPicBitmap);
+
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED)
+            {
+                Toast.makeText(getApplicationContext(), "Cancelled",     Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+    }
+
+    public void deleteFiles(String path) {
+        File file = new File(path);
+
+        if (file.exists()) {
+            String deleteCmd = "rm -r " + path;
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec(deleteCmd);
+            } catch (IOException e) {
+
+            }
+        }
+
+    }
+
+    public String bitMapToString(Bitmap bitmap) {
+        if (bitmap != null) {
+            bitmap = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] arr = baos.toByteArray();
+//            byte[] encoded = Base64.encode(arr, Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
+
+            String result = Base64.encodeToString(arr, Base64.URL_SAFE | Base64.NO_PADDING | Base64.NO_WRAP);
+            return result;
+        }
+        return "";
     }
 }

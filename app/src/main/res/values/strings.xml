@@ -253,4 +253,8 @@
     <string name="retrivedCheque">Retrieved Cheque</string>
     <string name="message_forDelete">Are You Sure To Delete This Notification ?</string>
     <string name="national_id_">National ID</string>
+    <string name="WARNING">WARNING</string>
+    <string name="backPicture">Back Picture</string>
+    <string name="frontPicture">Front Picture</string>
+
 </resources>

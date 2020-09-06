@@ -39,7 +39,7 @@
     <string name="phils">فلس</string>
     <string name="amount_in_word">المبلغ بالكلمات</string>
     <string name="check_pic">صورة الشيك</string>
-    <string name="send">ارسال</string>
+    <string name="send">اصدار شيك </string>
     <string name="please_scan_the_barcode_to_continue_editing_the_check">الرجاء مسح  QR Code لاستمرار تحرير الشك ...</string>
     <string name="scan_barcode">مسح QR Code </string>
     <string name="have_a_problem">مساعدة !</string>
@@ -55,8 +55,8 @@
     <string name="add">اضافة</string>
     <string name="bank_name">اسم البنك </string>
     <string name="bank_name_">اسم البنك : </string>
-    <string name="cheque_writer">كاتب الشيك </string>
-    <string name="cheque_writer_">كاتب الشيك : </string>
+    <string name="cheque_writer">مصدر الشيك </string>
+    <string name="cheque_writer_">مصدر الشيك : </string>
     <string name="cheque_no">رقم الشيك </string>
     <string name="cheque_no_">رقم الشيك : </string>
     <string name="account_no_">رقم الحساب : </string>
@@ -89,7 +89,7 @@
     <string name="del_acc_success">تم الحذف بنجاح</string>
     <string name="can_del">لم يتم الحذف</string>
     <string name="error_del">خطأ في حذف الحساب !</string>
-    <string name="pending_">*** الشيك معلق لا يمكن ارساله بالوقت الحالي ***</string>
+    <string name="pending_"> الشيك معلق لا يمكن ارساله بالوقت الحالي </string>
     <string name="cantsendchech">لا يمكن ارسال الشيك !</string>
     <string name="ok">موافق</string>
     <string name="warning">تحذير</string>
@@ -150,13 +150,13 @@
     <string name="please_choose_gender">يرجى تحديد النوع!</string>
     <string name="please_choose_account_type">يرجى تحديد نوع الحساب!</string>
 
-    <string name="national_id">الرقم الوطني</string>
+    <string name="national_id">رقم الهويه</string>
     <string name="gerocheque">شيك مجير مقبول</string>
     <string name="relation">العلاقة</string>
     <string name="consanguinity">قرابة</string>
     <string name="Business">أعمال</string>
     <string name="other">أخرى</string>
-    <string name="notforYou">Accoount Not for you</string>
+    <string name="notforYou">لست مالك هذا الشيك</string>
     <string name="passport">رقم جواز السفر</string>
 
     <string name="customer_no">رقم العميل</string>
@@ -168,7 +168,7 @@
     <string name="us_personally">لنا شخصيا</string>
     <string name="to_the_master">للسيد</string>
     <string name="branch_name">الفرع :</string>
-    <string name="beneficiary_mobile">Beneficiary mobile</string>
+    <string name="beneficiary_mobile">رقم هاتف المستفيد</string>
     <string name="lost">فقد شيك </string>
     <string name="process">تم ارسال الشيك بنجاح</string>
     <string name="rejectedGereo">شيك مجير مرفوض </string>
@@ -188,7 +188,7 @@
     <string name="typehere">اكتب هنا</string>
     <string name="cancel">الغاء</string>
     <string name="Note">ملاحظة </string>
-    <string name="CO">بالحساب فقط</string>
+    <string name="CO">C/O بالحساب فقط</string>
 
     <string name="from">اسم المرسل</string>
     <string name="to">الى</string>
@@ -201,9 +201,9 @@
     <string name="range_of_cheque">مجموعة شكات</string>
     <string name="uplode_lost_report">تحميل صوره عن تقرير الفقد</string>
     <string name="ex_13001_13010">ex. 13001-13010</string>
-    <string name="canReceive">*** يمكن استيلام هذا الشيك  ***</string>
-    <string name="chequeCashed">*** الشيك مصروف ***</string>
-    <string name="chequeNotFound">*** لم يتم اصدار الشيك ***</string>
+    <string name="canReceive"> يمكن استيلام هذا الشيك  </string>
+    <string name="chequeCashed"> الشيك مصروف </string>
+    <string name="chequeNotFound"> لم يتم اصدار الشيك </string>
     <string name="edit">تحرير</string>
     <string name="my_cheques">My Cheques</string>
     <string name="isNotYour">لست مالك الشيك !!!</string>
@@ -228,4 +228,8 @@
     <string name="retrivedCheque">تم إسترجاع الشيك </string>
     <string name="message_forDelete">هل تريد مسح الإشعار?</string>
     <string name="national_id_">National ID</string>
+    <string name="WARNING">تحذير</string>
+    <string name="backPicture">الصوره من الخلف</string>
+    <string name="frontPicture">الصوره من الامام</string>
+
 </resources>

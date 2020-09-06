@@ -250,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         addAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isAdd=true;
                 addAccountButton();
             }
         });
@@ -428,7 +429,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView add = addAccountDialog.findViewById(R.id.dialog_addAccount_add);
         TextView scan = addAccountDialog.findViewById(R.id.dialog_addAccount_scan);
         LinearLayout linearLayout = addAccountDialog.findViewById(R.id.dialog_addAccount_linear);
-
         if (language.equals("ar")) {
             linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         } else {
@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        isAdd = true;
+
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -469,6 +469,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isAdd = false;
                 addAccountDialog.dismiss();
             }
         });
@@ -674,7 +675,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-        isAdd = false;
 
     }
 
@@ -690,6 +690,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.e("id", " " + id);
         switch (id) {
             case R.id.menu_verification: {
+                isAdd = false;
                 checkChequeValidation();
             }
             break;
@@ -1310,7 +1311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .show();
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"This user not own this account.")) {
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("WARNING")
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.WARNING))
                         .setContentText(MainActivity.this.getResources().getString(R.string.notforYou))//This user not own this account.
                         .show();
             }

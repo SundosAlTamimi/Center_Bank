@@ -68,7 +68,7 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
         String sendState = "";
 
         if (!TextUtils.isEmpty(list.get(position).getTransType()))
-            if (list.get(position).getTransType().equals("0")) {
+            if (list.get(position).getTransType().equals("0")||list.get(position).getTransType().equals("100")||list.get(position).getTransType().equals("")) {
                 sendState = context.getResources().getString(R.string.pending);
 //                holder.status.setText("Pending");
                 holder.status.setTextColor(BLUE);
@@ -90,11 +90,17 @@ class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.TrackingViewH
                 holder.status.setTextColor(YELLOW);// activity.getResources().getColor(R.color.colorBlack)
             }
 
-        if (!TextUtils.isEmpty(list.get(position).getTransSendOrGero()))
-            if (list.get(position).getTransSendOrGero().equals("0"))
-                holder.status.setText( context.getResources().getString(R.string.Issue)+ " / " +sendState );
-            else
-                holder.status.setText( context.getResources().getString(R.string.giro)+ " / " +sendState );
+        if(list.get(position).getTransType().equals("100")) {
+
+            if (!TextUtils.isEmpty(list.get(position).getTransSendOrGero()))
+                if (list.get(position).getTransSendOrGero().equals("0"))
+                    holder.status.setText(context.getResources().getString(R.string.Issue) + " / " + sendState);
+                else
+                    holder.status.setText(context.getResources().getString(R.string.giro) + " / " + sendState);
+        }else{
+            holder.status.setText(context.getResources().getString(R.string.Join) + " / " + sendState);
+
+        }
 //        if(itemsList.get(i).getTransType().equals("2")){
 //            holder.status.setBorderColor(context.getResources().getColor(R.color.RealRed));
 //            TStatus=context.getResources().getString(R.string.rej);
