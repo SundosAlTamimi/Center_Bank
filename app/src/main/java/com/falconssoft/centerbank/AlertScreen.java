@@ -160,21 +160,23 @@ public class AlertScreen extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (isNetworkAvailable()) {
+//                if (isNetworkAvailable()) {
                     new GetNotification_JSONTask().execute();
-                }
+//                }
 
 
             }
 
-        }, 0, 3000);
+        }, 0, 2000);
 
 
         swipeRefresh = findViewById(R.id.swipeRefresh);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                new GetNotification_JSONTask().execute();
+                finish();
+                Intent i= new Intent(AlertScreen.this,AlertScreen.class       );
+                startActivity(i);
 
 //                Toast.makeText(AlertScreen.this, "refresh ..", Toast.LENGTH_SHORT).show();
                 swipeRefresh.setRefreshing(false);

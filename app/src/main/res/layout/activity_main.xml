@@ -69,8 +69,9 @@
                     <TextView
                         android:id="@+id/button_notification"
                         android:layout_height="30dp"
-                        android:layout_width="45dp"
+                        android:layout_width="30dp"
                         android:gravity="center"
+                        android:layout_marginTop="5dp"
                         android:visibility="invisible"
                         android:backgroundTint="@color/white"
                         android:drawableTop="@drawable/red_circle"
