@@ -58,203 +58,57 @@
                 android:background="@drawable/edit_bac_s"
                 android:orientation="vertical"
                 android:padding="5dp">
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <LinearLayout
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="3dp">
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:drawableStart="@drawable/ic_send_black_24dp"
-                        android:drawablePadding="5dp"
-                        android:gravity="start"
-                        android:text="@string/cheque_no"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:autoSizeMaxTextSize="18sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform"
-                        app:fontFamily="sans-serif-smallcaps"
-
-                        />
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:gravity="center"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/texChequNo"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:text=""
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="18sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform" />
-
-                    </TableRow>
-
-                    <TextView
-                        android:id="@+id/textView222"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:drawableStart="@drawable/ic_date_range_black_24dp"
-                        android:drawablePadding="5dp"
-                        android:gravity="start"
-                        android:text="@string/date"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:autoSizeMaxTextSize="18sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform"
-                        app:fontFamily="sans-serif-smallcaps" />
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:gravity="center"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/texDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:text=""
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="18sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform" />
-
-                    </TableRow>
-
-                    <TextView
-                        android:id="@+id/textView27"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:drawableStart="@drawable/ic_person"
-                        android:drawablePadding="5dp"
-                        android:gravity="start"
-                        android:text="@string/beneficiary"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:autoSizeMaxTextSize="18sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform"
-                        app:fontFamily="sans-serif-smallcaps" />
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:gravity="center"
-                        android:padding="5dp">
-
-
-                        <TextView
-                            android:id="@+id/binificary"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:hint=""
-                            android:padding="1dp"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="18sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform" />
-
-
-                    </TableRow>
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
+                        android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="5dp">
+                        android:padding="3dp">
 
                         <TextView
-                            android:id="@+id/textVi7"
+                            android:id="@+id/textView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:layout_weight="5.7"
-                            android:text="@string/amount_word"
+                            android:layout_weight="2"
+                            android:drawableStart="@drawable/ic_send_black_24dp"
+                            android:drawablePadding="5dp"
+                            android:gravity="start"
+                            android:text="@string/cheque_no"
                             android:textColor="@color/colorWhite"
                             android:textSize="18sp"
-
                             android:textStyle="bold"
                             app:autoSizeMaxTextSize="18sp"
                             app:autoSizeMinTextSize="12sp"
                             app:autoSizeStepGranularity="2sp"
                             app:autoSizeTextType="uniform"
-                            app:fontFamily="sans-serif-smallcaps" />
+                            app:fontFamily="sans-serif-smallcaps"
+
+                            />
 
                         <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="5"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
                             android:gravity="center"
                             android:padding="5dp">
 
                             <TextView
-                                android:id="@+id/textAmountNo"
+                                android:id="@+id/texChequNo"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_margin="2dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/edit_bac_s"
-                                android:ems="5"
+                                android:ems="10"
                                 android:gravity="center"
-                                android:inputType="numberDecimal"
-                                android:padding="5dp"
+                                android:text=""
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
                                 android:textSize="18sp"
@@ -262,48 +116,45 @@
                                 app:autoSizeMinTextSize="16sp"
                                 app:autoSizeStepGranularity="2sp"
                                 app:autoSizeTextType="uniform" />
-
-                            <TextView
-                                android:id="@+id/amountPhilis"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="2dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/edit_bac_s"
-                                android:ems="5"
-                                android:gravity="center"
-                                android:inputType="numberDecimal"
-                                android:padding="5dp"
-                                android:textColor="@color/colorWhite"
-                                android:textColorHint="@color/colorWhite"
-                                android:textSize="18sp"
-                                app:autoSizeMaxTextSize="18sp"
-                                app:autoSizeMinTextSize="16sp"
-                                app:autoSizeStepGranularity="2sp"
-                                app:autoSizeTextType="uniform" />
-
 
                         </TableRow>
+
+                        <TextView
+                            android:id="@+id/textView222"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:drawableStart="@drawable/ic_date_range_black_24dp"
+                            android:drawablePadding="5dp"
+                            android:gravity="start"
+                            android:text="@string/date"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:autoSizeMaxTextSize="18sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform"
+                            app:fontFamily="sans-serif-smallcaps" />
 
                         <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="5">
-
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:gravity="center"
+                            android:padding="5dp">
 
                             <TextView
-                                android:id="@+id/textAmouWord"
+                                android:id="@+id/texDate"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-
-                                android:background="@drawable/edit_bac_s"
-                                android:ems="5"
+                                android:layout_height="match_parent"
+                                android:ems="10"
                                 android:gravity="center"
-                                android:inputType="textMultiLine"
-
-                                android:lines="2"
-
+                                android:text=""
                                 android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="18sp"
                                 app:autoSizeMaxTextSize="18sp"
                                 app:autoSizeMinTextSize="16sp"
@@ -311,179 +162,18 @@
                                 app:autoSizeTextType="uniform" />
 
                         </TableRow>
-                    </LinearLayout>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/edit_bac_s"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:visibility="gone">
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/textVi"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_margin="2dp"-->
-                        <!--android:text="Phone No."-->
-                        <!--android:textColor="@color/colorWhite"-->
-                        <!--android:textSize="18sp"-->
-                        <!--android:textStyle="bold" />-->
 
                         <TextView
-                            android:id="@+id/textPhoneNo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:drawableStart="@drawable/ic_local_phone_black_24dp"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:hint="00692797319889"
-                            android:padding="5dp"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="18sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform" />
-
-                    </TableRow>
-                    <!--</LinearLayout>-->
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-
-                        android:background="@color/colorGold" />
-
-                    <TextView
-                        android:id="@+id/textView37"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:layout_weight="2"
-                        android:drawableStart="@drawable/ic_person"
-                        android:drawablePadding="5dp"
-                        android:gravity="start"
-                        android:text="@string/cheque_writer"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:autoSizeMaxTextSize="18sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform"
-                        app:fontFamily="sans-serif-smallcaps" />
-
-                    <TableRow
-
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:gravity="center"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/textToOrder"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:inputType="textPersonName"
-                            android:padding="1dp"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="18sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform" />
-
-                    </TableRow>
-
-                    <LinearLayout
-                        android:id="@+id/rowNote"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:layout_weight="1"
-                        android:gravity="center"
-
-                        android:orientation="vertical"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/textView27"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-
-                            android:layout_weight="1"
-                            android:drawableStart="@drawable/ic_border_color_black_24dp"
-                            android:drawablePadding="5dp"
-                            android:gravity="start"
-
-                            android:text="@string/Note"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="12sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform"
-                            app:fontFamily="sans-serif-smallcaps" />
-
-
-                        <TextView
-                            android:id="@+id/textnote"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="3dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_bac_s"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:lines="2"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="18sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/rowcompany"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:layout_weight="1"
-                        android:gravity="center"
-
-                        android:orientation="vertical"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-
                             android:layout_weight="2"
-                            android:drawableStart="@drawable/ic_border_color_black_24dp"
+                            android:drawableStart="@drawable/ic_person"
                             android:drawablePadding="5dp"
                             android:gravity="start"
-
-                            android:text="@string/company"
+                            android:text="@string/beneficiary"
                             android:textColor="@color/colorWhite"
-                            android:textSize="15sp"
+                            android:textSize="18sp"
                             android:textStyle="bold"
                             app:autoSizeMaxTextSize="18sp"
                             app:autoSizeMinTextSize="12sp"
@@ -491,252 +181,385 @@
                             app:autoSizeTextType="uniform"
                             app:fontFamily="sans-serif-smallcaps" />
 
-
-                        <TextView
-                            android:id="@+id/Textcompany"
+                        <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="3dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_bac_s"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:lines="2"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="18sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform" />
-
-                    </LinearLayout>
-
-                    <TableRow
-                        android:id="@+id/rowFirst"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:padding="5dp">
-
-
-                        <TextView
-                            android:id="@+id/textFirstPinificry"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/left_background"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:padding="5dp"
-                            android:text="@string/firstbeneficiary"
-                            android:textColor="@color/colorWhite"
-
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="16sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform"
-                            app:fontFamily="sans-serif-smallcaps" />
-
-                        <TextView
-                            android:id="@+id/textCo"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/accept_background"
-                            android:ems="10"
-
-                            android:gravity="center"
-                            android:padding="5dp"
-                            android:text="@string/CO"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="16sp"
-                            android:visibility="visible"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform"
-                            app:fontFamily="sans-serif-smallcaps" />
-
-
-                    </TableRow>
-
-                    <TextView
-                        android:id="@+id/CheckPicText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:fontFamily="serif"
-                        android:text="@string/check_pic"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:autoSizeMaxTextSize="18sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform"
-                        app:fontFamily="sans-serif-smallcaps" />
-
-                    <TableRow
-                        android:id="@+id/editorCheque_picLinear"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:layout_weight="1"
-                        android:gravity="center">
-
-
-                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/profile_image2"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
-                            android:src="@drawable/bank4"
-                            app:civ_border_color="@color/colorWhiteLight"
-                            app:civ_border_width="2dp" />
-
-                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/profile_gero"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_bac_s"
-                            android:src="@drawable/bank4"
-                            app:civ_border_color="@color/colorWhiteLight"
-                            app:civ_border_width="2dp" />
-
-
-                    </TableRow>
-                    <LinearLayout
-                        android:id="@+id/rowJointAccptedPhone"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:visibility="gone"
-
-                        android:orientation="vertical"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/textView32"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-
-                            android:layout_weight="1"
-                            android:drawableStart="@drawable/ic_group_green_24dp"
-                            android:drawablePadding="5dp"
-                            android:gravity="start"
-
-                            android:text="@string/acccept"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="12sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform"
-                            app:fontFamily="sans-serif-smallcaps" />
-
-
-                        <TextView
-                            android:id="@+id/textPhoneAccept"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="3dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_bac_s"
-                            android:ems="10"
                             android:gravity="center"
-                            android:lines="2"
-                            android:textColor="@color/colorWhite"
-                            android:textColorHint="@color/colorWhite"
-                            android:textSize="18sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform" />
+                            android:padding="5dp">
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/resonLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="3.5"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        app:fontFamily="sans-serif-smallcaps">
 
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3"
-                            android:gravity="start"
-                            >
-                        <TextView
-                            android:id="@+id/text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_do_not_disturb_alt_black_24dp"
-                            android:ems="5"
-                            android:layout_weight="3"
-                            android:gravity="start"
-                            android:text="@string/ResonOfReject"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="16sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            app:autoSizeMinTextSize="16sp"
-                            app:autoSizeStepGranularity="2sp"
-                            app:autoSizeTextType="uniform"
-                            app:fontFamily="sans-serif-smallcaps" />
                             <TextView
-                                android:id="@+id/rejectPhone"
+                                android:id="@+id/binificary"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:ems="5"
-                                android:layout_weight="3"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:gravity="center"
+                                android:hint=""
+                                android:padding="1dp"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textSize="18sp"
+                                app:autoSizeMaxTextSize="18sp"
+                                app:autoSizeMinTextSize="16sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform" />
+
+
+                        </TableRow>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/textVi7"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="5.7"
+                                android:text="@string/amount_word"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="18sp"
+
+                                android:textStyle="bold"
+                                app:autoSizeMaxTextSize="18sp"
+                                app:autoSizeMinTextSize="12sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform"
+                                app:fontFamily="sans-serif-smallcaps" />
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="5"
+                                android:gravity="center"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:id="@+id/textAmountNo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edit_bac_s"
+                                    android:ems="5"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:padding="5dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhite"
+                                    android:textSize="18sp"
+                                    app:autoSizeMaxTextSize="18sp"
+                                    app:autoSizeMinTextSize="16sp"
+                                    app:autoSizeStepGranularity="2sp"
+                                    app:autoSizeTextType="uniform" />
+
+                                <TextView
+                                    android:id="@+id/amountPhilis"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edit_bac_s"
+                                    android:ems="5"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:padding="5dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textColorHint="@color/colorWhite"
+                                    android:textSize="18sp"
+                                    app:autoSizeMaxTextSize="18sp"
+                                    app:autoSizeMinTextSize="16sp"
+                                    app:autoSizeStepGranularity="2sp"
+                                    app:autoSizeTextType="uniform" />
+
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="5">
+
+
+                                <TextView
+                                    android:id="@+id/textAmouWord"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+
+                                    android:background="@drawable/edit_bac_s"
+                                    android:ems="5"
+                                    android:gravity="center"
+                                    android:inputType="textMultiLine"
+
+                                    android:lines="2"
+
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="18sp"
+                                    app:autoSizeMaxTextSize="18sp"
+                                    app:autoSizeMinTextSize="16sp"
+                                    app:autoSizeStepGranularity="2sp"
+                                    app:autoSizeTextType="uniform" />
+
+                            </TableRow>
+                        </LinearLayout>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edit_bac_s"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:visibility="gone">
+
+                            <!--<TextView-->
+                            <!--android:id="@+id/textVi"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_margin="2dp"-->
+                            <!--android:text="Phone No."-->
+                            <!--android:textColor="@color/colorWhite"-->
+                            <!--android:textSize="18sp"-->
+                            <!--android:textStyle="bold" />-->
+
+                            <TextView
+                                android:id="@+id/textPhoneNo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                android:drawableStart="@drawable/ic_local_phone_black_24dp"
+                                android:ems="10"
+                                android:gravity="center"
+                                android:hint="00692797319889"
+                                android:padding="5dp"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textSize="18sp"
+                                app:autoSizeMaxTextSize="18sp"
+                                app:autoSizeMinTextSize="16sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform" />
+
+                        </TableRow>
+                        <!--</LinearLayout>-->
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+
+                            android:background="@color/colorGold" />
+
+                        <TextView
+                            android:id="@+id/textView37"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_weight="2"
+                            android:drawableStart="@drawable/ic_person"
+                            android:drawablePadding="5dp"
+                            android:gravity="start"
+                            android:text="@string/cheque_writer"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:autoSizeMaxTextSize="18sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform"
+                            app:fontFamily="sans-serif-smallcaps" />
+
+                        <TableRow
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:gravity="center"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/textToOrder"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:gravity="center"
+                                android:inputType="textPersonName"
+                                android:padding="1dp"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textSize="18sp"
+                                app:autoSizeMaxTextSize="18sp"
+                                app:autoSizeMinTextSize="16sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform" />
+
+                        </TableRow>
+
+                        <LinearLayout
+                            android:id="@+id/rowNote"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:layout_weight="1"
+                            android:gravity="center"
+
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/textView3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:layout_weight="1"
+                                android:drawableStart="@drawable/ic_border_color_black_24dp"
+                                android:drawablePadding="5dp"
                                 android:gravity="start"
 
+                                android:text="@string/Note"
                                 android:textColor="@color/colorWhite"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                app:autoSizeMaxTextSize="18sp"
+                                app:autoSizeMinTextSize="12sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform"
+                                app:fontFamily="sans-serif-smallcaps" />
+
+
+                            <TextView
+                                android:id="@+id/textnote"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="3dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:ems="10"
+                                android:gravity="center"
+                                android:lines="2"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textSize="18sp"
+                                app:autoSizeMaxTextSize="18sp"
+                                app:autoSizeMinTextSize="16sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/rowcompany"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:layout_weight="1"
+                            android:gravity="center"
+
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:layout_weight="2"
+                                android:drawableStart="@drawable/ic_border_color_black_24dp"
+                                android:drawablePadding="5dp"
+                                android:gravity="start"
+
+                                android:text="@string/company"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                app:autoSizeMaxTextSize="18sp"
+                                app:autoSizeMinTextSize="12sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform"
+                                app:fontFamily="sans-serif-smallcaps" />
+
+
+                            <TextView
+                                android:id="@+id/Textcompany"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="3dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:ems="10"
+                                android:gravity="center"
+                                android:lines="2"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textSize="18sp"
+                                app:autoSizeMaxTextSize="18sp"
+                                app:autoSizeMinTextSize="16sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform" />
+
+                        </LinearLayout>
+
+                        <TableRow
+                            android:id="@+id/rowFirst"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="5dp">
+
+
+                            <TextView
+                                android:id="@+id/textFirstPinificry"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/left_background"
+                                android:ems="10"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="@string/firstbeneficiary"
+                                android:textColor="@color/colorWhite"
+
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="16sp"
                                 app:autoSizeMaxTextSize="18sp"
                                 app:autoSizeMinTextSize="16sp"
                                 app:autoSizeStepGranularity="2sp"
                                 app:autoSizeTextType="uniform"
                                 app:fontFamily="sans-serif-smallcaps" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textResonReject"
+                                android:id="@+id/textCo"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/back_black"
-                                android:ems="5"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/accept_background"
+                                android:ems="10"
+
                                 android:gravity="center"
-                                android:scrollbars="vertical"
-                                android:lines="1"
+                                android:padding="5dp"
+                                android:text="@string/CO"
                                 android:textColor="@color/colorWhite"
-                                android:textSize="18sp"
+                                android:textColorHint="@color/colorWhite"
+                                android:textSize="16sp"
+                                android:visibility="visible"
                                 app:autoSizeMaxTextSize="18sp"
                                 app:autoSizeMinTextSize="16sp"
                                 app:autoSizeStepGranularity="2sp"
@@ -744,28 +567,205 @@
                                 app:fontFamily="sans-serif-smallcaps" />
 
 
+                        </TableRow>
+
+                        <TextView
+                            android:id="@+id/CheckPicText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:fontFamily="serif"
+                            android:text="@string/check_pic"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:autoSizeMaxTextSize="18sp"
+                            app:autoSizeMinTextSize="12sp"
+                            app:autoSizeStepGranularity="2sp"
+                            app:autoSizeTextType="uniform"
+                            app:fontFamily="sans-serif-smallcaps" />
+
+                        <TableRow
+                            android:id="@+id/editorCheque_picLinear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+
+                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/profile_image2"
+                                android:layout_width="match_parent"
+                                android:layout_height="70dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:src="@drawable/bank4"
+                                app:civ_border_color="@color/colorWhiteLight"
+                                app:civ_border_width="2dp" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/profile_gero"
+                                android:layout_width="match_parent"
+                                android:layout_height="70dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:src="@drawable/bank4"
+                                app:civ_border_color="@color/colorWhiteLight"
+                                app:civ_border_width="2dp" />
+
+
+                        </TableRow>
+                        <LinearLayout
+                            android:id="@+id/rowJointAccptedPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:visibility="gone"
+
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
                             <TextView
-                                android:id="@+id/reSend"
+                                android:id="@+id/textView32"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:layout_weight="1"
+                                android:drawableStart="@drawable/ic_group_green_24dp"
+                                android:drawablePadding="5dp"
+                                android:gravity="start"
+
+                                android:text="@string/acccept"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                app:autoSizeMaxTextSize="18sp"
+                                app:autoSizeMinTextSize="12sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform"
+                                app:fontFamily="sans-serif-smallcaps" />
+
+
+                            <TextView
+                                android:id="@+id/textPhoneAccept"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="3dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bac_s"
+                                android:ems="10"
+                                android:gravity="center"
+                                android:lines="2"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
+                                android:textSize="18sp"
+                                app:autoSizeMaxTextSize="18sp"
+                                app:autoSizeMinTextSize="16sp"
+                                app:autoSizeStepGranularity="2sp"
+                                app:autoSizeTextType="uniform" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/resonLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:layout_weight="3.5"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            app:fontFamily="sans-serif-smallcaps">
+
+                            <LinearLayout
+                                android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="2dp"
-                                android:layout_marginTop="5dp"
-                                android:background="@drawable/edit_bac_sinup"
-                                android:drawableStart="@drawable/ic_send_black_24dp"
-                                android:drawablePadding="10dp"
-                                android:gravity="center"
-                                android:padding="10dp"
-                                android:text="@string/resend"
-                                android:textColor="@color/white"
-                                android:textSize="18sp"
-                                app:fontFamily="sans-serif-smallcaps" />
+                                android:layout_weight="3"
+                                android:gravity="start"
+                                >
+                                <TextView
+                                    android:id="@+id/text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:drawableStart="@drawable/ic_do_not_disturb_alt_black_24dp"
+                                    android:ems="5"
+                                    android:layout_weight="3"
+                                    android:gravity="start"
+                                    android:text="@string/ResonOfReject"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="16sp"
+                                    app:autoSizeMaxTextSize="18sp"
+                                    app:autoSizeMinTextSize="16sp"
+                                    app:autoSizeStepGranularity="2sp"
+                                    app:autoSizeTextType="uniform"
+                                    app:fontFamily="sans-serif-smallcaps" />
+                                <TextView
+                                    android:id="@+id/rejectPhone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ems="5"
+                                    android:layout_weight="3"
+                                    android:gravity="start"
+
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="16sp"
+                                    app:autoSizeMaxTextSize="18sp"
+                                    app:autoSizeMinTextSize="16sp"
+                                    app:autoSizeStepGranularity="2sp"
+                                    app:autoSizeTextType="uniform"
+                                    app:fontFamily="sans-serif-smallcaps" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/textResonReject"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/back_black"
+                                    android:ems="5"
+                                    android:gravity="center"
+                                    android:scrollbars="vertical"
+                                    android:lines="1"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="18sp"
+                                    app:autoSizeMaxTextSize="18sp"
+                                    app:autoSizeMinTextSize="16sp"
+                                    app:autoSizeStepGranularity="2sp"
+                                    app:autoSizeTextType="uniform"
+                                    app:fontFamily="sans-serif-smallcaps" />
+
+
+                                <TextView
+                                    android:id="@+id/reSend"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@drawable/edit_bac_sinup"
+                                    android:drawableStart="@drawable/ic_send_black_24dp"
+                                    android:drawablePadding="10dp"
+                                    android:gravity="center"
+                                    android:padding="10dp"
+                                    android:text="@string/resend"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp"
+                                    app:fontFamily="sans-serif-smallcaps" />
+                            </LinearLayout>
+
+
                         </LinearLayout>
 
-
                     </LinearLayout>
-
-                </LinearLayout>
-            </ScrollView>
+                </ScrollView>
             </LinearLayout>
 
 

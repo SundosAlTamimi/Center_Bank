@@ -148,7 +148,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     public static String localNationlNo = "";
     String phoneNoUser;
     String intentReSend;
-    SweetAlertDialog pd;
+    SweetAlertDialog pd,pdValidation;
     boolean isPermition;
     ChequeInfo chequeInfoReSendEd;
     private String currencyLanguage = "عربي", amountWord, countryCode = "962";
@@ -847,7 +847,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                                             } else {
                                                 SweetAlertDialog sw = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE);
-                                                sw.setTitleText("***" + EditerCheackActivity.this.getResources().getString(R.string.phone_no) + "***");
+                                                sw.setTitleText( EditerCheackActivity.this.getResources().getString(R.string.phone_no) );
                                                 sw.setContentText("Please , change Phone No ,You Can't Send The Cheque To Yourself");
                                                 sw.setConfirmText(EditerCheackActivity.this.getResources().getString(R.string.ok));
                                                 sw.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -1084,6 +1084,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                     CheckPic.setImageBitmap(serverPicBitmap);
                     serverPic = bitMapToString(serverPicBitmap);
                     deleteFiles(path);
+                    CheckPicText.setError(null);
                 }
                 File file = new File(mCameraFileName);
                 if (!file.exists()) {
@@ -1167,6 +1168,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                     })
 
                     .show();
+            pdValidation.dismissWithAnimation();
+
 
         }
     }
@@ -1176,7 +1179,6 @@ public class EditerCheackActivity extends AppCompatActivity {
         if (check) {
             Log.e("VerifyCheck 851", "JSONTask dialog in ");
             new LocaleAppUtils().changeLayot(EditerCheackActivity.this);
-
             final Dialog dialog = new Dialog(this, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_after_validation);
@@ -1403,6 +1405,12 @@ public class EditerCheackActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
+            pdValidation = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pdValidation.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+            pdValidation.setTitleText(EditerCheackActivity.this.getResources().getString(R.string.verification));
+            pdValidation.setCancelable(false);
+            pdValidation.show();
+
         }
 
         @Override
@@ -1471,6 +1479,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                         SERIALNO = jsonObject.get("SERIALNO").toString();
                         BANKNO = jsonObject.get("BANKNO").toString();
                         BRANCHNO = jsonObject.get("BRANCHNO").toString();
+
+                        pdValidation.dismissWithAnimation();
 
                         showValidationDialog(true, CUSTOMERNM, BANKNO, ACCCODE, CHECKNO);
 
@@ -2004,7 +2014,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                         chequeInfo.setBankNo(BANKNO);
                         chequeInfo.setBranchNo(BRANCHNO);
                         chequeInfo.setChequeNo(CHECKNO);
-
+  
                         new IsCheckGero(chequeInfo).execute();
 //                        linerEditing.setVisibility(View.VISIBLE);
 //                        linerBarcode.setVisibility(View.GONE);
@@ -2160,8 +2170,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     finish();
-                                    Intent intentGiro=new Intent(EditerCheackActivity.this,JeroActivity.class);
-                                    startActivity(intentGiro);
+//                                    Intent intentGiro=new Intent(EditerCheackActivity.this,JeroActivity.class);
+//                                    startActivity(intentGiro);
 
                                     sDialog.dismissWithAnimation();
                                 }

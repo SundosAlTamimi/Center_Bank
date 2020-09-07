@@ -96,7 +96,7 @@ public class AlertScreen extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     NotificationManager notificationManager;
     SwipeRefreshLayout swipeRefresh;
-    private ProgressDialog progressDialog;
+    public ProgressDialog progressDialog;
 
     static int id = 1;
     int transtype = -1;
@@ -137,7 +137,7 @@ public class AlertScreen extends AppCompatActivity {
 
         SharedPreferences loginPrefs = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE);
         serverLink = loginPrefs.getString("link", "");
-        progressDialog = new ProgressDialog(AlertScreen.this);
+//        progressDialog = new ProgressDialog(AlertScreen.this);
 //        progressDialog = ProgressDialog.show(AlertScreen.this, "", "Please Waiting", true, false);
 
         layout = (LinearLayout) findViewById(R.id.mainlayout);
@@ -153,8 +153,11 @@ public class AlertScreen extends AppCompatActivity {
         infoUser = databaseHandler.getActiveUserInfo();
         phoneNo = infoUser.getUsername();
 
-        progressDialog = ProgressDialog.show(AlertScreen.this, "", ""+getResources().getString(R.string.please_waiting), true, false);
-
+//        progressDialog = ProgressDialog.show(AlertScreen.this, "", ""+getResources().getString(R.string.please_waiting), true, false);
+        progressDialog = new ProgressDialog(AlertScreen.this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(""+getResources().getString(R.string.please_waiting));
+        progressDialog.show();
         new GetNotification_JSONTask().execute();
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -645,9 +648,13 @@ public class AlertScreen extends AppCompatActivity {
 //    }
     public class GetNotification_JSONTask extends AsyncTask<String, String, String> {
         public    int flagRefresh=0;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+//            progressDialog = ProgressDialog.show(AlertScreen.this, "", ""+getResources().getString(R.string.please_waiting), true, false);
+
             flagRefresh=1;
 
 
@@ -928,6 +935,7 @@ public class AlertScreen extends AppCompatActivity {
 //                    INFO
                     Log.e("tag", "****Success" + s.toString());
                 } else if (s.contains("\"StatusDescreption\":\"No Notification found\"")) {
+                    progressDialog.dismiss();
 //                    new Handler().post(new Runnable() {
 //                        @Override
 //                        public void run() {

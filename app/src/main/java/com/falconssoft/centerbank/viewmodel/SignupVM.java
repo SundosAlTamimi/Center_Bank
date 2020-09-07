@@ -28,6 +28,7 @@ public class SignupVM extends BaseObservable {
     private  int isNowActive;
     private String nationality;
     private String confirmPassword;
+    private String nationalIdentity;
 
     @Bindable
     public String getConfirmPassword() {
@@ -197,5 +198,13 @@ public class SignupVM extends BaseObservable {
     public void setPassword(String password) {
         this.password = password;
         notifyPropertyChanged(com.falconssoft.centerbank.BR.password);
+    }
+
+    public String getNationalIdentity() {
+        return nationalIdentity;
+    }
+
+    public void setNationalIdentity(String nationalIdentity) {
+        this.nationalIdentity = nationalIdentity;
     }
 }

@@ -474,6 +474,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         }
 
         public void showDetails(String state_Join, String reson_Reject,String phonCurent) {
+
             final Dialog dialog = new Dialog(context, R.style.Theme_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);

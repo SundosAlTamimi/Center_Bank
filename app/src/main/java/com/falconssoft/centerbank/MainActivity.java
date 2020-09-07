@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
-    private Dialog barcodeDialog;
+    private Dialog barcodeDialog, addAccountDialog;
     private String[] arr;
     private boolean isAdd = false, isNewData = false;
     private TextView bankNameTV, chequeWriterTV, chequeNoTV, accountNoTV, okTV, cancelTV, check, amountTV;
@@ -250,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         addAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isAdd=true;
                 addAccountButton();
             }
         });
@@ -418,17 +419,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     void addAccountButton() {
-        final Dialog dialog = new Dialog(MainActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_add_account);
-        dialog.setCancelable(false);
+        addAccountDialog = new Dialog(MainActivity.this);
+        addAccountDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        addAccountDialog.setContentView(R.layout.dialog_add_account);
+        addAccountDialog.setCancelable(false);
 
-        final TextInputEditText inputEditText = dialog.findViewById(R.id.dialog_addAccount_account);
-        TextView close = dialog.findViewById(R.id.dialog_add_close);
-        TextView add = dialog.findViewById(R.id.dialog_addAccount_add);
-        TextView scan = dialog.findViewById(R.id.dialog_addAccount_scan);
-        LinearLayout linearLayout = dialog.findViewById(R.id.dialog_addAccount_linear);
-
+        final TextInputEditText inputEditText = addAccountDialog.findViewById(R.id.dialog_addAccount_account);
+        TextView close = addAccountDialog.findViewById(R.id.dialog_add_close);
+        TextView add = addAccountDialog.findViewById(R.id.dialog_addAccount_add);
+        TextView scan = addAccountDialog.findViewById(R.id.dialog_addAccount_scan);
+        LinearLayout linearLayout = addAccountDialog.findViewById(R.id.dialog_addAccount_linear);
         if (language.equals("ar")) {
             linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         } else {
@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        isAdd = true;
+
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -469,11 +469,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                isAdd = false;
+                addAccountDialog.dismiss();
             }
         });
         //TODO add dialog function
-        dialog.show();
+        addAccountDialog.show();
     }
 
     void init() {
@@ -674,7 +675,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-        isAdd = false;
 
     }
 
@@ -690,6 +690,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.e("id", " " + id);
         switch (id) {
             case R.id.menu_verification: {
+                isAdd = false;
                 checkChequeValidation();
             }
             break;
@@ -738,7 +739,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog.show();
 
                 Window window = dialog.getWindow();
-                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
             }
             break;
@@ -1284,12 +1285,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         protected void onPostExecute(String JsonResponse) {
             super.onPostExecute(JsonResponse);
 
-
             if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
                 Log.e("GetAccSuccess", "****Success");
 
+                if (addAccountDialog != null)
+                    addAccountDialog.dismiss();
+
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText(MainActivity.this.getResources().getString(R.string.save_success))
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.save))
                         .setContentText(MainActivity.this.getResources().getString(R.string.save_success))
                         .show();
 
@@ -1308,7 +1311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .show();
             } else if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"This user not own this account.")) {
                 new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("WARNING")
+                        .setTitleText(MainActivity.this.getResources().getString(R.string.WARNING))
                         .setContentText(MainActivity.this.getResources().getString(R.string.notforYou))//This user not own this account.
                         .show();
             }

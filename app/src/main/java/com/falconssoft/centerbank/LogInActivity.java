@@ -9,11 +9,13 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -39,7 +41,6 @@ import com.falconssoft.centerbank.Models.Setting;
 import com.falconssoft.centerbank.databinding.LogInBinding;
 import com.falconssoft.centerbank.mail.LongOperation;
 import com.falconssoft.centerbank.viewmodel.SignupVM;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -79,7 +80,7 @@ public class LogInActivity extends AppCompatActivity {
     //    private EditText userName, password;
 //    private Button singIn, singUp;
 //    private String language = "";
-    private ImageView SettingImage, close;//, seen;
+    private ImageView SettingImage, close, loginSeen;//, seen;
     private DatabaseHandler databaseHandler;
     private Animation animation;
     public static final String LANGUAGE_FLAG = "LANGUAGE_FLAG";
@@ -192,6 +193,24 @@ public class LogInActivity extends AppCompatActivity {
 
             }
         });
+
+
+        loginSeen.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (binding.LogInPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) { //password
+                    loginSeen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility));
+                    binding.LogInPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// password
+                    binding.LogInPassword.setTransformationMethod(new PasswordTransformationMethod());// password
+                } else {
+                    loginSeen.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+                    binding.LogInPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);// password
+                    binding.LogInPassword.setTransformationMethod(null);//password
+                }
+                return false;
+            }
+        });
+
 
         binding.setLoginModel(signupVM);
 
@@ -660,6 +679,7 @@ public class LogInActivity extends AppCompatActivity {
         databaseHandler = new DatabaseHandler(LogInActivity.this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getString(R.string.please_waiting));
+        loginSeen = findViewById(R.id.login_seen);
 
 //        binding.LogInUserName.setText("0790790791");//userName.getText().toString());
 //        binding.LogInPassword.setText("tahaniA1$");
