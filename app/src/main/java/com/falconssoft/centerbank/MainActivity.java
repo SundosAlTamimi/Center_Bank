@@ -962,7 +962,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     static class CViewHolderForbar extends RecyclerView.ViewHolder {
 
-        TextView ItemName;
+        TextView ItemName,AccType;
         ImageView itemImage;
         LinearLayout layBar;
 
@@ -971,6 +971,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ItemName = itemView.findViewById(R.id.textbar);
             layBar = itemView.findViewById(R.id.layBar);
             itemImage = itemView.findViewById(R.id.imgbar);
+            AccType=itemView.findViewById(R.id.AccType);
         }
     }
 
@@ -1005,6 +1006,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     cViewHolder.itemImage.setImageDrawable(context.getResources().getDrawable(R.drawable.cairo_amman_bank));
                     break;
             }
+            String aacType="";
+            try {
+                 aacType = list.get(i).getAccountNo().substring( list.get(i).getAccountNo().length()-2, list.get(i).getAccountNo().length()-1);
+           Log.e("aacType",""+aacType);
+            }catch (Exception e){
+                aacType="0";
+            }
+
+            switch (aacType){
+
+                case "2":
+                    cViewHolder.AccType.setText(context.getResources().getString(R.string.Join));
+                    break;
+                case "0":
+                    cViewHolder.AccType.setText(context.getResources().getString(R.string.individual));
+                    break;
+            }
+
+
 //            cViewHolder.itemImage.setBackgroundResource(getImage(pic2.get(i)));
             cViewHolder.layBar.setTag("" + i);
 

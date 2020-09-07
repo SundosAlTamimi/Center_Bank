@@ -88,7 +88,7 @@
     <string name="pending">Pending</string>
     <string name="save_success">Processing</string>
     <string name="cantSave">Cannot ADD</string>
-    <string name="already_exist">Account Is Not Yours !</string>
+    <string name="already_exist">Account Is Already Exist !</string>
     <string name="error_in_save">Error in Adding Accounts!</string>
     <string name="success_del">Delete Successfully</string>
     <string name="del_acc_success">Account Deleted Successfully</string>

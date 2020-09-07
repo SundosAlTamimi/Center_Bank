@@ -148,7 +148,7 @@ public class EditerCheackActivity extends AppCompatActivity {
     public static String localNationlNo = "";
     String phoneNoUser;
     String intentReSend;
-    SweetAlertDialog pd,pdValidation;
+    SweetAlertDialog pd,pdValidation,pdValidationDialog;
     boolean isPermition;
     ChequeInfo chequeInfoReSendEd;
     private String currencyLanguage = "عربي", amountWord, countryCode = "962";
@@ -1888,6 +1888,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 //            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
 //            pd.setTitleText(context.getResources().getString(R.string.importstor));
+            pdValidationDialog.getProgressHelper().setBarColor(Color.parseColor("#1E88E5"));
 
         }
 
@@ -1972,6 +1973,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
+                    pdValidationDialog.dismissWithAnimation();
+
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.pending_))
                             .setContentText(EditerCheackActivity.this.getResources().getString(R.string.cantsendchech))
@@ -2027,6 +2030,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                 }
             } else {
+                pdValidationDialog.dismissWithAnimation();
+
                 Log.e("tag", "****Failed to export data");
                 new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.warning))
@@ -2054,6 +2059,13 @@ public class EditerCheackActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pdValidationDialog = new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pdValidationDialog.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+            pdValidationDialog.setTitleText(EditerCheackActivity.this.getResources().getString(R.string.verification));
+            pdValidationDialog.setCancelable(false);
+            pdValidationDialog.show();
+
+
 //            progressDialog = new ProgressDialog(context,R.style.MyTheme);
 //            progressDialog.setCancelable(false);
 //            progressDialog.setMessage("Loading...");
@@ -2160,6 +2172,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                    }
 //                })
 //                        .show();
+                    pdValidationDialog.dismissWithAnimation();
 
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.cheq_acc))
@@ -2182,6 +2195,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 
 
                 } else {
+                    pdValidationDialog.dismissWithAnimation();
                     new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.warning))
                             .setContentText(EditerCheackActivity.this.getResources().getString(R.string.failtoSend) + s)
@@ -2195,6 +2209,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                     pushCheque.setEnabled(true);
                 }
             } else {
+                pdValidationDialog.dismissWithAnimation();
+
                 Log.e("tag", "****Failed to export data");
                 new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText(EditerCheackActivity.this.getResources().getString(R.string.warning))
@@ -2205,8 +2221,7 @@ public class EditerCheackActivity extends AppCompatActivity {
                         sweetAlertDialog.dismissWithAnimation();
 
                     }
-                })
-                        .show();
+                }).show();
                 pushCheque.setEnabled(true);
 
             }
@@ -2227,6 +2242,8 @@ public class EditerCheackActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pdValidationDialog.getProgressHelper().setBarColor(Color.parseColor("#43A047"));
+
 //            progressDialog = new ProgressDialog(context,R.style.MyTheme);
 //            progressDialog.setCancelable(false);
 //            progressDialog.setMessage("Loading...");
@@ -2316,6 +2333,7 @@ public class EditerCheackActivity extends AppCompatActivity {
             super.onPostExecute(JsonResponse);
 
             Log.e("TillerGetCheck", "JSONTaskpost");
+            pdValidationDialog.dismissWithAnimation();
 
             if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
                 Log.e("GetLogSuccess", "****Success");
@@ -2476,6 +2494,8 @@ public class EditerCheackActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pdValidationDialog.getProgressHelper().setBarColor(Color.parseColor("#F4511E"));
+
 //            progressDialog = new ProgressDialog(context,R.style.MyTheme);
 //            progressDialog.setCancelable(false);
 //            progressDialog.setMessage("Loading...");
@@ -2641,6 +2661,8 @@ public class EditerCheackActivity extends AppCompatActivity {
                     if (!foundIn) {
 
                         Log.e("chequeGiro 2010", "not giro" + JsonResponse.toString());
+//                        pdValidationDialog.dismissWithAnimation();
+                        new TillerGetCheck(chequeInfo).execute();
 
                     } else {
 //                        new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -2654,6 +2676,7 @@ public class EditerCheackActivity extends AppCompatActivity {
 //                                        sDialog.dismissWithAnimation();
 //                                    }
 //                                }).show();
+
                         new TillerGetCheck(chequeInfo).execute();
 
                     }
