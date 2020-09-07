@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
             }
 
-        }, 0, 5000);
+        }, 0, 3000);
         addAccountOb = new JSONObject();
         picforbar = new ArrayList<>();
 //        picforbar.add("01365574861","");

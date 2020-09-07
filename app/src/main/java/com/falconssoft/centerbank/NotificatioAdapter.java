@@ -99,6 +99,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
     EditText resonText;
     String reson_reject = "";
     private ProgressDialog progressDialog;
+    private ProgressDialog progressDialog_NotiStat;
     AlertScreen contextAlert;
     public static String amountArabic = "", stateJoin = "", phonCurentReject = "", resonReject = "";
 
@@ -227,19 +228,30 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
             } else {// rejected
-                if (checkInfoNotification.get(i).getTransType().equals("2") || stateJoin.equals("2")) {
-                    if(stateJoin.equals("2"))
-                    {
-                        viewHolder.joined_Rejectimage.setVisibility(View.VISIBLE);
-                    }
-                    else {
-                        viewHolder.rejectImg.setVisibility(View.VISIBLE);
+                if (checkInfoNotification.get(i).getTransType().equals("2") || stateJoin.equals("2")||(checkInfoNotification.get(i).getTransType().equals("200")&&checkInfoNotification.get(i).getWICHEUSER().equals("-1"))) {
+
+                        if(checkInfoNotification.get(i).getTransType().equals("2"))
+                        {
+                            viewHolder.rejectImg.setVisibility(View.VISIBLE);
+                            viewHolder.joined_Rejectimage.setVisibility(View.GONE);
+                            viewHolder.acceptImg.setVisibility(View.GONE);
+                            viewHolder.reciveNew.setVisibility(View.GONE);
+                            viewHolder.geroLinear_pending.setVisibility(View.GONE);
+                        }
+                        else {
+                            viewHolder.joined_Rejectimage.setVisibility(View.VISIBLE);
+                            viewHolder.rejectImg.setVisibility(View.GONE);
+                            viewHolder.acceptImg.setVisibility(View.GONE);
+                            viewHolder.reciveNew.setVisibility(View.GONE);
+                            viewHolder.geroLinear_pending.setVisibility(View.GONE);
+                        }
+
 //                        viewHolder.reciveNew.setVisibility(View.GONE);
 //                        viewHolder.acceptImg.setVisibility(View.GONE);
 //                        viewHolder.joined_Requestimage.setVisibility(View.GONE);
 //                        viewHolder.geroLinear_pending.setVisibility(View.GONE);
 
-                    }
+
 
                 }
                 if (checkInfoNotification.get(i).getTransType().equals("100") && checkInfoNotification.get(i).getWICHEUSER().equals("-1"))// request to accept join cheque
@@ -361,7 +373,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                 public boolean onLongClick(View v) {
 
                     row_index = i;
-                    progressDialog = new ProgressDialog(context);
+
                     new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText(R.string.Confirm)
                             .setContentText(context.getResources().getString(R.string.message_forDelete))
@@ -371,9 +383,8 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
 
-                                    progressDialog.setMessage(context.getResources().getString(R.string.process));
-                                    progressDialog.show();
-                                    updateNotificationState();
+
+                                    updateNotificationState("delete");
 
                                     sDialog.dismissWithAnimation();
                                 }
@@ -834,8 +845,8 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
         }
     }
 
-    private void updateNotificationState() {
-        new JSONUpdateNotificationTask().execute();
+    private void updateNotificationState( String flag) {
+        new JSONUpdateNotificationTask(flag).execute();
     }
 
     private void showDialogreson() {
@@ -1052,10 +1063,10 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog_NotiStat = new ProgressDialog(context);
+            progressDialog_NotiStat.setMessage(context.getResources().getString(R.string.process));
+            progressDialog_NotiStat.show();
 
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage(context.getResources().getString(R.string.process));
-            progressDialog.show();
 
         }
 
@@ -1107,11 +1118,11 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
                 in.close();
 
                 JsonResponse = sb.toString();
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 //                Log.e("tagAlertScreen", "" + JsonResponse);
 
                 return JsonResponse;
@@ -1129,14 +1140,18 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("AdapteronPostExecute", "OK");
-                    updateNotificationState();
+                    updateNotificationState("update");
 //                    progressDialog.dismiss();
 
 //                    Log.e("tagAdapter", "****Success" + s.toString());
                 } else {
                     Log.e("tagAdapter", "****Failed to Savedata");
+                    progressDialog_NotiStat.setMessage(context.getResources().getString(R.string.error_in_save));
+                    progressDialog_NotiStat.dismiss();
                 }
             } else {
+                progressDialog_NotiStat.setMessage(context.getResources().getString(R.string.check_internet_connection));
+                progressDialog_NotiStat.dismiss();
 
                 Log.e("tagAdapter", "****Failed  Please check internet connection");
             }
@@ -1145,9 +1160,27 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
 
     class JSONUpdateNotificationTask extends AsyncTask<String, String, String> {
 
+        String stateDialog="";
+        public  JSONUpdateNotificationTask(String flag){
+            this.stateDialog=flag;
+            Log.e("stateDialog",""+flag);
+        }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            if(stateDialog.equals("update")){
+              progressDialog_NotiStat.setMessage("update list notify");
+            }
+            else {
+                if(stateDialog.equals("delete"))
+                {
+                    progressDialog = new ProgressDialog(context);
+                    progressDialog.setMessage(context.getResources().getString(R.string.process));
+                    progressDialog.show();
+                }
+            }
+
+
 
         }
 
@@ -1190,11 +1223,11 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
                 in.close();
 
                 JsonResponse = sb.toString();
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 //                Log.e("tagAlertScreen", "" + JsonResponse);
 
                 return JsonResponse;
@@ -1209,22 +1242,35 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
+            if(stateDialog.equals("delete"))// delete notification
+            {
+                progressDialog.dismiss();
+            }
+            else {
+                progressDialog_NotiStat.dismiss();
+            }
+
+
             if (s != null) {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
                     Log.e("AdapteronPostExecute", "OK");
+                    ((Activity)context).finish();
+                    Intent i= new Intent(context.getApplicationContext(),AlertScreen.class);
+                    context.startActivity(i);
+//                    notifyDataSetChanged();
 
 
-                    progressDialog.dismiss();
 
 //                    Log.e("tagAdapter", "****Success" + s.toString());
                 } else {
                     Log.e("tagAdapter", "****Failed to Savedata");
-                    progressDialog.dismiss();
+                    Toast.makeText(context, ""+context.getResources().getString(R.string.error_in_save), Toast.LENGTH_SHORT).show();
+
                 }
             } else {
 
                 Log.e("tagAdapter", "****Failed  Please check internet connection");
-                progressDialog.dismiss();
+                Toast.makeText(context, ""+context.getResources().getString(R.string.check_internet_connection), Toast.LENGTH_SHORT).show();
             }
         }
     }

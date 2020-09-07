@@ -714,9 +714,6 @@ public class RequestCheque extends AppCompatActivity {
                         editor.putStringSet("REQUEST_LIST", set_t);
                         editor.apply();
                         Log.e("foundSecond",""+foundSecond+"\t foundFirst"+foundFirst);
-
-
-                        // fillList();
                         first=2;
                         progressDialog.dismiss();
 
@@ -729,12 +726,9 @@ public class RequestCheque extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
 
-//                    INFO
-                    Log.e("tag", "****Success" + s.toString());
+
                 }if (s.contains("\"StatusDescreption\":\"Request data not found.\"")) {
                     progressDialog.dismiss();
-//                    new GetAllRequestFromUser_JSONTask().execute();
-
                     Log.e("tagFromUser", "****Failed to export data");
 
                 }if(s.contains("\"StatusDescreption\":\"No Notification found.\"")){
@@ -743,8 +737,6 @@ public class RequestCheque extends AppCompatActivity {
             }
             else {
                 progressDialog.dismiss();
-//                new GetAllRequestFromUser_JSONTask().execute();
-
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
         }
