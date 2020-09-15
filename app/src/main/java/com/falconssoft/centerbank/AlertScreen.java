@@ -170,7 +170,7 @@ public class AlertScreen extends AppCompatActivity {
 
             }
 
-        }, 0, 2000);
+        }, 0, 6000);
 
 
         swipeRefresh = findViewById(R.id.swipeRefresh);
@@ -181,9 +181,7 @@ public class AlertScreen extends AppCompatActivity {
                 Intent i= new Intent(AlertScreen.this,AlertScreen.class       );
                 startActivity(i);
 
-//                Toast.makeText(AlertScreen.this, "refresh ..", Toast.LENGTH_SHORT).show();
                 swipeRefresh.setRefreshing(false);
-//                new GetAllCheck_JSONTask().execute();
             }
         });
 
@@ -801,6 +799,8 @@ public class AlertScreen extends AppCompatActivity {
                             chequeInfo.setJOIN_T_REASON(infoDetail.getString("JOINTREASON"));
                             chequeInfo.setNOTFROWID(infoDetail.getString("NOTFROWID"));
                             chequeInfo.setWICHEUSER(infoDetail.getString("WICHEUSER"));
+                            chequeInfo.setNOTFMOBNO(infoDetail.getString("NOTFMOBNO"));
+
 
                             Log.e("setTransSendOrGero", "" + chequeInfo.getTransSendOrGero());
 
@@ -959,7 +959,7 @@ public class AlertScreen extends AppCompatActivity {
             }
             try{
                 if(progressDialog!= null &&progressDialog.isShowing()){
-                    progressDialog.dismiss();
+//                    progressDialog.dismiss();
                 }
                 if( flagRefresh==1)
                 {
@@ -970,6 +970,7 @@ public class AlertScreen extends AppCompatActivity {
             }
             catch(Exception e){
                 e.printStackTrace();
+                progressDialog.dismiss();
             }
             finally
             {

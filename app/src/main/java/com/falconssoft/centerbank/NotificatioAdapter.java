@@ -197,6 +197,36 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
         {
             phonCurentReject = checkInfoNotification.get(i).getToCustomerMobel();
         }
+        else if(checkInfoNotification.get(i).getWICHEUSER().equals("-1")&&checkInfoNotification.get(i).getTransType().equals("0")&&checkInfoNotification.get(i).getNOTFMOBNO().equals(mobile_No)){// accepted other person
+// for test
+            Log.e("fortest","");
+            if(checkInfoNotification.get(i).getJOIN_FirstMOB().equals(mobile_No))
+            {
+                stateJoin=checkInfoNotification.get(i).getJOIN_F_STATUS();
+                phonCurentReject = checkInfoNotification.get(i).getJOIN_FirstMOB();
+                resonReject=checkInfoNotification.get(i).getJOIN_F_REASON();
+            }
+            else {
+                if(checkInfoNotification.get(i).getJOIN_SecondSMOB().equals(mobile_No))
+                {
+                    stateJoin=checkInfoNotification.get(i).getJOIN_S_STATUS();
+                    phonCurentReject = checkInfoNotification.get(i).getJOIN_SecondSMOB();
+                    resonReject=checkInfoNotification.get(i).getJOIN_S_REASON();
+                }
+                else {
+                    if(checkInfoNotification.get(i).getJOIN_TheredMOB().equals(mobile_No))
+                    {
+                        stateJoin=checkInfoNotification.get(i).getJOIN_T_STATUS();
+                        phonCurentReject = checkInfoNotification.get(i).getJOIN_TheredMOB();
+                        resonReject=checkInfoNotification.get(i).getJOIN_T_REASON();
+                    }
+
+                }
+            }
+            Log.e("fortest","stateJoin"+stateJoin+"\tphonCurentReject"+phonCurentReject+"\tresonReject"+resonReject);
+
+
+        }
 
 
         Log.e("stateJoin", "" + stateJoin + resonReject);
@@ -210,6 +240,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             {
                 viewHolder.reciveNew.setVisibility(View.VISIBLE);
             }
+
 
 
             if (checkInfoNotification.get(i).getTransType().equals("1") || ((checkInfoNotification.get(i).getTransType().equals("100")) && stateJoin.equals("1")) || stateJoin.equals("1"))// accepted
@@ -228,9 +259,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
             } else {// rejected
-                if (checkInfoNotification.get(i).getTransType().equals("2") || stateJoin.equals("2")||(checkInfoNotification.get(i).getTransType().equals("200")&&checkInfoNotification.get(i).getWICHEUSER().equals("-1"))) {
+                if ((checkInfoNotification.get(i).getTransType().equals("2")&&checkInfoNotification.get(i).getWICHEUSER().equals("-1")) || stateJoin.equals("2")||(checkInfoNotification.get(i).getTransType().equals("200")&&checkInfoNotification.get(i).getWICHEUSER().equals("-1"))) {
 
-                        if(checkInfoNotification.get(i).getTransType().equals("2"))
+                        if((checkInfoNotification.get(i).getTransType().equals("2")&&checkInfoNotification.get(i).getWICHEUSER().equals("-1")) )
                         {
                             viewHolder.rejectImg.setVisibility(View.VISIBLE);
                             viewHolder.joined_Rejectimage.setVisibility(View.GONE);
@@ -318,6 +349,9 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
             @Override
             public void onClick(View view) {
                 row_index = i;
+                stateJoin = "";
+                phonCurentReject = "";
+                resonReject = "";
 
                 Log.e("getWICHEUSER", "" + checkInfoNotification.get(i).getWICHEUSER());
                 if (checkInfoNotification.get(i).getWICHEUSER().equals("1")) {
@@ -592,7 +626,7 @@ public class NotificatioAdapter extends RecyclerView.Adapter<NotificatioAdapter.
 
 
                 }
-                if (checkInfoNotification.get(row_index).getTransType().equals("2") || (checkInfoNotification.get(row_index).getTransType().equals("200") && !state_Join.equals("1")) ||( state_Join.equals("2")&&checkInfoNotification.get(row_index).getIsJoin().equals("1")&&!checkInfoNotification.get(row_index).getWICHEUSER().equals("-1"))) {
+                if ((checkInfoNotification.get(row_index).getTransType().equals("2")&&checkInfoNotification.get(row_index).getWICHEUSER().equals("-1")) || (checkInfoNotification.get(row_index).getTransType().equals("200") && !state_Join.equals("1")) ||( state_Join.equals("2")&&checkInfoNotification.get(row_index).getIsJoin().equals("1")&&!checkInfoNotification.get(row_index).getWICHEUSER().equals("-1"))) {
                     textViewMain.setText(context.getResources().getString(R.string.checkReject));
                     resonLayout.setVisibility(View.VISIBLE);
                     linearButn.setVisibility(View.GONE);
@@ -1123,7 +1157,7 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
-//                Log.e("tagAlertScreen", "" + JsonResponse);
+                Log.e("tagAlertScreen", "" + JsonResponse);
 
                 return JsonResponse;
 
@@ -1148,10 +1182,14 @@ if(checkInfoNotification.get(row_index).getTransType().equals("4")&&checkInfoNot
                     Log.e("tagAdapter", "****Failed to Savedata");
                     progressDialog_NotiStat.setMessage(context.getResources().getString(R.string.error_in_save));
                     progressDialog_NotiStat.dismiss();
+                    Toast.makeText(context, ""+context.getResources().getString(R.string.error_in_save), Toast.LENGTH_SHORT).show();
+
                 }
             } else {
                 progressDialog_NotiStat.setMessage(context.getResources().getString(R.string.check_internet_connection));
                 progressDialog_NotiStat.dismiss();
+                Toast.makeText(context, ""+context.getResources().getString(R.string.check_internet_connection), Toast.LENGTH_SHORT).show();
+
 
                 Log.e("tagAdapter", "****Failed  Please check internet connection");
             }

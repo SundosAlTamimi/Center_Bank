@@ -70,6 +70,15 @@ public class ChequeInfo implements Serializable {
     private  String JOIN_T_REASON    ;
     private  String NOTFROWID;
     private  String WICHEUSER;
+    private  String NOTFMOBNO;
+
+    public String getNOTFMOBNO() {
+        return NOTFMOBNO;
+    }
+
+    public void setNOTFMOBNO(String NOTFMOBNO) {
+        this.NOTFMOBNO = NOTFMOBNO;
+    }
 
     public String getWICHEUSER() {
         return WICHEUSER;
