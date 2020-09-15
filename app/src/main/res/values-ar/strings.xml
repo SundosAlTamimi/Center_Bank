@@ -231,5 +231,6 @@
     <string name="WARNING">تحذير</string>
     <string name="backPicture">الصوره من الخلف</string>
     <string name="frontPicture">الصوره من الامام</string>
+    <string name="cairo_amman_bank">بنك القاهره عمان</string>
 
 </resources>
