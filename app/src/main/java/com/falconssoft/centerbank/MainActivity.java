@@ -858,6 +858,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             dialog.setContentView(R.layout.dialog_after_validation);
             dialog.setCancelable(false);
 
+            ImageView pic_bank=dialog.findViewById(R.id.bank_pic);;
             bankNameTV = dialog.findViewById(R.id.dialog_validation_bankName);
             chequeWriterTV = dialog.findViewById(R.id.dialog_validation_chequeWriter);
             chequeNoTV = dialog.findViewById(R.id.dialog_validation_chequeNo);
@@ -887,6 +888,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 }
             });
+
+            switch (BankNo){
+
+                case"004":
+
+                    pic_bank.setImageDrawable(MainActivity.this.getResources().getDrawable(R.drawable.jordan_bank));
+                    bankNameTV.setText(MainActivity.this.getResources().getString(R.string.bank_of_jordan));
+
+                    break;
+                case "009":
+                    pic_bank.setImageDrawable(MainActivity.this.getResources().getDrawable(R.drawable.cairo_amman_bank));
+                    bankNameTV.setText(MainActivity.this.getResources().getString(R.string.cairo_amman_bank));
+                    break;
+
+            }
 
             cancelTV.setOnClickListener(new View.OnClickListener() {
                 @Override

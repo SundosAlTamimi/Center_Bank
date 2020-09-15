@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -103,6 +104,8 @@ public class LogInActivity extends AppCompatActivity {
     private CountryCodePicker ccp;
     String serverLink = "";
     private SharedClass sharedClass;
+
+    SweetAlertDialog pdValidation;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -540,6 +543,8 @@ public class LogInActivity extends AppCompatActivity {
             dialog.setContentView(R.layout.dialog_after_validation);
             dialog.setCancelable(false);
 
+            ImageView pic_bank=dialog.findViewById(R.id.bank_pic);;
+
             bankNameTV = dialog.findViewById(R.id.dialog_validation_bankName);
             chequeWriterTV = dialog.findViewById(R.id.dialog_validation_chequeWriter);
             chequeNoTV = dialog.findViewById(R.id.dialog_validation_chequeNo);
@@ -547,6 +552,8 @@ public class LogInActivity extends AppCompatActivity {
             okTV = dialog.findViewById(R.id.dialog_validation_ok);
             cancelTV = dialog.findViewById(R.id.dialog_validation_cancel);
             cancelTV.setVisibility(View.GONE);
+
+
 
 
             if (LocaleAppUtils.language.trim().equals("ar")) {
@@ -568,6 +575,21 @@ public class LogInActivity extends AppCompatActivity {
 //                    LogInActivity.this.barcodeDialog.dismiss();
                 }
             });
+
+           switch (BankNo){
+
+               case"004":
+
+                   pic_bank.setImageDrawable(LogInActivity.this.getResources().getDrawable(R.drawable.jordan_bank));
+                   bankNameTV.setText(LogInActivity.this.getResources().getString(R.string.bank_of_jordan));
+
+                   break;
+               case "009":
+                   pic_bank.setImageDrawable(LogInActivity.this.getResources().getDrawable(R.drawable.cairo_amman_bank));
+                   bankNameTV.setText(LogInActivity.this.getResources().getString(R.string.cairo_amman_bank));
+                   break;
+
+           }
 
             dialog.show();
             Window window = dialog.getWindow();
@@ -697,7 +719,11 @@ public class LogInActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
+            pdValidation = new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pdValidation.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
+            pdValidation.setTitleText(LogInActivity.this.getResources().getString(R.string.verification));
+            pdValidation.setCancelable(false);
+            pdValidation.show();
         }
 
         @Override
@@ -775,10 +801,12 @@ public class LogInActivity extends AppCompatActivity {
                 } else {
 
                     showValidationDialog(false, "", "", "", "");
-
+                    pdValidation.dismissWithAnimation();
                     Log.e("tagLogIn", "****Failed to export data");
                 }
             } else {
+                pdValidation.dismissWithAnimation();
+
                 Toast.makeText(LogInActivity.this, "Please check internet connection!", Toast.LENGTH_SHORT).show();
                 Log.e("tag", "****Failed to export data Please check internet connection");
             }
@@ -803,6 +831,9 @@ public class LogInActivity extends AppCompatActivity {
 
 //            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
 //            pd.setTitleText(context.getResources().getString(R.string.importstor));
+
+            pdValidation.getProgressHelper().setBarColor(Color.parseColor("#1E88E5"));
+
 
         }
 
@@ -885,6 +916,8 @@ public class LogInActivity extends AppCompatActivity {
                 if (s.contains("\"StatusDescreption\":\"OK\"")) {
 //                    linerEditing.setVisibility(View.GONE);
 //                   linerBarcode.setVisibility(View.VISIBLE);
+                    pdValidation.dismissWithAnimation();
+
                     new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText(LogInActivity.this.getResources().getString(R.string.pending_))
                             .setContentText(LogInActivity.this.getResources().getString(R.string.cantsendchech))
@@ -904,6 +937,8 @@ public class LogInActivity extends AppCompatActivity {
 
                 }
             } else {
+                pdValidation.dismissWithAnimation();
+
                 Log.e("tag", "****Failed to export data");
                 new SweetAlertDialog(LogInActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText(LogInActivity.this.getResources().getString(R.string.warning))
@@ -939,8 +974,8 @@ public class LogInActivity extends AppCompatActivity {
             super.onPreExecute();
 
 
-//            pd.getProgressHelper().setBarColor(Color.parseColor("#FDD835"));
-//            pd.setTitleText(context.getResources().getString(R.string.importstor));
+            pdValidation.getProgressHelper().setBarColor(Color.parseColor("#43A047"));
+            //pd.setTitleText(context.getResources().getString(R.string.importstor));
 
         }
 
@@ -1009,6 +1044,7 @@ public class LogInActivity extends AppCompatActivity {
         protected void onPostExecute(String JsonResponse) {
             super.onPostExecute(JsonResponse);
 
+            pdValidation.dismissWithAnimation();
 
             if (JsonResponse != null && JsonResponse.contains("StatusDescreption\":\"OK")) {
                 Log.e("GetLogSuccess", "****Success");

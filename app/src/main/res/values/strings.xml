@@ -256,5 +256,6 @@
     <string name="WARNING">WARNING</string>
     <string name="backPicture">Back Picture</string>
     <string name="frontPicture">Front Picture</string>
+    <string name="cairo_amman_bank">Cairo Amman Bank</string>
 
 </resources>
