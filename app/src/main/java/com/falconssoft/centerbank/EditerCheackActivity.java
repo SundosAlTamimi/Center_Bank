@@ -1414,7 +1414,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
-    // ******************************************** CHECK QR VALIDATION *************************************
+    // ******************************************** CHECK QR VALIDATION 1*************************************
     private class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -1886,7 +1886,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
-    // ******************************************** Check Pending *************************************
+    // ******************************************** Check Pending 3*************************************
     private class IsCheckPinding extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
@@ -2067,6 +2067,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
+    // ******************************************** Is Check For This Acc 2*************************************
     private class IsCheckForThisAcc extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
@@ -2245,6 +2246,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
+    // ******************************************** Tiller Get Check 5*************************************
     public class TillerGetCheck extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
@@ -2497,6 +2499,7 @@ public class EditerCheackActivity extends AppCompatActivity {
         }
     }
 
+    // ******************************************** Is Check Gero 4*************************************
     public class IsCheckGero extends AsyncTask<String, String, String> {
         private String JsonResponse = null;
         private HttpURLConnection urlConnection = null;
