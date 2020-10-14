@@ -117,8 +117,8 @@ public class LogInActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(LANGUAGE_FLAG, MODE_PRIVATE);
         language = prefs.getString("language", "en");
         editor = getSharedPreferences(LOGIN_INFO, MODE_PRIVATE).edit();
-//        editor.putString("link", "http://10.0.0.16:8082/");
-        editor.putString("link", "http://falconssoft.net/ScanChecks/APIMethods.dll/");
+        editor.putString("link", "http://10.0.0.16:8082/");
+//        editor.putString("link", "http://falconssoft.net/ScanChecks/APIMethods.dll/");
         editor.apply();
 
         new LocaleAppUtils().changeLayot(LogInActivity.this);

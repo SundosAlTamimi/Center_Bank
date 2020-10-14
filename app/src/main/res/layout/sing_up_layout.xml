@@ -27,7 +27,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight=".1"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -38,7 +38,6 @@
                     android:layout_margin="6dp"
                     android:layout_weight="2"
                     android:fontFamily="sans-serif-light"
-                    android:padding="10dp"
                     android:text="@string/sing_up"
                     android:textSize="20sp"
                     app:autoSizeMaxTextSize="20sp"
@@ -243,6 +242,7 @@
                             android:layout_height="wrap_content"
                             android:padding="10dp"
                             android:layout_weight="1"
+                            android:layout_margin="5dp"
                             android:background="@drawable/edit_bac_s"
                             android:orientation="vertical">
 
@@ -357,6 +357,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/signUp_IdNo"
                                 android:text="@={signupModel.nationalID}"
+                                android:textCursorDrawable="@null"
                                 android:textColor="@color/white"
                                 android:fontFamily="serif"
                                 android:textSize="15sp"
@@ -369,21 +370,22 @@
                                 android:layout_height="wrap_content"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
+                       <LinearLayout
                         android:id="@+id/signUp_id_nationality_linears"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
+                        android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/edit_bac_s"
                         android:orientation="vertical">
+
                         <LinearLayout
                             android:id="@+id/signUp_id_nationality_linear"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
                             android:layout_weight="1"
-
                             android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
@@ -421,13 +423,15 @@
                             android:padding="10dp"
                             android:layout_weight="1"
                             android:orientation="horizontal">
+
                             <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_bac_s"
-                        android:orientation="vertical">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bac_s"
+                            android:orientation="vertical">
+
                                 <TextView
                                     android:textColor="@color/red"
                                     android:fontFamily="serif"
@@ -436,49 +440,50 @@
                                     android:layout_weight="0"
                                     android:layout_gravity="center"
                                     android:text="@string/frontPicture"/>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal">
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
 
+                                        <Button
+                                            android:id="@+id/signUp_gallary_id_pic"
+                                            android:layout_width="40dp"
+                                            android:layout_height="40dp"
+                                            android:layout_gravity="bottom"
+                                            android:layout_weight="0"
+                                            android:paddingVertical="8dp"
+                                            android:paddingHorizontal="10dp"
+                                            android:layout_marginHorizontal="10dp"
+                                            android:background="@drawable/ic_camera_black_24dp"/>
+                                        <Button
+                                            android:id="@+id/signUp_uplod_id_pic"
+                                            android:layout_width="40dp"
+                                            android:layout_height="40dp"
+                                            android:layout_gravity="bottom"
+                                            android:layout_weight="0"
+                                            android:paddingVertical="8dp"
+                                            android:paddingHorizontal="10dp"
+                                            android:background="@drawable/ic_file_upload_black_24dp"/>
 
-                            <Button
-                                android:id="@+id/signUp_gallary_id_pic"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="bottom"
-                                android:layout_weight="0"
-                                android:paddingVertical="8dp"
-                                android:paddingHorizontal="10dp"
-                                android:layout_marginHorizontal="10dp"
-                                android:background="@drawable/ic_camera_black_24dp"/>
-                            <Button
-                                android:id="@+id/signUp_uplod_id_pic"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="bottom"
-                                android:layout_weight="0"
-                                android:paddingVertical="8dp"
-                                android:paddingHorizontal="10dp"
-                                android:background="@drawable/ic_file_upload_black_24dp"/>
+                                </LinearLayout>
 
-                        </LinearLayout>
-                        <ImageView
-                            android:id="@+id/imageNationalId"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:padding="5dp" />
-
+                                <ImageView
+                                    android:id="@+id/imageNationalId"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp"
+                                    android:padding="5dp" />
 
                     </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
+                                android:layout_marginStart="5dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/edit_bac_s"
                                 android:orientation="vertical">
@@ -534,6 +539,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bac_s"
                             android:orientation="horizontal">
@@ -551,6 +557,7 @@
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/signUp_address"
                                     android:text="@={signupModel.address}"
+                                    android:textCursorDrawable="@null"
                                     android:textColor="@color/white"
                                     android:inputType="textCapWords"
                                     android:fontFamily="serif"
@@ -590,6 +597,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/signUp_email"
                                 android:text="@={signupModel.email}"
+                                android:textCursorDrawable="@null"
                                 android:textColor="@color/white"
                                 android:fontFamily="serif"
                                 android:textSize="15sp"
@@ -627,31 +635,32 @@
                                 android:padding="5dp"
                                 android:orientation="horizontal"
                                 >
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:fontFamily="serif"
-                                android:textColorHint="@color/white"
-                                app:hintTextColor="@color/red"
-                                android:hint="@string/password"
-                                android:focusableInTouchMode="true">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/signUp_password"
-                                    android:text="@={signupModel.password}"
-                                    android:textColor="@color/white"
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
                                     android:fontFamily="serif"
-                                    android:textSize="15sp"
-                                    android:singleLine="true"
-                                    android:nextFocusDown="@id/signUp_confirm_password"
-                                    android:inputType="textPassword"
-                                    android:backgroundTint="@color/white"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"/>
-                            </com.google.android.material.textfield.TextInputLayout>
+                                    android:textColorHint="@color/white"
+                                    app:hintTextColor="@color/red"
+                                    android:hint="@string/password"
+                                    android:focusableInTouchMode="true">
 
-                            <ImageView
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/signUp_password"
+                                        android:text="@={signupModel.password}"
+                                        android:textCursorDrawable="@null"
+                                        android:textColor="@color/white"
+                                        android:fontFamily="serif"
+                                        android:textSize="15sp"
+                                        android:singleLine="true"
+                                        android:nextFocusDown="@id/signUp_confirm_password"
+                                        android:inputType="textPassword"
+                                        android:backgroundTint="@color/white"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <ImageView
                                 android:id="@+id/signUp_seen"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -685,6 +694,7 @@
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/signUp_confirm_password"
                                     android:text="@={signupModel.confirmPassword}"
+                                    android:textCursorDrawable="@null"
                                     android:textColor="@color/white"
                                     android:fontFamily="serif"
                                     android:textSize="15sp"
