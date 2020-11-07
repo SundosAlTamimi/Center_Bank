@@ -2901,8 +2901,8 @@ public class EditerCheackActivity extends AppCompatActivity {
 
                 userFound = false;
                 new SweetAlertDialog(EditerCheackActivity.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Can't Send")
-                        .setContentText("Install App")
+                        .setTitleText(getString(R.string.cannot_send))
+                        .setContentText(getString(R.string.please_install_app))
                         .show();
 
 
